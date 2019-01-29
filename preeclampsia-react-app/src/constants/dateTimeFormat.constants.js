@@ -1,0 +1,2 @@
+export const DATE_FORMAT_LONG_DOTS = 'DD.MM.YYYY';
+export const DATE_FORMAT_LONG_DASHES = 'DD-MM-YYYY';

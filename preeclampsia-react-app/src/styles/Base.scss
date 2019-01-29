@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+a {
+  text-decoration: none;
+}
+
+.link {
+  color: $col-primary;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.page {
+  margin: 0 10px;
+}
+
+.btn-primary {
+  padding: $val-spacing-xs $val-spacing-s;
+  margin: $val-spacing-xxs;
+  background-color: $col-primary;
+  color: white;
+  border-radius: $val-btnBorderRadius;
+  border: 0;
+  text-decoration: none;
+  font-size: $val-fontSizeRegular;
+  font-weight: $val-fontWeightBold;
+  cursor: pointer;
+  a {
+    color: $col-normalText--dark;
+    font-size: $val-fontSizeRegular;
+    font-weight: $val-fontWeightBold;
+  }
+}
+
+.btn-default {
+  padding: $val-spacing-xs $val-spacing-s;
+  margin: $val-spacing-xxs;
+  background-image: unset;
+  background-color: $col-gray-04;
+  border-radius: $val-btnBorderRadius;
+  border: 0;
+  text-decoration: none;
+  font-size: $val-fontSizeRegular;
+  font-weight: $val-fontWeightBold;
+  cursor: pointer;
+  a {
+    color: $col-normalText--dark;
+    font-size: $val-fontSizeRegular;
+    font-weight: $val-fontWeightBold;
+  }
+}
+
+.info-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  line-height: 22px;
+  label {
+    font-size: 14px;
+    margin: 0 5px 0 0;
+  }
+  &--value {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .material-icons {
+    font-size: 18px;
+  }
+  .unit-of-measure {
+    margin-left: 5px;
+  }
+  .constraint {
+    margin-left: 5px;
+    font-weight: 400;
+    color: $col-gray-05;
+  }
+}

@@ -1,0 +1,17 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+.page-404 {
+  display: flex;
+  flex-direction: column;
+  color: $col-title--big;
+  font-size: $val-fontSizeXBig;
+}
+
+
+.page-500 {
+  display: flex;
+  flex-direction: column;
+  color: $col-title--big;
+  font-size: $val-fontSizeXBig;
+}

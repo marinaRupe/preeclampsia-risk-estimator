@@ -1,0 +1,28 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  &__title {
+    color: $col-title--big;
+    font-size: $val-fontSizeXBig;
+    padding: $val-spacing-s;
+  }
+}
+
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  &__title {
+    color: $col-title--big;
+    font-size: $val-fontSizeXBig;
+    padding: $val-spacing-s;
+  }
+}

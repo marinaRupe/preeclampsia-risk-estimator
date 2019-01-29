@@ -1,0 +1,4 @@
+**/node_modules/**
+dist-react/**
+preeclampsia-react-app/public/**
+preeclampsia-react-app/src/serviceWorker.js

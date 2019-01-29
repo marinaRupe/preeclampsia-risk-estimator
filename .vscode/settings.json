@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/package-lock.json": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/package-lock.json": true,
+    "node_modules/*/**": true
+  },
+  "search.exclude": {
+    "**/package-lock.json": true,
+    "node_modules": true
+  },
+  "eslint.workingDirectories": [
+    "./preeclampsia-node-app", "./preeclampsia-react-app"
+  ]
+}

@@ -1,0 +1,8 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+.patient-list {
+  &__item {
+    font-size: $val-fontSizeNormal;
+  }
+}

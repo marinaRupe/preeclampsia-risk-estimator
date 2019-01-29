@@ -1,0 +1,66 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "error",
+          "info"
+        ]
+      }
+    ],
+    "no-debugger": "warn",
+    "no-var": "warn",
+    "valid-jsdoc": [
+      "warn",
+      {
+        "requireReturnType": false,
+        "requireParamDescription": false,
+        "requireReturnDescription": false
+      }
+    ],
+    "curly": [
+      "error",
+      "multi-line"
+    ],
+    "no-unused-vars": "warn",
+    "prefer-const": "warn",
+    "prefer-arrow-callback": "warn",
+    "prefer-destructuring": [
+      "warn",
+      {
+        "object": true,
+        "array": false
+      }
+    ],
+    "max-len": [
+      "warn",
+      {
+        "code": 120
+      }
+    ]
+  }
+}

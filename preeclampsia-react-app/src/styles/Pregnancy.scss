@@ -1,0 +1,21 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+.pregnancy {
+  &__card {
+    border: 1px solid $col-primary;
+    margin: 10px 0;
+    box-shadow: 0 0.063rem 0.25rem rgba(0, 0, 0, 0.15);
+    &--title {
+      color: $col-primary;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .material-icons {
+        margin-left: 5px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}

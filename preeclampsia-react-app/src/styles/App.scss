@@ -1,0 +1,17 @@
+@import 'styles/Base.scss';
+@import 'styles/Auth.scss';
+@import 'styles/Patient.scss';
+@import 'styles/Pregnancy.scss';
+@import 'styles/Measurement.scss';
+@import 'styles/ErrorPage.scss';
+
+html, body {
+  font-family: "Roboto", "Arial";
+}
+
+@media (max-width: 767px) {
+  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+  body {
+      padding-top: 50px;
+  }
+}
