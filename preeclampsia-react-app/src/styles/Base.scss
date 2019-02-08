@@ -56,10 +56,10 @@ a {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 24px;
   label {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0 5px 0 0;
   }
   &--value {
@@ -77,5 +77,24 @@ a {
     margin-left: 5px;
     font-weight: 400;
     color: $col-gray-05;
+  }
+}
+
+.m {
+  &l {
+    &-5 {
+      margin-left: 5px;
+    }
+    &-10 {
+      margin-left: 10px;
+    }
+    &-20 {
+      margin-left: 20px;
+    }
+  }
+  &b {
+    &-10 {
+      margin-bottom: 10px;
+    }
   }
 }

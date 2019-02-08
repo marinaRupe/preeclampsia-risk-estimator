@@ -16,6 +16,18 @@ module.exports = (sequelize) => {
     birthDate: {
       type: Sequelize.DATEONLY,
     },
+    racialOrigin: {
+      type: Sequelize.STRING,
+    },
+    email: {
+      type: Sequelize.STRING,
+    },
+    phoneNumber: {
+      type: Sequelize.STRING,
+    },
+    address: {
+      type: Sequelize.STRING,
+    },
   });
 
   Patient.associate = (models) => {

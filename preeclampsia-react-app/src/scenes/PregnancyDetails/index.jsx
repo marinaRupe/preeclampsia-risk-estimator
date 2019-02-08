@@ -48,11 +48,22 @@ class PregnancyDetails extends Component {
 
   render() {
     const { pregnancy } = this.props;
+    const { isLoading } = this.state;
+
+    if (isLoading || !pregnancy) {
+      return (
+        <div className='page'>
+          <h1>Detalji o trudnoći</h1>
+          <h4>Učitavanje podataka...</h4>
+          {/* add spinner */}
+        </div>
+      );
+    }
 
     return (
       <div className='page'>
         <h1>Detalji o trudnoći</h1>
-
+      
         <div>
           <BasicInfo pregnancy={pregnancy} />
           <MaternalCharacteristics pregnancy={pregnancy} />

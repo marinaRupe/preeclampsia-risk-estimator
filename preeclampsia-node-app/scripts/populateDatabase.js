@@ -2,11 +2,11 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const models = require('../models');
-const { CharacteristicsEnum } = require('../enums/characteristics.enums');
-const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.constants');
-const {
-  PregnancyTypeEnum, ConceptionMethodEnum,
-} = require('../enums/pregnancy.enums');
+const { Characteristics } = require('../constants/characteristics.constants');
+const { ConceptionMethods } = require('../constants/pregnancy.constants');
+const { ConceptionMethodEnum } = require('../enums/pregnancy.enums');
+const { HypertensionTypes } = require('../constants/measurements.constants');
+const { RacialOriginTypes } = require('../constants/patient.constants');
 
 const expressConfig = require('../configuration/express.config');
 const sequelizeConfig = require('../configuration/sequelize.config');
@@ -20,70 +20,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 async function addCharacteristics() {
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.PregnancyType,
-    name: 'Vrsta trudnoće',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.ConceptionMethod,
-    name: 'Vrsta začeća',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.Height,
-    name: 'Visina majke',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.Weight,
-    name: 'Težina majke',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.SmokingDuringPregnancy,
-    name: 'Pušenje za vrijeme trudnoće',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.MotherOfPatientHadPE,
-    name: 'Majka pacijentice imala PE',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.ChronicHypertension,
-    name: 'Kronična hipertenzija',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.DiabetesType1,
-    name: 'Dijabetes tipa I',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.DiabetesType2,
-    name: 'Dijabetes tipa II',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.SystemicLupusErythematosus,
-    name: 'Sistemski eritemski lupus',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.AntiPhospholipidSyndrome,
-    name: 'Antifosfolipidni sindrom',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.MeanArterialPressure,
-    name: 'Srednji arterijski tlak',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.MeanUterineArteryPI,
-    name: 'Srednji PI maternične arterije',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.SerumPLGFMoM,
-    name: 'Serum PLFG',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.SerumPAPPAMoM,
-    name: 'Serum PAPP-A',
-  });
-  await models.db.Characteristic.create({
-    id: CharacteristicsEnum.FetalCrownRumpLength,
-    name: 'Duljina fetalne krune',
-  });
+  await Promise.all(Object.values(Characteristics).map(async (value) => {
+    await models.db.Characteristic.create({
+      id: value.key,
+      enName: value.en.name,
+      hrName: value.hr.name,
+      type: value.type,
+      unitOfMeasure: value.unitOfMeasure || null,
+    });
+  }));
 }
 
 async function addTestPatients() {
@@ -91,39 +36,63 @@ async function addTestPatients() {
     firstName: 'Ana',
     lastName: 'Anić',
     birthDate: new Date('1990-01-01'),
+    racialOrigin: RacialOriginTypes.White.hr,
+    email: 'ana.anic@blabla.com',
+    phoneNumber: '123/456-789',
+    address: '-',
   });
 
   const patient2 = await models.db.Patient.create({
     firstName: 'Marija',
-    lastName: 'Marijanović',
+    lastName: 'Marijić',
     birthDate: new Date('1987-05-05'),
+    racialOrigin: RacialOriginTypes.White.hr,
+    email: 'marija.marijic@blabla.com',
+    phoneNumber: '123/456-789',
+    address: '-',
   });
 
   const patient3 = await models.db.Patient.create({
     firstName: 'Iva',
     lastName: 'Ivić',
     birthDate: new Date('1989-03-03'),
+    racialOrigin: RacialOriginTypes.White.hr,
+    email: 'iva.ivic@blabla.com',
+    phoneNumber: '123/456-789',
+    address: '-',
   });
 
   const pregnancy1 = await models.db.Pregnancy.create({
     pregnancyNumber: 1,
-    pregnancyType: PregnancyTypeEnum.Singleton,
-    pregnancyTypeHrName: PregnancyTypes.Singleton.hr,
     patientId: patient1.id,
+    lastPeriodDate: '2018-11-11',
+    lastPeriodDateIsReliable: false,
+    numberOfFetuses: 1,
+    numberOfPreviousPregnancies: 0,
+    numberOfPreviousBirths: 0,
+    hadPEInPreviousPregnancy: false,
   });
 
   const pregnancy2 = await models.db.Pregnancy.create({
     pregnancyNumber: 1,
-    pregnancyType: PregnancyTypeEnum.Singleton,
-    pregnancyTypeHrName: PregnancyTypes.Singleton.hr,
     patientId: patient2.id,
+    lastPeriodDate: '2018-11-11',
+    lastPeriodDateIsReliable: false,
+    numberOfFetuses: 1,
+    numberOfPreviousPregnancies: 1,
+    numberOfPreviousBirths: 1,
+    hadPEInPreviousPregnancy: false,
   });
 
   const pregnancy3 = await models.db.Pregnancy.create({
     pregnancyNumber: 1,
-    pregnancyType: PregnancyTypeEnum.Singleton,
-    pregnancyTypeHrName: PregnancyTypes.Singleton.hr,
     patientId: patient3.id,
+    lastPeriodDate: '2018-11-11',
+    lastPeriodDateIsReliable: false,
+    numberOfFetuses: 1,
+    numberOfPreviousPregnancies: 0,
+    numberOfPreviousBirths: 0,
+    hadPEInPreviousPregnancy: true,
   });
 
   await addTestMeasures(pregnancy1);
@@ -137,49 +106,35 @@ async function addTestMeasures(pregnancy) {
     dateMeasured: new Date('2018-12-12'),
     value: false,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.SmokingDuringPregnancy,
+    characteristicId: Characteristics.SmokingDuringPregnancy.key,
   });
 
   await models.db.BooleanMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: false,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.AntiPhospholipidSyndrome,
+    characteristicId: Characteristics.AntiPhospholipidSyndrome.key,
   });
 
   await models.db.BooleanMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: true,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.ChronicHypertension,
+    characteristicId: Characteristics.Hypertension.key,
   });
 
   await models.db.BooleanMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: false,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.SystemicLupusErythematosus,
+    characteristicId: Characteristics.SystemicLupusErythematosus.key,
   });
 
   await models.db.BooleanMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: false,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.DiabetesType1,
-  });
-
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: true,
-    pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.DiabetesType2,
-  });
-
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: true,
-    pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.DiabetesType2,
+    characteristicId: Characteristics.Diabetes.key,
   });
 
   // Numerical Measurements
@@ -187,44 +142,60 @@ async function addTestMeasures(pregnancy) {
     dateMeasured: new Date('2018-12-12'),
     value: 165,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.Height,
+    characteristicId: Characteristics.Height.key,
   });
 
   await models.db.NumericalMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: 55,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.Weight,
+    characteristicId: Characteristics.Weight.key,
   });
 
   await models.db.NumericalMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: 100.0,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.MeanArterialPressure,
+    characteristicId: Characteristics.MeanArterialPressure.key,
   });
 
   await models.db.NumericalMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: 80,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.MeanUterineArteryPI,
+    characteristicId: Characteristics.MeanUterineArteryPI.key,
   });
 
   await models.db.NumericalMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
     value: 55,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.FetalCrownRumpLength,
+    characteristicId: Characteristics.FetalCrownRumpLength.key,
   });
 
   // Enum Measurements
   await models.db.EnumMeasurement.create({
     dateMeasured: new Date('2018-12-12'),
+    value: null,
+    hrName: null,
+    pregnancyId: pregnancy.id,
+    characteristicId: Characteristics.DiabetesType.key,
+  });
+
+  await models.db.EnumMeasurement.create({
+    dateMeasured: new Date('2018-12-12'),
+    value: HypertensionTypes.ChronicHipertension.key,
+    hrName: HypertensionTypes.ChronicHipertension.hr,
+    pregnancyId: pregnancy.id,
+    characteristicId: Characteristics.HypertensionType.key,
+  });
+
+  await models.db.EnumMeasurement.create({
+    dateMeasured: new Date('2018-12-12'),
     value: ConceptionMethodEnum.Spontaneous,
     hrName: ConceptionMethods.Spontaneous.hr,
     pregnancyId: pregnancy.id,
-    characteristicId: CharacteristicsEnum.ConceptionMethod,
+    characteristicId: Characteristics.ConceptionMethod.key,
   });
 }
 
@@ -240,4 +211,3 @@ sequelizeConfig.configure().then(() => {
     });
   });
 });
-

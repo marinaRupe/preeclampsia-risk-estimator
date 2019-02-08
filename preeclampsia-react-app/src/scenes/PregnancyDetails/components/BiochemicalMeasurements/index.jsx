@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   displayDateMeasured,
   displayNumericalMeasurementValue,
+  exists,
 } from '../../../../utils/measurement.utils';
 
 class BiophysicalMeasurements extends Component {
@@ -59,10 +60,13 @@ class BiophysicalMeasurements extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.SerumPLGFMoM)}</span>
-              </div>
+              {
+                exists(numericalMeasurements.SerumPLGFMoM) &&
+                <div className='measurement__date'>
+                  <span>Datum mjerenja: </span>
+                  <span>{displayDateMeasured(numericalMeasurements.SerumPLGFMoM)}</span>
+                </div>
+              }
             </Col>
           </Row>
 
@@ -78,10 +82,13 @@ class BiophysicalMeasurements extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.SerumPAPPAMoM)}</span>
-              </div>
+              {
+                exists(numericalMeasurements.SerumPAPPAMoM) &&
+                <div className='measurement__date'>
+                  <span>Datum mjerenja: </span>
+                  <span>{displayDateMeasured(numericalMeasurements.SerumPAPPAMoM)}</span>
+                </div>
+              }
             </Col>
           </Row>
           {

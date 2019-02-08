@@ -32,7 +32,8 @@ class MaternalCharacteristics extends Component {
     const { isEditModeOn } = this.state;
     const {
       pregnancy: {
-        MotherOfPatientHadPE,
+        numberOfPreviousPregnancies,
+        numberOfPreviousBirths,
         numericalMeasurements,
         booleanMeasurements,
       } } = this.props;
@@ -42,7 +43,7 @@ class MaternalCharacteristics extends Component {
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Podaci o majci</span>
+              <span>Podaci o pacijentici</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
@@ -106,18 +107,34 @@ class MaternalCharacteristics extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Majka pacijentice imala PE:</label>
+              <label>Broj ranijih trudnoća:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayBooleanMeasurementValue(MotherOfPatientHadPE)}
+                    {numberOfPreviousPregnancies || '-'}
                   </span>
                 </div>
               </div>
             </Col>
           </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Broj poroda:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {numberOfPreviousBirths || '-'}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
           {
             isEditModeOn &&
             <div>

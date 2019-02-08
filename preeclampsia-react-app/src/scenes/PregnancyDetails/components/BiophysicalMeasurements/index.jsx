@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
+  exists,
   displayDateMeasured,
   displayNumericalMeasurementValue,
 } from '../../../../utils/measurement.utils';
@@ -59,10 +60,13 @@ class BiophysicalMeasurements extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.MeanArterialPressure)}</span>
-              </div>
+              {
+                exists(numericalMeasurements.MeanArterialPressure) &&
+                <div className='measurement__date'>
+                  <span>Datum mjerenja: </span>
+                  <span>{displayDateMeasured(numericalMeasurements.MeanArterialPressure)}</span>
+                </div>
+              }
             </Col>
           </Row>
 
@@ -78,10 +82,13 @@ class BiophysicalMeasurements extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.MeanUterineArteryPI)}</span>
-              </div>
+              {
+                exists(numericalMeasurements.MeanUterineArteryPI) &&
+                <div className='measurement__date'>
+                  <span>Datum mjerenja: </span>
+                  <span>{displayDateMeasured(numericalMeasurements.MeanUterineArteryPI)}</span>
+                </div>
+              }
             </Col>
           </Row>
           {

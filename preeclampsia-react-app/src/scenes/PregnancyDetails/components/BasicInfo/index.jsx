@@ -3,7 +3,10 @@ import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap
 import { connect } from 'react-redux';
 import { formatDate } from '../../../../utils/dateTime.utils';
 import {
-  displayEnumMeasurementValue, displayDateMeasured, displayNumericalMeasurementValue,
+  displayEnumMeasurementValue,
+  displayDateMeasured,
+  displayBooleanValue,
+  displayNumericalMeasurementValue,
 } from '../../../../utils/measurement.utils';
 
 class BasicInfo extends Component {
@@ -38,11 +41,12 @@ class BasicInfo extends Component {
     const { isEditModeOn } = this.state;
     const {
       pregnancy: {
+        lastPeriodDate,
+        lastPeriodDateIsReliable,
         endDate,
-        pregnancyTypeHrName,
+        numberOfFetuses,
         enumMeasurements,
         numericalMeasurements,
-        booleanMeasurements,
       } } = this.props;
 
     return (
@@ -56,6 +60,36 @@ class BasicInfo extends Component {
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
               }
             </h4>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Datum posljednje mjesečnice:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {formatDate(lastPeriodDate)}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Datum posljednje mjesečnice pouzdan:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {displayBooleanValue(lastPeriodDateIsReliable)}
+                  </span>
+                </div>
+              </div>
+            </Col>
           </Row>
 
           <Row className='measurement'>
@@ -75,13 +109,13 @@ class BasicInfo extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Vrsta trudnoće:</label>
+              <label>Broj fetusa:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {pregnancyTypeHrName || '-'}
+                    {numberOfFetuses || '-'}
                   </span>
                 </div>
               </div>

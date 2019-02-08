@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import {
+  displayBooleanMeasurementValue,
+  displayEnumMeasurementValue,
+  displayBooleanValue,
+} from '../../../../utils/measurement.utils';
 
 class MedicalHistory extends Component {
   constructor(props) {
@@ -25,6 +30,12 @@ class MedicalHistory extends Component {
 
   render() {
     const { isEditModeOn } = this.state;
+    const {
+      pregnancy: {
+        hadPEInPreviousPregnancy,
+        enumMeasurements,
+        booleanMeasurements,
+      } } = this.props;
 
     return (
       <div className='pregnancy__card'>
@@ -38,14 +49,17 @@ class MedicalHistory extends Component {
               }
             </h4>
           </Row>
+
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Kronična hipertenzija:</label>
+              <label>Preeklampsija u prethodnoj trudnoći:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
-                  <span className='value'>NE</span>
+                  <span className='value'>
+                    {displayBooleanValue(hadPEInPreviousPregnancy)}
+                  </span>
                 </div>
               </div>
             </Col>
@@ -53,12 +67,14 @@ class MedicalHistory extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Dijabetes tipa I:</label>
+              <label>Majka pacijentice imala preeklampsiju:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
-                  <span className='value'>NE</span>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.MotherOfPatientHadPE)}
+                  </span>
                 </div>
               </div>
             </Col>
@@ -66,16 +82,69 @@ class MedicalHistory extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Dijabetes tipa II:</label>
+              <label>Hipertenzija:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
-                  <span className='value'>NE</span>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.Hypertension)}
+                  </span>
                 </div>
               </div>
             </Col>
           </Row>
+
+          {
+            booleanMeasurements.Hypertension &&
+            <Row className='measurement'>
+              <Col sm={3}>
+                <label>Etiologija hipertenzije:</label>
+              </Col>
+              <Col sm={8}>
+                <div className='measurement__info'>
+                  <div className='details'>
+                    <span className='value'>
+                      {displayEnumMeasurementValue(enumMeasurements.HypertensionType)}
+                    </span>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          }
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Dijabetes:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.Diabetes)}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          {
+            enumMeasurements.Diabetes &&
+            <Row className='measurement'>
+              <Col sm={3}>
+                <label>Tip dijabetesa:</label>
+              </Col>
+              <Col sm={8}>
+                <div className='measurement__info'>
+                  <div className='details'>
+                    <span className='value'>
+                      {displayEnumMeasurementValue(enumMeasurements.DiabetesType)}
+                    </span>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          }
 
           <Row className='measurement'>
             <Col sm={3}>
@@ -84,7 +153,9 @@ class MedicalHistory extends Component {
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
-                  <span className='value'>NE</span>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.SystemicLupusErythematosus)}
+                  </span>
                 </div>
               </div>
             </Col>
@@ -97,7 +168,9 @@ class MedicalHistory extends Component {
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
-                  <span className='value'>NE</span>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.AntiPhospholipidSyndrome)}
+                  </span>
                 </div>
               </div>
             </Col>

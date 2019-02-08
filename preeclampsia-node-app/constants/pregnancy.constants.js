@@ -1,16 +1,16 @@
 const PregnancyTypes = {
   Singleton: {
-    key: 0,
+    key: 1,
     en: 'Singleton',
     hr: 'Jedno dijete'
   },
   MonochorionicTwins: {
-    key: 1,
+    key: 2,
     en: 'Monochorionic twins',
     hr: 'Jednojajčani blizanci',
   },
   DichorionicTwins: {
-    key: 2,
+    key: 3,
     en: 'Dichorionic twins',
     hr: 'Dvojajčani blizanci',
   },

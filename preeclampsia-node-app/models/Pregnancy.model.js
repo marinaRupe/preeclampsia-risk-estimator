@@ -10,14 +10,26 @@ module.exports = (sequelize) => {
     pregnancyNumber: {
       type: Sequelize.INTEGER,
     },
+    lastPeriodDate: {
+      type: Sequelize.DATE,
+    },
+    lastPeriodDateIsReliable: {
+      type: Sequelize.BOOLEAN,
+    },
     endDate: {
       type: Sequelize.DATE,
     },
-    pregnancyType: {
+    numberOfFetuses: {
       type: Sequelize.INTEGER,
     },
-    pregnancyTypeHrName: {
-      type: Sequelize.STRING,
+    numberOfPreviousPregnancies: {
+      type: Sequelize.INTEGER,
+    },
+    numberOfPreviousBirths: {
+      type: Sequelize.INTEGER,
+    },
+    hadPEInPreviousPregnancy: {
+      type: Sequelize.BOOLEAN,
     },
   });
 

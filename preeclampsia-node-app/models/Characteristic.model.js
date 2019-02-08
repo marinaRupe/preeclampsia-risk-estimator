@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { CharacteristicTypes } = require('../constants/characteristics.constants');
 
 module.exports = (sequelize) => {
   const Characteristic = sequelize.define('Characteristic', {
@@ -7,8 +8,14 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    enName: {
       type: Sequelize.STRING,
+    },
+    hrName: {
+      type: Sequelize.STRING,
+    },
+    type: {
+      type: Sequelize.ENUM(...Object.values(CharacteristicTypes)),
     },
   });
 

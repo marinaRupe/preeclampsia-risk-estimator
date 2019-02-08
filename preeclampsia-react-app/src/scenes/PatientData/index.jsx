@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import * as patientActions from '../../redux/actions/patient.actions';
-import { API, APP } from '../../constants/routes';
+import { APP } from '../../constants/routes';
+import { formatDate } from '../../utils/dateTime.utils';
 
 class PatientData extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class PatientData extends Component {
 
     this.state = {
       isLoading: false,
-      isEditModeOn: false,
+      editPatientModalIsOpen: false,
     };
   }
 
@@ -31,16 +33,45 @@ class PatientData extends Component {
     });
   }
 
+  openEditPatientModal = () => {
+    this.setState({ editPatientModalIsOpen: true });
+  }
+
+  closeEditPatientModal = () => {
+    this.setState({ editPatientModalIsOpen: false });
+  }
+
   render() {
     const { patient } = this.props;
+    const { isLoading } = this.state;
 
-    if (!patient) return null;
+    if (isLoading || !patient) {
+      return (
+        <div className='page'>
+          <div className='patient-details__header mb-10'>
+            <h1>Podaci o pacijentu</h1>
+          </div>
+          <div className='patient-details__content ml-20'>
+            <h4>Učitavanje podataka...</h4>
+            {/* add spinner */}
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className='page'>
-        <h1>Podaci o pacijentu</h1>
+        <div className='patient-details__header mb-10'>
+          <h1>Podaci o pacijentu</h1>
+          <Button
+            bsStyle='primary'
+            onClick={this.openEditPatientModal}
+          >
+            Uredi podatke o pacijentu
+          </Button>
+        </div>
 
-        <div>
+        <div className='patient-details__content ml-20'>
           <div className='info-group'>
             <label>Ime: </label>
             <div>{patient.firstName}</div>
@@ -53,10 +84,30 @@ class PatientData extends Component {
 
           <div className='info-group'>
             <label>Datum rođenja: </label>
-            <div>{patient.birthDate}</div>
+            <div>{formatDate(patient.birthDate)}</div>
           </div>
 
-          <div>
+          <div className='info-group'>
+            <label>Adresa: </label>
+            <div>{patient.address}</div>
+          </div>
+
+          <div className='info-group'>
+            <label>Telefon: </label>
+            <div>{patient.phoneNumber}</div>
+          </div>
+
+          <div className='info-group'>
+            <label>Email: </label>
+            <div>{patient.email}</div>
+          </div>
+
+          <div className='info-group'>
+            <label>Etnička skupina: </label>
+            <div>{patient.racialOrigin}</div>
+          </div>
+
+          <div className='patient-details__pregnancies'>
             <h3>Povijest trudnoća</h3>
             {(patient.pregnancies || []).map(preg => (
               <div key={preg.id}>
@@ -66,11 +117,6 @@ class PatientData extends Component {
               </div>
             ))}
           </div>
-        </div>
-
-        <div>
-          <h3>Medicinska povijest pacijenta</h3>
-          <div>TODO: najažurniji podaci</div>
         </div>
       </div>
     );

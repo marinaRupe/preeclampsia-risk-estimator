@@ -5,9 +5,13 @@ class PregnancyDetailsViewModel {
     this.id = pregnancy.id;
     this.patientId = pregnancy.patientId;
     this.pregnancyNumber = pregnancy.pregnancyNumber;
+    this.lastPeriodDate = pregnancy.lastPeriodDate;
+    this.lastPeriodDateIsReliable = pregnancy.lastPeriodDateIsReliable;
     this.endDate = pregnancy.endDate;
-    this.pregnancyType = pregnancy.pregnancyType;
-    this.pregnancyTypeHrName = pregnancy.pregnancyTypeHrName;
+    this.numberOfFetuses = pregnancy.numberOfFetuses;
+    this.numberOfPreviousPregnancies = pregnancy.numberOfPreviousPregnancies;
+    this.numberOfPreviousBirths = pregnancy.numberOfPreviousBirths;
+    this.hadPEInPreviousPregnancy = pregnancy.hadPEInPreviousPregnancy;
 
     this.booleanMeasurements = {};
     (pregnancy.booleanMeasurements || []).forEach(bm => {

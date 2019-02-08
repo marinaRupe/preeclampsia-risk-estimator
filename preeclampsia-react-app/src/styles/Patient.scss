@@ -2,7 +2,44 @@
 @import 'styles/Constants.scss';
 
 .patient-list {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    h1 {
+      margin: 0;
+    }
+    button {
+      height: 40px;
+      padding: 0 20px;
+    }
+  }
   &__item {
     font-size: $val-fontSizeNormal;
+  }
+}
+
+.patient-details {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    h1 {
+      margin: 0;
+    }
+    button {
+      height: 40px;
+      padding: 0 20px;
+    }
+  }
+  &__content {
+    padding: 0 20px;
+  }
+  &__pregnancies {
+    font-size: 16px;
   }
 }

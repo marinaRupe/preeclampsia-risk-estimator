@@ -1,10 +1,16 @@
 import { formatDate } from './dateTime.utils';
 
-const exists = (measurement) => (measurement !== null && measurement !== undefined)
+export const exists = (measurement) => (measurement !== null && measurement !== undefined)
   && (measurement.value !== null && measurement.value !== undefined);
 
 export const displayDateMeasured = (measurement) => (
   exists(measurement) ? formatDate(measurement.dateMeasured) : '-'
+);
+
+export const displayBooleanValue = (measurement) => (
+  (measurement !== null && measurement !== undefined)
+    ? (measurement ? 'DA' : 'NE')
+    : 'nepoznato'
 );
 
 export const displayBooleanMeasurementValue = (measurement) => (
