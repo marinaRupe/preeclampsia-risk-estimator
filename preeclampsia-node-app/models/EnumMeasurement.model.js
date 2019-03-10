@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
     },
     value: {
       type: Sequelize.INTEGER,
+      allowNull: false,
     },
     hrName: {
       type: Sequelize.STRING,

@@ -10,9 +10,11 @@ module.exports = (sequelize) => {
     },
     enName: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     hrName: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     type: {
       type: Sequelize.ENUM(...Object.values(CharacteristicTypes)),

@@ -9,6 +9,9 @@ module.exports = (sequelize) => {
     },
     pregnancyNumber: {
       type: Sequelize.INTEGER,
+      validate: {
+        notNull: true,
+      },
     },
     lastPeriodDate: {
       type: Sequelize.DATE,
@@ -31,31 +34,18 @@ module.exports = (sequelize) => {
     hadPEInPreviousPregnancy: {
       type: Sequelize.BOOLEAN,
     },
+    resultedWithPE: {
+      type: Sequelize.BOOLEAN,
+    },
   });
 
   Pregnancy.associate = (models) => {
-    models.Pregnancy.hasMany(models.BooleanMeasurement, {
+    models.Pregnancy.hasMany(models.PregnancyTrimester, {
       foreignKey: {
         name: 'pregnancyId',
         allowNull: false,
       },
-      as: 'booleanMeasurements',
-    });
-
-    models.Pregnancy.hasMany(models.EnumMeasurement, {
-      foreignKey: {
-        name: 'pregnancyId',
-        allowNull: false,
-      },
-      as: 'enumMeasurements',
-    });
-
-    models.Pregnancy.hasMany(models.NumericalMeasurement, {
-      foreignKey: {
-        name: 'pregnancyId',
-        allowNull: false,
-      },
-      as: 'numericalMeasurements',
+      as: 'pregnancyTrimesters',
     });
   };
 

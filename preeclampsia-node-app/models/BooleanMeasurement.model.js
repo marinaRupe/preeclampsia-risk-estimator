@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
     },
     value: {
       type: Sequelize.BOOLEAN,
+      allowNull: false,
     },
     deletedAt: {
       type: Sequelize.DATE,

@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
     },
     value: {
       type: Sequelize.DOUBLE,
+      vallowNull: false,
     },
     deletedAt: {
       type: Sequelize.DATE,

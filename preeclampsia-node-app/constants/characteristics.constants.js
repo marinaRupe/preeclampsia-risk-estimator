@@ -29,7 +29,7 @@ const Characteristics = {
     type: CharacteristicTypes.Numerical,
     unitOfMeasure: 'mm',
     en: { name: 'Fetal crown-rump length (CRL)', display: 'Fetal crown-rump length' },
-    hr: { name: 'Duljina fetalne krune (CRL)', display: 'CRL' },
+    hr: { name: 'Udaljenost tjeme-trtica (CRL)', display: 'CRL' },
   },
   BiparietalDiameter: {
     key: 5,
@@ -123,16 +123,16 @@ const Characteristics = {
   SerumPLGFMoM: {
     key: 19,
     type: CharacteristicTypes.Numerical,
-    unitOfMeasure: 'MoM',
+    unitOfMeasure: 'pg/ml',
     en: { name: 'Serum PLGF', display: 'Serum PLGF' },
-    hr: { name: 'Serum PLGF', display: 'Serum PLGF' },
+    hr: { name: 'Serum PLGF', display: 'PLGF' },
   },
   SerumPAPPAMoM: {
     key: 20,
     type: CharacteristicTypes.Numerical,
-    unitOfMeasure: 'MoM',
+    unitOfMeasure: 'mU/L',
     en: { name: 'Serum PAPP-A', display: 'Serum PAPP-A' },
-    hr: { name: 'Serum PAPP-A', display: 'Serum PAPP-A' },
+    hr: { name: 'Serum PAPP-A', display: 'PAPP-A' },
   },
 };
 
