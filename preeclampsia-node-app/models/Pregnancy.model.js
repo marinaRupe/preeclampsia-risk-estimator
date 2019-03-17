@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.constants');
 
 module.exports = (sequelize) => {
   const Pregnancy = sequelize.define('Pregnancy', {
@@ -9,21 +10,39 @@ module.exports = (sequelize) => {
     },
     pregnancyNumber: {
       type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    pregnancyType: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: PregnancyTypes.Singleton.key,
       validate: {
-        notNull: true,
+        isIn: [Object.values(PregnancyTypes).map(v => v.key)]
+      },
+    },
+    conceptionMethod: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: ConceptionMethods.Spontaneous.key,
+      validate: {
+        isIn: [Object.values(ConceptionMethods).map(v => v.key)]
       },
     },
     lastPeriodDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     lastPeriodDateIsReliable: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
-    endDate: {
-      type: Sequelize.DATE,
+    birthDate: {
+      type: Sequelize.DATEONLY,
     },
-    numberOfFetuses: {
-      type: Sequelize.INTEGER,
+    birthWeight: {
+      type: Sequelize.DOUBLE,
+    },
+    birthLength: {
+      type: Sequelize.DOUBLE,
     },
     numberOfPreviousPregnancies: {
       type: Sequelize.INTEGER,

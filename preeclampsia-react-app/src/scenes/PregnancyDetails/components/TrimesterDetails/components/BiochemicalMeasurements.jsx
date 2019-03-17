@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
-  exists,
-  displayDateMeasured,
   displayNumericalMeasurementValue,
-} from '../../../../utils/measurement.utils';
+} from '../../../../../utils/measurement.utils';
 
 class BiophysicalMeasurements extends Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class BiophysicalMeasurements extends Component {
   closeEditMode = () => {
     this.setState({ isEditModeOn: false });
   }
-  
+
   saveChanges = () => {
     this.closeEditMode();
   };
@@ -31,7 +29,7 @@ class BiophysicalMeasurements extends Component {
   render() {
     const { isEditModeOn } = this.state;
     const {
-      pregnancy: {
+      trimesterData: {
         numericalMeasurements,
       } } = this.props;
 
@@ -40,7 +38,7 @@ class BiophysicalMeasurements extends Component {
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Biofizička mjerenja</span>
+              <span>Biokemijska mjerenja</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
@@ -50,45 +48,31 @@ class BiophysicalMeasurements extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Srednji arterijski tlak:</label>
+              <label>Serum PLGF:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.MeanArterialPressure, 'mmHg')}
+                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPLGF, 'pg/ml')}
                   </span>
                 </div>
               </div>
-              {
-                exists(numericalMeasurements.MeanArterialPressure) &&
-                <div className='measurement__date'>
-                  <span>Datum mjerenja: </span>
-                  <span>{displayDateMeasured(numericalMeasurements.MeanArterialPressure)}</span>
-                </div>
-              }
             </Col>
           </Row>
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Srednji PI maternične arterije:</label>
+              <label>Serum PAPP-A:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.MeanUterineArteryPI)}
+                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPAPPA, 'mU/L')}
                   </span>
                 </div>
               </div>
-              {
-                exists(numericalMeasurements.MeanUterineArteryPI) &&
-                <div className='measurement__date'>
-                  <span>Datum mjerenja: </span>
-                  <span>{displayDateMeasured(numericalMeasurements.MeanUterineArteryPI)}</span>
-                </div>
-              }
             </Col>
           </Row>
           {

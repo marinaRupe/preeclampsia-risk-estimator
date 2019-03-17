@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { formatDate } from '../../../../utils/dateTime.utils';
+import { formatDate } from '../../../utils/dateTime.utils';
 import {
-  displayEnumMeasurementValue,
-  displayDateMeasured,
   displayBooleanValue,
-  displayNumericalMeasurementValue,
-} from '../../../../utils/measurement.utils';
+} from '../../../utils/measurement.utils';
 
 class BasicInfo extends Component {
   constructor(props) {
@@ -43,10 +40,13 @@ class BasicInfo extends Component {
       pregnancy: {
         lastPeriodDate,
         lastPeriodDateIsReliable,
-        endDate,
-        numberOfFetuses,
-        enumMeasurements,
-        numericalMeasurements,
+        birthDate,
+        pregnancyType,
+        conceptionMethod,
+        numberOfPreviousBirths,
+        numberOfPreviousPregnancies,
+        hadPEInPreviousPregnancy,
+        motherOfPatientHadPE
       } } = this.props;
 
     return (
@@ -94,13 +94,13 @@ class BasicInfo extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Datum završetka trudnoće:</label>
+              <label>Datum poroda:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {formatDate(endDate)}
+                    {formatDate(birthDate)}
                   </span>
                 </div>
               </div>
@@ -109,51 +109,15 @@ class BasicInfo extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Broj fetusa:</label>
+              <label>Vrsta trudnoće:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {numberOfFetuses || '-'}
+                    {pregnancyType}
                   </span>
                 </div>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Duljina fetalne krune:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.FetalCrownRumpLength, 'mm')}
-                  </span>
-                  <OverlayTrigger
-                    placement='right'
-                    overlay={(
-                      <Tooltip className='in' id='fetal-crown-tooltip'>
-                        <span className='constraint'>45 - 85 mm</span>
-                      </Tooltip>
-                    )}
-                  >
-                    <i className='material-icons'>info</i>
-                  </OverlayTrigger>
-                </div>
-              </div>
-              {
-                (numericalMeasurements.FetalCrownRumpLength && numericalMeasurements.FetalCrownRumpLength.value) &&
-                <div className='measurement__additional-info'>
-                  <span>Procjenjena gestacijska dob:</span>
-                  <span>{this.gestationalAge(55)}</span>
-                </div>
-              }
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.FetalCrownRumpLength)}</span>
               </div>
             </Col>
           </Row>
@@ -166,7 +130,67 @@ class BasicInfo extends Component {
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayEnumMeasurementValue(enumMeasurements.ConceptionMethod)}
+                    {conceptionMethod || '-'}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Broj ranijih trudnoća:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {numberOfPreviousPregnancies || '-'}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Broj poroda:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {numberOfPreviousBirths || '-'}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Preeklampsija u prethodnoj trudnoći:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {displayBooleanValue(hadPEInPreviousPregnancy)}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Majka pacijentice imala preeklampsiju:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {displayBooleanValue(motherOfPatientHadPE)}
                   </span>
                 </div>
               </div>

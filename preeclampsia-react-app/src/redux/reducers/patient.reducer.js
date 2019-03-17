@@ -29,17 +29,6 @@ export default function patientReducer(state = initialState.patients, action) {
       };
     }
     return { ...state };
-  case types.FETCH_PATIENT_PREGNANCY_DETAILS:
-    if (action.status === ACTION_STATUS.SUCCESS) {
-      return {
-        ...state,
-        pregnancyDetails: {
-          ...state.pregnancyDetails,
-          ...action.data,
-        },
-      };
-    }
-    return { ...state };
   default:
     return { ...state };
   }

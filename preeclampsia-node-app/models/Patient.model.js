@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
       autoIncrement: true,
     },
     MBO: {
+      type: Sequelize.STRING,
       unique: true,
       allowNull: false,
     },

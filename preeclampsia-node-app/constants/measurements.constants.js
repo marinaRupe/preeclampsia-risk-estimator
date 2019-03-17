@@ -1,4 +1,10 @@
 const DiabetesTypes = {
+  None: {
+    key: 0,
+    value: 'None',
+    en: 'None',
+    hr: 'Ne',
+  },
   DiabetesType1: {
     key: 1,
     value: 'DM1',
@@ -20,6 +26,12 @@ const DiabetesTypes = {
 };
 
 const HypertensionTypes = {
+  None: {
+    key: 0,
+    value: 'None',
+    en: 'None',
+    hr: 'Ne',
+  },
   ChronicHipertension: {
     key: 1,
     value: 'Kronična',

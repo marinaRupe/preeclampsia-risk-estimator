@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { formatDate } from '../../../../../utils/dateTime.utils';
 import {
-  displayDateMeasured,
-  displayBooleanMeasurementValue,
+  displayEnumMeasurementValue,
+  displayBooleanValue,
   displayNumericalMeasurementValue,
-} from '../../../../utils/measurement.utils';
+} from '../../../../../utils/measurement.utils';
 
-class MaternalCharacteristics extends Component {
+class BasicInfo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isEditModeOn: false,
     };
+  }
+
+  gestationalAge = (CRL) => {
+    const gestationalAgeInDays = Math.pow((CRL * 1.037), 0.5) * 8.052 + 23.73;
+    const weeks = Math.floor(gestationalAgeInDays / 7);
+    const days = Math.floor(gestationalAgeInDays % 7);
+    return <span>{weeks}<sup>+{days}</sup></span>;
   }
 
   openEditMode = () => {
@@ -31,11 +39,12 @@ class MaternalCharacteristics extends Component {
   render() {
     const { isEditModeOn } = this.state;
     const {
-      pregnancy: {
-        numberOfPreviousPregnancies,
-        numberOfPreviousBirths,
+      trimesterData: {
+        gestationalAgeByUltrasoundWeeks,
+        gestationalAgeByUltrasoundDays,
+        ultrasoundDate,
+        bloodTestDate,
         numericalMeasurements,
-        booleanMeasurements,
       } } = this.props;
 
     return (
@@ -43,62 +52,23 @@ class MaternalCharacteristics extends Component {
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Podaci o pacijentici</span>
+              <span>Osnovni podaci</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
               }
             </h4>
           </Row>
+
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Visina:</label>
+              <label>Datum vađenja krvi:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.Height, 'cm')}
-                  </span>
-                </div>
-              </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja:</span>
-                <span>{displayDateMeasured(numericalMeasurements.Height)}</span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Težina:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.Weight, 'kg')}
-                  </span>
-                </div>
-              </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.Weight)}</span>
-              </div>
-            </Col>
-          </Row>
-
-          <hr />
-
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Pušenje za vrijeme trudnoće:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayBooleanMeasurementValue(booleanMeasurements.SmokingDuringPregnancy)}
+                    {formatDate(bloodTestDate)}
                   </span>
                 </div>
               </div>
@@ -107,13 +77,13 @@ class MaternalCharacteristics extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Broj ranijih trudnoća:</label>
+              <label>Datum ultrazvuka:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {numberOfPreviousPregnancies || '-'}
+                    {formatDate(ultrasoundDate)}
                   </span>
                 </div>
               </div>
@@ -122,16 +92,35 @@ class MaternalCharacteristics extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Broj poroda:</label>
+              <label>Duljina fetalne krune:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {numberOfPreviousBirths || '-'}
+                    {displayNumericalMeasurementValue(numericalMeasurements.FetalCrownRumpLength, 'mm')}
                   </span>
+                  <OverlayTrigger
+                    placement='right'
+                    overlay={(
+                      <Tooltip className='in' id='fetal-crown-tooltip'>
+                        <span className='constraint'>45 - 85 mm</span>
+                      </Tooltip>
+                    )}
+                  >
+                    <i className='material-icons'>info</i>
+                  </OverlayTrigger>
                 </div>
               </div>
+              {
+                (numericalMeasurements.FetalCrownRumpLength && numericalMeasurements.FetalCrownRumpLength.value) &&
+                <div className='measurement__additional-info'>
+                  <span>Procjenjena gestacijska dob:</span>
+                  <span>
+                    {gestationalAgeByUltrasoundWeeks}<sup>+{gestationalAgeByUltrasoundDays}</sup>
+                  </span>
+                </div>
+              }
             </Col>
           </Row>
 
@@ -158,4 +147,4 @@ class MaternalCharacteristics extends Component {
   }
 }
 
-export default MaternalCharacteristics;
+export default BasicInfo;

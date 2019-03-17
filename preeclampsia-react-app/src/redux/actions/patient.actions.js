@@ -23,13 +23,3 @@ export function fetchPatient(patientId) {
   };
   return actionWrapper(action);
 }
-
-export function fetchPatientPregnancyDetails(patientId, pregnancyNumber) {
-  const action = async (dispatch) => {
-    const resp = await axios.get(API.PATIENTS.GET_PREGNANCY_DETAILS(patientId, pregnancyNumber));
-    if (resp.status === 200) {
-      await dispatch(actionCreators.fetchPatientPregnancyDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
-    }
-  };
-  return actionWrapper(action);
-}

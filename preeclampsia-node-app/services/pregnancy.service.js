@@ -5,16 +5,21 @@ const getDetails = async (patientId, pregnancyNumber) => await db.Pregnancy.find
     patientId,
     pregnancyNumber
   },
+});
+
+const getPregnancyTrimesterDetails = async (pregnancyId, trimesterNumber = 1) => await db.PregnancyTrimester.find({
+  where: {
+    pregnancyId,
+    trimesterNumber
+  },
   include: [
     { model: db.BooleanMeasurement, as: 'booleanMeasurements' },
     { model: db.EnumMeasurement, as: 'enumMeasurements' },
     { model: db.NumericalMeasurement, as: 'numericalMeasurements' },
   ],
-  order: [
-    ['pregnancyNumber', 'ASC'],
-  ],
 });
 
 module.exports = {
   getDetails,
+  getPregnancyTrimesterDetails,
 };

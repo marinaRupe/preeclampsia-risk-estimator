@@ -4,6 +4,7 @@ const expressConfig = require('../configuration/express.config');
 const apiConstants = require('../constants/api.constants');
 const userRouter = require('../routes/api/user.routes');
 const patientRouter = require('../routes/api/patient.routes');
+const pregnancyRouter = require('../routes/api/pregnancy.routes');
 const riskRouter = require('../routes/api/risk.routes');
 
 const useProductionRoutes = app => {
@@ -20,6 +21,7 @@ const useDevelopmentRoutes = app => {
 const configure = app => {
   app.use(`${apiConstants.API_PATH}/users`, userRouter);
   app.use(`${apiConstants.API_PATH}/patients`, patientRouter);
+  app.use(`${apiConstants.API_PATH}/pregnancies`, pregnancyRouter);
   app.use(`${apiConstants.API_PATH}/risks`, riskRouter);
 
   if (expressConfig.isProduction()) {

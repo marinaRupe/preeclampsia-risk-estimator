@@ -29,7 +29,7 @@ export const Characteristics = {
     type: CharacteristicTypes.Numerical,
     unitOfMeasure: 'mm',
     en: { name: 'Fetal crown-rump length (CRL)', display: 'Fetal crown-rump length' },
-    hr: { name: 'Duljina fetalne krune (CRL)', display: 'CRL' },
+    hr: { name: 'Udaljenost tjeme-trtica (CRL)', display: 'CRL' },
   },
   BiparietalDiameter: {
     key: 5,
@@ -70,29 +70,17 @@ export const Characteristics = {
     en: { name: 'Mother of patient had preeclampsia', display: 'Mother of patient had preeclampsia' },
     hr: { name: 'Majka pacijentice imala preeklampsiju', display: 'Preeklampsija u obitelji (majka)' },
   },
-  Hypertension: {
-    key: 11,
-    type: CharacteristicTypes.Boolean,
-    en: { name: 'Has hypertension', display: 'Hypertension' },
-    hr: { name: 'Hipertenzija', display: 'Hipertenzija' },
-  },
   HypertensionType: {
     key: 12,
     type: CharacteristicTypes.Enum,
     en: { name: 'Hypertension type', display: 'Hypertension type' },
     hr: { name: 'Tip hipertenzije', display: 'Etiologija hipertenzije' },
   },
-  Diabetes: {
-    key: 13,
-    type: CharacteristicTypes.Boolean,
-    en: { name: 'Diabetes', display: 'Has diabetes' },
-    hr: { name: 'Diabetes', display: 'Je li trudnica dijabetičar' },
-  },
   DiabetesType: {
     key: 14,
     type: CharacteristicTypes.Enum,
-    en: { name: 'Diabetes type', display: 'Diabetes type' },
-    hr: { name: 'Tip dijabetesa', display: 'Tip dijabetesa' },
+    en: { name: 'Diabetes type', display: 'Diabetes' },
+    hr: { name: 'Tip dijabetesa', display: 'Dijabetes' },
   },
   SystemicLupusErythematosus: {
     key: 15,
@@ -120,18 +108,18 @@ export const Characteristics = {
     en: { name: 'Mean uterine artery PI', display: 'Mean uterine artery PI' },
     hr: { name: 'Srednji PI maternične arterije', display: 'Srednji PI maternične arterije' },
   },
-  SerumPLGFMoM: {
+  SerumPLGF: {
     key: 19,
     type: CharacteristicTypes.Numerical,
-    unitOfMeasure: 'MoM',
-    en: { name: 'Serum PLGF', display: 'Serum PLGF' },
-    hr: { name: 'Serum PLGF', display: 'Serum PLGF' },
+    unitOfMeasure: 'pg/ml',
+    en: { name: 'Serum PLGF', display: 'PLGF' },
+    hr: { name: 'Serum PLGF', display: 'PLGF' },
   },
-  SerumPAPPAMoM: {
+  SerumPAPPA: {
     key: 20,
     type: CharacteristicTypes.Numerical,
-    unitOfMeasure: 'MoM',
-    en: { name: 'Serum PAPP-A', display: 'Serum PAPP-A' },
-    hr: { name: 'Serum PAPP-A', display: 'Serum PAPP-A' },
+    unitOfMeasure: 'mU/L',
+    en: { name: 'Serum PAPP-A', display: 'PAPP-A' },
+    hr: { name: 'Serum PAPP-A', display: 'PAPP-A' },
   },
 };

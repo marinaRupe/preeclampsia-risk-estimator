@@ -8,13 +8,17 @@ module.exports = (sequelize) => {
       autoIncrement: true,
     },
     trimesterNumber: {
-      type: Sequelize.ENUM(['1', '2', '3'])
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      validate: {
+        isIn: [[1, 2, 3]]
+      },
     },
     gestationalAgeByUltrasoundWeeks: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER, // TODO: add trimester specific constraints
     },
     gestationalAgeByUltrasoundDays: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER, // TODO: add trimester specific constraints
     },
     ultrasoundDate: {
       type: Sequelize.DATE,

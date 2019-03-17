@@ -9,11 +9,16 @@ export const API = {
   PATIENTS: {
     GET_ALL: `${API_URL}/patients`,
     GET_BY_ID: patientId => `${API_URL}/patients/${patientId}`,
+  },
+  PREGNANCIES: {
     GET_PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>
       `${API_URL}/patients/${patientId}/pregnancies/${pregnancyNumber}`,
+    GET_TRIMESTER_DETAILS: (pregnancyId, trimesterNumber) =>
+      `${API_URL}/pregnancies/${pregnancyId}/trimesters/${trimesterNumber}`,
   },
   RISK: {
-    GENERATE_PDF_REPORT: (patientId, pregnancyNumber) => `${API_URL}/risks/patients/${patientId}/pregnancies/${pregnancyNumber}/generate-pdf`,
+    GENERATE_PDF_REPORT: (patientId, pregnancyNumber) =>
+      `${API_URL}/risks/patients/${patientId}/pregnancies/${pregnancyNumber}/generate-pdf`,
   },
 };
 

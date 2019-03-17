@@ -2,6 +2,8 @@ const errors = require('restify-errors');
 const PatientService = require('../services/patient.service');
 const PregnancyService = require('../services/pregnancy.service');
 const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/PregnancyDetails.viewModel');
+const PregnancyTrimesterDetailsViewModel
+  = require('../dataTransferObjects/viewModels/PregnancyTrimesterDetails.viewModel');
 
 const getAll = async (req, res) => {
   const patientList = await PatientService.getAll();
@@ -24,22 +26,7 @@ const getById = async (req, res) => {
   res.json(patient);
 };
 
-const getPregnancyDetails = async (req, res) => {
-  const { patientId, pregnancyNumber } = req.params;
-
-  const pregnancy = await PregnancyService.getDetails(patientId, pregnancyNumber);
-
-  if (!pregnancy) {
-    throw new errors.NotFoundError('Detalji o trudnoći nisu pronađeni.');
-  }
-
-  const model = new PregnancyDetailsViewModel(pregnancy);
-
-  res.json(model);
-};
-
 module.exports = {
   getAll,
   getById,
-  getPregnancyDetails
 };

@@ -93,3 +93,5 @@ dist-react/
 *.css
 
 logs.txt
+
+assets

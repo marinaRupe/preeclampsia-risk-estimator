@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
-import rootReducer from '../reducers/rootReducer';
+import rootReducer from '../reducers/root.reducer';
 
 const config = {
   key: 'root',
@@ -30,8 +30,8 @@ export default function configureStore(initialState) {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers/rootReducer', () => {
-      const nextReducer = require('../reducers/rootReducer').default;
+    module.hot.accept('../reducers/root.reducer', () => {
+      const nextReducer = require('../reducers/root.reducer').default;
       store.replaceReducer(nextReducer);
     });
   }
