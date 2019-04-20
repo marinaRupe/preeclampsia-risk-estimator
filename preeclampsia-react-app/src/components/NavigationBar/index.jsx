@@ -6,7 +6,10 @@ const NavigationBar = props => (
   <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href={APP.ROOT}>Preeclampsia Risk Estimator</a>
+        <a href={APP.ROOT} className='nav-logo'>
+          <i className='material-icons'>local_hospital</i>
+          <span>Preeclampsia Risk Estimator</span>
+        </a>
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>

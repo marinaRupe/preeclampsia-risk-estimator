@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import * as patientActions from '../../redux/actions/patient.actions';
+import ReactTable from 'react-table';
+import { reactTableConstants } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
+import * as patientActions from '../../redux/actions/patient.actions';
+import { formatDate } from '../../utils/dateTime.utils';
 
 class PatientList extends Component {
   constructor(props) {
@@ -34,6 +37,36 @@ class PatientList extends Component {
 
   closeAddPatientModal = () => {
     this.setState({ addPatientModalIsOpen: false });
+  }
+
+  getColumns = () => {
+    return [
+      {
+        Header: 'MBO',
+        accessor: 'MBO'
+      },
+      {
+        Header: 'Ime',
+        accessor: 'firstName',
+        Cell: props => (
+          <span>
+            <Link to={APP.PATIENT.DETAILS(props.original.id)}>
+              {props.value}
+            </Link>
+          </span>
+        )
+      },
+      {
+        Header: 'Prezime',
+        accessor: 'lastName',
+        Cell: props => <span>{props.value}</span>
+      },
+      {
+        Header: 'Datum unosa',
+        accessor: 'createdAt',
+        Cell: props => <span>{formatDate(props.value)}</span>
+      },
+    ];
   }
 
   render() {
@@ -71,19 +104,13 @@ class PatientList extends Component {
 
         <div className='ml-20'>
           <div className='ml-10'>
-            {patients.map((p, index) => (
-              <div className='patient-list__item' key={p.id}>
-                <span>
-                  <span>{index + 1}. </span>
-                  <Link to={APP.PATIENT.DETAILS(p.id)}>
-                    {p.firstName} {p.lastName}
-                  </Link>
-                </span>
-              </div>
-            ))}
+            <ReactTable
+              data={patients}
+              columns={this.getColumns()}
+              {...reactTableConstants}
+            />
           </div>
         </div>
-        
       </div>
     );
   }

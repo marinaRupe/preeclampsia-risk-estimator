@@ -27,6 +27,7 @@ a {
   font-size: $val-fontSizeRegular;
   font-weight: $val-fontWeightBold;
   cursor: pointer;
+  
   a {
     color: $col-normalText--dark;
     font-size: $val-fontSizeRegular;
@@ -45,6 +46,7 @@ a {
   font-size: $val-fontSizeRegular;
   font-weight: $val-fontWeightBold;
   cursor: pointer;
+
   a {
     color: $col-normalText--dark;
     font-size: $val-fontSizeRegular;
@@ -58,21 +60,26 @@ a {
   align-items: center;
   font-size: 16px;
   line-height: 24px;
+
   label {
     font-size: 16px;
     margin: 0 5px 0 0;
   }
+
   &--value {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
+
   .material-icons {
     font-size: 18px;
   }
+
   .unit-of-measure {
     margin-left: 5px;
   }
+
   .constraint {
     margin-left: 5px;
     font-weight: 400;

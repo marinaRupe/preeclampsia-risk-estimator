@@ -13,13 +13,28 @@ class PregnancyDetails extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      isLoading: true,
+    }, async () => {
+      const {
+        match: { params: { patientId, pregnancyNumber } },
+      } = this.props;
+
+      this.setState({
+        isLoading: false,
+      });
+    });
+  }
+
   generatePDF = async () => {
     const {
       generatePDFReport,
-      match: { params: { patientId, pregnancyNumber }
-      }, } = this.props;
+      match: { params: { patientId } },
+      patient
+    } = this.props;
 
-    await generatePDFReport(patientId, pregnancyNumber);
+    await generatePDFReport(patientId, patient);
   }
 
   render() {

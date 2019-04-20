@@ -4,11 +4,13 @@ import { API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
 import * as actionCreators from '../actionCreators/risk.actionCreators';
 
-export function generatePDFReport(patientId, pregnancyNumber) {
+export function generatePDFReport(patientId, trimesterId) {
   const action = async (dispatch) => {
     const resp = await axios.get(
-      API.RISK.GENERATE_PDF_REPORT(patientId, pregnancyNumber),
-      { method: 'GET', responseType: 'blob' }
+      API.RISK.GENERATE_PDF_REPORT(patientId, trimesterId),
+      {
+        responseType: 'blob'
+      }
     );
     if (resp.status === 200) {
       const file = new Blob(

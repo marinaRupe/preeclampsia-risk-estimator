@@ -17,8 +17,8 @@ export const API = {
       `${API_URL}/pregnancies/${pregnancyId}/trimesters/${trimesterNumber}`,
   },
   RISK: {
-    GENERATE_PDF_REPORT: (patientId, pregnancyNumber) =>
-      `${API_URL}/risks/patients/${patientId}/pregnancies/${pregnancyNumber}/generate-pdf`,
+    GENERATE_PDF_REPORT: (patientId) =>
+      `${API_URL}/risks/patients/${patientId}/generate-pdf`,
   },
 };
 

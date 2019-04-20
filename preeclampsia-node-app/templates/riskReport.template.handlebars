@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Izvješće o riziku</title>
+    <style>
+      body {
+        font-size: 16px;
+        font-family: "Times New Roman", Times, serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      h3 {
+        text-transform: uppercase;
+      }
+      div {
+        font-size: 16px;
+      }
+      footer {
+        margin-top: 100px;
+      }
+      .has-border {
+        border: 1px solid black;
+      }
+      .hospital-details {
+        width: 30%;
+        float: left;
+      }
+      .hospital-logo {
+        margin-left: 10%;
+        height: 200px;
+        width: 200px;
+      }
+      .section {
+        border: 1px solid black;
+        margin-bottom: 10px;
+        padding: 0 10px;
+        padding-bottom: 10px;
+      }
+      .section-container {
+        padding-bottom: 10px;
+      }
+      .left-section {
+        width: calc(50% - 21px);
+        float: left;
+        padding: 10px;
+      }
+      .right-section {
+        margin-left: 50%;
+        padding: 10px;
+      }
+      .personal-data {
+        min-height: 60px;
+      }
+      .biochem-data {
+        min-height: 40px;
+      }
+      .ultrasound-data {
+        min-height: 90px;
+      }
+    </style>
+</head>
+
+<body>
+  <header>
+    <div class="hospital-details">
+      <div>Endokrinološki laboratorij</div>
+      <div>Klinika za onkologiju i nuklearnu medicinu</div>
+      <div>KBC Sestre Milosrdnice, Zagreb, Hrvatska</div>
+    </div>
+    <img src={{hospitalLogo}} alt="" class="hospital-logo" />
+  </header>
+  
+  <h1>Rezultati probira za preeklampsiju</h1>
+
+  <div>
+    <h2>PACIJENT</h2>
+    <div class="section-container">
+      <div class="left-section personal-data has-border">
+        <div>Ime: {{patient.firstName}}</div>
+        <div>Prezime: {{patient.lastName}}</div>
+        <div>MBO: {{patient.MBO}}</div>
+        <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
+      </div>
+      <div class="right-section personal-data has-border">
+        <div>Etnička skupina: {{patient.racialOrigin}}</div>
+        <div>Visina: {{patient.height}}</div>
+        <div>Težina (kg): {{patient.weight}}</div>
+      </div>
+    </div>
+    
+    <div>
+      <h2>TRUDNOĆA</h2>
+      
+      <div class="section">
+        <h3>Biokemijski biljezi i korigirane MoM vrijednosti</h3>
+        <div class="left-section biochem-data">
+          <div>PLGF: {{patient.serumPLGF}} pg/ml</div>
+          <div>PAPP-A: {{patient.serumPAPPA}} mU/L</div>
+        </div>
+        <div class="right-section biochem-data">
+          <div>{{patient.serumPLGFMoM}} Korig. MoM</div>
+          <div>{{patient.serumPAPPAMoM}} Korig. MoM</div>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h3>UZV podaci</h3>
+        <div class="left-section ultrasound-data">
+          <div>
+            <span>Datum UZV pregleda:</span>
+            <span>{{patient.ultrasoundDate}}</span>
+          </div>
+          <div>
+            <span>CRL:</span>
+            <span>{{patient.FetalCrownRumpLength}} mm</span>
+          </div>
+          <div>
+            <span>Gestacijska dob prema CRL:</span>
+            <span>{{patient.gestationalAgeByUltrasoundWeeks}}<sup>+{{patient.gestationalAgeByUltrasoundDays}}</sup></span>
+          </div>
+          <div>
+            <span>Gestacijska dob na dan vađenja krvi:</span>
+            <span>{{patient.gestationAgeWeeks}}<sup>+{{patient.gestationAgeDays}}</sup></span>
+          </div>
+        </div>
+        <div class="right-section ultrasound-data">
+          <div>
+            <span>Izmjerio/la:</span>
+            <span>-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Rizici na dan vađenja krvi</h2>
+  <div>&lt;1:1000</div>
+  <div>rizik manji od graničnog</div>
+  
+  <footer>
+    <div>Datum nalaza: {{report.date}}</div>
+  </footer>
+</body>
+</html>
