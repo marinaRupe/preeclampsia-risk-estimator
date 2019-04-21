@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as pregnancyActions from '../../../../redux/actions/pregnancy.actions';
+import Spinner from '../../../../components/Spinner';
 import MaternalCharacteristics from './components/MaternalCharacteristics';
 import MedicalHistory from './components/MedicalHistory';
 import BiophysicalMeasurements from './components/BiophysicalMeasurements';
@@ -44,8 +45,9 @@ class TrimesterDetails extends Component {
       return (
         <div className='pregnancy__trimester'>
           <h3>{trimesterNumber}. trimestar</h3>
-          <h4>Učitavanje podataka...</h4>
-          {/* add spinner */}
+          <div className='align-horizontal--center'>
+            <Spinner />
+          </div>
         </div>
       );
     }

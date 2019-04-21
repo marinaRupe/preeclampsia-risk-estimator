@@ -8,6 +8,8 @@ import PatientList from './scenes/PatientList';
 import PatientData from './scenes/PatientData';
 import PregnancyDetails from './scenes/PregnancyDetails';
 import RiskEstimate from './scenes/RiskEstimate';
+import Statistics from './scenes/Statistics';
+import UserList from './scenes/UserList';
 import Home from './scenes/Home';
 import NavigationBar from './components/NavigationBar';
 import { APP } from './constants/routes';
@@ -30,6 +32,8 @@ class App extends Component {
             <Route path={APP.PATIENT.PREGNANCY_DETAILS()} component={PregnancyDetails} />
             <Route path={APP.PATIENT.DETAILS()} component={PatientData} />
             <Route path={APP.PATIENTS} component={PatientList} />
+            <Route path={APP.STATISTICS} component={Statistics} />
+            <Route path={APP.USERS} component={UserList} />
 
             <Route path='*' component={Error404} />
           </Switch>

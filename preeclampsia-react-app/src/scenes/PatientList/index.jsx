@@ -7,6 +7,8 @@ import { reactTableConstants } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
+import Spinner from '../../components/Spinner';
+import AddPatientModal from './content/AddPatientModal';
 
 class PatientList extends Component {
   constructor(props) {
@@ -71,7 +73,7 @@ class PatientList extends Component {
 
   render() {
     const { patients }  = this.props;
-    const { isLoading } = this.state;
+    const { isLoading, addPatientModalIsOpen } = this.state;
 
     if (isLoading) {
       return (
@@ -81,9 +83,8 @@ class PatientList extends Component {
           </div>
           
           <div className='ml-20'>
-            <div className='ml-10'>
-              <h4>Učitavanje podataka...</h4>
-              {/* add spinner */}
+            <div className='align-horizontal--center'>
+              <Spinner />
             </div>
           </div>
         </div>
@@ -92,7 +93,11 @@ class PatientList extends Component {
 
     return (
       <div className='page'>
-        <div className='patient-list__header mb-10'>
+        <AddPatientModal
+          show={addPatientModalIsOpen}
+          handleClose={this.closeAddPatientModal}
+        />
+        <div className='page__header mb-10'>
           <h1>Lista pacijenata</h1>
           <Button
             bsStyle='primary'

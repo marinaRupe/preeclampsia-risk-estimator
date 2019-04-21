@@ -49,6 +49,7 @@
     "react-scripts": "2.1.1",
     "react-table": "~6.9.2",
     "redux": "~4.0.1",
+    "redux-form": "~8.2.0",
     "redux-persist": "~5.10.0",
     "redux-thunk": "~2.3.0",
     "restify-errors": "~6.1.1",

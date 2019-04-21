@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as riskActions from '../../redux/actions/risk.actions';
+import Spinner from '../../components/Spinner';
 
 class PregnancyDetails extends Component {
   constructor(props) {
@@ -38,6 +39,8 @@ class PregnancyDetails extends Component {
   }
 
   render() {
+    const { isLoading } = this.state;
+
     return (
       <div className='page'>
         <h1>Izvješće o riziku</h1>
@@ -47,6 +50,11 @@ class PregnancyDetails extends Component {
         </div>
 
         <br />
+
+        {
+          isLoading &&
+          <div className='align-horizontal--center'><Spinner /></div>
+        }
 
         <div>
           <Button

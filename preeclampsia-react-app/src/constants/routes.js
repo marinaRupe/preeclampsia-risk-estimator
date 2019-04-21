@@ -41,4 +41,6 @@ export const APP = {
     patientId = ':patientId',
     pregnancyNumber = ':pregnancyNumber'
   ) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/risk`,
+  STATISTICS: '/statistics',
+  USERS: '/users',
 };

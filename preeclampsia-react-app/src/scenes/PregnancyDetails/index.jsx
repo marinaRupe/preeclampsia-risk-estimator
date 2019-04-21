@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import history from '../../history';
 import { APP } from '../../constants/routes';
 import * as pregnancyActions from '../../redux/actions/pregnancy.actions';
+import Spinner from '../../components/Spinner';
 import TrimesterDetails from './components/TrimesterDetails';
 import BasicInfo from './components/BasicInfo';
 
@@ -51,8 +52,9 @@ class PregnancyDetails extends Component {
       return (
         <div className='page'>
           <h1>Detalji o trudnoći</h1>
-          <h4>Učitavanje podataka...</h4>
-          {/* add spinner */}
+          <div className='align-horizontal--center'>
+            <Spinner />
+          </div>
         </div>
       );
     }

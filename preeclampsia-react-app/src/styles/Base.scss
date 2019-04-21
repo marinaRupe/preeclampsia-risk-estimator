@@ -14,6 +14,21 @@ a {
 
 .page {
   margin: 0 10px;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    h1 {
+      margin: 0;
+    }
+    button {
+      height: 40px;
+      padding: 0 20px;
+    }
+  }
 }
 
 .btn-primary {
@@ -27,7 +42,7 @@ a {
   font-size: $val-fontSizeRegular;
   font-weight: $val-fontWeightBold;
   cursor: pointer;
-  
+
   a {
     color: $col-normalText--dark;
     font-size: $val-fontSizeRegular;
@@ -87,6 +102,15 @@ a {
   }
 }
 
+.align {
+  &-horizontal {
+    &--center {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
 .m {
   &l {
     &-5 {
@@ -103,5 +127,22 @@ a {
     &-10 {
       margin-bottom: 10px;
     }
+  }
+}
+
+.p {
+  &r {
+    &-10 {
+      padding-right: 10px;
+    }
+  }
+}
+
+.w {
+  &-50 {
+    width: 50%;
+  }
+  &-100 {
+    width: 100%;
   }
 }

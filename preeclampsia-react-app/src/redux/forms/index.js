@@ -1,0 +1,1 @@
+export const ADD_PATIENT_FORM = 'ADD_PATIENT_FORM';

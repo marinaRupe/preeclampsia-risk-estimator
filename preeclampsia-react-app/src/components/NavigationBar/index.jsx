@@ -16,6 +16,12 @@ const NavigationBar = props => (
       <NavItem eventKey={1} href={APP.PATIENTS}>
         Lista pacijenata
       </NavItem>
+      <NavItem eventKey={2} href={APP.STATISTICS}>
+        Statistika
+      </NavItem>
+      <NavItem eventKey={3} href={APP.USERS}>
+        Lista korisnika
+      </NavItem>
     </Nav>
   </Navbar>
 );
