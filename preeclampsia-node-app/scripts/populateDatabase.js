@@ -5,6 +5,7 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const moment = require('moment');
 const models = require('../models');
+const UserRoles = require('../constants/roles.constants');
 const { Characteristics } = require('../constants/characteristics.constants');
 const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.constants');
 const { ConceptionMethodEnum } = require('../enums/pregnancy.enums');
@@ -27,6 +28,16 @@ function formatDate(date) {
   const DB_DATE_FORMAT = 'YYYY/MM/DD';
 
   return moment(date, CSV_DATE_FORMAT).format(DB_DATE_FORMAT);
+}
+
+async function addTestUser() {
+  await models.db.User.create({
+    firstName: 'Test',
+    lastName: 'Test',
+    role: UserRoles.Admin,
+    email: 'test@test.hr',
+    hashedPassword: 'test',
+  });
 }
 
 async function addCharacteristics() {
@@ -191,6 +202,7 @@ async function addPatient(row, index) {
 }
 
 async function populateDb() {
+  await addTestUser();
   await addCharacteristics();
 
   const results = [];

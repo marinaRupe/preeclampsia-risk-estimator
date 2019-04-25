@@ -1,8 +1,8 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
 const PregnancyService = require('../services/pregnancy.service');
-const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/PregnancyDetails.viewModel');
+const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
 const PregnancyTrimesterDetailsViewModel
-  = require('../dataTransferObjects/viewModels/PregnancyTrimesterDetails.viewModel');
+  = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyTrimesterDetails.viewModel');
 
 const getPregnancyDetails = async (req, res) => {
   const { patientId, pregnancyNumber } = req.params;
@@ -10,7 +10,7 @@ const getPregnancyDetails = async (req, res) => {
   const pregnancy = await PregnancyService.getDetails(patientId, pregnancyNumber);
 
   if (!pregnancy) {
-    throw new errors.NotFoundError('Detalji o trudnoći nisu pronađeni.');
+    throw new Errors.NotFoundError('Detalji o trudnoći nisu pronađeni.');
   }
 
   const model = new PregnancyDetailsViewModel(pregnancy);
@@ -24,7 +24,7 @@ const getPregnancyTrimesterDetails = async (req, res) => {
   const trimester = await PregnancyService.getPregnancyTrimesterDetails(pregnancyId, trimesterNumber);
 
   if (!trimester) {
-    throw new errors.NotFoundError('Detalji o tromjesečju nisu pronađeni.');
+    throw new Errors.NotFoundError('Detalji o tromjesečju nisu pronađeni.');
   }
 
   const model = new PregnancyTrimesterDetailsViewModel(trimester);

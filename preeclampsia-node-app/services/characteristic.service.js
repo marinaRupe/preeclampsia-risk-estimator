@@ -1,4 +1,4 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
 
 
 module.exports = {

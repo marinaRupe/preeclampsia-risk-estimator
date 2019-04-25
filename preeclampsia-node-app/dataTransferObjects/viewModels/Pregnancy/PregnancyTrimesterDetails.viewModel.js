@@ -1,4 +1,4 @@
-const { CharacteristicsByIdEnum } = require('../../enums/characteristics.enums');
+const { CharacteristicsByIdEnum } = require('../../../enums/characteristics.enums');
 
 class PregnancyTrimesterDetailsViewModel {
   constructor(trimester) {

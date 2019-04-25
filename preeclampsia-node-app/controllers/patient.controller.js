@@ -1,9 +1,9 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
 const PatientService = require('../services/patient.service');
 const PregnancyService = require('../services/pregnancy.service');
-const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/PregnancyDetails.viewModel');
+const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
 const PregnancyTrimesterDetailsViewModel
-  = require('../dataTransferObjects/viewModels/PregnancyTrimesterDetails.viewModel');
+  = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyTrimesterDetails.viewModel');
 
 const getAll = async (req, res) => {
   const patientList = await PatientService.getAll();
@@ -14,13 +14,13 @@ const getById = async (req, res) => {
   const { patientId } = req.params;
 
   if (!patientId) {
-    throw new errors.BadRequestError();
+    throw new Errors.BadRequestError();
   }
 
   const patient = await PatientService.getById(patientId);
 
   if (!patient) {
-    throw new errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
+    throw new Errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
   }
 
   res.json(patient);

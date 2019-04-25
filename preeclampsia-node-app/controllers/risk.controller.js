@@ -1,4 +1,4 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
 const fs = require('fs');
 const html2pdf = require('html-pdf');
 const path = require('path');
