@@ -1,13 +1,16 @@
 const Errors = require('restify-errors');
 const PatientService = require('../services/patient.service');
-const PregnancyService = require('../services/pregnancy.service');
-const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
-const PregnancyTrimesterDetailsViewModel
-  = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyTrimesterDetails.viewModel');
+const values = require('../constants/values.constants');
+const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
 
 const getAll = async (req, res) => {
-  const patientList = await PatientService.getAll();
-  res.json({ data: patientList });
+  let { page, pageSize } = req.query;
+
+  page = page || values.DEFAULT_PAGE;
+  pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
+
+  const patientList = await PatientService.getAll(page, pageSize);
+  res.json(new PageViewModel(patientList.rows, patientList.count, page, pageSize));
 };
 
 const getById = async (req, res) => {

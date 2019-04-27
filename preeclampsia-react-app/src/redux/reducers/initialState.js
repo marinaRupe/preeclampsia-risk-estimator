@@ -1,7 +1,10 @@
 const initialState = {
   users: {
-    loggedIn: false,
-    currentUser: null,
+    auth: {
+      loggedIn: false,
+      currentUser: null,
+    },
+    list: [],
   },
   patients: {
     list: {

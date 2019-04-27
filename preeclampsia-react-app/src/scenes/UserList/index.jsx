@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import { reactTableConstants } from '../../constants/reactTable.constants';
+import * as userActions from '../../redux/actions/user.actions';
 import { formatDate } from '../../utils/dateTime.utils';
-import Spinner from '../../components/Spinner';
 
 class UserList extends Component {
   constructor(props) {
@@ -14,6 +14,21 @@ class UserList extends Component {
       isLoading: false,
       addUserModalIsOpen: false,
     };
+  }
+
+  fetchData = (state, instance) => {
+    const { page, pageSize } = state;
+
+    this.setState({
+      isLoading: true,
+    }, async () => {
+      const { fetchUserList } = this.props;
+      await fetchUserList(page + 1, pageSize);
+
+      this.setState({
+        isLoading: false,
+      });
+    });
   }
 
   openAddUserModal = () => {
@@ -27,8 +42,8 @@ class UserList extends Component {
   getColumns = () => {
     return [
       {
-        Header: 'Korisničko ime',
-        accessor: 'username'
+        Header: 'E-mail',
+        accessor: 'email'
       },
       {
         Header: 'Ime',
@@ -37,6 +52,10 @@ class UserList extends Component {
       {
         Header: 'Prezime',
         accessor: 'lastName',
+      },
+      {
+        Header: 'Uloga',
+        accessor: 'role',
       },
       {
         Header: 'Datum unosa',
@@ -48,22 +67,7 @@ class UserList extends Component {
 
   render() {
     const { isLoading } = this.state;
-
-    if (isLoading) {
-      return (
-        <div className='page'>
-          <div className='page__header mb-10'>
-            <h1>Lista korisnika</h1>
-          </div>
-          
-          <div className='ml-20'>
-            <div className='align-horizontal--center'>
-              <Spinner />
-            </div>
-          </div>
-        </div>
-      );
-    }
+    const { users, totalPages } = this.props;
 
     return (
       <div className='page'>
@@ -80,8 +84,11 @@ class UserList extends Component {
         <div className='ml-20'>
           <div className='ml-10'>
             <ReactTable
-              data={[]}
+              loading={isLoading}
+              data={users}
+              pages={totalPages}
               columns={this.getColumns()}
+              onFetchData={this.fetchData}
               {...reactTableConstants}
             />
           </div>
@@ -91,4 +98,15 @@ class UserList extends Component {
   }
 }
 
-export default connect()(UserList);
+const mapStateToProps = ({ users }) => {
+  return {
+    users: users.list.data,
+    totalPages: users.list.totalPages,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchUserList: userActions.fetchUserList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

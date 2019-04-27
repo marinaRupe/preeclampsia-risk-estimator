@@ -7,7 +7,6 @@ import { reactTableConstants } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
-import Spinner from '../../components/Spinner';
 import AddPatientModal from './content/AddPatientModal';
 
 class PatientList extends Component {
@@ -20,12 +19,14 @@ class PatientList extends Component {
     };
   }
 
-  componentDidMount() {
+  fetchData = (state, instance) => {
+    const { page, pageSize } = state;
+
     this.setState({
       isLoading: true,
     }, async () => {
       const { fetchPatientList } = this.props;
-      await fetchPatientList();
+      await fetchPatientList(page + 1, pageSize);
 
       this.setState({
         isLoading: false,
@@ -72,24 +73,8 @@ class PatientList extends Component {
   }
 
   render() {
-    const { patients }  = this.props;
+    const { patients, totalPages }  = this.props;
     const { isLoading, addPatientModalIsOpen } = this.state;
-
-    if (isLoading) {
-      return (
-        <div className='page'>
-          <div className='patient-list__header mb-10'>
-            <h1>Lista pacijenata</h1>
-          </div>
-          
-          <div className='ml-20'>
-            <div className='align-horizontal--center'>
-              <Spinner />
-            </div>
-          </div>
-        </div>
-      );
-    }
 
     return (
       <div className='page'>
@@ -110,8 +95,11 @@ class PatientList extends Component {
         <div className='ml-20'>
           <div className='ml-10'>
             <ReactTable
+              loading={isLoading}
               data={patients}
+              pages={totalPages}
               columns={this.getColumns()}
+              onFetchData={this.fetchData}
               {...reactTableConstants}
             />
           </div>
@@ -124,6 +112,7 @@ class PatientList extends Component {
 const mapStateToProps = ({ patients }) => {
   return {
     patients: patients.list.data,
+    totalPages: patients.list.totalPages,
   };
 };
 

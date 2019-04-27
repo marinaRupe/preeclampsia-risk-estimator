@@ -2,12 +2,15 @@ const API_VERSION = 'v1.0';
 
 export const API_URL = `/api/${API_VERSION}`;
 
+const pagingQueryString = (page, pageSize) => `page=${page}&pageSize=${pageSize}`;
+
 export const API = {
-  AUTH: {
+  USERS: {
+    GET_ALL: (page, pageSize) => `${API_URL}/users/?${pagingQueryString(page, pageSize)}`,
     LOGIN: `${API_URL}/users/login`,
   },
   PATIENTS: {
-    GET_ALL: `${API_URL}/patients`,
+    GET_ALL: (page, pageSize) => `${API_URL}/patients/?${pagingQueryString(page, pageSize)}`,
     GET_BY_ID: patientId => `${API_URL}/patients/${patientId}`,
   },
   PREGNANCIES: {

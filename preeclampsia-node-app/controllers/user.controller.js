@@ -1,10 +1,23 @@
 const Errors = require('restify-errors');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const values = require('../constants/values.constants');
 const UserService = require('../services/user.service');
 const UserValidator = require('../validators/user.validator');
 const UserLoginViewModel = require('../dataTransferObjects/viewModels/User/UserLogin.viewModel');
 const UserViewModel = require('../dataTransferObjects/viewModels/User/User.viewModel');
+const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
+
+const getAll = async (req, res) => {
+  let { page, pageSize } = req.query;
+
+  page = page || values.DEFAULT_PAGE;
+  pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
+
+  const userList = await UserService.getAll(page, pageSize);
+  const users = userList.rows.map(user => new UserViewModel(user));
+  res.json(new PageViewModel(users, userList.count, page, pageSize));
+};
 
 const login = async (req, res, next) => {
   passport.authenticate('login', async (err, user, info) => {
@@ -75,6 +88,7 @@ const createUser = async (req, res) => {
 };
 
 module.exports = {
+  getAll,
   login,
   register,
   createUser,

@@ -10,7 +10,7 @@ const authenticate = asyncWrap(async (req, res, next) => {
 const authorize = (allowedRoles = []) => asyncWrap(async (req, res, next) => {
   const userData = req.user;
 
-  const user = await UserService.findById(userData.id);
+  const user = await UserService.getById(userData.id);
 
   if (!allowedRoles.includes(user.role)) {
     throw new Errors.ForbiddenError();

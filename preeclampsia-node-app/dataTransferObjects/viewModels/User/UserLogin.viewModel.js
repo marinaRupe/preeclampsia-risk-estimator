@@ -1,10 +1,7 @@
+const UserViewModel = require('./User.viewModel');
 class UserLoginViewModel {
   constructor(user, token) {
-    this.id = user.id;
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.email = user.email;
-    this.role = user.role;
+    this.user = new UserViewModel(user);
     this.token = token;
   }
 }

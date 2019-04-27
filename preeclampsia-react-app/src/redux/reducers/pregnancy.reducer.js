@@ -2,7 +2,7 @@ import initialState from './initialState';
 import * as types from '../actionTypes';
 import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
-export default function patientReducer(state = initialState.pregnancy, action) {
+export default function pregnancyReducer(state = initialState.pregnancy, action) {
   switch (action.type) {
   case types.FETCH_PATIENT_PREGNANCY_DETAILS:
     if (action.status === ACTION_STATUS.SUCCESS) {

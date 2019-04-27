@@ -6,10 +6,12 @@ const { authenticate, authorize } = require('../../middlewares/authentication.mi
 
 const router = express.Router();
 
-router.post('/', authenticate, authorize([UserRoles.Admin]), asyncWrap(UserController.createUser));
-
 router.post('/login', asyncWrap(UserController.login));
 
 //router.post('/register', asyncWrap(UserController.register));
+
+router.get('/', authenticate, authorize([UserRoles.Admin]), asyncWrap(UserController.getAll));
+
+router.post('/', authenticate, authorize([UserRoles.Admin]), asyncWrap(UserController.createUser));
 
 module.exports = router;

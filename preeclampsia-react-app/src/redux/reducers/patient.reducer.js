@@ -12,8 +12,9 @@ export default function patientReducer(state = initialState.patients, action) {
           ...state.list,
           data: action.data.data,
           page: action.data.page,
+          pageSize: action.data.pageSize,
           totalPages: action.data.totalPages,
-          totalResults: action.data.totalResults,
+          totalCount: action.data.totalCount,
         },
       };
     }

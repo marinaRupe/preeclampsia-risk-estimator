@@ -4,9 +4,9 @@ import { API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
 import * as actionCreators from '../actionCreators/patient.actionCreators';
 
-export function fetchPatientList() {
+export function fetchPatientList(page = 1, pageSize = 10) {
   const action = async (dispatch) => {
-    const resp = await axios.get(API.PATIENTS.GET_ALL);
+    const resp = await axios.get(API.PATIENTS.GET_ALL(page, pageSize));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatients({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }

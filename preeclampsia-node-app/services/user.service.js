@@ -1,6 +1,11 @@
+const values = require('../constants/values.constants');
 const { db } = require('../models');
 
-const findById = async (id) => {
+const getAll = async (page = values.DEFAULT_PAGE, pageSize = values.DEFAULT_PAGE_SIZE) => (
+  await db.User.findAndCountAll({ offset: (page - 1) * pageSize, limit: pageSize })
+);
+
+const getById = async (id) => {
   const user = await db.User.findOne({
     where: { id }
   });
@@ -37,7 +42,8 @@ const createUser = async (userData) => {
 };
 
 module.exports = {
-  findById,
+  getAll,
+  getById,
   createUser,
   existsEmail,
 };

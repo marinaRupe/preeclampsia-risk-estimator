@@ -1,6 +1,7 @@
 // user actions
 export const USER_LOGIN = 'LOGIN';
 export const USER_LOGOUT = 'LOGOUT';
+export const FETCH_USERS = 'FETCH_USERS';
 
 // patient actions
 export const FETCH_PATIENTS = 'FETCH_PATIENTS';
