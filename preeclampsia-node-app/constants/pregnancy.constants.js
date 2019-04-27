@@ -22,15 +22,15 @@ const ConceptionMethods = {
     en: 'Spontaneous',
     hr: 'Začeće prirodnim putem',
   },
-  OvulationDrugs: {
-    key: 1,
-    en: 'Ovulation drugs',
-    hr: 'Ovulacijski lijekovi',
-  },
   InVitroFertilization: {
-    key: 2,
+    key: 1,
     en: 'In vitro fertilization',
     hr: 'In vitro oplodnja',
+  },
+  OvulationDrugs: {
+    key: 2,
+    en: 'Ovulation drugs',
+    hr: 'Ovulacijski lijekovi',
   }
 };
 

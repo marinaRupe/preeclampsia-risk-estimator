@@ -1,11 +1,15 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const fs = require('fs'); 
+const csv = require('csv-parser');
+const moment = require('moment');
 const models = require('../models');
+const UserRoles = require('../constants/roles.constants');
 const { Characteristics } = require('../constants/characteristics.constants');
-const { ConceptionMethods } = require('../constants/pregnancy.constants');
+const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.constants');
 const { ConceptionMethodEnum } = require('../enums/pregnancy.enums');
-const { HypertensionTypes } = require('../constants/measurements.constants');
+const { DiabetesTypes, HypertensionTypes } = require('../constants/measurements.constants');
 const { RacialOriginTypes } = require('../constants/patient.constants');
 
 const expressConfig = require('../configuration/express.config');
@@ -19,6 +23,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+function formatDate(date) {
+  const CSV_DATE_FORMAT = 'DD.MM.YYYY';
+  const DB_DATE_FORMAT = 'YYYY/MM/DD';
+
+  return moment(date, CSV_DATE_FORMAT).format(DB_DATE_FORMAT);
+}
+
+async function addTestUser() {
+  await models.db.User.create({
+    firstName: 'Test',
+    lastName: 'Test',
+    role: UserRoles.Admin,
+    email: 'test@test.hr',
+    hashedPassword: 'test',
+  });
+}
+
 async function addCharacteristics() {
   await Promise.all(Object.values(Characteristics).map(async (value) => {
     await models.db.Characteristic.create({
@@ -31,183 +52,181 @@ async function addCharacteristics() {
   }));
 }
 
-async function addTestPatients() {
-  const patient1 = await models.db.Patient.create({
-    firstName: 'Ana',
-    lastName: 'Anić',
-    birthDate: new Date('1990-01-01'),
-    racialOrigin: RacialOriginTypes.White.hr,
-    email: 'ana.anic@blabla.com',
-    phoneNumber: '123/456-789',
-    address: '-',
-  });
-
-  const patient2 = await models.db.Patient.create({
-    firstName: 'Marija',
-    lastName: 'Marijić',
-    birthDate: new Date('1987-05-05'),
-    racialOrigin: RacialOriginTypes.White.hr,
-    email: 'marija.marijic@blabla.com',
-    phoneNumber: '123/456-789',
-    address: '-',
-  });
-
-  const patient3 = await models.db.Patient.create({
-    firstName: 'Iva',
-    lastName: 'Ivić',
-    birthDate: new Date('1989-03-03'),
-    racialOrigin: RacialOriginTypes.White.hr,
-    email: 'iva.ivic@blabla.com',
-    phoneNumber: '123/456-789',
-    address: '-',
-  });
-
-  const pregnancy1 = await models.db.Pregnancy.create({
-    pregnancyNumber: 1,
-    patientId: patient1.id,
-    lastPeriodDate: '2018-11-11',
-    lastPeriodDateIsReliable: false,
-    numberOfFetuses: 1,
-    numberOfPreviousPregnancies: 0,
-    numberOfPreviousBirths: 0,
-    hadPEInPreviousPregnancy: false,
-  });
-
-  const pregnancy2 = await models.db.Pregnancy.create({
-    pregnancyNumber: 1,
-    patientId: patient2.id,
-    lastPeriodDate: '2018-11-11',
-    lastPeriodDateIsReliable: false,
-    numberOfFetuses: 1,
-    numberOfPreviousPregnancies: 1,
-    numberOfPreviousBirths: 1,
-    hadPEInPreviousPregnancy: false,
-  });
-
-  const pregnancy3 = await models.db.Pregnancy.create({
-    pregnancyNumber: 1,
-    patientId: patient3.id,
-    lastPeriodDate: '2018-11-11',
-    lastPeriodDateIsReliable: false,
-    numberOfFetuses: 1,
-    numberOfPreviousPregnancies: 0,
-    numberOfPreviousBirths: 0,
-    hadPEInPreviousPregnancy: true,
-  });
-
-  await addTestMeasures(pregnancy1);
-  await addTestMeasures(pregnancy2);
-  await addTestMeasures(pregnancy3);
-}
-
-async function addTestMeasures(pregnancy) {
+async function addPregnancyMeasures(pregnancyTrimester, row) {
   // Boolean measurements
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: false,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.SmokingDuringPregnancy.key,
-  });
+  if (row.smokingDuringPregnancy) {
+    await models.db.BooleanMeasurement.create({
+      value: row.smokingDuringPregnancy, // 0 - false, 1 - true
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.SmokingDuringPregnancy.key,
+    });
+  }
 
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: false,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.AntiPhospholipidSyndrome.key,
-  });
+  if (row.antiPhospholipidSyndrome) {
+    await models.db.BooleanMeasurement.create({
+      value: row.antiPhospholipidSyndrome, // 0 - false, 1 - true
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.AntiPhospholipidSyndrome.key,
+    });
+  }
 
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: true,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.Hypertension.key,
-  });
-
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: false,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.SystemicLupusErythematosus.key,
-  });
-
-  await models.db.BooleanMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: false,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.Diabetes.key,
-  });
+  if (row.systemicLupusErythematosus)  {
+    await models.db.BooleanMeasurement.create({
+      value: row.systemicLupusErythematosus, // 0 - false, 1 - true
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.SystemicLupusErythematosus.key,
+    });
+  }
 
   // Numerical Measurements
-  await models.db.NumericalMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: 165,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.Height.key,
-  });
+  if (row.height) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.height),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.Height.key,
+    });
+  }
 
-  await models.db.NumericalMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: 55,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.Weight.key,
-  });
+  if (row.weight) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.weight),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.Weight.key,
+    });
+  }
 
-  await models.db.NumericalMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: 100.0,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.MeanArterialPressure.key,
-  });
+  if (row.meanArterialPressure) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.meanArterialPressure),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.MeanArterialPressure.key,
+    });
+  }
 
-  await models.db.NumericalMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: 80,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.MeanUterineArteryPI.key,
-  });
+  if (row.meanUterineArteryPI) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.meanUterineArteryPI),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.MeanUterineArteryPI.key,
+    });
+  }
 
-  await models.db.NumericalMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: 55,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.FetalCrownRumpLength.key,
-  });
+  if (row.CRL) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.CRL),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.FetalCrownRumpLength.key,
+    });
+  }
+
+  if (row.PLGF) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.PLGF),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.SerumPLGF.key,
+    });
+  }
+
+  if (row.PAPP_A) {
+    await models.db.NumericalMeasurement.create({
+      value: parseFloat(row.PAPP_A),
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.SerumPAPPA.key,
+    });
+  }
 
   // Enum Measurements
-  await models.db.EnumMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: null,
-    hrName: null,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.DiabetesType.key,
-  });
+  if (row.diabetesType) {
+    const diabetesType = parseInt(row.diabetesType);
+    await models.db.EnumMeasurement.create({
+      value: diabetesType,
+      hrName: Object.values(DiabetesTypes).find(t => t.key === diabetesType).hr,
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.DiabetesType.key,
+    });
+  }
+
+  if (row.hypertensionType) {
+    const hypertensionType = parseInt(row.hypertensionType);
+    await models.db.EnumMeasurement.create({
+      value: hypertensionType,
+      hrName: Object.values(HypertensionTypes).find(t => t.key === hypertensionType).hr,
+      pregnancyTrimesterId: pregnancyTrimester.id,
+      characteristicId: Characteristics.HypertensionType.key,
+    });
+  }
 
   await models.db.EnumMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
-    value: HypertensionTypes.ChronicHipertension.key,
-    hrName: HypertensionTypes.ChronicHipertension.hr,
-    pregnancyId: pregnancy.id,
-    characteristicId: Characteristics.HypertensionType.key,
-  });
-
-  await models.db.EnumMeasurement.create({
-    dateMeasured: new Date('2018-12-12'),
     value: ConceptionMethodEnum.Spontaneous,
     hrName: ConceptionMethods.Spontaneous.hr,
-    pregnancyId: pregnancy.id,
+    pregnancyTrimesterId: pregnancyTrimester.id,
     characteristicId: Characteristics.ConceptionMethod.key,
   });
 }
 
+async function addPatient(row, index) {
+  const patient = await models.db.Patient.create({
+    firstName: `Ana${index}`,
+    lastName: `Anić${index}`,
+    birthDate: formatDate(row.birthDate),
+    racialOrigin: RacialOriginTypes.White.hr,
+    MBO: index,
+  });
+
+  const pregnancy = await models.db.Pregnancy.create({
+    pregnancyNumber: new Number(row.numberOfPreviousPregnancies) + 1,
+    patientId: patient.id,
+    lastPeriodDate: row.lastPeriodDate ? formatDate(row.lastPeriodDate) : null,
+    lastPeriodDateIsReliable: false, // TODO: get from CSV
+    birthDate: row.pregnancyEndDate ? formatDate(row.pregnancyEndDate) : null,
+    birthLength: row.birthLength ? parseFloat(row.birthLength) : null,
+    birthWeight: row.birthWeight ? parseFloat(row.birthWeight) : null,
+    pregnancyType: PregnancyTypes.Singleton.key, // TODO: get from CSV
+    numberOfPreviousPregnancies: row.numberOfPreviousPregnancies,
+    numberOfPreviousBirths: row.numberOfPreviousBirths,
+    hadPEInPreviousPregnancy: null, // TODO: get from CSV
+    resultedWithPE: row.resultedWithPE // 0 - false, 1 - true
+  });
+
+  const pregnancyTrimester = await models.db.PregnancyTrimester.create({
+    pregnancyId: pregnancy.id,
+    trimesterNumber: 1,
+    gestationalAgeByUltrasoundWeeks: row.gestationalAgeByUltrasoundWeeks || null,
+    gestationalAgeByUltrasoundDays: row.gestationalAgeByUltrasoundDays || null,
+    ultrasoundDate: formatDate(row.ultrasoundDate),
+    bloodTestDate: formatDate(row.bloodTestDate),
+    note: row.note
+  });
+
+  await addPregnancyMeasures(pregnancyTrimester, row);
+}
+
 async function populateDb() {
+  await addTestUser();
   await addCharacteristics();
-  await addTestPatients();
+
+  const results = [];
+  let rowNumber = 1;
+
+  await fs.createReadStream(process.env.POPULATE_DB_DATA_LOCATION)
+    .pipe(csv({ separator: ';' }))
+    .on('data', (row) => {
+      try {
+        results.push(addPatient(row, rowNumber));
+        rowNumber++;
+      }
+      catch(err) {
+        console.error(err.message);
+      }
+    })
+    .on('end', async () => {
+      await Promise.all(results);
+      process.exit(0);
+    });
 }
 
 sequelizeConfig.configure().then(() => {
   sequelizeConfig.initializeDatabase(true).then(() => {
-    populateDb().then(() => {
-      process.exit(0);
-    });
+    populateDb();
   });
 });

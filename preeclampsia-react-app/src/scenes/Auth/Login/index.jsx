@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { APP } from '../../../constants/routes';
-import { getToken } from '../../../utils/auth.utils';
+import { getLoginDataFromLocalStorage } from '../../../utils/auth.utils';
 
 class Login extends Component {
   render() {
-    if (getToken()) {
+    const { token } = getLoginDataFromLocalStorage();
+    if (token) {
       return <Redirect to={APP.ROOT} />;
     }
 

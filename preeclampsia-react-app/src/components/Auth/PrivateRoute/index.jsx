@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { getToken } from '../../../utils/auth.utils';
+import { getLoginDataFromLocalStorage } from '../../../utils/auth.utils';
 
 export default function PrivateRoute({ component: Component, ...rest }) {
+  const { token } = getLoginDataFromLocalStorage();
   return (
     <Route
       { ...rest }
-      render={props => (!!getToken()
+      render={props => (!!token
         ? <Component { ...props } />
         : <Redirect to='/login' />
       )}

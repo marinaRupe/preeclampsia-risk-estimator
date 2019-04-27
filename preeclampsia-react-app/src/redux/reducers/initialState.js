@@ -1,9 +1,11 @@
 const initialState = {
   users: {
-    loggedIn: false,
-    currentUser: null,
+    auth: {
+      loggedIn: false,
+      currentUser: null,
+    },
+    list: [],
   },
-  characteristics: [],
   patients: {
     list: {
       data: [],
@@ -12,7 +14,14 @@ const initialState = {
       totalResults: 0,
     },
     patientDetails: null,
-    pregnancyDetails: null,
+  },
+  pregnancy: {
+    details: null,
+    trimesters: {
+      trimester1: null,
+      trimester2: null,
+      trimester3: null,
+    }
   },
 };
 

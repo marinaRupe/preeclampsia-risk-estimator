@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.constants');
 
 module.exports = (sequelize) => {
   const Pregnancy = sequelize.define('Pregnancy', {
@@ -9,18 +10,39 @@ module.exports = (sequelize) => {
     },
     pregnancyNumber: {
       type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    pregnancyType: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: PregnancyTypes.Singleton.key,
+      validate: {
+        isIn: [Object.values(PregnancyTypes).map(v => v.key)]
+      },
+    },
+    conceptionMethod: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: ConceptionMethods.Spontaneous.key,
+      validate: {
+        isIn: [Object.values(ConceptionMethods).map(v => v.key)]
+      },
     },
     lastPeriodDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     lastPeriodDateIsReliable: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
-    endDate: {
-      type: Sequelize.DATE,
+    birthDate: {
+      type: Sequelize.DATEONLY,
     },
-    numberOfFetuses: {
-      type: Sequelize.INTEGER,
+    birthWeight: {
+      type: Sequelize.DOUBLE,
+    },
+    birthLength: {
+      type: Sequelize.DOUBLE,
     },
     numberOfPreviousPregnancies: {
       type: Sequelize.INTEGER,
@@ -31,31 +53,18 @@ module.exports = (sequelize) => {
     hadPEInPreviousPregnancy: {
       type: Sequelize.BOOLEAN,
     },
+    resultedWithPE: {
+      type: Sequelize.BOOLEAN,
+    },
   });
 
   Pregnancy.associate = (models) => {
-    models.Pregnancy.hasMany(models.BooleanMeasurement, {
+    models.Pregnancy.hasMany(models.PregnancyTrimester, {
       foreignKey: {
         name: 'pregnancyId',
         allowNull: false,
       },
-      as: 'booleanMeasurements',
-    });
-
-    models.Pregnancy.hasMany(models.EnumMeasurement, {
-      foreignKey: {
-        name: 'pregnancyId',
-        allowNull: false,
-      },
-      as: 'enumMeasurements',
-    });
-
-    models.Pregnancy.hasMany(models.NumericalMeasurement, {
-      foreignKey: {
-        name: 'pregnancyId',
-        allowNull: false,
-      },
-      as: 'numericalMeasurements',
+      as: 'pregnancyTrimesters',
     });
   };
 

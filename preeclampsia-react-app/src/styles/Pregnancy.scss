@@ -4,7 +4,7 @@
 .pregnancy {
   &__card {
     border: 1px solid $col-primary;
-    margin: 10px 0;
+    margin: 10px 10px;
     box-shadow: 0 0.063rem 0.25rem rgba(0, 0, 0, 0.15);
     &--title {
       color: $col-primary;
@@ -17,5 +17,8 @@
         cursor: pointer;
       }
     }
+  }
+  &__trimester {
+    margin: 0 20px;
   }
 }

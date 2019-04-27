@@ -1,45 +1,35 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
 const PatientService = require('../services/patient.service');
-const PregnancyService = require('../services/pregnancy.service');
-const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/PregnancyDetails.viewModel');
+const values = require('../constants/values.constants');
+const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
 
 const getAll = async (req, res) => {
-  const patientList = await PatientService.getAll();
-  res.json({ data: patientList });
+  let { page, pageSize } = req.query;
+
+  page = page || values.DEFAULT_PAGE;
+  pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
+
+  const patientList = await PatientService.getAll(page, pageSize);
+  res.json(new PageViewModel(patientList.rows, patientList.count, page, pageSize));
 };
 
 const getById = async (req, res) => {
   const { patientId } = req.params;
 
   if (!patientId) {
-    throw new errors.BadRequestError();
+    throw new Errors.BadRequestError();
   }
 
   const patient = await PatientService.getById(patientId);
 
   if (!patient) {
-    throw new errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
+    throw new Errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
   }
 
   res.json(patient);
 };
 
-const getPregnancyDetails = async (req, res) => {
-  const { patientId, pregnancyNumber } = req.params;
-
-  const pregnancy = await PregnancyService.getDetails(patientId, pregnancyNumber);
-
-  if (!pregnancy) {
-    throw new errors.NotFoundError('Detalji o trudnoći nisu pronađeni.');
-  }
-
-  const model = new PregnancyDetailsViewModel(pregnancy);
-
-  res.json(model);
-};
-
 module.exports = {
   getAll,
   getById,
-  getPregnancyDetails
 };

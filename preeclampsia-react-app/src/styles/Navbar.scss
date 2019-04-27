@@ -1,0 +1,25 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+nav {
+  .nav-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .material-icons {
+      margin-right: 5px;
+    }
+  }
+
+  &.navbar.navbar-default {
+    background-image: linear-gradient(to bottom, $col-primary 0, $col-primary 100%) !important;
+    background-color: $col-light-blue-04;
+    a {
+      color: $col-white;
+
+      &:hover, &:active {
+        color: $col-light-blue-01;
+      }
+    }
+  }
+}

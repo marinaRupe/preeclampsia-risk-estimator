@@ -7,6 +7,11 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    MBO: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+    },
     firstName: {
       type: Sequelize.STRING,
     },
@@ -17,15 +22,6 @@ module.exports = (sequelize) => {
       type: Sequelize.DATEONLY,
     },
     racialOrigin: {
-      type: Sequelize.STRING,
-    },
-    email: {
-      type: Sequelize.STRING,
-    },
-    phoneNumber: {
-      type: Sequelize.STRING,
-    },
-    address: {
       type: Sequelize.STRING,
     },
   });

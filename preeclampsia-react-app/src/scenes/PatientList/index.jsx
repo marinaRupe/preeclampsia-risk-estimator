@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import * as patientActions from '../../redux/actions/patient.actions';
+import ReactTable from 'react-table';
+import { reactTableConstants } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
+import * as patientActions from '../../redux/actions/patient.actions';
+import { formatDate } from '../../utils/dateTime.utils';
+import AddPatientModal from './content/AddPatientModal';
 
 class PatientList extends Component {
   constructor(props) {
@@ -15,12 +19,14 @@ class PatientList extends Component {
     };
   }
 
-  componentDidMount() {
+  fetchData = (state, instance) => {
+    const { page, pageSize } = state;
+
     this.setState({
       isLoading: true,
     }, async () => {
       const { fetchPatientList } = this.props;
-      await fetchPatientList();
+      await fetchPatientList(page + 1, pageSize);
 
       this.setState({
         isLoading: false,
@@ -36,30 +42,47 @@ class PatientList extends Component {
     this.setState({ addPatientModalIsOpen: false });
   }
 
-  render() {
-    const { patients }  = this.props;
-    const { isLoading } = this.state;
+  getColumns = () => {
+    return [
+      {
+        Header: 'MBO',
+        accessor: 'MBO'
+      },
+      {
+        Header: 'Ime',
+        accessor: 'firstName',
+        Cell: props => (
+          <span>
+            <Link to={APP.PATIENT.DETAILS(props.original.id)}>
+              {props.value}
+            </Link>
+          </span>
+        )
+      },
+      {
+        Header: 'Prezime',
+        accessor: 'lastName',
+        Cell: props => <span>{props.value}</span>
+      },
+      {
+        Header: 'Datum unosa',
+        accessor: 'createdAt',
+        Cell: props => <span>{formatDate(props.value)}</span>
+      },
+    ];
+  }
 
-    if (isLoading) {
-      return (
-        <div className='page'>
-          <div className='patient-list__header mb-10'>
-            <h1>Lista pacijenata</h1>
-          </div>
-          
-          <div className='ml-20'>
-            <div className='ml-10'>
-              <h4>Učitavanje podataka...</h4>
-              {/* add spinner */}
-            </div>
-          </div>
-        </div>
-      );
-    }
+  render() {
+    const { patients, totalPages }  = this.props;
+    const { isLoading, addPatientModalIsOpen } = this.state;
 
     return (
       <div className='page'>
-        <div className='patient-list__header mb-10'>
+        <AddPatientModal
+          show={addPatientModalIsOpen}
+          handleClose={this.closeAddPatientModal}
+        />
+        <div className='page__header mb-10'>
           <h1>Lista pacijenata</h1>
           <Button
             bsStyle='primary'
@@ -71,19 +94,16 @@ class PatientList extends Component {
 
         <div className='ml-20'>
           <div className='ml-10'>
-            {patients.map((p, index) => (
-              <div className='patient-list__item' key={p.id}>
-                <span>
-                  <span>{index + 1}. </span>
-                  <Link to={APP.PATIENT.DETAILS(p.id)}>
-                    {p.firstName} {p.lastName}
-                  </Link>
-                </span>
-              </div>
-            ))}
+            <ReactTable
+              loading={isLoading}
+              data={patients}
+              pages={totalPages}
+              columns={this.getColumns()}
+              onFetchData={this.fetchData}
+              {...reactTableConstants}
+            />
           </div>
         </div>
-        
       </div>
     );
   }
@@ -92,6 +112,7 @@ class PatientList extends Component {
 const mapStateToProps = ({ patients }) => {
   return {
     patients: patients.list.data,
+    totalPages: patients.list.totalPages,
   };
 };
 

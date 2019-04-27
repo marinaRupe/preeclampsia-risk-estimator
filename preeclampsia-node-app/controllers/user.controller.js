@@ -1,22 +1,95 @@
-const errors = require('restify-errors');
+const Errors = require('restify-errors');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const values = require('../constants/values.constants');
 const UserService = require('../services/user.service');
-const settings = require('../constants/constraints.constants');
-const UserLoginViewModel = require('../dataTransferObjects/viewModels/userLogin.viewModel');
+const UserValidator = require('../validators/user.validator');
+const UserLoginViewModel = require('../dataTransferObjects/viewModels/User/UserLogin.viewModel');
+const UserViewModel = require('../dataTransferObjects/viewModels/User/User.viewModel');
+const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
+const getAll = async (req, res) => {
+  let { page, pageSize } = req.query;
 
-  if (!email.match(settings.EMAIL_REGEX)) {
-    throw new errors.BadRequestError({
-      info: {
-        email: 'Email is invalid.',
-      },
-    });
+  page = page || values.DEFAULT_PAGE;
+  pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
+
+  const userList = await UserService.getAll(page, pageSize);
+  const users = userList.rows.map(user => new UserViewModel(user));
+  res.json(new PageViewModel(users, userList.count, page, pageSize));
+};
+
+const login = async (req, res, next) => {
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      if (err) {
+        throw new Errors.InternalError(err.message || 'An Error Occured');
+      }
+
+      if (!user) {
+        throw new Errors.UnauthorizedError(info.message);
+      }
+
+      req.login(user, { session : false }, async (error) => {
+        if (error) throw new Errors.InternalError(error.message || 'An Error Occured');
+        
+        const body = { id: user.id, email: user.email };
+        const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
+
+        return res.json(new UserLoginViewModel(user, token));
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
+};
+
+const register = async (req, res, next) => {
+  passport.authenticate('signup', async (err, user) => {
+    try {
+      if (err || !user) {
+        throw new Errors.InternalError(err && err.message || 'An Error Occured');
+      }
+
+      req.login(user, { session : false }, async (error) => {
+        if (error) throw new Errors.InternalError(error.message || 'An Error Occured');
+        
+        const body = { id: user.id, email: user.email };
+        const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
+
+        return res.json(new UserLoginViewModel(user, token));
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
+};
+
+const createUser = async (req, res) => {
+  const userData = req.body;
+
+  if (!userData) {
+    throw new Errors.BadRequestError('User data is required');
   }
 
-  res.json();
+  const { isValid, errors } = await UserValidator.isValidUser(userData);
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const user = await UserService.createUser(userData);
+
+  if (!user) {
+    throw new Errors.InternalServerError('Could not create new user');
+  }
+
+  res.json(new UserViewModel(user));
 };
 
 module.exports = {
+  getAll,
   login,
+  register,
+  createUser,
 };

@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as riskActions from '../../redux/actions/risk.actions';
+import Spinner from '../../components/Spinner';
 
 class PregnancyDetails extends Component {
   constructor(props) {
@@ -13,16 +14,33 @@ class PregnancyDetails extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      isLoading: true,
+    }, async () => {
+      const {
+        match: { params: { patientId, pregnancyNumber } },
+      } = this.props;
+
+      this.setState({
+        isLoading: false,
+      });
+    });
+  }
+
   generatePDF = async () => {
     const {
       generatePDFReport,
-      match: { params: { patientId, pregnancyNumber }
-      }, } = this.props;
+      match: { params: { patientId } },
+      patient
+    } = this.props;
 
-    await generatePDFReport(patientId, pregnancyNumber);
+    await generatePDFReport(patientId, patient);
   }
 
   render() {
+    const { isLoading } = this.state;
+
     return (
       <div className='page'>
         <h1>Izvješće o riziku</h1>
@@ -32,6 +50,11 @@ class PregnancyDetails extends Component {
         </div>
 
         <br />
+
+        {
+          isLoading &&
+          <div className='align-horizontal--center'><Spinner /></div>
+        }
 
         <div>
           <Button

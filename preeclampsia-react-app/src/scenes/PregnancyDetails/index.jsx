@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import history from '../../history';
 import { APP } from '../../constants/routes';
-import * as patientActions from '../../redux/actions/patient.actions';
-import MaternalCharacteristics from './components/MaternalCharacteristics';
-import MedicalHistory from './components/MedicalHistory';
-import BiophysicalMeasurements from './components/BiophysicalMeasurements';
-import BiochemicalMeasurements from './components/BiochemicalMeasurements';
+import * as pregnancyActions from '../../redux/actions/pregnancy.actions';
+import Spinner from '../../components/Spinner';
+import TrimesterDetails from './components/TrimesterDetails';
 import BasicInfo from './components/BasicInfo';
 
 class PregnancyDetails extends Component {
@@ -47,15 +45,16 @@ class PregnancyDetails extends Component {
   }
 
   render() {
-    const { pregnancy } = this.props;
+    const { pregnancyDetails } = this.props;
     const { isLoading } = this.state;
 
-    if (isLoading || !pregnancy) {
+    if (isLoading || !pregnancyDetails) {
       return (
         <div className='page'>
           <h1>Detalji o trudnoći</h1>
-          <h4>Učitavanje podataka...</h4>
-          {/* add spinner */}
+          <div className='align-horizontal--center'>
+            <Spinner />
+          </div>
         </div>
       );
     }
@@ -65,11 +64,11 @@ class PregnancyDetails extends Component {
         <h1>Detalji o trudnoći</h1>
       
         <div>
-          <BasicInfo pregnancy={pregnancy} />
-          <MaternalCharacteristics pregnancy={pregnancy} />
-          <MedicalHistory pregnancy={pregnancy} />
-          <BiophysicalMeasurements pregnancy={pregnancy} />
-          <BiochemicalMeasurements pregnancy={pregnancy} />
+          <BasicInfo pregnancy={pregnancyDetails} />
+
+          <h2>Trimestri</h2>
+
+          <TrimesterDetails pregnancyId={pregnancyDetails.id} trimesterNumber={1} />
 
           <Button
             bsStyle='primary'
@@ -83,14 +82,15 @@ class PregnancyDetails extends Component {
   }
 }
 
-const mapStateToProps = ({ patients }) => {
+const mapStateToProps = ({ pregnancy }) => {
   return {
-    pregnancy: patients.pregnancyDetails,
+    pregnancyDetails: pregnancy.details,
+    trimesters: pregnancy.trimesters,
   };
 };
 
 const mapDispatchToProps = {
-  fetchPregnancyDetails: patientActions.fetchPatientPregnancyDetails,
+  fetchPregnancyDetails: pregnancyActions.fetchPatientPregnancyDetails,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PregnancyDetails));

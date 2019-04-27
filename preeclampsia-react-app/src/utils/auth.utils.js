@@ -1,13 +1,15 @@
-import history from '../history';
-import { APP } from '../constants/routes';
 import * as values from '../constants/values';
 
-export const getToken = () => (localStorage.getItem(values.TOKEN));
+export const getLoginDataFromLocalStorage = () => ({
+  user: localStorage.getItem(values.USER),
+  token: localStorage.getItem(values.TOKEN)
+});
 
-export const setToken = (token) => {
+export const addLoginDataToLocalStorage = (user, token) => {
+  localStorage.setItem(values.USER, user);
   localStorage.setItem(values.TOKEN, token);
 };
 
-export const deleteToken = () => {
+export const removeLoginDataFromLocalStorage = () => {
   localStorage.removeItem(values.TOKEN);
 };

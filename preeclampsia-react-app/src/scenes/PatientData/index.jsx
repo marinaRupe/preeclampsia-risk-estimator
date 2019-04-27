@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { APP } from '../../constants/routes';
 import { formatDate } from '../../utils/dateTime.utils';
+import Spinner from '../../components/Spinner';
 
 class PatientData extends Component {
   constructor(props) {
@@ -52,8 +53,9 @@ class PatientData extends Component {
             <h1>Podaci o pacijentu</h1>
           </div>
           <div className='patient-details__content ml-20'>
-            <h4>Učitavanje podataka...</h4>
-            {/* add spinner */}
+            <div className='align-horizontal--center'>
+              <Spinner />
+            </div>
           </div>
         </div>
       );

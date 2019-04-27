@@ -1,0 +1,32 @@
+@import 'styles/Colors.scss';
+@import 'styles/Constants.scss';
+
+.app-modal {
+  .modal-header {
+    border-radius: 5px 5px 0 0;
+    background-color: $col-light-blue-04;
+    color: $col-white;
+
+    button {
+      color: $col-white;
+      opacity: 0.8;
+      font-weight: normal;
+      font-size: 26px;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    button {
+      margin: 15px 5px 0 5px;
+    }
+  }
+}

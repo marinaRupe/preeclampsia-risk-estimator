@@ -3,11 +3,11 @@ import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
   displayDateMeasured,
+  displayBooleanMeasurementValue,
   displayNumericalMeasurementValue,
-  exists,
-} from '../../../../utils/measurement.utils';
+} from '../../../../../utils/measurement.utils';
 
-class BiophysicalMeasurements extends Component {
+class MaternalCharacteristics extends Component {
   constructor(props) {
     super(props);
 
@@ -31,8 +31,9 @@ class BiophysicalMeasurements extends Component {
   render() {
     const { isEditModeOn } = this.state;
     const {
-      pregnancy: {
+      trimesterData: {
         numericalMeasurements,
+        booleanMeasurements,
       } } = this.props;
 
     return (
@@ -40,57 +41,68 @@ class BiophysicalMeasurements extends Component {
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Biokemijska mjerenja</span>
+              <span>Podaci o pacijentici</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
               }
             </h4>
           </Row>
-
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Serum PLGF:</label>
+              <label>Visina:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPLGFMoM, 'MoM')}
+                    {displayNumericalMeasurementValue(numericalMeasurements.Height, 'cm')}
                   </span>
                 </div>
               </div>
-              {
-                exists(numericalMeasurements.SerumPLGFMoM) &&
-                <div className='measurement__date'>
-                  <span>Datum mjerenja: </span>
-                  <span>{displayDateMeasured(numericalMeasurements.SerumPLGFMoM)}</span>
-                </div>
-              }
+              <div className='measurement__date'>
+                <span>Datum mjerenja:</span>
+                <span>{displayDateMeasured(numericalMeasurements.Height)}</span>
+              </div>
             </Col>
           </Row>
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Serum PAPP-A:</label>
+              <label>Težina:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPAPPAMoM, 'Mom')}
+                    {displayNumericalMeasurementValue(numericalMeasurements.Weight, 'kg')}
                   </span>
                 </div>
               </div>
-              {
-                exists(numericalMeasurements.SerumPAPPAMoM) &&
-                <div className='measurement__date'>
-                  <span>Datum mjerenja: </span>
-                  <span>{displayDateMeasured(numericalMeasurements.SerumPAPPAMoM)}</span>
-                </div>
-              }
+              <div className='measurement__date'>
+                <span>Datum mjerenja: </span>
+                <span>{displayDateMeasured(numericalMeasurements.Weight)}</span>
+              </div>
             </Col>
           </Row>
+
+          <hr />
+
+          <Row className='measurement'>
+            <Col sm={3}>
+              <label>Pušenje za vrijeme trudnoće:</label>
+            </Col>
+            <Col sm={8}>
+              <div className='measurement__info'>
+                <div className='details'>
+                  <span className='value'>
+                    {displayBooleanMeasurementValue(booleanMeasurements.SmokingDuringPregnancy)}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
           {
             isEditModeOn &&
             <div>
@@ -114,4 +126,4 @@ class BiophysicalMeasurements extends Component {
   }
 }
 
-export default BiophysicalMeasurements;
+export default MaternalCharacteristics;
