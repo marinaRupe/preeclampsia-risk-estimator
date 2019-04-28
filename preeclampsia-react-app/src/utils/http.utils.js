@@ -15,20 +15,21 @@ export const GET = (url, options = {}) => {
   );
 };
 
-export const POST = (url, body, options = {}) => {
+export const POST = (url, body = {}, options = {}) => {
   return axios.post(
     url,
+    body,
     {
       headers: { Authorization: `Bearer ${getToken()}` },
-      body: JSON.stringify(body),
       ...options,
     },
   );
 };
 
-export const PUT = (url, body, options = {}) => {
+export const PUT = (url, body = {}, options = {}) => {
   return axios.put(
     url,
+    body,
     {
       headers: { Authorization: `Bearer ${getToken()}` },
       body: JSON.stringify(body),

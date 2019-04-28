@@ -14,8 +14,10 @@ const getAll = async (
     offset: (page - 1) * pageSize,
     limit: pageSize,
     order: [
-      getSortColumnName(sortColumn, userListSortColumnNames),
-      getSortDirection(sortDirection, sortDirections.DESC),
+      [
+        getSortColumnName(sortColumn, userListSortColumnNames),
+        getSortDirection(sortDirection, sortDirections.DESC),
+      ],
     ],
   })
 );

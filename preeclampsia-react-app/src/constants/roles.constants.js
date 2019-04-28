@@ -4,4 +4,4 @@ const UserRoles = {
   Standard: 'standard', // SSS/VŠS
 };
 
-module.exports = UserRoles;
+export default UserRoles;

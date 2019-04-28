@@ -1,11 +1,12 @@
 import { ACTION_STATUS } from '../../enums/responseStatus.enums';
-import { API } from '../../constants/routes';
+import { APP, API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
 import {
   addLoginDataToLocalStorage,
   removeLoginDataFromLocalStorage,
 } from '../../utils/auth.utils';
 import * as httpCalls from '../../utils/http.utils';
+import history from '../../history';
 import * as actionCreators from '../actionCreators/user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {
@@ -18,9 +19,14 @@ export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection
   return actionWrapper(action);
 }
 
-export function loginUser() {
+export function loginUser(userData) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.USERS.LOGIN);
+    const body = {
+      email: userData.email,
+      password: userData.password,
+    };
+
+    const resp = await httpCalls.POST(API.USERS.LOGIN(), body);
     if (resp.status === 200) {
       const { user, token } = resp.data;
       addLoginDataToLocalStorage(user, token);
@@ -34,6 +40,7 @@ export function logoutUser() {
   const action = async (dispatch) => {
     removeLoginDataFromLocalStorage();
     await dispatch(actionCreators.logoutUser({ status: ACTION_STATUS.SUCCESS }));
+    window.location.reload();
   };
   return actionWrapper(action);
 }

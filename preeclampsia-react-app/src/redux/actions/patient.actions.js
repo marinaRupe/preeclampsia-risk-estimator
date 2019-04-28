@@ -23,3 +23,11 @@ export function fetchPatient(patientId) {
   };
   return actionWrapper(action);
 }
+
+export function createPatient(patientData) {
+  const action = async (dispatch) => {
+    const resp = await httpCalls.POST(API.PATIENTS.ROOT, patientData);
+    
+  };
+  return actionWrapper(action);
+}

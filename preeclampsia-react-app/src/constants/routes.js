@@ -7,14 +7,16 @@ const pagingQueryString = (page = 1, pageSize, sortColumn = '', sortDirection = 
 
 export const API = {
   USERS: {
+    ROOT: `${API_URL}/users`,
     GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
-      `${API_URL}/users/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
-    LOGIN: `${API_URL}/users/login`,
+      `${API.USERS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    LOGIN: () => `${API.USERS.ROOT}/login`,
   },
   PATIENTS: {
+    ROOT: `${API_URL}/patients`,
     GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
-      `${API_URL}/patients/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
-    GET_BY_ID: patientId => `${API_URL}/patients/${patientId}`,
+      `${API.PATIENTS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    GET_BY_ID: patientId => `${API.PATIENTS.ROOT}/${patientId}`,
   },
   PREGNANCIES: {
     GET_PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>

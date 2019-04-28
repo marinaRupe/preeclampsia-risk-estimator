@@ -45,6 +45,11 @@ class PatientList extends Component {
     this.setState({ addPatientModalIsOpen: false });
   }
 
+  addPatient = async (patientData) => {
+    const { createPatient } = this.props;
+    await createPatient(patientData);
+  };
+
   getColumns = () => {
     return [
       {
@@ -84,6 +89,7 @@ class PatientList extends Component {
         <AddPatientModal
           show={addPatientModalIsOpen}
           handleClose={this.closeAddPatientModal}
+          onSubmit={this.addPatient}
         />
         <div className='page__header mb-10'>
           <h1>Lista pacijenata</h1>
@@ -121,6 +127,7 @@ const mapStateToProps = ({ patients }) => {
 
 const mapDispatchToProps = {
   fetchPatientList: patientActions.fetchPatientList,
+  createPatient: patientActions.createPatient,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientList);
