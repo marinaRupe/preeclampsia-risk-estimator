@@ -5,7 +5,6 @@
 ### Installing packages
 ```
 npm install
-
 ```
 
 ### Setting up environment variables
@@ -14,7 +13,6 @@ Make sure there is ```.env``` file in the root directory. The example for fillin
 ### Populating the db
 ```
 npm run populate-db
-
 ```
 
 ### Running project
@@ -24,13 +22,11 @@ npm run populate-db
 1. Run Node project script:
 ```
 npm run nstart
-
 ```
 
 2. Run React project script:
 ```
 npm run rstart
-
 ```
 
-3. App should be available on http://localhost:3000
+3. App should be available at http://localhost:3000
