@@ -29,7 +29,37 @@ const getById = async (patientId) => await db.Patient.findOne({
   include: [{ model: db.Pregnancy, as: 'pregnancies' }]
 });
 
+const createPatient = async (patientData) => {
+  const {
+    firstName,
+    lastName,
+    MBO,
+    birthDate,
+    racialOrigin,
+  } = patientData;
+
+  const patient = await db.Patient.create({
+    firstName,
+    lastName,
+    MBO,
+    birthDate,
+    racialOrigin,
+  });
+
+  return patient;
+};
+
+const existsPatientWithMBO = async (MBO) => {
+  const patient = await db.Patient.findOne({
+    where: { MBO }
+  });
+
+  return !!patient;
+};
+
 module.exports = {
   getAll,
-  getById
+  getById,
+  createPatient,
+  existsPatientWithMBO,
 };

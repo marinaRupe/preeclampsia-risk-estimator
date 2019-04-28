@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reactTableConstants, sortDirections } from '../../constants/reactTable.constants';
+import { reset } from 'redux-form';
+import {
+  reactTableConstants,
+  sortDirections,
+  defaultPageSize,
+} from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
+import { ADD_PATIENT_FORM } from '../../redux/forms';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
 import AddPatientModal from './content/AddPatientModal';
@@ -16,6 +22,10 @@ class PatientList extends Component {
     this.state = {
       isLoading: false,
       addPatientModalIsOpen: false,
+      page: 1,
+      pageSize: defaultPageSize,
+      sortColumn: '',
+      sortDirection: '',
     };
   }
 
@@ -26,15 +36,35 @@ class PatientList extends Component {
     const sortDirection = sorted[0] && (sorted[0].desc ? sortDirections.DESC : sortDirections.ASC);
 
     this.setState({
+      page: page + 1,
+      pageSize,
+      sortColumn,
+      sortDirection,
+    }, this.updateTable);
+  }
+
+  updateTable = () => {
+    const { page, pageSize, sortColumn, sortDirection } = this.state;
+
+    this.setState({
       isLoading: true,
     }, async () => {
       const { fetchPatientList } = this.props;
-      await fetchPatientList(page + 1, pageSize, sortColumn, sortDirection, sortDirection);
+      await fetchPatientList(page, pageSize, sortColumn, sortDirection);
 
       this.setState({
         isLoading: false,
       });
     });
+  }
+
+  refreshTable = () => {
+    this.setState({
+      page: 1,
+      pageSize: defaultPageSize,
+      sortColumn: '',
+      sortDirection: '',
+    }, this.updateTable);
   }
 
   openAddPatientModal = () => {
@@ -43,11 +73,15 @@ class PatientList extends Component {
 
   closeAddPatientModal = () => {
     this.setState({ addPatientModalIsOpen: false });
+    const { resetAddPatientForm  } = this.props;
+    resetAddPatientForm();
   }
 
   addPatient = async (patientData) => {
     const { createPatient } = this.props;
     await createPatient(patientData);
+    this.closeAddPatientModal();
+    this.refreshTable();
   };
 
   getColumns = () => {
@@ -128,6 +162,7 @@ const mapStateToProps = ({ patients }) => {
 const mapDispatchToProps = {
   fetchPatientList: patientActions.fetchPatientList,
   createPatient: patientActions.createPatient,
+  resetAddPatientForm: reset.bind(null, ADD_PATIENT_FORM),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientList);

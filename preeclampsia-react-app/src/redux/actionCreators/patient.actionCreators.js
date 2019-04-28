@@ -15,3 +15,11 @@ export const fetchPatientDetails = ({ status, data }) => {
     type: types.FETCH_PATIENT_DETAILS,
   };
 };
+
+export const addPatient = ({ status, data }) => {
+  return {
+    data,
+    status,
+    type: types.ADD_PATIENT,
+  };
+};

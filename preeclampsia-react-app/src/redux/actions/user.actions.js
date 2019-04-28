@@ -1,12 +1,11 @@
 import { ACTION_STATUS } from '../../enums/responseStatus.enums';
-import { APP, API } from '../../constants/routes';
+import { API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
 import {
   addLoginDataToLocalStorage,
   removeLoginDataFromLocalStorage,
 } from '../../utils/auth.utils';
 import * as httpCalls from '../../utils/http.utils';
-import history from '../../history';
 import * as actionCreators from '../actionCreators/user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {
@@ -33,7 +32,7 @@ export function loginUser(userData) {
       await dispatch(actionCreators.loginUser({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
   };
-  return actionWrapper(action);
+  return actionWrapper(action, true);
 }
 
 export function logoutUser() {
@@ -43,4 +42,14 @@ export function logoutUser() {
     window.location.reload();
   };
   return actionWrapper(action);
+}
+
+export function createUser(userData) {
+  const action = async (dispatch) => {
+    const resp = await httpCalls.POST(API.USERS.ROOT, userData);
+    if (resp.status === 200) {
+      await dispatch(actionCreators.addUser({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+    }
+  };
+  return actionWrapper(action, true);
 }

@@ -13,7 +13,7 @@ import UserList from './scenes/UserList';
 import Home from './scenes/Home';
 import NavigationBar from './components/NavigationBar';
 import { APP } from './constants/routes';
-import UserRoles from './constants/roles.constants';
+import { userRoles } from './constants/roles.constants';
 import history from './history';
 import './styles/App.css';
 
@@ -52,7 +52,7 @@ class App extends Component {
             <PrivateRoute
               path={APP.USERS}
               component={UserList}
-              allowedRoles={[UserRoles.Admin]}
+              allowedRoles={[userRoles.Admin.value]}
             />
 
             <Route path='*' component={Error404} />

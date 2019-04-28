@@ -8,6 +8,14 @@ export const fetchUsers = ({ status, data }) => {
   };
 };
 
+export const addUser = ({ status, data }) => {
+  return {
+    data,
+    status,
+    type: types.ADD_USER,
+  };
+};
+
 export const loginUser = ({ status, data }) => {
   return {
     data,

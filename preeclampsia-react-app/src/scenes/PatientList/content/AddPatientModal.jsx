@@ -31,7 +31,7 @@ class AddPatientModal extends Component {
                   Odustani
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Spremi promjene
+                  Dodaj pacijenta
                 </Button>
               </Modal.Footer>
             }
@@ -41,7 +41,6 @@ class AddPatientModal extends Component {
     );
   }
 }
-
 
 export default connect()(reduxForm({
   form: ADD_PATIENT_FORM,

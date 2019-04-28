@@ -1,8 +1,8 @@
 import * as values from '../constants/values';
-import UserRoles from '../constants/roles.constants';
+import { userRolesList } from '../constants/roles.constants';
 
 export const getAllRoles = () => {
-  return Object.values(UserRoles);
+  return userRolesList;
 };
 
 export const isRoleAllowed = (allowedRoles) => {
@@ -31,7 +31,7 @@ export const removeLoginDataFromLocalStorage = () => {
 };
 
 export const withPermission = (
-  component, notPermittedDisplay = null, loginRequired = true, allowedRoles = getAllRoles()
+  component, notPermittedDisplay = null, loginRequired = true, allowedRoles = userRolesList
 ) => {
   if (!loginRequired) {
     return component;

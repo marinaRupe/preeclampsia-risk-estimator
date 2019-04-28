@@ -4,7 +4,7 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { APP } from '../../constants/routes';
 import { withPermission, isUserLoggedIn } from '../../utils/auth.utils';
 import * as userActions from '../../redux/actions/user.actions';
-import UserRoles from '../../constants/roles.constants';
+import { userRoles } from '../../constants/roles.constants';
 
 class NavigationBar extends Component {
   render() {
@@ -40,7 +40,7 @@ class NavigationBar extends Component {
               <NavItem eventKey={3} href={APP.USERS}>
                 Lista korisnika
               </NavItem>
-            ), null, true, [UserRoles.Admin])
+            ), null, true, [userRoles.Admin.value])
           }
           {
             !isUserLoggedIn() &&

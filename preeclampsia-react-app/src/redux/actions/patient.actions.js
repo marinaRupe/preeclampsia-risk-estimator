@@ -27,7 +27,9 @@ export function fetchPatient(patientId) {
 export function createPatient(patientData) {
   const action = async (dispatch) => {
     const resp = await httpCalls.POST(API.PATIENTS.ROOT, patientData);
-    
+    if (resp.status === 200) {
+      await dispatch(actionCreators.addPatient({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+    }
   };
-  return actionWrapper(action);
+  return actionWrapper(action, true);
 }

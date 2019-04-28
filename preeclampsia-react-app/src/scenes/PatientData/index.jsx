@@ -90,21 +90,6 @@ class PatientData extends Component {
           </div>
 
           <div className='info-group'>
-            <label>Adresa: </label>
-            <div>{patient.address}</div>
-          </div>
-
-          <div className='info-group'>
-            <label>Telefon: </label>
-            <div>{patient.phoneNumber}</div>
-          </div>
-
-          <div className='info-group'>
-            <label>Email: </label>
-            <div>{patient.email}</div>
-          </div>
-
-          <div className='info-group'>
             <label>Etnička skupina: </label>
             <div>{patient.racialOrigin}</div>
           </div>
