@@ -108,6 +108,10 @@ a {
       display: flex;
       justify-content: center;
     }
+    &--right {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
 
