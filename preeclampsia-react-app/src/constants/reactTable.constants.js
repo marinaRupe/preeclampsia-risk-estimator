@@ -6,6 +6,11 @@ export const defaultPageSize = 25;
 
 export const minRows = 5;
 
+export const sortDirections = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
+
 export const reactTableConstants = {
   manual: true,
   pageSizeOptions,

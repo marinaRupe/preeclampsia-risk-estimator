@@ -1,29 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = (props) => {
+const Select = (props) => {
   const {
-    type,
-    placeholder = '',
     required = false,
     disabled = false,
+    meta: { touched, error },
+    children,
     className = '',
-    meta: { touched = false, error = '' }
   } = props;
 
   const inputProps = props.input || {};
   const hasError = touched && error && (error.length > 0);
 
   return (
-    <div className={className}>
-      <input
-        type={type}
-        placeholder={placeholder}
+    <div className={`redux-form__select ${disabled ? 'disabled' : ''} ${className}`}>
+      <select
+        className='w-100'
         required={required}
         disabled={disabled}
-        className={`redux-form__input ${hasError ? 'error' : ''}`}
         {...inputProps}
-      />
+      >
+        {children}
+      </select>
       {hasError &&
         <div className='redux-form__error--field'>
           {error.map((e, index) => <div key={index}>{e}</div>)}
@@ -33,9 +32,7 @@ const Input = (props) => {
   );
 };
 
-Input.propTypes = {
-  type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
+Select.propTypes = {
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
@@ -43,7 +40,8 @@ Input.propTypes = {
     touched: PropTypes.bool,
     error: PropTypes.array
   }),
-  input: PropTypes.object
+  input: PropTypes.object,
+  children: PropTypes.array.isRequired
 };
 
-export default Input;
+export default Select;

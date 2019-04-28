@@ -2,16 +2,21 @@ const API_VERSION = 'v1.0';
 
 export const API_URL = `/api/${API_VERSION}`;
 
-const pagingQueryString = (page, pageSize) => `page=${page}&pageSize=${pageSize}`;
+const pagingQueryString = (page = 1, pageSize, sortColumn = '', sortDirection = '') =>
+  `page=${page}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortDirection=${sortDirection}`;
 
 export const API = {
   USERS: {
-    GET_ALL: (page, pageSize) => `${API_URL}/users/?${pagingQueryString(page, pageSize)}`,
-    LOGIN: `${API_URL}/users/login`,
+    ROOT: `${API_URL}/users`,
+    GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
+      `${API.USERS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    LOGIN: () => `${API.USERS.ROOT}/login`,
   },
   PATIENTS: {
-    GET_ALL: (page, pageSize) => `${API_URL}/patients/?${pagingQueryString(page, pageSize)}`,
-    GET_BY_ID: patientId => `${API_URL}/patients/${patientId}`,
+    ROOT: `${API_URL}/patients`,
+    GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
+      `${API.PATIENTS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    GET_BY_ID: patientId => `${API.PATIENTS.ROOT}/${patientId}`,
   },
   PREGNANCIES: {
     GET_PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>

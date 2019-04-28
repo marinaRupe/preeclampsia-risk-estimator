@@ -13,6 +13,7 @@ import UserList from './scenes/UserList';
 import Home from './scenes/Home';
 import NavigationBar from './components/NavigationBar';
 import { APP } from './constants/routes';
+import { userRoles } from './constants/roles.constants';
 import history from './history';
 import './styles/App.css';
 
@@ -24,16 +25,35 @@ class App extends Component {
           <NavigationBar />
           <Switch>
             <Route exact path={APP.AUTH.LOGIN} component={Login} />
-            <Route exact path={APP.AUTH.REGISTER} component={Register} />
             <Route exact path={APP.NOT_FOUND_ERROR} component={Error404} />
             
             <Route exact path={APP.ROOT} component={Home}/>
-            <Route path={APP.RISK_ESTIMATE()} component={RiskEstimate} />
-            <Route path={APP.PATIENT.PREGNANCY_DETAILS()} component={PregnancyDetails} />
-            <Route path={APP.PATIENT.DETAILS()} component={PatientData} />
-            <Route path={APP.PATIENTS} component={PatientList} />
-            <Route path={APP.STATISTICS} component={Statistics} />
-            <Route path={APP.USERS} component={UserList} />
+
+            <PrivateRoute
+              path={APP.RISK_ESTIMATE()}
+              component={RiskEstimate}
+            />
+            <PrivateRoute
+              path={APP.PATIENT.PREGNANCY_DETAILS()}
+              component={PregnancyDetails}
+            />
+            <PrivateRoute
+              path={APP.PATIENT.DETAILS()}
+              component={PatientData}
+            />
+            <PrivateRoute
+              path={APP.PATIENTS}
+              component={PatientList}
+            />
+            <PrivateRoute
+              path={APP.STATISTICS}
+              component={Statistics}
+            />
+            <PrivateRoute
+              path={APP.USERS}
+              component={UserList}
+              allowedRoles={[userRoles.Admin.value]}
+            />
 
             <Route path='*' component={Error404} />
           </Switch>

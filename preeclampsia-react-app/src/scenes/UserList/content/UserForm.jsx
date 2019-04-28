@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Input from '../../../components/Inputs/Input';
 import Select from '../../../components/Inputs/Select';
-import { RacialOriginTypes } from '../../../constants/patient.constants';
+import { userRoles } from '../../../constants/roles.constants';
 import { generateOptions } from '../../../utils/form.utils';
 
-class PatientForm extends Component {
+class UserForm extends Component {
   render() {
     const {
       onSubmit,
@@ -14,7 +14,7 @@ class PatientForm extends Component {
       buttons,
     } = this.props;
 
-    const racialOriginTypes = generateOptions(Object.values(RacialOriginTypes), 'key', 'hr', 'hr', true, 'Odaberi');
+    const userRolesOptions = generateOptions(Object.values(userRoles), 'key', 'value', 'hr', true, 'Odaberi');
 
     return (
       <form className='redux-form' onSubmit={onSubmit}>
@@ -53,12 +53,12 @@ class PatientForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                MBO
+                E-mail
                 <span className='required'>*</span>
               </label>
               <Field
-                name='MBO'
-                placeholder='Unesi MBO'
+                name='email'
+                placeholder='Unesi E-mail'
                 component={Input}
                 type='text'
                 disabled={disabled.MBO}
@@ -68,15 +68,15 @@ class PatientForm extends Component {
 
             <div className='w-50'>
               <label className='redux-form__label'>
-                Datum rođenja
+                Uloga
                 <span className='required'>*</span>
               </label>
               <Field
-                name='birthDate'
-                placeholder='Unesi datum rođenja'
-                component={Input}
-                type='date'
-                disabled={disabled.birthDate}
+                name='role'
+                component={Select}
+                disabled={disabled.role}
+                children={userRolesOptions}
+                className='mr-20'
               />
             </div>
           </div>
@@ -84,14 +84,30 @@ class PatientForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                Etnička skupina
+                Lozinka
                 <span className='required'>*</span>
               </label>
               <Field
-                name='racialOrigin'
-                component={Select}
-                disabled={disabled.racialOrigin}
-                children={racialOriginTypes}
+                name='password'
+                placeholder='Unesi lozinku'
+                component={Input}
+                type='password'
+                disabled={disabled.password}
+                className='mr-20'
+              />
+            </div>
+
+            <div className='w-50'>
+              <label className='redux-form__label'>
+                Ponovljena lozinka
+                <span className='required'>*</span>
+              </label>
+              <Field
+                name='repeatedPassword'
+                placeholder='Ponovi lozinku'
+                component={Input}
+                type='password'
+                disabled={disabled.repeatedPassword}
                 className='mr-20'
               />
             </div>
@@ -107,4 +123,4 @@ class PatientForm extends Component {
   }
 }
 
-export default PatientForm;
+export default UserForm;

@@ -1,13 +1,13 @@
 const { db } = require('../models');
 
-const getDetails = async (patientId, pregnancyNumber) => await db.Pregnancy.find({
+const getDetails = async (patientId, pregnancyNumber) => await db.Pregnancy.findOne({
   where: {
     patientId,
     pregnancyNumber
   },
 });
 
-const getPregnancyTrimesterDetails = async (pregnancyId, trimesterNumber = 1) => await db.PregnancyTrimester.find({
+const getPregnancyTrimesterDetails = async (pregnancyId, trimesterNumber = 1) => await db.PregnancyTrimester.findOne({
   where: {
     pregnancyId,
     trimesterNumber

@@ -1,12 +1,12 @@
-import axios from 'axios';
 import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 import { API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
+import * as httpCalls from '../../utils/http.utils';
 import * as actionCreators from '../actionCreators/risk.actionCreators';
 
 export function generatePDFReport(patientId, trimesterId) {
   const action = async (dispatch) => {
-    const resp = await axios.get(
+    const resp = await httpCalls.GET(
       API.RISK.GENERATE_PDF_REPORT(patientId, trimesterId),
       {
         responseType: 'blob'

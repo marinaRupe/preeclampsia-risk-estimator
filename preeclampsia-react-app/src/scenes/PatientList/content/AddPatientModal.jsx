@@ -17,7 +17,7 @@ class AddPatientModal extends Component {
     const { show, handleSubmit, error } = this.props;
 
     return (
-      <Modal show={show} onHide={this.handleCloseModal} centered dialogClassName='app-modal'>
+      <Modal show={show} onHide={this.handleCloseModal} centered='true' dialogClassName='app-modal'>
         <Modal.Header closeButton>
           <Modal.Title>Dodavanje pacijenta</Modal.Title>
         </Modal.Header>
@@ -30,8 +30,8 @@ class AddPatientModal extends Component {
                 <Button bsStyle='default' onClick={this.handleCloseModal}>
                   Odustani
                 </Button>
-                <Button bsStyle='primary' type='submit' onClick={this.handleCloseModal}>
-                  Spremi promjene
+                <Button bsStyle='primary' type='submit'>
+                  Dodaj pacijenta
                 </Button>
               </Modal.Footer>
             }
@@ -41,7 +41,6 @@ class AddPatientModal extends Component {
     );
   }
 }
-
 
 export default connect()(reduxForm({
   form: ADD_PATIENT_FORM,

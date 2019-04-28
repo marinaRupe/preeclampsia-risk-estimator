@@ -1,4 +1,4 @@
-const RacialOriginTypes = {
+export const RacialOriginTypes = {
   White: {
     key: 1,
     en: 'White',
@@ -24,17 +24,4 @@ const RacialOriginTypes = {
     en: 'Mixed',
     hr: 'Miješana',
   },
-};
-
-const patientListSortColumnNames = {
-  MBO: 'MBO',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  createdAt: 'createdAt',
-  default: 'createdAt',
-};
-
-module.exports = {
-  RacialOriginTypes,
-  patientListSortColumnNames,
 };

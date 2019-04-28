@@ -2,6 +2,12 @@
 @import 'styles/Constants.scss';
 
 nav {
+  .navbar-header {
+    min-width: fit-content;
+    display: flex;
+    align-items: center;
+  }
+
   .nav-logo {
     display: flex;
     flex-direction: row;
@@ -14,11 +20,61 @@ nav {
   &.navbar.navbar-default {
     background-image: linear-gradient(to bottom, $col-primary 0, $col-primary 100%) !important;
     background-color: $col-light-blue-04;
+    .container {
+      display: flex;
+      max-width: 100vw;
+    }
     a {
       color: $col-white;
-
-      &:hover, &:active {
+      &:hover, &:active, &:focus {
         color: $col-light-blue-01;
+      }
+    }
+  }
+
+  ul.nav.navbar-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown {
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+    }
+    &.open {
+      color: $col-white;
+      .dropdown-toggle {
+        color: $col-white;
+        background-color: $col-light-blue-03;
+        background-image: unset;
+        background-repeat: unset;
+        &:focus, &:hover {
+          color: $col-white;
+          background-color: $col-light-blue-03;
+          background-image: unset;
+          background-repeat: unset;
+        }
+        .carret {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  ul[role="menu"] {
+    li[role="presentation"] {
+      &:hover {
+        background-color: $col-light-blue-02;
+      }
+      a[role="menuitem"] {
+        color: $col-primary;
+        font-weight: bold;
+        &:hover, &:focus {
+          background-image: none;
+          background-color: transparent;
+          color: $col-white;
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ export default function rootReducer(asyncReducers) {
     patients: patientReducer,
     pregnancy: pregnancyReducer,
     users: userReducer,
-    forms: formReducer,
+    form: formReducer,
     ...asyncReducers,
   });
 }
