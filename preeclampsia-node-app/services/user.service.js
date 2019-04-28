@@ -1,8 +1,23 @@
 const values = require('../constants/values.constants');
+const { userListSortColumnNames } = require('../constants/user.constants');
+const { sortDirections } = require('../constants/query.constants');
+const { getSortColumnName, getSortDirection } = require('../utils/query.utils');
 const { db } = require('../models');
 
-const getAll = async (page = values.DEFAULT_PAGE, pageSize = values.DEFAULT_PAGE_SIZE) => (
-  await db.User.findAndCountAll({ offset: (page - 1) * pageSize, limit: pageSize })
+const getAll = async (
+  page = values.DEFAULT_PAGE,
+  pageSize = values.DEFAULT_PAGE_SIZE,
+  sortColumn,
+  sortDirection,
+) => (
+  await db.User.findAndCountAll({
+    offset: (page - 1) * pageSize,
+    limit: pageSize,
+    order: [
+      getSortColumnName(sortColumn, userListSortColumnNames),
+      getSortDirection(sortDirection, sortDirections.DESC),
+    ],
+  })
 );
 
 const getById = async (id) => {

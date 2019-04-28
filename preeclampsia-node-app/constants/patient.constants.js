@@ -26,6 +26,15 @@ const RacialOriginTypes = {
   },
 };
 
+const patientListSortColumnNames = {
+  MBO: 'MBO',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  createdAt: 'createdAt',
+  default: 'createdAt',
+};
+
 module.exports = {
   RacialOriginTypes,
+  patientListSortColumnNames,
 };

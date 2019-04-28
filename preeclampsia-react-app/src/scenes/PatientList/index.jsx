@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reactTableConstants } from '../../constants/reactTable.constants';
+import { reactTableConstants, sortDirections } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
@@ -20,13 +20,16 @@ class PatientList extends Component {
   }
 
   fetchData = (state, instance) => {
-    const { page, pageSize } = state;
+    const { page, pageSize, sorted } = state;
+
+    const sortColumn = sorted[0] && sorted[0].id;
+    const sortDirection = sorted[0] && (sorted[0].desc ? sortDirections.DESC : sortDirections.ASC);
 
     this.setState({
       isLoading: true,
     }, async () => {
       const { fetchPatientList } = this.props;
-      await fetchPatientList(page + 1, pageSize);
+      await fetchPatientList(page + 1, pageSize, sortColumn, sortDirection, sortDirection);
 
       this.setState({
         isLoading: false,

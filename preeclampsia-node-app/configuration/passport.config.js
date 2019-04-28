@@ -14,7 +14,7 @@ const configure = (app) => {
   }, async (email, password, done) => {
     try {
       // Find the user associated with the email provided by the user
-      const user = await db.User.find({ where: { email }});
+      const user = await db.User.findOne({ where: { email }});
       if (!user) {
         return done(null, false, { message : 'User not found'});
       }
@@ -62,7 +62,7 @@ const configure = (app) => {
   // Authentication
   passport.use(new JWTstrategy({
     secretOrKey : process.env.JWT_SECRET,
-    jwtFromRequest : ExtractJWT.fromUrlQueryParameter('token'),
+    jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken(),
     passReqToCallback : true,
   }, async (req, token, done) => {
     try {

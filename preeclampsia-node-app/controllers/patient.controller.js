@@ -5,11 +5,12 @@ const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.vie
 
 const getAll = async (req, res) => {
   let { page, pageSize } = req.query;
+  const { sortColumn, sortDirection } = req.query;
 
   page = page || values.DEFAULT_PAGE;
   pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
 
-  const patientList = await PatientService.getAll(page, pageSize);
+  const patientList = await PatientService.getAll(page, pageSize, sortColumn, sortDirection);
   res.json(new PageViewModel(patientList.rows, patientList.count, page, pageSize));
 };
 

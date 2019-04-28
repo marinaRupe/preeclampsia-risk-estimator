@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reactTableConstants } from '../../constants/reactTable.constants';
+import { reactTableConstants, sortDirections } from '../../constants/reactTable.constants';
 import * as userActions from '../../redux/actions/user.actions';
 import { formatDate } from '../../utils/dateTime.utils';
 
@@ -17,13 +17,16 @@ class UserList extends Component {
   }
 
   fetchData = (state, instance) => {
-    const { page, pageSize } = state;
+    const { page, pageSize, sorted } = state;
+
+    const sortColumn = sorted[0] && sorted[0].id;
+    const sortDirection = sorted[0] && (sorted[0].desc ? sortDirections.DESC : sortDirections.ASC);
 
     this.setState({
       isLoading: true,
     }, async () => {
       const { fetchUserList } = this.props;
-      await fetchUserList(page + 1, pageSize);
+      await fetchUserList(page + 1, pageSize, sortColumn, sortDirection);
 
       this.setState({
         isLoading: false,
