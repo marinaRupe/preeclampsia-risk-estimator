@@ -52,7 +52,7 @@ class NavigationBar extends Component {
 
         {
           isUserLoggedIn() &&
-          <Nav className='w-20'>
+          <Nav className='w-20 align-horizontal--center'>
             <NavDropdown eventKey={11} title={<i className='material-icons'>person</i>} id='basic-nav-dropdown'>
               <MenuItem eventKey='11.1'>
                 <div onClick={logoutUser}>Odjava</div>
