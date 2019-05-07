@@ -2,7 +2,7 @@
 @import 'styles/Constants.scss';
 
 .ReactTable {
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.15), 0 1px 4px 0 rgba(0,0,0,0.1);
+  box-shadow: $val-box-shadow;
 
   .rt-table {
     .rt-thead {
@@ -46,7 +46,7 @@
         &:not([disabled]) {
           background-color: $col-light-blue-03;
           color: $col-white;
-          box-shadow: 0 1px 2px 0 rgba(0,0,0,0.15), 0 1px 4px 0 rgba(0,0,0,0.1);
+          box-shadow: $val-box-shadow;
 
           &:hover {
             background-color: $col-light-blue-04;
@@ -58,8 +58,58 @@
           color: $col-gray-05;
         }
       }
-      .-center {
+    }
+  }
+}
 
+.table-view {
+  display: flex;
+  flex-direction: row;
+  &--table {
+    width: 100%
+  }
+  &--details {
+    width: 0;
+  }
+  &.row-selected {
+    .table-view--table {
+      width: 60%
+    }
+    .table-view--details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 40%;
+      margin-left: 10px;
+      box-shadow: $val-box-shadow;
+      padding: 20px;
+      position: relative;
+      &__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        .material-icons {
+          cursor: pointer;
+        }
+      }
+      &__footer {
+        display: flex;
+      }
+    }
+  }
+  
+}
+
+.react-table {
+  &__row {
+    cursor: pointer;
+    &.is-active {
+      font-weight: $val-fontWeightBold;
+      color: $col-white;
+      background-color: $col-light-blue-02;
+      a {
+        color: $col-white;
       }
     }
   }

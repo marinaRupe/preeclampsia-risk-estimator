@@ -9,10 +9,12 @@ import {
   defaultPageSize,
 } from '../../constants/reactTable.constants';
 import { userRoles } from '../../constants/roles.constants';
-import { ADD_USER_FORM } from '../../redux/forms';
+import { ADD_USER_FORM, EDIT_USER_FORM } from '../../redux/forms';
 import * as userActions from '../../redux/actions/user.actions';
 import { formatDate } from '../../utils/dateTime.utils';
 import AddUserModal from './content/AddUserModal';
+import EditUserModal from './content/EditUserModal';
+import UserSidebar from './content/UserSidebar';
 
 class UserList extends Component {
   constructor(props) {
@@ -21,6 +23,8 @@ class UserList extends Component {
     this.state = {
       isLoading: false,
       addUserModalIsOpen: false,
+      editUserModalIsOpen: false,
+      selectedUser: null,
       page: 1,
       pageSize: defaultPageSize,
       sortColumn: '',
@@ -76,10 +80,39 @@ class UserList extends Component {
     resetAddUserForm();
   }
 
+  openEditUserModal = (selectedUser) => {
+    this.setState({ editUserModalIsOpen: true });
+  }
+
+  closeEditUserModal = () => {
+    this.setState({ editUserModalIsOpen: false });
+    const { resetEditUserForm  } = this.props;
+    resetEditUserForm();
+  }
+
+  selectUser = (selectedUser) => {
+    this.setState({ selectedUser });
+  }
+
+  unselectUser = () => {
+    this.setState({ selectedUser: null });
+  }
+
+  isRowSelected = (rowData) => {
+    const { selectedUser } = this.state;
+    return selectedUser && selectedUser.id === rowData.id;
+  }
+
   addUser = async (userData) => {
     const { createUser } = this.props;
     await createUser(userData);
     this.closeAddUserModal();
+    this.refreshTable();
+  };
+
+  editUser = async (userData) => {
+    // TODO: save user
+    this.closeEditUserModal();
     this.refreshTable();
   };
 
@@ -120,7 +153,12 @@ class UserList extends Component {
   }
 
   render() {
-    const { isLoading, addUserModalIsOpen } = this.state;
+    const {
+      isLoading,
+      addUserModalIsOpen,
+      editUserModalIsOpen,
+      selectedUser,
+    } = this.state;
     const { users, totalPages } = this.props;
 
     return (
@@ -129,6 +167,12 @@ class UserList extends Component {
           show={addUserModalIsOpen}
           handleClose={this.closeAddUserModal}
           onSubmit={this.addUser}
+        />
+        <EditUserModal
+          show={editUserModalIsOpen}
+          handleClose={this.closeEditUserModal}
+          onSubmit={this.editUser}
+          initialValues={selectedUser}
         />
         <div className='patient-list__header mb-10'>
           <h1>Lista korisnika</h1>
@@ -140,17 +184,36 @@ class UserList extends Component {
           </Button>
         </div>
 
-        <div className='ml-20'>
-          <div className='ml-10'>
-            <ReactTable
-              loading={isLoading}
-              data={users}
-              pages={totalPages}
-              columns={this.getColumns()}
-              onFetchData={this.fetchData}
-              {...reactTableConstants}
-            />
+        <div className={`ml-20 table-view ${selectedUser ? 'row-selected' : ''}`}>
+          <div className='table-view--table'>
+            <div className='ml-10'>
+              <ReactTable
+                loading={isLoading}
+                data={users}
+                pages={totalPages}
+                columns={this.getColumns()}
+                onFetchData={this.fetchData}
+                {...reactTableConstants}
+                getTrProps={(state, rowInfo) => {
+                  if (!rowInfo) {
+                    return {};
+                  }
+                  return {
+                    onClick: this.selectUser.bind(null, rowInfo.original),
+                    className:`react-table__row ${this.isRowSelected(rowInfo.original) ? 'is-active' : ''}`
+                  };
+                }}
+              />
+            </div>
           </div>
+          {
+            selectedUser &&
+            <UserSidebar
+              user={selectedUser}
+              closeSidebar={this.unselectUser}
+              openEditUserModal={this.openEditUserModal}
+            />
+          }
         </div>
       </div>
     );
@@ -168,6 +231,7 @@ const mapDispatchToProps = {
   fetchUserList: userActions.fetchUserList,
   createUser: userActions.createUser,
   resetAddUserForm: reset.bind(null, ADD_USER_FORM),
+  resetEditUserForm: reset.bind(null, EDIT_USER_FORM),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

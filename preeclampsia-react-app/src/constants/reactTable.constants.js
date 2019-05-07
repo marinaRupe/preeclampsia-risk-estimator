@@ -2,7 +2,7 @@ import LoadingComponent from '../components/LoadingComponent';
 
 export const pageSizeOptions = [5, 10, 25, 50, 75, 100];
 
-export const defaultPageSize = 25;
+export const defaultPageSize = 10;
 
 export const minRows = 5;
 
