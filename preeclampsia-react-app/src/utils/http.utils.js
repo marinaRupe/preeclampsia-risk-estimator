@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getLoginDataFromLocalStorage } from './auth.utils';
+import { getLanguage } from './translation.utils';
 
 const getToken = () => {
   return getLoginDataFromLocalStorage().token;
@@ -9,7 +10,10 @@ export const GET = (url, options = {}) => {
   return axios.get(
     url,
     {
-      headers: { Authorization: `Bearer ${getToken()}` },
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Accept-Language': getLanguage(),
+      },
       ...options,
     },
   );
@@ -20,7 +24,10 @@ export const POST = (url, body = {}, options = {}) => {
     url,
     body,
     {
-      headers: { Authorization: `Bearer ${getToken()}` },
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Accept-Language': getLanguage(),
+      },
       ...options,
     },
   );
@@ -31,7 +38,10 @@ export const PUT = (url, body = {}, options = {}) => {
     url,
     body,
     {
-      headers: { Authorization: `Bearer ${getToken()}` },
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Accept-Language': getLanguage(),
+      },
       body: JSON.stringify(body),
       ...options,
     },
@@ -42,7 +52,10 @@ export const DELETE = (url, options = {}) => {
   return axios.delete(
     url,
     {
-      headers: { Authorization: `Bearer ${getToken()}` },
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Accept-Language': getLanguage(),
+      },
       ...options,
     },
   );

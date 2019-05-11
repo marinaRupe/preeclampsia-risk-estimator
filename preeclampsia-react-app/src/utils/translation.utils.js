@@ -37,6 +37,10 @@ class Translator {
     return measurement[this.language];
   }
 
+  getLanguage() {
+    return this.language;
+  }
+
   setLanguage(language) {
     this.language = language;
     localStorage.setItem(values.LANGUAGE, language);
@@ -54,4 +58,6 @@ export const getCharacteristicTranslation = (characteristic) => {
 export const getMeasurementTranslation = (measurement) => {
   return new Translator().getMeasurementTranslation(measurement);
 };
+
+export const getLanguage = () => new Translator().getLanguage();
 

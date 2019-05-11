@@ -1,6 +1,7 @@
 const Errors = require('restify-errors');
 const PatientService = require('../services/patient.service');
 const values = require('../constants/values.constants');
+const { translations } = require('../constants/translations.constants');
 const PatientValidator = require('../validators/patient.validator');
 const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
 
@@ -17,6 +18,7 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
   const { patientId } = req.params;
+  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
 
   if (!patientId) {
     throw new Errors.BadRequestError();
@@ -25,7 +27,7 @@ const getById = async (req, res) => {
   const patient = await PatientService.getByIdWithPregnancies(patientId);
 
   if (!patient) {
-    throw new Errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
+    throw new Errors.NotFoundError(translations[language].response.notFound.patient);
   }
 
   res.json(patient);
@@ -33,12 +35,15 @@ const getById = async (req, res) => {
 
 const createPatient = async (req, res) => {
   const patientData = req.body;
+  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
 
   if (!patientData) {
-    throw new Errors.BadRequestError('Patient data is required');
+    throw new Errors.BadRequestError(translations[language].patient.validation.dataRequired);
   }
 
-  const { isValid, errors } = await PatientValidator.isValidPatient(patientData);
+  const { isValid, errors } = (
+    await PatientValidator.isValidPatient(patientData, translations[language].patient.validation)
+  );
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
@@ -47,7 +52,7 @@ const createPatient = async (req, res) => {
   const patient = await PatientService.createPatient(patientData);
 
   if (!patient) {
-    throw new Errors.InternalServerError('Could not create new patient');
+    throw new Errors.InternalServerError(translations[language].response.error.patient.create);
   }
 
   res.json(patient);
@@ -56,16 +61,19 @@ const createPatient = async (req, res) => {
 const updatePatient = async (req, res) => {
   const { patientId } = req.params;
   const patientData = req.body;
+  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
 
   if (!patientData) {
-    throw new Errors.BadRequestError('Patient data is required');
+    throw new Errors.BadRequestError(translations[language].patient.validation.dataRequired);
   }
 
   if (!PatientService.existsPatientWithId(patientId)) {
-    throw new Errors.NotFoundError('Patient does not exist ');
+    throw new Errors.NotFoundError(translations[language].response.notFound.patient);
   }
 
-  const { isValid, errors } = await PatientValidator.isValidPatient(patientData);
+  const { isValid, errors } = (
+    await PatientValidator.isValidPatient(patientData, translations[language].patient.validation)
+  );
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
@@ -74,7 +82,7 @@ const updatePatient = async (req, res) => {
   const patient = await PatientService.updatePatient(patientId, patientData);
 
   if (!patient) {
-    throw new Errors.InternalServerError('Could not update patient');
+    throw new Errors.InternalServerError(translations[language].response.error.patient.update);
   }
 
   res.json(patient);
@@ -82,18 +90,19 @@ const updatePatient = async (req, res) => {
 
 const deletePatient = async (req, res) => {
   const { patientId } = req.params;
+  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
 
   if (!PatientService.existsPatientWithId(patientId)) {
-    throw new Errors.NotFoundError('Patient does not exist ');
+    throw new Errors.NotFoundError(translations[language].response.notFound.patient);
   }
 
   const patient = await PatientService.removePatient(patientId);
 
   if (!patient) {
-    throw new Errors.InternalServerError('Could not delete patient');
+    throw new Errors.InternalServerError(translations[language].response.error.patient.delete);
   }
 
-  res.status(200).send('Patient is successfully deleted');
+  res.status(200).send(translations[language].response.success.patient.delete);
 };
 
 module.exports = {

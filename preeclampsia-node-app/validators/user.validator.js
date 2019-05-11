@@ -3,7 +3,7 @@ const UserRoles = require('../constants/roles.constants');
 const UserService = require('../services/user.service');
 const { addToArray } = require('../utils/array.utils');
 
-const isValidUser = async (user, editMode = false) => {
+const isValidUser = async (user, translations, editMode = false) => {
   const {
     email,
     firstName,
@@ -16,47 +16,46 @@ const isValidUser = async (user, editMode = false) => {
   const errors = {};
 
   if (!firstName) {
-    errors.firstName = addToArray(errors.firstName, 'First name is required');
+    errors.firstName = addToArray(errors.firstName, translations.firstNameRequired);
   }
 
   if (!lastName) {
-    errors.lastName = addToArray(errors.lastName, 'Last name is required');
+    errors.lastName = addToArray(errors.lastName, translations.lastNameRequired);
   }
 
   if (!role) {
-    errors.role = addToArray(errors.role, 'Role is required');
+    errors.role = addToArray(errors.role, translations.roleRequired);
   } else {
     const roleExists = Object.values(UserRoles).includes(role);
     if (!roleExists) {
-      errors.role = addToArray(errors.role, 'Role does not exist');
+      errors.role = addToArray(errors.role, translations.roleNotExist);
     }
   }
 
   if (!editMode) {
     if (!email) {
-      errors.email = addToArray(errors.email, 'Email is required');
+      errors.email = addToArray(errors.email, translations.emailRequired);
     } else {
       if (!email.match(constraints.EMAIL_REGEX)) {
-        errors.email = addToArray(errors.email, 'Email is invalid');
+        errors.email = addToArray(errors.email, translations.emailInvalid);
       } else if (await UserService.existsEmail(email)) {
-        errors.email = addToArray(errors.email, 'User with this email already exists');
+        errors.email = addToArray(errors.email, translations.userWithEmailExist);
       }
     }
 
     if (!password) {
-      errors.password = addToArray(errors.password, 'Password is required');
+      errors.password = addToArray(errors.password, translations.passwordRequired);
     } else {
       if (password.length < constraints.MIN_PASSWORD_LENGTH) {
-        errors.password = addToArray(errors.password,
-          `Minimum password length is ${constraints.MIN_PASSWORD_LENGTH} characters`);
+        errors.password = addToArray(errors.password, translations.minPasswordLength(constraints.MIN_PASSWORD_LENGTH));
       }
     }
 
     if (!repeatedPassword) {
-      errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Repeated password is required');
+      errors.repeatedPassword = addToArray(errors.repeatedPassword, translations.repeatedPasswordRequired);
     } else {
       if (repeatedPassword !== password) {
-        errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Passwords do not match');
+        errors.repeatedPassword = addToArray(errors.repeatedPassword, translations.passwordsNotMatch);
       }
     }
   }
@@ -68,7 +67,7 @@ const isValidUser = async (user, editMode = false) => {
   };
 };
 
-const isValidUserPassword = async (userData) => {
+const isValidUserPassword = async (userData, translations) => {
   const {
     password,
     repeatedPassword,
@@ -77,19 +76,18 @@ const isValidUserPassword = async (userData) => {
   const errors = {};
 
   if (!password) {
-    errors.password = addToArray(errors.password, 'Password is required');
+    errors.password = addToArray(errors.password, translations.passwordRequired);
   } else {
     if (password.length < constraints.MIN_PASSWORD_LENGTH) {
-      errors.password = addToArray(errors.password,
-        `Minimum password length is ${constraints.MIN_PASSWORD_LENGTH} characters`);
+      errors.password = addToArray(errors.password, translations.minPasswordLength(constraints.MIN_PASSWORD_LENGTH));
     }
   }
 
   if (!repeatedPassword) {
-    errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Repeated password is required');
+    errors.repeatedPassword = addToArray(errors.repeatedPassword, translations.repeatedPasswordRequired);
   } else {
     if (repeatedPassword !== password) {
-      errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Passwords do not match');
+      errors.repeatedPassword = addToArray(errors.repeatedPassword, translations.passwordsNotMatch);
     }
   }
 
