@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getTranslations } from '../../../../../utils/translation.utils';
+import { Characteristics } from '../../../../../constants/characteristics.constants';
+import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
 import {
   displayNumericalMeasurementValue,
 } from '../../../../../utils/measurement.utils';
@@ -51,7 +52,9 @@ class BiophysicalMeasurements extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Srednji arterijski tlak:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.MeanArterialPressure)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -66,7 +69,9 @@ class BiophysicalMeasurements extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Srednji PI maternične arterije:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.MeanUterineArteryPI)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -85,13 +90,13 @@ class BiophysicalMeasurements extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

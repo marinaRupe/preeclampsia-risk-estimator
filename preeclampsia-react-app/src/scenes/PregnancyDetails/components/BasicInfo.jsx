@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { formatDate } from '../../../utils/dateTime.utils';
-import { getTranslations } from '../../../utils/translation.utils';
+import { getTranslations, getCharacteristicTranslation } from '../../../utils/translation.utils';
+import { Characteristics } from '../../../constants/characteristics.constants';
 import {
   displayBooleanValue,
 } from '../../../utils/measurement.utils';
@@ -112,7 +113,9 @@ class BasicInfo extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Vrsta trudnoće:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.PregnancyType)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getTranslations } from '../../../../../utils/translation.utils';
+import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
+import { Characteristics } from '../../../../../constants/characteristics.constants';
 import {
   displayBooleanMeasurementValue,
   displayEnumMeasurementValue,
@@ -53,10 +54,12 @@ class MedicalHistory extends Component {
           </Row>
 
           {
-            booleanMeasurements.Hypertension &&
+            booleanMeasurements.HypertensionType &&
             <Row className='measurement'>
               <Col sm={3}>
-                <label>Hipertenzija:</label>
+                <label>
+                  {getCharacteristicTranslation(Characteristics.HypertensionType)}:
+                </label>
               </Col>
               <Col sm={8}>
                 <div className='measurement__info'>
@@ -71,10 +74,12 @@ class MedicalHistory extends Component {
           }
 
           {
-            enumMeasurements.Diabetes &&
+            enumMeasurements.DiabetesType &&
             <Row className='measurement'>
               <Col sm={3}>
-                <label>Dijabetes:</label>
+                <label>
+                  {getCharacteristicTranslation(Characteristics.DiabetesType)}:
+                </label>
               </Col>
               <Col sm={8}>
                 <div className='measurement__info'>
@@ -90,7 +95,9 @@ class MedicalHistory extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Sistemski eritemski lupus:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.SystemicLupusErythematosus)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -105,7 +112,9 @@ class MedicalHistory extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Antifosfolipidni sindrom:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.AntiPhospholipidSyndrome)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -140,13 +149,13 @@ class MedicalHistory extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

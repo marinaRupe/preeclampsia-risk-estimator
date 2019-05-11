@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getTranslations } from '../../../../../utils/translation.utils';
+import { Characteristics } from '../../../../../constants/characteristics.constants';
+import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
 import {
   displayNumericalMeasurementValue,
 } from '../../../../../utils/measurement.utils';
-import translations from '../../../../../assets/translations';
 
 class BiophysicalMeasurements extends Component {
   constructor(props) {
@@ -52,7 +52,9 @@ class BiophysicalMeasurements extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Serum PLGF:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.SerumPLGF)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -67,7 +69,9 @@ class BiophysicalMeasurements extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Serum PAPP-A:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.SerumPAPPA)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -86,13 +90,13 @@ class BiophysicalMeasurements extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

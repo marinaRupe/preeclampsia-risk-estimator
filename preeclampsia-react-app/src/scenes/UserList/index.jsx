@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import { getTranslations } from '../../utils/translation.utils';
 import {
-  reactTableConstants,
+  getReactTableConstants,
   sortDirections,
   defaultPageSize,
 } from '../../constants/reactTable.constants';
@@ -216,7 +216,7 @@ class UserList extends Component {
                 pages={totalPages}
                 columns={this.getColumns()}
                 onFetchData={this.fetchData}
-                {...reactTableConstants}
+                {...getReactTableConstants()}
                 getTrProps={(state, rowInfo) => {
                   if (!rowInfo) {
                     return {};

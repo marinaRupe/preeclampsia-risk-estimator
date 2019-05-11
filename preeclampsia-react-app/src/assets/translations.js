@@ -96,9 +96,21 @@ export const translations = {
     logout: {
       title: 'Odjava',
     },
+    table: {
+      previousText: 'Prethodna',
+      nextText: 'Sljedeća',
+      loadingText: 'Učitavanje...',
+      noDataText: 'Nema pronađenih podataka',
+      pageText: 'Stranica',
+      ofText: 'od',
+      rowsText: 'redaka',
+    },
     word: {
       pregnancy: 'Trudnoća',
       trimester: 'tromjesečje',
+      yes: 'DA',
+      no: 'NE',
+      unknown: 'nepoznato',
     }
   },
 
@@ -199,9 +211,21 @@ export const translations = {
     logout: {
       title: 'Logout',
     },
+    table: {
+      previousText: 'Previous',
+      nextText: 'Next',
+      loadingText: 'Loading...',
+      noDataText: 'No rows found',
+      pageText: 'Page',
+      ofText: 'of',
+      rowsText: 'rows',
+    },
     word: {
       pregnancy: 'Pregnancy',
       trimester: 'Trimester',
+      yes: 'YES',
+      no: 'NO',
+      unknown: 'unknown',
     }
   },
 };

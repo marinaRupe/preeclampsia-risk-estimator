@@ -29,15 +29,29 @@ class Translator {
     return translations[this.language];
   }
 
+  getCharacteristicTranslation(characteristic) {
+    return characteristic[this.language].display;
+  }
+
+  getMeasurementTranslation(measurement) {
+    return measurement[this.language];
+  }
+
   setLanguage(language) {
     this.language = language;
     localStorage.setItem(values.LANGUAGE, language);
   }
 }
 
-export default Translator;
-
 export const getTranslations = (language) => {
   return new Translator(language).getTranslations();
+};
+
+export const getCharacteristicTranslation = (characteristic) => {
+  return new Translator().getCharacteristicTranslation(characteristic);
+};
+
+export const getMeasurementTranslation = (measurement) => {
+  return new Translator().getMeasurementTranslation(measurement);
 };
 

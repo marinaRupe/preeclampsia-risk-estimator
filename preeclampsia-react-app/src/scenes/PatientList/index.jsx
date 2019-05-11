@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import {
-  reactTableConstants,
+  getReactTableConstants,
   sortDirections,
   defaultPageSize,
 } from '../../constants/reactTable.constants';
@@ -212,7 +212,7 @@ class PatientList extends Component {
               pages={totalPages}
               columns={this.getColumns()}
               onFetchData={this.fetchData}
-              {...reactTableConstants}
+              {...getReactTableConstants()}
               getTrProps={(state, rowInfo) => {
                 if (!rowInfo) {
                   return {};

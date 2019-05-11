@@ -134,13 +134,13 @@ class BasicInfo extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getTranslations } from '../../../../../utils/translation.utils';
+import { Characteristics } from '../../../../../constants/characteristics.constants';
+import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
 import {
   displayDateMeasured,
   displayBooleanMeasurementValue,
@@ -53,7 +54,9 @@ class MaternalCharacteristics extends Component {
           </Row>
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Visina:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.Height)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -63,16 +66,12 @@ class MaternalCharacteristics extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja:</span>
-                <span>{displayDateMeasured(numericalMeasurements.Height)}</span>
-              </div>
             </Col>
           </Row>
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Težina:</label>
+              <label>{getCharacteristicTranslation(Characteristics.Weight)}:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -82,10 +81,6 @@ class MaternalCharacteristics extends Component {
                   </span>
                 </div>
               </div>
-              <div className='measurement__date'>
-                <span>Datum mjerenja: </span>
-                <span>{displayDateMeasured(numericalMeasurements.Weight)}</span>
-              </div>
             </Col>
           </Row>
 
@@ -93,7 +88,9 @@ class MaternalCharacteristics extends Component {
 
           <Row className='measurement'>
             <Col sm={3}>
-              <label>Pušenje za vrijeme trudnoće:</label>
+              <label>
+                {getCharacteristicTranslation(Characteristics.SmokingDuringPregnancy)}:
+              </label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
@@ -113,13 +110,13 @@ class MaternalCharacteristics extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }
