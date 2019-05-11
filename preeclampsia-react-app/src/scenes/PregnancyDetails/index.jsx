@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import history from '../../history';
 import { APP } from '../../constants/routes';
 import * as pregnancyActions from '../../redux/actions/pregnancy.actions';
+import { getTranslations } from '../../utils/translation.utils';
 import Spinner from '../../components/Spinner';
 import TrimesterDetails from './components/TrimesterDetails';
 import BasicInfo from './components/BasicInfo';
@@ -48,10 +49,12 @@ class PregnancyDetails extends Component {
     const { pregnancyDetails } = this.props;
     const { isLoading } = this.state;
 
+    const translations = getTranslations();
+
     if (isLoading || !pregnancyDetails) {
       return (
         <div className='page'>
-          <h1>Detalji o trudnoći</h1>
+          <h1>{translations.pregnancy.detailsTitle}</h1>
           <div className='align-horizontal--center'>
             <Spinner />
           </div>
@@ -61,12 +64,12 @@ class PregnancyDetails extends Component {
 
     return (
       <div className='page'>
-        <h1>Detalji o trudnoći</h1>
+        <h1>{translations.pregnancy.detailsTitle}</h1>
       
         <div>
           <BasicInfo pregnancy={pregnancyDetails} />
 
-          <h2>Trimestri</h2>
+          <h2>{translations.pregnancy.trimestersTitle}</h2>
 
           <TrimesterDetails pregnancyId={pregnancyDetails.id} trimesterNumber={1} />
 
@@ -74,7 +77,7 @@ class PregnancyDetails extends Component {
             bsStyle='primary'
             onClick={this.calculateRisk}
           >
-            Izračunaj rizik
+            {translations.risk.calculateRisk}
           </Button>
         </div>
       </div>

@@ -11,6 +11,7 @@ import {
 import { APP } from '../../constants/routes';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
+import { getTranslations } from '../../utils/translation.utils';
 import AddPatientModal from './content/AddPatientModal';
 import EditPatientModal from './content/EditPatientModal';
 import PatientSidebar from './content/PatientSidebar';
@@ -130,10 +131,12 @@ class PatientList extends Component {
   };
 
   getColumns = () => {
+    const translations = getTranslations();
+
     return [
       {
         Header: 'MBO',
-        accessor: 'MBO',
+        accessor: translations.patient.property.MBO,
         Cell: props => (
           <span>
             <Link to={APP.PATIENT.DETAILS(props.original.id)}>
@@ -143,17 +146,17 @@ class PatientList extends Component {
         )
       },
       {
-        Header: 'Ime',
+        Header: translations.patient.property.firstName,
         accessor: 'firstName',
         Cell: props => <span>{props.value}</span>
       },
       {
-        Header: 'Prezime',
+        Header: translations.patient.property.lastName,
         accessor: 'lastName',
         Cell: props => <span>{props.value}</span>
       },
       {
-        Header: 'Datum unosa',
+        Header: translations.patient.property.createdAt,
         accessor: 'createdAt',
         Cell: props => <span>{formatDate(props.value)}</span>
       },
@@ -169,6 +172,8 @@ class PatientList extends Component {
       deletePatientModalIsOpen,
       selectedPatient
     } = this.state;
+
+    const translations = getTranslations();
 
     return (
       <div className='page'>
@@ -190,12 +195,12 @@ class PatientList extends Component {
           handleClose={this.closeDeletePatientModal}
         />
         <div className='page__header mb-10'>
-          <h1>Lista pacijenata</h1>
+          <h1>{translations.patient.listTitle}</h1>
           <Button
             bsStyle='primary'
             onClick={this.openAddPatientModal}
           >
-            Dodaj pacijenta
+            {translations.patient.action.add}
           </Button>
         </div>
 

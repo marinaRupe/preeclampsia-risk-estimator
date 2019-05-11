@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { formatDate } from '../../../../../utils/dateTime.utils';
+import { getTranslations } from '../../../../../utils/translation.utils';
 import {
   displayEnumMeasurementValue,
   displayBooleanValue,
@@ -47,12 +48,14 @@ class BasicInfo extends Component {
         numericalMeasurements,
       } } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Osnovni podaci</span>
+              <span>{translations.pregnancy.trimestersBasicDetails}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>

@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit } from 'redux-form';
 import { EDIT_USER_PASSWORD_FORM } from '../../../../redux/forms';
 import UserPasswordForm from './UserPasswordForm';
+import { getTranslations } from '../../../../utils/translation.utils';
 
 class EditUserPasswordModal extends Component {
   handleCloseModal = async () => {
@@ -16,10 +17,12 @@ class EditUserPasswordModal extends Component {
   render() {
     const { show, handleSubmit, error } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal show={show} onHide={this.handleCloseModal} centered='true' dialogClassName='app-modal'>
         <Modal.Header closeButton>
-          <Modal.Title>Promjena lozinke</Modal.Title>
+          <Modal.Title>{translations.user.modal.editPasswordTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <UserPasswordForm
@@ -28,10 +31,10 @@ class EditUserPasswordModal extends Component {
             buttons={
               <Modal.Footer>
                 <Button bsStyle='default' onClick={this.handleCloseModal}>
-                  Odustani
+                  {translations.action.cancel}
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Spremi
+                  {translations.action.save}
                 </Button>
               </Modal.Footer>
             }

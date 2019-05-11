@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
+import { getTranslations } from '../../utils/translation.utils';
 import {
   reactTableConstants,
   sortDirections,
@@ -130,22 +131,23 @@ class UserList extends Component {
 
   getColumns = () => {
     const userRolesValues = Object.values(userRoles);
+    const translations = getTranslations();
   
     return [
       {
-        Header: 'E-mail',
+        Header: translations.user.property.email,
         accessor: 'email'
       },
       {
-        Header: 'Ime',
+        Header: translations.user.property.firstName,
         accessor: 'firstName',
       },
       {
-        Header: 'Prezime',
+        Header: translations.user.property.lastName,
         accessor: 'lastName',
       },
       {
-        Header: 'Uloga',
+        Header: translations.user.property.role,
         accessor: 'role',
         Cell: props => (
           <span>
@@ -157,7 +159,7 @@ class UserList extends Component {
         )
       },
       {
-        Header: 'Datum unosa',
+        Header: translations.user.property.createdAt,
         accessor: 'createdAt',
         Cell: props => <span>{formatDate(props.value)}</span>
       },
@@ -173,6 +175,8 @@ class UserList extends Component {
       selectedUser,
     } = this.state;
     const { users, totalPages } = this.props;
+
+    const translations = getTranslations();
 
     return (
       <div className='page'>
@@ -194,12 +198,12 @@ class UserList extends Component {
           handleClose={this.closeDeleteUserModal}
         />
         <div className='patient-list__header mb-10'>
-          <h1>Lista korisnika</h1>
+          <h1>{translations.user.listTitle}</h1>
           <Button
             bsStyle='primary'
             onClick={this.openAddUserModal}
           >
-            Dodaj korisnika
+            {translations.user.action.add}
           </Button>
         </div>
 

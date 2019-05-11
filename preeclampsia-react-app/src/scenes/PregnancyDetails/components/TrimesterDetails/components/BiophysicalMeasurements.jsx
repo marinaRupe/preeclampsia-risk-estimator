@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { getTranslations } from '../../../../../utils/translation.utils';
 import {
   displayNumericalMeasurementValue,
 } from '../../../../../utils/measurement.utils';
@@ -33,12 +34,14 @@ class BiophysicalMeasurements extends Component {
         numericalMeasurements,
       } } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Biofizička mjerenja</span>
+              <span>{translations.pregnancy.biophysicalMeasurementsTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>

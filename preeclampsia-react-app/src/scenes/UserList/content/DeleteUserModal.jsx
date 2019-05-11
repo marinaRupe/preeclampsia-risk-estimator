@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { getTranslations } from '../../../utils/translation.utils';
 
 class DeleteUserModal extends Component {
   handleDeleteUser = () => {
@@ -15,6 +16,8 @@ class DeleteUserModal extends Component {
   render() {
     const { show, user } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal
         show={show}
@@ -23,22 +26,22 @@ class DeleteUserModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Brisanje korisika</Modal.Title>
+          <Modal.Title>{translations.user.modal.deleteUserTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {
             user &&
             <h4>
-              Jeste li sigurni da želite obrisati korisnika <b>{user.firstName} {user.lastName} ({user.email})</b>?
+              {translations.user.modal.deleteUserText} <b>{user.firstName} {user.lastName} ({user.email})</b>?
             </h4>
           }
         </Modal.Body>
         <Modal.Footer>
           <Button bsStyle='default' onClick={this.handleCloseModal}>
-            Odustani
+            {translations.action.cancel}
           </Button>
           <Button bsStyle='danger' onClick={this.handleDeleteUser}>
-            Obriši
+            {translations.user.action.delete}
           </Button>
         </Modal.Footer>
       </Modal>

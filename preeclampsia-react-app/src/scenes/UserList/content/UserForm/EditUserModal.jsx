@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
 import { EDIT_USER_FORM } from '../../../../redux/forms';
+import { getTranslations } from '../../../../utils/translation.utils';
 import UserForm from './UserForm';
 
 class EditUserModal extends Component {
@@ -20,6 +21,8 @@ class EditUserModal extends Component {
   render() {
     const { show, handleSubmit, error, initialValues } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal
         show={show}
@@ -29,7 +32,7 @@ class EditUserModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Uređivanje korisika</Modal.Title>
+          <Modal.Title>{translations.user.modal.editUserTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <UserForm
@@ -40,10 +43,10 @@ class EditUserModal extends Component {
             buttons={
               <Modal.Footer>
                 <Button bsStyle='default' onClick={this.handleCloseModal}>
-                  Odustani
+                  {translations.action.cancel}
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Spremi
+                  {translations.action.save}
                 </Button>
               </Modal.Footer>
             }

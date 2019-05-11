@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { formatDate, getAgeInYears } from '../../../utils/dateTime.utils';
+import { getTranslations } from '../../../utils/translation.utils';
 
 class PatientSidebar extends Component {
   render() {
@@ -8,35 +9,37 @@ class PatientSidebar extends Component {
       patient,
       closeSidebar,
       openEditPatientModal,
-      openDeletePatientModal
+      openDeletePatientModal,
     } = this.props;
+
+    const translations = getTranslations();
 
     return (
       <div className='table-view--details'>
         <div>
           <div className='table-view--details__header'>
-            <h4>Detalji o pacijentu</h4>
+            <h4>{translations.patient.detailsTitle}</h4>
             <i className='material-icons' onClick={closeSidebar}>close</i>
           </div>
           <div>
             <div className='info-group'>
-              <label>Ime: </label>
+              <label>{translations.patient.property.firstName}: </label>
               <div>{patient.firstName || '-'}</div>
             </div>
             <div className='info-group'>
-              <label>Prezime: </label>
+              <label>{translations.patient.property.lastName}: </label>
               <div>{patient.lastName || '-'}</div>
             </div>
             <div className='info-group'>
-              <label>Datum rođenja: </label>
+              <label>{translations.patient.property.birthDate}: </label>
               <div>{formatDate(patient.birthDate)}</div>
             </div>
             <div className='info-group'>
-              <label>Starost u godinama: </label>
+              <label>{translations.patient.property.ageInYears}: </label>
               <div>{getAgeInYears(patient.birthDate)}</div>
             </div>
             <div className='info-group'>
-              <label>Etnička skupina: </label>
+              <label>{translations.patient.property.racialOrigin}: </label>
               <div>{patient.racialOrigin}</div>
             </div>
           </div>
@@ -47,13 +50,13 @@ class PatientSidebar extends Component {
             bsStyle='primary'
             onClick={openEditPatientModal}
           >
-            Uredi podatke
+            {translations.patient.action.edit}
           </Button>
           <Button
             bsStyle='danger'
             onClick={openDeletePatientModal}
           >
-            Izbriši pacijenta
+            {translations.patient.action.delete}
           </Button>
         </div>
       </div>

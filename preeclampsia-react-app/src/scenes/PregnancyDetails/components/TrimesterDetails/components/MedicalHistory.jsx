@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { getTranslations } from '../../../../../utils/translation.utils';
 import {
   displayBooleanMeasurementValue,
   displayEnumMeasurementValue,
@@ -36,12 +37,14 @@ class MedicalHistory extends Component {
         booleanMeasurements,
       } } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Medicinska povijest</span>
+              <span>{translations.pregnancy.medicalHistoryTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>

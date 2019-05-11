@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { getTranslations } from '../../../../../utils/translation.utils';
 import {
   displayNumericalMeasurementValue,
 } from '../../../../../utils/measurement.utils';
+import translations from '../../../../../assets/translations';
 
 class BiophysicalMeasurements extends Component {
   constructor(props) {
@@ -32,13 +34,15 @@ class BiophysicalMeasurements extends Component {
       trimesterData: {
         numericalMeasurements,
       } } = this.props;
+    
+    const translations = getTranslations();
 
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Biokemijska mjerenja</span>
+              <span>{translations.pregnancy.biochemicalMeasurementsTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>

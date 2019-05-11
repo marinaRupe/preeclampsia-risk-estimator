@@ -53,3 +53,13 @@ export function removePatient(patientId) {
   };
   return actionWrapper(action, true);
 }
+
+export function updatePatientDetails(patientData) {
+  const action = async (dispatch) => {
+    const resp = await httpCalls.PUT(API.PATIENTS.GET_BY_ID(patientData.id), patientData);
+    if (resp.status === 200) {
+      await dispatch(actionCreators.editPatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+    }
+  };
+  return actionWrapper(action, true);
+}

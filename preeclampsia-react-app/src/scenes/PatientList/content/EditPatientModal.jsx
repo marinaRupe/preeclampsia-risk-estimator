@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
 import { EDIT_PATIENT_FORM } from '../../../redux/forms';
+import { getTranslations } from '../../../utils/translation.utils';
 import PatientForm from './PatientForm';
 
 class EditPatientModal extends Component {
@@ -20,6 +21,8 @@ class EditPatientModal extends Component {
   render() {
     const { show, handleSubmit, error, initialValues } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal
         show={show}
@@ -29,7 +32,7 @@ class EditPatientModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Uređivanje pacijenta</Modal.Title>
+          <Modal.Title>{translations.patient.modal.editPatientTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <PatientForm
@@ -39,10 +42,10 @@ class EditPatientModal extends Component {
             buttons={
               <Modal.Footer>
                 <Button bsStyle='default' onClick={this.handleCloseModal}>
-                  Odustani
+                  {translations.action.cancel}
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Spremi
+                  {translations.action.save}
                 </Button>
               </Modal.Footer>
             }

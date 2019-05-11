@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { getTranslations } from '../../../utils/translation.utils';
 
 class DeletePatientModal extends Component {
   handleDeletePatient = () => {
@@ -15,6 +16,8 @@ class DeletePatientModal extends Component {
   render() {
     const { show, patient } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal
         show={show}
@@ -23,24 +26,24 @@ class DeletePatientModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Brisanje pacijenta</Modal.Title>
+          <Modal.Title>{translations.patient.modal.deletePatientTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {
             patient &&
             <h4>
-              Jeste li sigurni da želite obrisati pacijenta <b>
+              {translations.patient.modal.deleteUserText} <b>
                 {patient.firstName} {patient.lastName}
-              </b> (MBO: <b>{patient.MBO}</b>)?
+              </b> ({translations.patient.property.MBO}: <b>{patient.MBO}</b>)?
             </h4>
           }
         </Modal.Body>
         <Modal.Footer>
           <Button bsStyle='default' onClick={this.handleCloseModal}>
-            Odustani
+            {translations.action.cancel}
           </Button>
           <Button bsStyle='danger' onClick={this.handleDeletePatient}>
-            Obriši
+            {translations.action.delete}
           </Button>
         </Modal.Footer>
       </Modal>

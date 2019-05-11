@@ -39,3 +39,11 @@ export const deletePatient = ({ status, data }) => {
     type: types.DELETE_PATIENT,
   };
 };
+
+export const editPatientDetails = ({ status, data }) => {
+  return {
+    data,
+    status,
+    type: types.EDIT_PATIENT_DETAILS,
+  };
+};

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { getTranslations } from '../../utils/translation.utils';
 
 class Statistics extends Component {
   constructor(props) {
@@ -12,10 +13,12 @@ class Statistics extends Component {
   }
 
   render() {
+    const translations = getTranslations();
+
     return (
       <div className='page'>
         <div className='page__header mb-10'>
-          <h1>Statistika</h1>
+          <h1>{translations.statistics.title}</h1>
         </div>
         <div>
           TODO

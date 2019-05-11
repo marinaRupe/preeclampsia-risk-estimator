@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { formatDate } from '../../../utils/dateTime.utils';
+import { getTranslations } from '../../../utils/translation.utils';
 import {
   displayBooleanValue,
 } from '../../../utils/measurement.utils';
@@ -49,12 +50,14 @@ class BasicInfo extends Component {
         motherOfPatientHadPE
       } } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Osnovni podaci</span>
+              <span>{translations.pregnancy.basicDetailsTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
@@ -204,13 +207,13 @@ class BasicInfo extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

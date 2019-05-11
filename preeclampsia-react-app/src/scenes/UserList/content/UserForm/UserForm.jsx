@@ -4,6 +4,7 @@ import Input from '../../../../components/Inputs/Input';
 import Select from '../../../../components/Inputs/Select';
 import { userRoles } from '../../../../constants/roles.constants';
 import { generateOptions } from '../../../../utils/form.utils';
+import { getTranslations } from '../../../../utils/translation.utils';
 import PasswordInputs from '../PasswordInputs';
 
 class UserForm extends Component {
@@ -17,6 +18,7 @@ class UserForm extends Component {
     } = this.props;
 
     const userRolesOptions = generateOptions(Object.values(userRoles), 'key', 'value', 'hr', true, 'Odaberi');
+    const translations = getTranslations();
 
     return (
       <form className='redux-form' onSubmit={onSubmit}>
@@ -24,12 +26,12 @@ class UserForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                Ime
+                {translations.user.property.firstName}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='firstName'
-                placeholder='Unesi ime'
+                placeholder={translations.patient.placeholder.enterFirstName}
                 component={Input}
                 type='text'
                 disabled={disabled.firstName}
@@ -39,12 +41,12 @@ class UserForm extends Component {
 
             <div className='w-50'>
               <label className='redux-form__label'>
-                Prezime
+                {translations.user.property.lastName}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='lastName'
-                placeholder='Unesi prezime'
+                placeholder={translations.patient.placeholder.enterLastName}
                 component={Input}
                 type='text'
                 disabled={disabled.lastName}
@@ -55,12 +57,12 @@ class UserForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                E-mail
+                {translations.user.property.email}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='email'
-                placeholder='Unesi E-mail'
+                placeholder={translations.patient.placeholder.enterEmail}
                 component={Input}
                 type='text'
                 disabled={disabled.MBO}
@@ -70,7 +72,7 @@ class UserForm extends Component {
 
             <div className='w-50'>
               <label className='redux-form__label'>
-                Uloga
+                {translations.user.property.role}
                 <span className='required'>*</span>
               </label>
               <Field

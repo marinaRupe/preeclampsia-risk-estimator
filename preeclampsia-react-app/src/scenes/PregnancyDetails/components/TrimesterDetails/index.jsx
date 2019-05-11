@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as pregnancyActions from '../../../../redux/actions/pregnancy.actions';
+import { getTranslations } from '../../../../utils/translation.utils';
 import Spinner from '../../../../components/Spinner';
 import MaternalCharacteristics from './components/MaternalCharacteristics';
 import MedicalHistory from './components/MedicalHistory';
@@ -41,10 +42,12 @@ class TrimesterDetails extends Component {
     const { trimesterData, trimesterNumber } = this.props;
     const { isLoading } = this.state;
 
+    const translations = getTranslations();
+
     if (isLoading || !trimesterData) {
       return (
         <div className='pregnancy__trimester'>
-          <h3>{trimesterNumber}. trimestar</h3>
+          <h3>{translations.word.trimester} {trimesterNumber}</h3>
           <div className='align-horizontal--center'>
             <Spinner />
           </div>
@@ -54,7 +57,7 @@ class TrimesterDetails extends Component {
 
     return (
       <div className='pregnancy__trimester'>
-        <h3>{trimesterNumber}. trimestar</h3>
+        <h3>{translations.word.trimester} {trimesterNumber}</h3>
       
         <div>
           <BasicInfo trimesterData={trimesterData} />

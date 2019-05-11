@@ -4,6 +4,7 @@ import Input from '../../../components/Inputs/Input';
 import Select from '../../../components/Inputs/Select';
 import { RacialOriginTypes } from '../../../constants/patient.constants';
 import { generateOptions } from '../../../utils/form.utils';
+import { getTranslations } from '../../../utils/translation.utils';
 
 class PatientForm extends Component {
   render() {
@@ -15,6 +16,7 @@ class PatientForm extends Component {
     } = this.props;
 
     const racialOriginTypes = generateOptions(Object.values(RacialOriginTypes), 'key', 'hr', 'hr', true, 'Odaberi');
+    const translations = getTranslations();
 
     return (
       <form className='redux-form' onSubmit={onSubmit}>
@@ -22,12 +24,12 @@ class PatientForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                Ime
+                {translations.patient.property.firstName}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='firstName'
-                placeholder='Unesi ime'
+                placeholder={translations.patient.placeholder.enterFirstName}
                 component={Input}
                 type='text'
                 disabled={disabled.firstName}
@@ -37,12 +39,12 @@ class PatientForm extends Component {
 
             <div className='w-50'>
               <label className='redux-form__label'>
-                Prezime
+                {translations.patient.property.lastName}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='lastName'
-                placeholder='Unesi prezime'
+                placeholder={translations.patient.placeholder.enterLastName}
                 component={Input}
                 type='text'
                 disabled={disabled.lastName}
@@ -53,12 +55,12 @@ class PatientForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                MBO
+                {translations.patient.property.MBO}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='MBO'
-                placeholder='Unesi MBO'
+                placeholder={translations.patient.placeholder.enterMBO}
                 component={Input}
                 type='text'
                 disabled={disabled.MBO}
@@ -68,12 +70,12 @@ class PatientForm extends Component {
 
             <div className='w-50'>
               <label className='redux-form__label'>
-                Datum rođenja
+                {translations.patient.property.birthDate}
                 <span className='required'>*</span>
               </label>
               <Field
                 name='birthDate'
-                placeholder='Unesi datum rođenja'
+                placeholder={translations.patient.placeholder.enterBirthDate}
                 component={Input}
                 type='date'
                 disabled={disabled.birthDate}
@@ -84,7 +86,7 @@ class PatientForm extends Component {
           <div className='redux-form__row'>
             <div className='w-50'>
               <label className='redux-form__label'>
-                Etnička skupina
+                {translations.patient.property.racialOrigin}
                 <span className='required'>*</span>
               </label>
               <Field

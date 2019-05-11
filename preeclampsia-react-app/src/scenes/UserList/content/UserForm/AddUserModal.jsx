@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
 import { ADD_USER_FORM } from '../../../../redux/forms';
+import { getTranslations } from '../../../../utils/translation.utils';
 import UserForm from './UserForm';
 
 class AddUserModal extends Component {
@@ -20,6 +21,8 @@ class AddUserModal extends Component {
   render() {
     const { show, handleSubmit, error } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <Modal
         show={show}
@@ -29,7 +32,7 @@ class AddUserModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Dodavanje korisika</Modal.Title>
+          <Modal.Title>{translations.user.modal.addUserTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <UserForm
@@ -38,10 +41,10 @@ class AddUserModal extends Component {
             buttons={
               <Modal.Footer>
                 <Button bsStyle='default' onClick={this.handleCloseModal}>
-                  Odustani
+                  {translations.action.cancel}
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Dodaj korisnika
+                  {translations.user.action.add}
                 </Button>
               </Modal.Footer>
             }
