@@ -18,6 +18,26 @@ export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection
   return actionWrapper(action);
 }
 
+export function updateUser(userData) {
+  const action = async (dispatch) => {
+    const resp = await httpCalls.PUT(API.USERS.GET_BY_ID(userData.id), userData);
+    if (resp.status === 200) {
+      await dispatch(actionCreators.editUser({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+    }
+  };
+  return actionWrapper(action, true);
+}
+
+export function removeUser(userId) {
+  const action = async (dispatch) => {
+    const resp = await httpCalls.DELETE(API.USERS.GET_BY_ID(userId));
+    if (resp.status === 200) {
+      await dispatch(actionCreators.deleteUser({ status: ACTION_STATUS.SUCCESS, data: userId }));
+    }
+  };
+  return actionWrapper(action, true);
+}
+
 export function loginUser(userData) {
   const action = async (dispatch) => {
     const body = {

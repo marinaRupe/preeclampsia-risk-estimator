@@ -3,19 +3,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reset } from 'redux-form';
 import {
   reactTableConstants,
   sortDirections,
   defaultPageSize,
 } from '../../constants/reactTable.constants';
 import { APP } from '../../constants/routes';
-import { ADD_PATIENT_FORM, EDIT_PATIENT_FORM } from '../../redux/forms';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { formatDate } from '../../utils/dateTime.utils';
 import AddPatientModal from './content/AddPatientModal';
 import EditPatientModal from './content/EditPatientModal';
 import PatientSidebar from './content/PatientSidebar';
+import DeletePatientModal from './content/DeletePatientModal';
 
 class PatientList extends Component {
   constructor(props) {
@@ -25,6 +24,7 @@ class PatientList extends Component {
       isLoading: false,
       addPatientModalIsOpen: false,
       editPatientModalIsOpen: false,
+      deletePatientModalIsOpen: false,
       selectedPatient: null,
       page: 1,
       pageSize: defaultPageSize,
@@ -90,8 +90,6 @@ class PatientList extends Component {
 
   closeAddPatientModal = () => {
     this.setState({ addPatientModalIsOpen: false });
-    const { resetAddPatientForm  } = this.props;
-    resetAddPatientForm();
   }
 
   openEditPatientModal = () => {
@@ -100,8 +98,14 @@ class PatientList extends Component {
 
   closeEditPatientModal = () => {
     this.setState({ editPatientModalIsOpen: false });
-    const { resetEditPatientForm  } = this.props;
-    resetEditPatientForm();
+  }
+
+  openDeletePatientModal = () => {
+    this.setState({ deletePatientModalIsOpen: true });
+  }
+
+  closeDeletePatientModal = () => {
+    this.setState({ deletePatientModalIsOpen: false });
   }
 
   addPatient = async (patientData) => {
@@ -112,8 +116,16 @@ class PatientList extends Component {
   };
 
   editPatient = async (patientData) => {
-    // TODO: save changes
+    const { updatePatient } = this.props;
+    await updatePatient(patientData);
     this.closeEditPatientModal();
+  };
+
+  deletePatient = async (patientId) => {
+    const { removePatient } = this.props;
+    await removePatient(patientId);
+    this.unselectPatient();
+    this.closeDeletePatientModal();
     this.refreshTable();
   };
 
@@ -153,6 +165,7 @@ class PatientList extends Component {
       isLoading,
       addPatientModalIsOpen,
       editPatientModalIsOpen,
+      deletePatientModalIsOpen,
       selectedPatient
     } = this.state;
 
@@ -168,6 +181,12 @@ class PatientList extends Component {
           handleClose={this.closeEditPatientModal}
           onSubmit={this.editPatient}
           initialValues={selectedPatient}
+        />
+        <DeletePatientModal
+          show={deletePatientModalIsOpen}
+          patient={selectedPatient}
+          deletePatient={this.deletePatient}
+          handleClose={this.closeDeletePatientModal}
         />
         <div className='page__header mb-10'>
           <h1>Lista pacijenata</h1>
@@ -205,6 +224,7 @@ class PatientList extends Component {
               patient={selectedPatient}
               closeSidebar={this.unselectPatient}
               openEditPatientModal={this.openEditPatientModal}
+              openDeletePatientModal={this.openDeletePatientModal}
             />
           }
         </div>
@@ -223,8 +243,8 @@ const mapStateToProps = ({ patients }) => {
 const mapDispatchToProps = {
   fetchPatientList: patientActions.fetchPatientList,
   createPatient: patientActions.createPatient,
-  resetAddPatientForm: reset.bind(null, ADD_PATIENT_FORM),
-  resetEditPatientForm: reset.bind(null, EDIT_PATIENT_FORM),
+  updatePatient: patientActions.updatePatient,
+  removePatient: patientActions.removePatient,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientList);

@@ -22,7 +22,7 @@ const getById = async (req, res) => {
     throw new Errors.BadRequestError();
   }
 
-  const patient = await PatientService.getById(patientId);
+  const patient = await PatientService.getByIdWithPregnancies(patientId);
 
   if (!patient) {
     throw new Errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
@@ -44,17 +44,62 @@ const createPatient = async (req, res) => {
     throw new Errors.BadRequestError({ info: errors });
   }
 
-  const user = await PatientService.createPatient(patientData);
+  const patient = await PatientService.createPatient(patientData);
 
-  if (!user) {
+  if (!patient) {
     throw new Errors.InternalServerError('Could not create new patient');
   }
 
-  res.json(user);
+  res.json(patient);
+};
+
+const updatePatient = async (req, res) => {
+  const { patientId } = req.params;
+  const patientData = req.body;
+
+  if (!patientData) {
+    throw new Errors.BadRequestError('Patient data is required');
+  }
+
+  if (!PatientService.existsPatientWithId(patientId)) {
+    throw new Errors.NotFoundError('Patient does not exist ');
+  }
+
+  const { isValid, errors } = await PatientValidator.isValidPatient(patientData);
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const patient = await PatientService.updatePatient(patientId, patientData);
+
+  if (!patient) {
+    throw new Errors.InternalServerError('Could not update patient');
+  }
+
+  res.json(patient);
+};
+
+const deletePatient = async (req, res) => {
+  const { patientId } = req.params;
+
+  if (!PatientService.existsPatientWithId(patientId)) {
+    throw new Errors.NotFoundError('Patient does not exist ');
+  }
+
+  const patient = await PatientService.removePatient(patientId);
+
+  if (!patient) {
+    throw new Errors.InternalServerError('Could not delete patient');
+  }
+
+  res.status(200).send('Patient is successfully deleted');
 };
 
 module.exports = {
   getAll,
   getById,
   createPatient,
+  updatePatient,
+  deletePatient,
 };

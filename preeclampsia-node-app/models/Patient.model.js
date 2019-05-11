@@ -24,6 +24,8 @@ module.exports = (sequelize) => {
     racialOrigin: {
       type: Sequelize.STRING,
     },
+  }, {
+    paranoid: true,
   });
 
   Patient.associate = (models) => {

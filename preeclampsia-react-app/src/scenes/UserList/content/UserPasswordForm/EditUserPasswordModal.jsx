@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit } from 'redux-form';
-import { ADD_USER_FORM } from '../../../redux/forms';
-import UserForm from './UserForm';
+import { EDIT_USER_PASSWORD_FORM } from '../../../../redux/forms';
+import UserPasswordForm from './UserPasswordForm';
 
-class AddUserModal extends Component {
+class EditUserPasswordModal extends Component {
   handleCloseModal = async () => {
     const { dispatch, handleClose } = this.props;
 
     handleClose();
-    await dispatch(stopSubmit(ADD_USER_FORM, {}));
+    await dispatch(stopSubmit(EDIT_USER_PASSWORD_FORM, {}));
   }
 
   render() {
@@ -19,10 +19,10 @@ class AddUserModal extends Component {
     return (
       <Modal show={show} onHide={this.handleCloseModal} centered='true' dialogClassName='app-modal'>
         <Modal.Header closeButton>
-          <Modal.Title>Dodavanje korisika</Modal.Title>
+          <Modal.Title>Promjena lozinke</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <UserForm
+          <UserPasswordForm
             onSubmit={handleSubmit}
             error={error}
             buttons={
@@ -31,7 +31,7 @@ class AddUserModal extends Component {
                   Odustani
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Dodaj korisnika
+                  Spremi
                 </Button>
               </Modal.Footer>
             }
@@ -43,5 +43,6 @@ class AddUserModal extends Component {
 }
 
 export default connect()(reduxForm({
-  form: ADD_USER_FORM,
-})(AddUserModal));
+  form: EDIT_USER_PASSWORD_FORM,
+  enableReinitialize: true,
+})(EditUserPasswordModal));

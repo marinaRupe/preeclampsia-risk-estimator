@@ -32,6 +32,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+  }, {
+    paranoid: true,
   });
 
   User.prototype.isValidPassword = async function(password) {

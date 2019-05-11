@@ -10,13 +10,14 @@ export const API = {
     ROOT: `${API_URL}/users`,
     GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
       `${API.USERS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    GET_BY_ID: (userId) => `${API.USERS.ROOT}/${userId}`,
     LOGIN: () => `${API.USERS.ROOT}/login`,
   },
   PATIENTS: {
     ROOT: `${API_URL}/patients`,
     GET_ALL: (page, pageSize, sortColumn, sortDirection) =>
       `${API.PATIENTS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
-    GET_BY_ID: patientId => `${API.PATIENTS.ROOT}/${patientId}`,
+    GET_BY_ID: (patientId) => `${API.PATIENTS.ROOT}/${patientId}`,
   },
   PREGNANCIES: {
     GET_PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>

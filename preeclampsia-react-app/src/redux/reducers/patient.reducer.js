@@ -30,6 +30,17 @@ export default function patientReducer(state = initialState.patients, action) {
       };
     }
     return { ...state };
+  case types.EDIT_PATIENT:
+    if (action.status === ACTION_STATUS.SUCCESS) {
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          data: state.list.data.map(p => (p.id === action.data.id) ? { ...p, ...action.data } : p)
+        },
+      };
+    }
+    return { ...state };
   default:
     return { ...state };
   }

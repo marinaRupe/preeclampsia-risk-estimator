@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { reduxForm, stopSubmit } from 'redux-form';
-import { EDIT_USER_FORM } from '../../../redux/forms';
+import { reduxForm, stopSubmit, reset } from 'redux-form';
+import { EDIT_USER_FORM } from '../../../../redux/forms';
 import UserForm from './UserForm';
 
 class EditUserModal extends Component {
   handleCloseModal = async () => {
-    const { dispatch, handleClose } = this.props;
-
+    const { handleClose, stopSubmitForm } = this.props;
     handleClose();
-    await dispatch(stopSubmit(EDIT_USER_FORM, {}));
+    await stopSubmitForm();
+  }
+
+  handleAfterCloseModal = async () => {
+    const { resetForm } = this.props;
+    await resetForm();
   }
 
   render() {
     const { show, handleSubmit, error, initialValues } = this.props;
 
     return (
-      <Modal show={show} onHide={this.handleCloseModal} centered='true' dialogClassName='app-modal'>
+      <Modal
+        show={show}
+        onHide={this.handleCloseModal}
+        onExited={this.handleAfterCloseModal}
+        centered='true'
+        dialogClassName='app-modal'
+      >
         <Modal.Header closeButton>
           <Modal.Title>Uređivanje korisika</Modal.Title>
         </Modal.Header>
@@ -25,6 +35,7 @@ class EditUserModal extends Component {
           <UserForm
             onSubmit={handleSubmit}
             initialValues={initialValues}
+            showPasswordInputs={false}
             error={error}
             buttons={
               <Modal.Footer>
@@ -43,7 +54,12 @@ class EditUserModal extends Component {
   }
 }
 
-export default connect()(reduxForm({
+const mapDispatchToProps = {
+  stopSubmitForm: stopSubmit.bind(null, EDIT_USER_FORM, {}),
+  resetForm: reset.bind(null, EDIT_USER_FORM),
+};
+
+export default connect(null, mapDispatchToProps)(reduxForm({
   form: EDIT_USER_FORM,
   enableReinitialize: true,
 })(EditUserModal));

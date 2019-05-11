@@ -3,7 +3,12 @@ import { Button } from 'react-bootstrap';
 
 class PatientSidebar extends Component {
   render() {
-    const { patient, closeSidebar, openEditPatientModal } = this.props;
+    const {
+      patient,
+      closeSidebar,
+      openEditPatientModal,
+      openDeletePatientModal
+    } = this.props;
 
     return (
       <div className='table-view--details'>
@@ -29,7 +34,13 @@ class PatientSidebar extends Component {
             bsStyle='primary'
             onClick={openEditPatientModal}
           >
-            Uredi
+            Uredi podatke
+          </Button>
+          <Button
+            bsStyle='danger'
+            onClick={openDeletePatientModal}
+          >
+            Izbriši pacijenta
           </Button>
         </div>
       </div>

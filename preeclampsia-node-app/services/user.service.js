@@ -22,13 +22,7 @@ const getAll = async (
   })
 );
 
-const getById = async (id) => {
-  const user = await db.User.findOne({
-    where: { id }
-  });
-
-  return user;
-};
+const getById = async (id) => await db.User.findByPk(id);
 
 const existsEmail = async (email) => {
   const user = await db.User.findOne({
@@ -37,6 +31,8 @@ const existsEmail = async (email) => {
 
   return !!user;
 };
+
+const existsWithId = async (id) => !!(await getById(id));
 
 const createUser = async (userData) => {
   const {
@@ -58,9 +54,45 @@ const createUser = async (userData) => {
   return user;
 };
 
+const updateUser = async (userId, userData) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    role,
+  } = userData;
+
+  const user = await getById(userId);
+
+  return await user.update({
+    firstName,
+    lastName,
+    role,
+    email,
+  });
+};
+
+const updateUserPassword = async (userId, password) => {
+  const user = await getById(userId);
+
+  return await user.update({
+    hashedPassword: password,
+  });
+};
+
+const removeUser = async (userId) => {
+  const user = await getById(userId);
+
+  return await user.destroy();
+};
+
 module.exports = {
   getAll,
   getById,
   createUser,
+  removeUser,
+  updateUser,
+  updateUserPassword,
   existsEmail,
+  existsWithId,
 };

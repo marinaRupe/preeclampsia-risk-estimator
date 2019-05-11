@@ -31,10 +31,9 @@ a {
   }
 }
 
-.btn-primary {
+.btn {
   padding: $val-spacing-xs $val-spacing-s;
   margin: $val-spacing-xxs;
-  background-color: $col-primary;
   color: white;
   border-radius: $val-btnBorderRadius;
   border: 0;
@@ -50,22 +49,22 @@ a {
   }
 }
 
-.btn-default {
-  padding: $val-spacing-xs $val-spacing-s;
-  margin: $val-spacing-xxs;
-  background-image: unset;
-  background-color: $col-gray-04;
-  border-radius: $val-btnBorderRadius;
-  border: 0;
-  text-decoration: none;
-  font-size: $val-fontSizeRegular;
-  font-weight: $val-fontWeightBold;
-  cursor: pointer;
+.btn-primary {
+  background-color: $col-primary;
+}
 
-  a {
-    color: $col-normalText--dark;
-    font-size: $val-fontSizeRegular;
-    font-weight: $val-fontWeightBold;
+.btn-danger {
+  background-color: $col-error;
+}
+
+.btn-default {
+  text-decoration: none;
+  background-image: unset;
+  color: $col-gray-08;
+  background-color: $col-gray-04;
+
+  &:hover {
+    background-color: $col-gray-05;
   }
 }
 

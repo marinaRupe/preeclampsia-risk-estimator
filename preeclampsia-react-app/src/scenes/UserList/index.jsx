@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reset } from 'redux-form';
 import {
   reactTableConstants,
   sortDirections,
   defaultPageSize,
 } from '../../constants/reactTable.constants';
 import { userRoles } from '../../constants/roles.constants';
-import { ADD_USER_FORM, EDIT_USER_FORM } from '../../redux/forms';
 import * as userActions from '../../redux/actions/user.actions';
 import { formatDate } from '../../utils/dateTime.utils';
-import AddUserModal from './content/AddUserModal';
-import EditUserModal from './content/EditUserModal';
+import AddUserModal from './content/UserForm/AddUserModal';
+import EditUserModal from './content/UserForm/EditUserModal';
 import UserSidebar from './content/UserSidebar';
+import DeleteUserModal from './content/DeleteUserModal';
 
 class UserList extends Component {
   constructor(props) {
@@ -24,6 +23,7 @@ class UserList extends Component {
       isLoading: false,
       addUserModalIsOpen: false,
       editUserModalIsOpen: false,
+      deleteUserModalIsOpen: false,
       selectedUser: null,
       page: 1,
       pageSize: defaultPageSize,
@@ -76,18 +76,22 @@ class UserList extends Component {
 
   closeAddUserModal = () => {
     this.setState({ addUserModalIsOpen: false });
-    const { resetAddUserForm  } = this.props;
-    resetAddUserForm();
   }
 
-  openEditUserModal = (selectedUser) => {
+  openEditUserModal = () => {
     this.setState({ editUserModalIsOpen: true });
   }
 
   closeEditUserModal = () => {
     this.setState({ editUserModalIsOpen: false });
-    const { resetEditUserForm  } = this.props;
-    resetEditUserForm();
+  }
+
+  openDeleteUserModal = () => {
+    this.setState({ deleteUserModalIsOpen: true });
+  }
+
+  closeDeleteUserModal = () => {
+    this.setState({ deleteUserModalIsOpen: false });
   }
 
   selectUser = (selectedUser) => {
@@ -111,8 +115,16 @@ class UserList extends Component {
   };
 
   editUser = async (userData) => {
-    // TODO: save user
+    const { updateUser } = this.props;
+    await updateUser(userData);
     this.closeEditUserModal();
+  };
+
+  deleteUser = async (userId) => {
+    const { removeUser } = this.props;
+    await removeUser(userId);
+    this.unselectUser();
+    this.closeDeleteUserModal();
     this.refreshTable();
   };
 
@@ -157,6 +169,7 @@ class UserList extends Component {
       isLoading,
       addUserModalIsOpen,
       editUserModalIsOpen,
+      deleteUserModalIsOpen,
       selectedUser,
     } = this.state;
     const { users, totalPages } = this.props;
@@ -173,6 +186,12 @@ class UserList extends Component {
           handleClose={this.closeEditUserModal}
           onSubmit={this.editUser}
           initialValues={selectedUser}
+        />
+        <DeleteUserModal
+          show={deleteUserModalIsOpen}
+          user={selectedUser}
+          deleteUser={this.deleteUser}
+          handleClose={this.closeDeleteUserModal}
         />
         <div className='patient-list__header mb-10'>
           <h1>Lista korisnika</h1>
@@ -212,6 +231,7 @@ class UserList extends Component {
               user={selectedUser}
               closeSidebar={this.unselectUser}
               openEditUserModal={this.openEditUserModal}
+              openDeleteUserModal={this.openDeleteUserModal}
             />
           }
         </div>
@@ -230,8 +250,8 @@ const mapStateToProps = ({ users }) => {
 const mapDispatchToProps = {
   fetchUserList: userActions.fetchUserList,
   createUser: userActions.createUser,
-  resetAddUserForm: reset.bind(null, ADD_USER_FORM),
-  resetEditUserForm: reset.bind(null, EDIT_USER_FORM),
+  updateUser: userActions.updateUser,
+  removeUser: userActions.removeUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

@@ -88,9 +88,82 @@ const createUser = async (req, res) => {
   res.json(new UserViewModel(user));
 };
 
+
+const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  const userData = req.body;
+
+  if (!userData) {
+    throw new Errors.BadRequestError('User data is required');
+  }
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError('User does not exist ');
+  }
+
+  const { isValid, errors } = await UserValidator.isValidUser(userData, true);
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const user = await UserService.updateUser(userId, userData);
+
+  if (!user) {
+    throw new Errors.InternalServerError('Could not update user');
+  }
+
+  res.json(new UserViewModel(user));
+};
+
+const updateUserPassword = async (req, res) => {
+  const { userId } = req.params;
+  const userData = req.body;
+
+  if (!userData) {
+    throw new Errors.BadRequestError('User data is required');
+  }
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError('User does not exist ');
+  }
+
+  const { isValid, errors } = await UserValidator.isValidUserPassword(userData);
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const user = await UserService.updateUserPassword(userId, userData);
+
+  if (!user) {
+    throw new Errors.InternalServerError('Could not update user password');
+  }
+
+  res.json(new UserViewModel(user));
+};
+
+const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError('Patient does not exist ');
+  }
+
+  const user = await UserService.removeUser(userId);
+
+  if (!user) {
+    throw new Errors.InternalServerError('Could not delete user');
+  }
+
+  res.status(200).send('User is successfully deleted');
+};
+
 module.exports = {
   getAll,
   login,
   register,
   createUser,
+  updateUser,
+  deleteUser,
 };

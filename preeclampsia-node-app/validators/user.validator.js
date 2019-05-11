@@ -68,6 +68,39 @@ const isValidUser = async (user, editMode = false) => {
   };
 };
 
+const isValidUserPassword = async (userData) => {
+  const {
+    password,
+    repeatedPassword,
+  } = userData;
+
+  const errors = {};
+
+  if (!password) {
+    errors.password = addToArray(errors.password, 'Password is required');
+  } else {
+    if (password.length < constraints.MIN_PASSWORD_LENGTH) {
+      errors.password = addToArray(errors.password,
+        `Minimum password length is ${constraints.MIN_PASSWORD_LENGTH} characters`);
+    }
+  }
+
+  if (!repeatedPassword) {
+    errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Repeated password is required');
+  } else {
+    if (repeatedPassword !== password) {
+      errors.repeatedPassword = addToArray(errors.repeatedPassword, 'Passwords do not match');
+    }
+  }
+
+  const isValid = Object.keys(errors).length === 0;
+  return {
+    isValid,
+    errors,
+  };
+};
+
 module.exports = {
   isValidUser,
+  isValidUserPassword,
 };

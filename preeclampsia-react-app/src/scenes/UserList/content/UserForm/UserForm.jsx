@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import Input from '../../../components/Inputs/Input';
-import Select from '../../../components/Inputs/Select';
-import { userRoles } from '../../../constants/roles.constants';
-import { generateOptions } from '../../../utils/form.utils';
+import Input from '../../../../components/Inputs/Input';
+import Select from '../../../../components/Inputs/Select';
+import { userRoles } from '../../../../constants/roles.constants';
+import { generateOptions } from '../../../../utils/form.utils';
+import PasswordInputs from '../PasswordInputs';
 
 class UserForm extends Component {
   render() {
@@ -12,6 +13,7 @@ class UserForm extends Component {
       error,
       disabled = {},
       buttons,
+      showPasswordInputs = true
     } = this.props;
 
     const userRolesOptions = generateOptions(Object.values(userRoles), 'key', 'value', 'hr', true, 'Odaberi');
@@ -81,37 +83,10 @@ class UserForm extends Component {
             </div>
           </div>
 
-          <div className='redux-form__row'>
-            <div className='w-50'>
-              <label className='redux-form__label'>
-                Lozinka
-                <span className='required'>*</span>
-              </label>
-              <Field
-                name='password'
-                placeholder='Unesi lozinku'
-                component={Input}
-                type='password'
-                disabled={disabled.password}
-                className='mr-20'
-              />
-            </div>
-
-            <div className='w-50'>
-              <label className='redux-form__label'>
-                Ponovljena lozinka
-                <span className='required'>*</span>
-              </label>
-              <Field
-                name='repeatedPassword'
-                placeholder='Ponovi lozinku'
-                component={Input}
-                type='password'
-                disabled={disabled.repeatedPassword}
-                className='mr-20'
-              />
-            </div>
-          </div>
+          {
+            showPasswordInputs &&
+            <PasswordInputs disabled={disabled} />
+          }
 
         </div>
         {error && <div className='redux-form__error'>{error}</div>}      

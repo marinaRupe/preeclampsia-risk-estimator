@@ -4,7 +4,7 @@ import { userRoles } from '../../../constants/roles.constants';
 
 class UserSidebar extends Component {
   render() {
-    const { user, closeSidebar, openEditUserModal } = this.props;
+    const { user, closeSidebar, openEditUserModal, openDeleteUserModal } = this.props;
 
     const userRolesValues = Object.values(userRoles);
 
@@ -40,7 +40,13 @@ class UserSidebar extends Component {
             bsStyle='primary'
             onClick={openEditUserModal}
           >
-            Uredi
+            Uredi podatke
+          </Button>
+          <Button
+            bsStyle='danger'
+            onClick={openDeleteUserModal}
+          >
+            Izbriši korisnika
           </Button>
         </div>
       </div>

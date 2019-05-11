@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
-import { ADD_PATIENT_FORM } from '../../../redux/forms';
-import PatientForm from './PatientForm';
+import { ADD_USER_FORM } from '../../../../redux/forms';
+import UserForm from './UserForm';
 
-class AddPatientModal extends Component {
+class AddUserModal extends Component {
   handleCloseModal = async () => {
     const { handleClose, stopSubmitForm } = this.props;
     handleClose();
@@ -29,10 +29,10 @@ class AddPatientModal extends Component {
         dialogClassName='app-modal'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Dodavanje pacijenta</Modal.Title>
+          <Modal.Title>Dodavanje korisika</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PatientForm
+          <UserForm
             onSubmit={handleSubmit}
             error={error}
             buttons={
@@ -41,7 +41,7 @@ class AddPatientModal extends Component {
                   Odustani
                 </Button>
                 <Button bsStyle='primary' type='submit'>
-                  Dodaj pacijenta
+                  Dodaj korisnika
                 </Button>
               </Modal.Footer>
             }
@@ -53,11 +53,11 @@ class AddPatientModal extends Component {
 }
 
 const mapDispatchToProps = {
-  stopSubmitForm: stopSubmit.bind(null, ADD_PATIENT_FORM, {}),
-  resetForm: reset.bind(null, ADD_PATIENT_FORM),
+  stopSubmitForm: stopSubmit.bind(null, ADD_USER_FORM, {}),
+  resetForm: reset.bind(null, ADD_USER_FORM),
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
-  form: ADD_PATIENT_FORM,
+  form: ADD_USER_FORM,
   enableReinitialize: false,
-})(AddPatientModal));
+})(AddUserModal));
