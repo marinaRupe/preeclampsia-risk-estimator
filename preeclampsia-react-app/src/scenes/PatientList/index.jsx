@@ -133,11 +133,7 @@ class PatientList extends Component {
     return [
       {
         Header: 'MBO',
-        accessor: 'MBO'
-      },
-      {
-        Header: 'Ime',
-        accessor: 'firstName',
+        accessor: 'MBO',
         Cell: props => (
           <span>
             <Link to={APP.PATIENT.DETAILS(props.original.id)}>
@@ -145,6 +141,11 @@ class PatientList extends Component {
             </Link>
           </span>
         )
+      },
+      {
+        Header: 'Ime',
+        accessor: 'firstName',
+        Cell: props => <span>{props.value}</span>
       },
       {
         Header: 'Prezime',

@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { APP } from '../../constants/routes';
-import { formatDate } from '../../utils/dateTime.utils';
+import { formatDate, getAgeInYears } from '../../utils/dateTime.utils';
 import Spinner from '../../components/Spinner';
 
 class PatientData extends Component {
@@ -87,6 +87,11 @@ class PatientData extends Component {
           <div className='info-group'>
             <label>Datum rođenja: </label>
             <div>{formatDate(patient.birthDate)}</div>
+          </div>
+
+          <div className='info-group'>
+            <label>Starost u godinama: </label>
+            <div>{getAgeInYears(patient.birthDate)}</div>
           </div>
 
           <div className='info-group'>
