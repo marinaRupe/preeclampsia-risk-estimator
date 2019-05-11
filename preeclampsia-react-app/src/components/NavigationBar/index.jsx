@@ -6,6 +6,7 @@ import { getTranslations } from '../../utils/translation.utils';
 import { withPermission, isUserLoggedIn } from '../../utils/auth.utils';
 import * as userActions from '../../redux/actions/user.actions';
 import { userRoles } from '../../constants/roles.constants';
+import LanguageSelector from '../LanguageSelector';
 
 class NavigationBar extends Component {
   render() {
@@ -23,7 +24,7 @@ class NavigationBar extends Component {
             </a>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav className='w-80'>
+        <Nav className='w-50'>
           {
             withPermission((
               <NavItem eventKey={1} href={APP.PATIENTS}>
@@ -63,6 +64,9 @@ class NavigationBar extends Component {
             </NavDropdown> 
           </Nav>
         }
+        <Nav className='w-10'>
+          <LanguageSelector />
+        </Nav>
       </Navbar>
     );
   } 

@@ -44,6 +44,7 @@ class Translator {
   setLanguage(language) {
     this.language = language;
     localStorage.setItem(values.LANGUAGE, language);
+    window.location.reload();
   }
 }
 
@@ -61,3 +62,4 @@ export const getMeasurementTranslation = (measurement) => {
 
 export const getLanguage = () => new Translator().getLanguage();
 
+export const setLanguage = (language) => new Translator().setLanguage(language);
