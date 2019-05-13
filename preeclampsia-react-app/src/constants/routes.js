@@ -26,8 +26,8 @@ export const API = {
       `${API_URL}/pregnancies/${pregnancyId}/trimesters/${trimesterNumber}`,
   },
   RISK: {
-    GENERATE_PDF_REPORT: (patientId) =>
-      `${API_URL}/risks/patients/${patientId}/generate-pdf`,
+    GENERATE_PDF_REPORT: (trimesterId) =>
+      `${API_URL}/risks/trimesters/${trimesterId}/generate-pdf`,
   },
 };
 
@@ -48,8 +48,9 @@ export const APP = {
   NOT_FOUND_ERROR: '/error/404',
   RISK_ESTIMATE: (
     patientId = ':patientId',
-    pregnancyNumber = ':pregnancyNumber'
-  ) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/risk`,
+    pregnancyNumber = ':pregnancyNumber',
+    trimesterNumber = ':trimesterNumber',
+  ) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/trimesters/${trimesterNumber}/risk`,
   STATISTICS: '/statistics',
   USERS: '/users',
 };

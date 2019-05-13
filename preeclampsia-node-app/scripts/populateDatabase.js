@@ -191,6 +191,7 @@ async function addPatient(row, index) {
   const pregnancyTrimester = await models.db.PregnancyTrimester.create({
     pregnancyId: pregnancy.id,
     trimesterNumber: 1,
+    protocol: row.protocol,
     gestationalAgeByUltrasoundWeeks: row.gestationalAgeByUltrasoundWeeks || null,
     gestationalAgeByUltrasoundDays: row.gestationalAgeByUltrasoundDays || null,
     ultrasoundDate: formatDate(row.ultrasoundDate),

@@ -1,13 +1,22 @@
 import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 import { API } from '../../constants/routes';
 import { actionWrapper } from '../../utils/redux.utils';
+import { getLoginDataFromLocalStorage } from '../../utils/auth.utils';
 import * as httpCalls from '../../utils/http.utils';
 import * as actionCreators from '../actionCreators/risk.actionCreators';
 
-export function generatePDFReport(patientId, trimesterId) {
+export function generatePDFReport(trimesterId, user) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(
-      API.RISK.GENERATE_PDF_REPORT(patientId, trimesterId),
+
+    const currentUser = getLoginDataFromLocalStorage().user;
+
+    const body = {
+      generatedBy: currentUser,
+    };
+
+    const resp = await httpCalls.POST(
+      API.RISK.GENERATE_PDF_REPORT(trimesterId),
+      body,
       {
         responseType: 'blob'
       }

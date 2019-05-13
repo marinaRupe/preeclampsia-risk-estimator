@@ -14,6 +14,10 @@ module.exports = (sequelize) => {
         isIn: [[1, 2, 3]]
       },
     },
+    protocol: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     gestationalAgeByUltrasoundWeeks: {
       type: Sequelize.INTEGER, // TODO: add trimester specific constraints
     },

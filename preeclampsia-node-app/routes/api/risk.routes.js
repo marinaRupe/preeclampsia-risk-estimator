@@ -4,6 +4,6 @@ const RiskController = require('../../controllers/risk.controller');
 
 const router = express.Router();
 
-router.get('/patients/:patientId/generate-pdf', asyncWrap(RiskController.generatePdf));
+router.post('/trimesters/:trimesterId/generate-pdf', asyncWrap(RiskController.generatePdf));
 
 module.exports = router;

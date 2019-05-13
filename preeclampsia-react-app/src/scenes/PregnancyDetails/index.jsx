@@ -37,12 +37,12 @@ class PregnancyDetails extends Component {
     });
   }
 
-  calculateRisk = () => {
+  calculateRisk = (trimesterNumber) => {
     const {
       match: { params: { patientId, pregnancyNumber } },
     } = this.props;
 
-    history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber));
+    history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber, trimesterNumber));
   }
 
   render() {
@@ -71,14 +71,11 @@ class PregnancyDetails extends Component {
 
           <h2>{translations.pregnancy.trimestersTitle}</h2>
 
-          <TrimesterDetails pregnancyId={pregnancyDetails.id} trimesterNumber={1} />
-
-          <Button
-            bsStyle='primary'
-            onClick={this.calculateRisk}
-          >
-            {translations.risk.calculateRisk}
-          </Button>
+          <TrimesterDetails
+            pregnancyId={pregnancyDetails.id}
+            trimesterNumber={1}
+            calculateRisk={this.calculateRisk.bind(null, 1)}
+          />
         </div>
       </div>
     );

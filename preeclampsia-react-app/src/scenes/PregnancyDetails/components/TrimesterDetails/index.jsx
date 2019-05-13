@@ -39,7 +39,7 @@ class TrimesterDetails extends Component {
   }
   
   render() {
-    const { trimesterData, trimesterNumber } = this.props;
+    const { trimesterData, trimesterNumber, calculateRisk } = this.props;
     const { isLoading } = this.state;
 
     const translations = getTranslations();
@@ -66,6 +66,13 @@ class TrimesterDetails extends Component {
           <BiophysicalMeasurements trimesterData={trimesterData} />
           <BiochemicalMeasurements trimesterData={trimesterData} />
         </div>
+
+        <Button
+          bsStyle='primary'
+          onClick={calculateRisk.bind(null, trimesterData.id)}
+        >
+          {translations.risk.calculateRisk}
+        </Button>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 // patients
 export const ADD_PATIENT_FORM = 'ADD_PATIENT_FORM';
-export const EDIT_PATIENT_FORM = 'ADD_PATIENT_FORM';
+export const EDIT_PATIENT_FORM = 'EDIT_PATIENT_FORM';
 
 // users
 export const ADD_USER_FORM = 'ADD_USER_FORM';

@@ -2,7 +2,7 @@
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <title>Izvješće o riziku</title>
+    <title>Rezultat probira za preeklampsiju</title>
     <style>
       body {
         font-size: 16px;
@@ -15,7 +15,8 @@
         text-transform: uppercase;
       }
       div {
-        font-size: 16px;
+        font-size: 20px;
+        line-height: 26px;
       }
       footer {
         margin-top: 100px;
@@ -53,11 +54,23 @@
       .personal-data {
         min-height: 60px;
       }
+      .other-data {
+        min-height: 80px;
+      }
       .biochem-data {
         min-height: 40px;
       }
       .ultrasound-data {
         min-height: 90px;
+      }
+      .comment-section {
+        padding: 10px;
+      }
+      .risk-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
       }
     </style>
 </head>
@@ -81,18 +94,49 @@
         <div>Ime: {{patient.firstName}}</div>
         <div>Prezime: {{patient.lastName}}</div>
         <div>MBO: {{patient.MBO}}</div>
-        <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
+        <div>Datum rođenja: {{patient.birthDate}}</div>
+        <div>Protokol: {{patient.protocol}}</div>
       </div>
       <div class="right-section personal-data has-border">
         <div>Etnička skupina: {{patient.racialOrigin}}</div>
-        <div>Visina: {{patient.height}}</div>
-        <div>Težina (kg): {{patient.weight}}</div>
+        <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
+        <div>Dob na dan vađenja krvi: {{patient.bloodTestAge}}</div>
+        <div>Visina: {{patient.height}} cm</div>
+        <div>Težina: {{patient.weight}} kg</div>
+        <div></div>
       </div>
     </div>
     
     <div>
       <h2>TRUDNOĆA</h2>
       
+      <div class="section-container">
+        <div class="left-section other-data has-border">
+          <div>
+            <span>Tip trudnoće: </span>
+            <span>{{patient.pregnancyType}}</span>
+          </div>
+          <div>
+            <span>Vrsta začeća: </span>
+            <span>{{patient.conceptionMethod}}</span>
+          </div>
+          <div>
+            <span>PE u prethodnoj trudnoći: </span>
+            <span>{{patient.hadPEInPreviousPregnancy}}</span>
+          </div>
+        </div>
+        <div class="right-section other-data has-border">
+          <div>
+            <span>Pušenje za vrijeme trudnoće: </span>
+            <span>{{patient.smokingDuringPregnancy}}</span>
+          </div>
+          <div>
+            <span>Dijabetes: </span>
+            <span>{{patient.diabetesType}}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="section">
         <h3>Biokemijski biljezi i korigirane MoM vrijednosti</h3>
         <div class="left-section biochem-data">
@@ -109,12 +153,8 @@
         <h3>UZV podaci</h3>
         <div class="left-section ultrasound-data">
           <div>
-            <span>Datum UZV pregleda:</span>
-            <span>{{patient.ultrasoundDate}}</span>
-          </div>
-          <div>
             <span>CRL:</span>
-            <span>{{patient.FetalCrownRumpLength}} mm</span>
+            <span>{{patient.CRL}} mm</span>
           </div>
           <div>
             <span>Gestacijska dob prema CRL:</span>
@@ -122,10 +162,14 @@
           </div>
           <div>
             <span>Gestacijska dob na dan vađenja krvi:</span>
-            <span>{{patient.gestationAgeWeeks}}<sup>+{{patient.gestationAgeDays}}</sup></span>
+            <span>{{patient.gestationalAgeOnBloodTestWeeks}}<sup>+{{patient.gestationalAgeOnBloodTestDays}}</sup></span>
           </div>
         </div>
         <div class="right-section ultrasound-data">
+          <div>
+            <span>Datum UZV pregleda:</span>
+            <span>{{patient.ultrasoundDate}}</span>
+          </div>
           <div>
             <span>Izmjerio/la:</span>
             <span>-</span>
@@ -136,11 +180,20 @@
   </div>
 
   <h2>Rizici na dan vađenja krvi</h2>
-  <div>&lt;1:1000</div>
-  <div>rizik manji od graničnog</div>
+
+  <div class="risk-box">
+    <div>&lt;1:1000</div>
+    <div>rizik manji od graničnog</div>
+  </div>
+
+  <div class="section">
+    <h3>KOMENTAR</h3>
+    <div class="comment-section">{{report.note}}</div>
+  </div>
   
   <footer>
-    <div>Datum nalaza: {{report.date}}</div>
+    <div class="left-section">Datum nalaza: {{report.createdAt}}</div>
+    <div class="right-section">Nalaz izdao/la: {{report.generatedBy.firstName}} {{report.generatedBy.lastName}}</div>
   </footer>
 </body>
 </html>

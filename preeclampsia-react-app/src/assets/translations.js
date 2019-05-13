@@ -107,7 +107,7 @@ export const translations = {
     },
     word: {
       pregnancy: 'Trudnoća',
-      trimester: 'tromjesečje',
+      trimester: 'Tromjesečje',
       yes: 'DA',
       no: 'NE',
       unknown: 'nepoznato',
