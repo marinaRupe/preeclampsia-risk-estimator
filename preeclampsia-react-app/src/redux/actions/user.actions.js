@@ -35,7 +35,7 @@ export function removeUser(userId) {
       await dispatch(actionCreators.deleteUser({ status: ACTION_STATUS.SUCCESS, data: userId }));
     }
   };
-  return actionWrapper(action, true);
+  return actionWrapper(action);
 }
 
 export function loginUser(userData) {

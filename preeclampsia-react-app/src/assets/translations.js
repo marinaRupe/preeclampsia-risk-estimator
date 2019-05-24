@@ -87,6 +87,10 @@ export const translations = {
     },
     statistics: {
       title: 'Statistika',
+      PAPPAMediansNoPETitle: 'PAPP-A medijani - pacijentice koje nisu oboljele od preeklampsije',
+      PAPPAMediansPETitle: 'PAPP-A medijani - pacijentice koje su oboljele od preeklampsije',
+      PLGFMediansNoPETitle: 'PLGF medijani - pacijentice koje nisu oboljele od preeklampsije',
+      PLGFMediansPETitle: 'PLGF medijani - pacijentice koje su oboljele od preeklampsije',
     },
     login: {
       title: 'Prijava',
@@ -186,6 +190,10 @@ export const translations = {
     },
     statistics: {
       title: 'Statistics',
+      PAPPAMediansNoPETitle: 'PAPP-A medians - patients without PE',
+      PAPPAMediansPETitle: 'PAPP-A medians - patients with PE',
+      PLGFMediansNoPETitle: 'PLGF medians - patients without PE',
+      PLGFMediansPETitle: 'PLGF medians - patients with PE',
     },
     pregnancy: {
       action: {

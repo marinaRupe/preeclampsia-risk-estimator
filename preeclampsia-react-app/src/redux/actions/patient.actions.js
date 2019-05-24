@@ -51,7 +51,7 @@ export function removePatient(patientId) {
       await dispatch(actionCreators.deletePatient({ status: ACTION_STATUS.SUCCESS, data: patientId }));
     }
   };
-  return actionWrapper(action, true);
+  return actionWrapper(action);
 }
 
 export function updatePatientDetails(patientData) {
