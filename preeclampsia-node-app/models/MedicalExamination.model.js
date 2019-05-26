@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  const PregnancyTrimester = sequelize.define('PregnancyTrimester', {
+  const MedicalExamination = sequelize.define('MedicalExamination', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -35,39 +35,47 @@ module.exports = (sequelize) => {
     },
   });
 
-  PregnancyTrimester.associate = (models) => {
-    models.PregnancyTrimester.hasMany(models.BooleanMeasurement, {
+  MedicalExamination.associate = (models) => {
+    models.MedicalExamination.hasMany(models.BooleanMeasurement, {
       foreignKey: {
-        name: 'pregnancyTrimesterId',
+        name: 'medicalExaminationId',
         allowNull: false,
       },
       as: 'booleanMeasurements',
     });
 
-    models.PregnancyTrimester.hasMany(models.EnumMeasurement, {
+    models.MedicalExamination.hasMany(models.EnumMeasurement, {
       foreignKey: {
-        name: 'pregnancyTrimesterId',
+        name: 'medicalExaminationId',
         allowNull: false,
       },
       as: 'enumMeasurements',
     });
 
-    models.PregnancyTrimester.hasMany(models.NumericalMeasurement, {
+    models.MedicalExamination.hasMany(models.NumericalMeasurement, {
       foreignKey: {
-        name: 'pregnancyTrimesterId',
+        name: 'medicalExaminationId',
         allowNull: false,
       },
       as: 'numericalMeasurements',
     });
 
-    models.PregnancyTrimester.hasMany(models.Report, {
+    models.MedicalExamination.hasMany(models.Report, {
       foreignKey: {
-        name: 'pregnancyTrimesterId',
+        name: 'medicalExaminationId',
         allowNull: false,
       },
       as: 'reports',
     });
+
+    models.MedicalExamination.belongsTo(models.Pregnancy, {
+      foreignKey: {
+        name: 'pregnancyId',
+        allowNull: false,
+      },
+      as: 'pregnancy',
+    });
   };
 
-  return PregnancyTrimester;
+  return MedicalExamination;
 };

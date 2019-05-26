@@ -4,6 +4,6 @@ const PregnancyController = require('../../controllers/pregnancy.controller');
 
 const router = express.Router();
 
-router.get('/:pregnancyId/med-examinations', asyncWrap(PregnancyController.getMedicalExaminationsForPregnancy));
+router.get('/:medicalExaminationId', asyncWrap(PregnancyController.getMedicalExaminationDetails));
 
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Line } from 'react-chartjs-2';
 import { getTranslations } from '../../utils/translation.utils';
 import PregnancyLineChart from './content/PregnancyLineChart';
 

@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    birthDate: {
+    deliveryDate: {
       type: Sequelize.DATEONLY,
     },
     birthWeight: {
@@ -59,12 +59,20 @@ module.exports = (sequelize) => {
   });
 
   Pregnancy.associate = (models) => {
-    models.Pregnancy.hasMany(models.PregnancyTrimester, {
+    models.Pregnancy.hasMany(models.MedicalExamination, {
       foreignKey: {
         name: 'pregnancyId',
         allowNull: false,
       },
-      as: 'pregnancyTrimesters',
+      as: 'medicalExaminations',
+    });
+
+    models.Pregnancy.belongsTo(models.Patient, {
+      foreignKey: {
+        name: 'patientId',
+        allowNull: false,
+      },
+      as: 'patient',
     });
   };
 

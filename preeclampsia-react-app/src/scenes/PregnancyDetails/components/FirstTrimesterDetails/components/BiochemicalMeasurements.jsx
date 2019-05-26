@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Characteristics } from '../../../../../constants/characteristics.constants';
-import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
-import {
-  displayNumericalMeasurementValue,
-} from '../../../../../utils/measurement.utils';
+import { getTranslations } from '../../../../../utils/translation.utils';
+import NumericalMeasurement from '../../../../../components/Measurement/NumericalMeasurement';
 
 class BiophysicalMeasurements extends Component {
   constructor(props) {
@@ -31,7 +28,7 @@ class BiophysicalMeasurements extends Component {
   render() {
     const { isEditModeOn } = this.state;
     const {
-      trimesterData: {
+      medicalExaminationData: {
         numericalMeasurements,
       } } = this.props;
     
@@ -50,39 +47,16 @@ class BiophysicalMeasurements extends Component {
             </h4>
           </Row>
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>
-                {getCharacteristicTranslation(Characteristics.SerumPLGF)}:
-              </label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPLGF, 'pg/ml')}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <NumericalMeasurement
+            characteristicName='SerumPLGF'
+            value={numericalMeasurements.SerumPLGF}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>
-                {getCharacteristicTranslation(Characteristics.SerumPAPPA)}:
-              </label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.SerumPAPPA, 'mU/L')}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <NumericalMeasurement
+            characteristicName='SerumPAPPA'
+            value={numericalMeasurements.SerumPAPPA}
+          />
+
           {
             isEditModeOn &&
             <div>

@@ -2,9 +2,11 @@ const Errors = require('restify-errors');
 const values = require('../constants/values.constants');
 const { translations } = require('../constants/translations.constants');
 const PregnancyService = require('../services/pregnancy.service');
+const MedicalExaminationService = require('../services/medicalExamination.service');
 const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
-const PregnancyTrimesterDetailsViewModel
-  = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyTrimesterDetails.viewModel');
+const MedicalExaminationDetailsViewModel
+  = require('../dataTransferObjects/viewModels/Pregnancy/MedicalExaminationDetails.viewModel');
+const PregnancyDataForReportViewModel = require('../dataTransferObjects/viewModels/Report/PregnancyDataForReport.viewModel');
 
 const getPregnancyDetails = async (req, res) => {
   const { patientId, pregnancyNumber } = req.params;
@@ -21,22 +23,45 @@ const getPregnancyDetails = async (req, res) => {
   res.json(model);
 };
 
-const getPregnancyTrimesterDetails = async (req, res) => {
-  const { pregnancyId, trimesterNumber = 1 } = req.params;
+const getMedicalExaminationsForPregnancy = async (req, res) => {
+  const { pregnancyId } = req.params;
   const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
 
-  const trimester = await PregnancyService.getPregnancyTrimesterDetails(pregnancyId, trimesterNumber);
+  if (!PregnancyService.existWithId(pregnancyId)) {
+    throw new Errors.NotFoundError(translations[language].response.notFound.pregnancy);
+  }
 
-  if (!trimester) {
+  const medicalExaminations = await MedicalExaminationService.getAllForPregnancy(pregnancyId);
+  const model = medicalExaminations.map(me => new MedicalExaminationDetailsViewModel(me));
+
+  res.json(model);
+};
+
+const getMedicalExaminationDetails = async (req, res) => {
+  const { pregnancyId, medicalExaminationId } = req.params;
+  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+
+  if (!PregnancyService.existWithId(pregnancyId)) {
+    throw new Errors.NotFoundError(translations[language].response.notFound.pregnancy);
+  }
+
+  if (!MedicalExaminationService.existWithId(medicalExaminationId)) {
     throw new Errors.NotFoundError(translations[language].response.notFound.trimester);
   }
 
-  const model = new PregnancyTrimesterDetailsViewModel(trimester);
+  const medicalExamination = await MedicalExaminationService.getById(medicalExaminationId);
+
+  const model = new PregnancyDataForReportViewModel(
+    medicalExamination,
+    medicalExamination.pregnancy,
+    medicalExamination.pregnancy.patient
+  );
 
   res.json(model);
 };
 
 module.exports = {
   getPregnancyDetails,
-  getPregnancyTrimesterDetails,
+  getMedicalExaminationsForPregnancy,
+  getMedicalExaminationDetails,
 };

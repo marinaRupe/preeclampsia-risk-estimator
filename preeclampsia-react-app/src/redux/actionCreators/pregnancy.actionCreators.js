@@ -8,10 +8,10 @@ export const fetchPatientPregnancyDetails = ({ status, data }) => {
   };
 };
 
-export const fetchPregnancyTrimesterDetails = ({ status, data }) => {
+export const fetchMedicalExaminationsForPregnancy = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_PREGNANCY_TRIMESTER_DETAILS,
+    type: types.FETCH_MEDICAL_EXAMINATIONS_FOR_PREGNANCY,
   };
 };

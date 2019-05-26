@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Characteristics } from '../../../../../constants/characteristics.constants';
-import { getTranslations, getCharacteristicTranslation } from '../../../../../utils/translation.utils';
-import {
-  displayNumericalMeasurementValue,
-} from '../../../../../utils/measurement.utils';
+import { getTranslations } from '../../../../../utils/translation.utils';
+import BooleanMeasurement from '../../../../../components/Measurement/BooleanMeasurement';
+import EnumMeasurement from '../../../../../components/Measurement/EnumMeasurement';
 
-class BiophysicalMeasurements extends Component {
+class MedicalHistory extends Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +21,7 @@ class BiophysicalMeasurements extends Component {
   closeEditMode = () => {
     this.setState({ isEditModeOn: false });
   }
-  
+
   saveChanges = () => {
     this.closeEditMode();
   };
@@ -31,8 +29,10 @@ class BiophysicalMeasurements extends Component {
   render() {
     const { isEditModeOn } = this.state;
     const {
-      trimesterData: {
-        numericalMeasurements,
+      medicalExaminationData: {
+        note,
+        enumMeasurements,
+        booleanMeasurements,
       } } = this.props;
 
     const translations = getTranslations();
@@ -42,7 +42,7 @@ class BiophysicalMeasurements extends Component {
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>{translations.pregnancy.biophysicalMeasurementsTitle}</span>
+              <span>{translations.pregnancy.medicalHistoryTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
@@ -50,39 +50,41 @@ class BiophysicalMeasurements extends Component {
             </h4>
           </Row>
 
+          <EnumMeasurement
+            characteristicName='HypertensionType'
+            value={enumMeasurements.HypertensionType}
+          />
+
+          <EnumMeasurement
+            characteristicName='DiabetesType'
+            value={enumMeasurements.DiabetesType}
+          />
+
+          <BooleanMeasurement
+            characteristicName='SystemicLupusErythematosus'
+            value={booleanMeasurements.SystemicLupusErythematosus}
+          />
+
+          <BooleanMeasurement
+            characteristicName='AntiPhospholipidSyndrome'
+            value={booleanMeasurements.AntiPhospholipidSyndrome}
+          />
+
           <Row className='measurement'>
             <Col sm={3}>
-              <label>
-                {getCharacteristicTranslation(Characteristics.MeanArterialPressure)}:
-              </label>
+              <label>Napomena:</label>
             </Col>
             <Col sm={8}>
               <div className='measurement__info'>
                 <div className='details'>
                   <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.MeanArterialPressure, 'mmHg')}
+                    {note || '-'}
                   </span>
                 </div>
               </div>
             </Col>
           </Row>
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>
-                {getCharacteristicTranslation(Characteristics.MeanUterineArteryPI)}:
-              </label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayNumericalMeasurementValue(numericalMeasurements.MeanUterineArteryPI)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
           {
             isEditModeOn &&
             <div>
@@ -106,4 +108,4 @@ class BiophysicalMeasurements extends Component {
   }
 }
 
-export default BiophysicalMeasurements;
+export default MedicalHistory;

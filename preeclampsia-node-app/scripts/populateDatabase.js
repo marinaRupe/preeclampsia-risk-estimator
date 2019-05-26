@@ -24,8 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 function formatDate(date) {
-  const CSV_DATE_FORMAT = 'DD.MM.YYYY';
-  const DB_DATE_FORMAT = 'YYYY/MM/DD';
+  const CSV_DATE_FORMAT = 'YYYY-MM-DD';
+  const DB_DATE_FORMAT = 'YYYY-MM-DD';
 
   return moment(date, CSV_DATE_FORMAT).format(DB_DATE_FORMAT);
 }
@@ -52,12 +52,12 @@ async function addCharacteristics() {
   }));
 }
 
-async function addPregnancyMeasures(pregnancyTrimester, row) {
+async function addPregnancyMeasures(medicalExamination, row) {
   // Boolean measurements
   if (row.smokingDuringPregnancy) {
     await models.db.BooleanMeasurement.create({
       value: row.smokingDuringPregnancy, // 0 - false, 1 - true
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.SmokingDuringPregnancy.key,
     });
   }
@@ -65,7 +65,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.antiPhospholipidSyndrome) {
     await models.db.BooleanMeasurement.create({
       value: row.antiPhospholipidSyndrome, // 0 - false, 1 - true
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.AntiPhospholipidSyndrome.key,
     });
   }
@@ -73,7 +73,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.systemicLupusErythematosus)  {
     await models.db.BooleanMeasurement.create({
       value: row.systemicLupusErythematosus, // 0 - false, 1 - true
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.SystemicLupusErythematosus.key,
     });
   }
@@ -82,7 +82,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.height) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.height),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.Height.key,
     });
   }
@@ -90,7 +90,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.weight) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.weight),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.Weight.key,
     });
   }
@@ -98,7 +98,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.meanArterialPressure) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.meanArterialPressure),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.MeanArterialPressure.key,
     });
   }
@@ -106,7 +106,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.meanUterineArteryPI) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.meanUterineArteryPI),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.MeanUterineArteryPI.key,
     });
   }
@@ -114,7 +114,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.CRL) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.CRL),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.FetalCrownRumpLength.key,
     });
   }
@@ -122,7 +122,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.PLGF) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.PLGF),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.SerumPLGF.key,
     });
   }
@@ -130,7 +130,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   if (row.PAPP_A) {
     await models.db.NumericalMeasurement.create({
       value: parseFloat(row.PAPP_A),
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.SerumPAPPA.key,
     });
   }
@@ -141,7 +141,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
     await models.db.EnumMeasurement.create({
       value: diabetesType,
       hrName: Object.values(DiabetesTypes).find(t => t.key === diabetesType).hr,
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.DiabetesType.key,
     });
   }
@@ -151,7 +151,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
     await models.db.EnumMeasurement.create({
       value: hypertensionType,
       hrName: Object.values(HypertensionTypes).find(t => t.key === hypertensionType).hr,
-      pregnancyTrimesterId: pregnancyTrimester.id,
+      medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.HypertensionType.key,
     });
   }
@@ -159,7 +159,7 @@ async function addPregnancyMeasures(pregnancyTrimester, row) {
   await models.db.EnumMeasurement.create({
     value: ConceptionMethodEnum.Spontaneous,
     hrName: ConceptionMethods.Spontaneous.hr,
-    pregnancyTrimesterId: pregnancyTrimester.id,
+    medicalExaminationId: medicalExamination.id,
     characteristicId: Characteristics.ConceptionMethod.key,
   });
 }
@@ -178,7 +178,7 @@ async function addPatient(row, index) {
     patientId: patient.id,
     lastPeriodDate: row.lastPeriodDate ? formatDate(row.lastPeriodDate) : null,
     lastPeriodDateIsReliable: false, // TODO: get from CSV
-    birthDate: row.pregnancyEndDate ? formatDate(row.pregnancyEndDate) : null,
+    deliveryDate: row.deliveryDate ? formatDate(row.deliveryDate) : null,
     birthLength: row.birthLength ? parseFloat(row.birthLength) : null,
     birthWeight: row.birthWeight ? parseFloat(row.birthWeight) : null,
     pregnancyType: PregnancyTypes.Singleton.key, // TODO: get from CSV
@@ -188,18 +188,18 @@ async function addPatient(row, index) {
     resultedWithPE: row.resultedWithPE // 0 - false, 1 - true
   });
 
-  const pregnancyTrimester = await models.db.PregnancyTrimester.create({
+  const medicalExamination = await models.db.MedicalExamination.create({
     pregnancyId: pregnancy.id,
     trimesterNumber: 1,
     protocol: row.protocol,
     gestationalAgeByUltrasoundWeeks: row.gestationalAgeByUltrasoundWeeks || null,
     gestationalAgeByUltrasoundDays: row.gestationalAgeByUltrasoundDays || null,
-    ultrasoundDate: formatDate(row.ultrasoundDate),
+    ultrasoundDate: row.ultrasoundDate ? formatDate(row.ultrasoundDate) : null,
     bloodTestDate: formatDate(row.bloodTestDate),
     note: row.note
   });
 
-  await addPregnancyMeasures(pregnancyTrimester, row);
+  await addPregnancyMeasures(medicalExamination, row);
 }
 
 async function populateDb() {

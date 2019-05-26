@@ -8,35 +8,25 @@ const { ConceptionMethods, PregnancyTypes } = require('../constants/pregnancy.co
 const { DiabetesTypes } = require('../constants/measurements.constants');
 const hospitalLogo = require('../assets/hospitalLogo');
 const UserService = require('../services/user.service');
-const PatientService = require('../services/patient.service');
-const PregnancyService = require('../services/pregnancy.service');
-const { formatDate, getAgeInYears, calculatePreviousGestationalAge } = require('../utils/dateTime.utils');
+const MedicalExaminationService = require('../services/medicalExamination.service');
+const { formatDate, getAgeInYears, calculateGestationalAgeFromDate } = require('../utils/dateTime.utils');
 
 const generatePdf = async (req, res) => {
-  const { trimesterId } = req.params;
+  const { medicalExaminationId } = req.params;
   const { generatedBy } = req.body;
 
-  if (!trimesterId) {
+  if (!medicalExaminationId) {
     throw new Errors.BadRequestError();
   }
 
-  const trimester = await PregnancyService.getPregnancyTrimesterById(trimesterId);
+  const medicalExamination = await MedicalExaminationService.getById(medicalExaminationId);
 
-  if (!trimester) {
+  if (!medicalExamination) {
     throw new Errors.NotFoundError();
   }
 
-  const pregnancy = await PregnancyService.getById(trimester.pregnancyId);
-
-  if (!pregnancy) {
-    throw new Errors.BadRequestError();
-  }
-
-  const patient = await PatientService.getById(pregnancy.patientId);
-
-  if (!patient) {
-    throw new Errors.BadRequestError();
-  }
+  const { pregnancy } = medicalExamination;
+  const { patient } = pregnancy;
 
   const user = await UserService.getById(generatedBy.id);
 
@@ -44,25 +34,25 @@ const generatePdf = async (req, res) => {
     throw new Errors.BadRequestError();
   }
 
-  const gestationalAgeOnBloodTest = calculatePreviousGestationalAge(
-    trimester.ultrasoundDate,
-    trimester.bloodTestDate,
-    trimester.gestationalAgeByUltrasoundWeeks,
-    trimester.gestationalAgeByUltrasoundDays
+  const gestationalAgeOnBloodTest = calculateGestationalAgeFromDate(
+    medicalExamination.ultrasoundDate,
+    medicalExamination.bloodTestDate,
+    medicalExamination.gestationalAgeByUltrasoundWeeks,
+    medicalExamination.gestationalAgeByUltrasoundDays
   );
 
   const booleanMeasurements = {};
-  (trimester.booleanMeasurements || []).forEach(bm => {
+  (medicalExamination.booleanMeasurements || []).forEach(bm => {
     booleanMeasurements[bm.characteristicId] = bm;
   });
 
   const numericalMeasurements = {};
-  (trimester.numericalMeasurements || []).forEach(nm => {
+  (medicalExamination.numericalMeasurements || []).forEach(nm => {
     numericalMeasurements[nm.characteristicId] = nm;
   });
 
   const enumMeasurements = {};
-  (trimester.enumMeasurements || []).forEach(em => {
+  (medicalExamination.enumMeasurements || []).forEach(em => {
     enumMeasurements[em.characteristicId] = em;
   });
 
@@ -87,15 +77,15 @@ const generatePdf = async (req, res) => {
       MBO: patient.MBO,
       birthDate: formatDate(patient.birthDate),
       racialOrigin: patient.racialOrigin,
-      protocol: trimester.protocol,
-      gestationalAgeByUltrasoundWeeks: trimester.gestationalAgeByUltrasoundWeeks,
-      gestationalAgeByUltrasoundDays: trimester.gestationalAgeByUltrasoundDays,
+      protocol: medicalExamination.protocol,
+      gestationalAgeByUltrasoundWeeks: medicalExamination.gestationalAgeByUltrasoundWeeks,
+      gestationalAgeByUltrasoundDays: medicalExamination.gestationalAgeByUltrasoundDays,
       gestationalAgeOnBloodTestWeeks: gestationalAgeOnBloodTest.weeks,
       gestationalAgeOnBloodTestDays: gestationalAgeOnBloodTest.days,
-      ultrasoundDate: formatDate(trimester.ultrasoundDate),
-      bloodTestDate: formatDate(trimester.bloodTestDate),
-      bloodTestAge: getAgeInYears(patient.birthDate, trimester.bloodTestDate),
-      note: trimester.note,
+      ultrasoundDate: formatDate(medicalExamination.ultrasoundDate),
+      bloodTestDate: formatDate(medicalExamination.bloodTestDate),
+      bloodTestAge: getAgeInYears(patient.birthDate, medicalExamination.bloodTestDate),
+      note: medicalExamination.note,
       serumPLGF: serumPLGF && serumPLGF.value,
       serumPAPPA: serumPAPPA && serumPAPPA.value,
       serumPLGFMoM,
@@ -122,7 +112,7 @@ const generatePdf = async (req, res) => {
     },
     report: {
       generatedBy: user,
-      note: trimester.note,
+      note: medicalExamination.note,
       createdAt: formatDate(new Date()),
     },
     hospitalLogo
@@ -133,7 +123,7 @@ const generatePdf = async (req, res) => {
   const html = compiledTemplate(data);
 
   const options = { format: 'A4', border: { top: '30px', left: '30px', right: '30px' } };
-  const pdfName = `preeclampsia_risk_report_${pregnancy.patientId}_${pregnancy.trimesterId}_${new Date()}.pdf`;
+  const pdfName = `preeclampsia_risk_report_${pregnancy.patientId}_${medicalExamination.id}_${new Date()}.pdf`;
 
   const file = await new Promise((resolve, reject) =>
     html2pdf

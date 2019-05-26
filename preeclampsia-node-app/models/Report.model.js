@@ -21,5 +21,23 @@ module.exports = (sequelize) => {
     },
   });
 
+  Report.associate = (models) => {
+    models.Report.belongsTo(models.User, {
+      foreignKey: {
+        name: 'generatedById',
+        allowNull: false,
+      },
+      as: 'generatedBy',
+    });
+
+    models.Report.belongsTo(models.MedicalExamination, {
+      foreignKey: {
+        name: 'medicalExaminationId',
+        allowNull: false,
+      },
+      as: 'medicalExamination',
+    });
+  };
+
   return Report;
 };

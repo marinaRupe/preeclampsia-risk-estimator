@@ -22,12 +22,14 @@ export const API = {
   PREGNANCIES: {
     GET_PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>
       `${API_URL}/patients/${patientId}/pregnancies/${pregnancyNumber}`,
-    GET_TRIMESTER_DETAILS: (pregnancyId, trimesterNumber) =>
-      `${API_URL}/pregnancies/${pregnancyId}/trimesters/${trimesterNumber}`,
+    GET_MEDICAL_EXAMINATIONS_FOR_PREGNANCY: (pregnancyId) =>
+      `${API_URL}/pregnancies/${pregnancyId}/med-examinations`,
+    GET_MEDICAL_EXAMINATION: (medicalExaminationId) =>
+      `${API_URL}/med-examinations/${medicalExaminationId}`,
   },
   RISK: {
-    GENERATE_PDF_REPORT: (trimesterId) =>
-      `${API_URL}/risks/trimesters/${trimesterId}/generate-pdf`,
+    GENERATE_PDF_REPORT: (medicalExaminationId) =>
+      `${API_URL}/risks/med-examinations/${medicalExaminationId}/generate-pdf`,
   },
 };
 
@@ -49,8 +51,8 @@ export const APP = {
   RISK_ESTIMATE: (
     patientId = ':patientId',
     pregnancyNumber = ':pregnancyNumber',
-    trimesterNumber = ':trimesterNumber',
-  ) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/trimesters/${trimesterNumber}/risk`,
+    medicalExaminationId = ':medicalExaminationId',
+  ) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/examinations/${medicalExaminationId}/risk`,
   STATISTICS: '/statistics',
   USERS: '/users',
 };
