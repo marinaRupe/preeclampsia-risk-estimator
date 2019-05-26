@@ -67,7 +67,7 @@ const getMediansByWeeks = async (characteristicId) => {
     mediansWithPE[week] = median(mediansWithPE[week]);
   }
 
-  return { withPe: mediansWithPE, withoutPE: mediansWithoutPE };
+  return { withPE: mediansWithPE, withoutPE: mediansWithoutPE };
 };
 
 module.exports = {

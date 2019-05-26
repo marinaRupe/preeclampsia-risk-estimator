@@ -6,7 +6,7 @@ import * as actionCreators from '../actionCreators/patient.actionCreators';
 
 export function fetchPatientList(page = 1, pageSize = 10, sortColumn, sortDirection) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PATIENTS.GET_ALL(page, pageSize, sortColumn, sortDirection));
+    const resp = await httpCalls.GET(API.PATIENTS.ALL(page, pageSize, sortColumn, sortDirection));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatients({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -16,7 +16,7 @@ export function fetchPatientList(page = 1, pageSize = 10, sortColumn, sortDirect
 
 export function fetchPatient(patientId) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PATIENTS.GET_BY_ID(patientId));
+    const resp = await httpCalls.GET(API.PATIENTS.BY_ID(patientId));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -36,7 +36,7 @@ export function createPatient(patientData) {
 
 export function updatePatient(patientData) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.PUT(API.PATIENTS.GET_BY_ID(patientData.id), patientData);
+    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), patientData);
     if (resp.status === 200) {
       await dispatch(actionCreators.editPatient({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -46,7 +46,7 @@ export function updatePatient(patientData) {
 
 export function removePatient(patientId) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.DELETE(API.PATIENTS.GET_BY_ID(patientId));
+    const resp = await httpCalls.DELETE(API.PATIENTS.BY_ID(patientId));
     if (resp.status === 200) {
       await dispatch(actionCreators.deletePatient({ status: ACTION_STATUS.SUCCESS, data: patientId }));
     }
@@ -56,7 +56,7 @@ export function removePatient(patientId) {
 
 export function updatePatientDetails(patientData) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.PUT(API.PATIENTS.GET_BY_ID(patientData.id), patientData);
+    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), patientData);
     if (resp.status === 200) {
       await dispatch(actionCreators.editPatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }

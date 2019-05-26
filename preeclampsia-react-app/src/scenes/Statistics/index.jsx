@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Characteristics } from '../../constants/characteristics.constants';
 import { getTranslations } from '../../utils/translation.utils';
+import * as statisticsActions from '../../redux/actions/statistics.actions';
 import PregnancyLineChart from './content/PregnancyLineChart';
 
 class Statistics extends Component {
@@ -13,36 +15,43 @@ class Statistics extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      isLoading: true,
+    }, async () => {
+      const { fetchMediansForCharacteristic } = this.props;
+      await fetchMediansForCharacteristic(Characteristics.SerumPAPPA.key);
+      await fetchMediansForCharacteristic(Characteristics.SerumPLGF.key);
+
+      this.setState({
+        isLoading: false,
+      });
+    });
+  }
+
   render() {
     const translations = getTranslations();
+    const { mediansForCharacteristics } = this.props;
 
-    const PAPPADataNoPE = [
-      { x: 11, y: 200 },
-      { x: 12, y: 300 },
-      { x: 13, y: 400 },
-      { x: 14, y: 300 },
-    ];
+    const PLGFMedians = mediansForCharacteristics[Characteristics.SerumPLGF.key];
+    const PLGFMediansNoPE = PLGFMedians ? PLGFMedians.withoutPE : {};
+    const PLGFMediansPE = PLGFMedians ? PLGFMedians.withPE : {};
 
-    const PAPPAfDataPE = [
-      { x: 11, y: 200 },
-      { x: 12, y: 300 },
-      { x: 13, y: 400 },
-      { x: 14, y: 300 },
-    ];
+    const PAPPAMedians = mediansForCharacteristics[Characteristics.SerumPAPPA.key];
+    const PAPPAMediansNoPE = PAPPAMedians ? PAPPAMedians.withoutPE : {};
+    const PAPPAMediansPE = PAPPAMedians ? PAPPAMedians.withPE : {};
 
-    const PLGFDataNoPE = [
-      { x: 11, y: 200 },
-      { x: 12, y: 300 },
-      { x: 13, y: 400 },
-      { x: 14, y: 300 },
-    ];
+    const PAPPADataNoPE = Object.entries(PAPPAMediansNoPE)
+      .map(([week, value]) => ({ x: parseInt(week), y: value }));
 
-    const PLGFDataPE = [
-      { x: 11, y: 200 },
-      { x: 12, y: 300 },
-      { x: 13, y: 400 },
-      { x: 14, y: 300 },
-    ];
+    const PAPPAfDataPE = Object.entries(PAPPAMediansPE)
+      .map(([week, value]) => ({ x: parseInt(week), y: value }));
+
+    const PLGFDataNoPE = Object.entries(PLGFMediansNoPE)
+      .map(([week, value]) => ({ x: parseInt(week), y: value }));
+
+    const PLGFDataPE = Object.entries(PLGFMediansPE)
+      .map(([week, value]) => ({ x: parseInt(week), y: value }));
 
     return (
       <div className='page'>
@@ -86,4 +95,14 @@ class Statistics extends Component {
   }
 }
 
-export default connect()(withRouter(Statistics));
+const mapStateToProps = ({ statistics }) => {
+  return {
+    mediansForCharacteristics: statistics.mediansForCharacteristics,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchMediansForCharacteristic: statisticsActions.fetchMediansForCharacteristic,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Statistics));

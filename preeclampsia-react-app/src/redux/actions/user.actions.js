@@ -10,7 +10,7 @@ import * as actionCreators from '../actionCreators/user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.USERS.GET_ALL(page, pageSize, sortColumn, sortDirection));
+    const resp = await httpCalls.GET(API.USERS.ALL(page, pageSize, sortColumn, sortDirection));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchUsers({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -20,7 +20,7 @@ export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection
 
 export function updateUser(userData) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.PUT(API.USERS.GET_BY_ID(userData.id), userData);
+    const resp = await httpCalls.PUT(API.USERS.BY_ID(userData.id), userData);
     if (resp.status === 200) {
       await dispatch(actionCreators.editUser({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -30,7 +30,7 @@ export function updateUser(userData) {
 
 export function removeUser(userId) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.DELETE(API.USERS.GET_BY_ID(userId));
+    const resp = await httpCalls.DELETE(API.USERS.BY_ID(userId));
     if (resp.status === 200) {
       await dispatch(actionCreators.deleteUser({ status: ACTION_STATUS.SUCCESS, data: userId }));
     }

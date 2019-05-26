@@ -22,6 +22,9 @@ const initialState = {
   reports: {
     pregnancyDataForReport: null
   },
+  statistics: {
+    mediansForCharacteristics: {},
+  },
 };
 
 export default initialState;

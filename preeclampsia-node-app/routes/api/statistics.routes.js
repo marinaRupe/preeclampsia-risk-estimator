@@ -1,11 +1,11 @@
 const express = require('express');
 const asyncWrap = require('express-async-wrap');
-const PregnancyController = require('../../controllers/pregnancy.controller');
+const StatisticsController = require('../../controllers/statistics.controller');
 const { authenticate } = require('../../middlewares/authentication.middleware');
 
 const router = express.Router();
 
-router.get('/:pregnancyId/med-examinations',
-  authenticate, asyncWrap(PregnancyController.getMedicalExaminationsForPregnancy));
+router.get('/characteristics/:characteristicId/medians',
+  authenticate, asyncWrap(StatisticsController.getMediansForCharacteristic));
 
 module.exports = router;

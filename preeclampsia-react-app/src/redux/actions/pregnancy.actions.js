@@ -6,7 +6,7 @@ import * as actionCreators from '../actionCreators/pregnancy.actionCreators';
 
 export function fetchPatientPregnancyDetails(patientId, pregnancyNumber) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PREGNANCIES.GET_PREGNANCY_DETAILS(patientId, pregnancyNumber));
+    const resp = await httpCalls.GET(API.PREGNANCIES.PREGNANCY_DETAILS(patientId, pregnancyNumber));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatientPregnancyDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -19,7 +19,7 @@ export function fetchPatientPregnancyDetails(patientId, pregnancyNumber) {
 
 export function fetchMedicalExaminationsForPregnancy(pregnancyId) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PREGNANCIES.GET_MEDICAL_EXAMINATIONS_FOR_PREGNANCY(pregnancyId));
+    const resp = await httpCalls.GET(API.PREGNANCIES.MEDICAL_EXAMINATIONS_FOR_PREGNANCY(pregnancyId));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchMedicalExaminationsForPregnancy({
         status: ACTION_STATUS.SUCCESS,
