@@ -105,6 +105,8 @@ class RiskEstimate extends Component {
             <div>{pregnancyDataForReport.patient.racialOrigin}</div>
           </div>
 
+          <hr />
+
           {
             Object.keys(booleanMeasurements).map(m => (
               <BooleanMeasurement

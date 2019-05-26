@@ -2,7 +2,6 @@ const Errors = require('restify-errors');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const values = require('../constants/values.constants');
-const { translations } = require('../constants/translations.constants');
 const UserService = require('../services/user.service');
 const UserValidator = require('../validators/user.validator');
 const UserLoginViewModel = require('../dataTransferObjects/viewModels/User/UserLogin.viewModel');
@@ -22,12 +21,12 @@ const getAll = async (req, res) => {
 };
 
 const login = async (req, res, next) => {
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   passport.authenticate('login', async (err, user, info) => {
     try {
       if (err) {
-        throw new Errors.InternalError(err.message || translations[language].response.defaultError);
+        throw new Errors.InternalError(err.message || translations.response.defaultError);
       }
 
       if (!user) {
@@ -35,7 +34,7 @@ const login = async (req, res, next) => {
       }
 
       req.login(user, { session : false }, async (error) => {
-        if (error) throw new Errors.InternalError(error.message || translations[language].response.defaultError);
+        if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
         
         const body = { id: user.id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
@@ -49,16 +48,16 @@ const login = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   passport.authenticate('signup', async (err, user) => {
     try {
       if (err || !user) {
-        throw new Errors.InternalError(err && err.message || translations[language].response.defaultError);
+        throw new Errors.InternalError(err && err.message || translations.response.defaultError);
       }
 
       req.login(user, { session : false }, async (error) => {
-        if (error) throw new Errors.InternalError(error.message || translations[language].response.defaultError);
+        if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
         
         const body = { id: user.id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
@@ -73,13 +72,13 @@ const register = async (req, res, next) => {
 
 const createUser = async (req, res) => {
   const userData = req.body;
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   if (!userData) {
-    throw new Errors.BadRequestError(translations[language].user.validation.dataRequired);
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
   }
 
-  const { isValid, errors } = await UserValidator.isValidUser(userData, translations[language].user.validation);
+  const { isValid, errors } = await UserValidator.isValidUser(userData, translations.user.validation);
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
@@ -88,7 +87,7 @@ const createUser = async (req, res) => {
   const user = await UserService.createUser(userData);
 
   if (!user) {
-    throw new Errors.InternalServerError(translations[language].response.error.user.create);
+    throw new Errors.InternalServerError(translations.response.error.user.create);
   }
 
   res.json(new UserViewModel(user));
@@ -98,18 +97,18 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { userId } = req.params;
   const userData = req.body;
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   if (!userData) {
-    throw new Errors.BadRequestError(translations[language].user.validation.dataRequired);
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
   }
 
   if (!UserService.existsWithId(userId)) {
-    throw new Errors.NotFoundError(translations[language].response.notFound.user);
+    throw new Errors.NotFoundError(translations.response.notFound.user);
   }
 
   const { isValid, errors } = (
-    await UserValidator.isValidUser(userData, translations[language].user.validation, true)
+    await UserValidator.isValidUser(userData, translations.user.validation, true)
   );
 
   if (!isValid) {
@@ -119,7 +118,7 @@ const updateUser = async (req, res) => {
   const user = await UserService.updateUser(userId, userData);
 
   if (!user) {
-    throw new Errors.InternalServerError(translations[language].response.error.user.update);
+    throw new Errors.InternalServerError(translations.response.error.user.update);
   }
 
   res.json(new UserViewModel(user));
@@ -128,17 +127,17 @@ const updateUser = async (req, res) => {
 const updateUserPassword = async (req, res) => {
   const { userId } = req.params;
   const userData = req.body;
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   if (!userData) {
-    throw new Errors.BadRequestError(translations[language].user.validation.dataRequired);
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
   }
 
   if (!UserService.existsWithId(userId)) {
-    throw new Errors.NotFoundError(translations[language].response.notFound.user);
+    throw new Errors.NotFoundError(translations.response.notFound.user);
   }
 
-  const { isValid, errors } = await UserValidator.isValidUserPassword(userData, translations[language].user.validation);
+  const { isValid, errors } = await UserValidator.isValidUserPassword(userData, translations.user.validation);
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
@@ -147,7 +146,7 @@ const updateUserPassword = async (req, res) => {
   const user = await UserService.updateUserPassword(userId, userData);
 
   if (!user) {
-    throw new Errors.InternalServerError(translations[language].response.error.user.updatePassword);
+    throw new Errors.InternalServerError(translations.response.error.user.updatePassword);
   }
 
   res.json(new UserViewModel(user));
@@ -155,19 +154,19 @@ const updateUserPassword = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { userId } = req.params;
-  const language = req.headers['accept-language'] || values.DEFAULT_LANGUAGE;
+  const { translations } = res.locals;
 
   if (!UserService.existsWithId(userId)) {
-    throw new Errors.NotFoundError(translations[language].response.notFound.user);
+    throw new Errors.NotFoundError(translations.response.notFound.user);
   }
 
   const user = await UserService.removeUser(userId);
 
   if (!user) {
-    throw new Errors.InternalServerError(translations[language].response.error.user.delete);
+    throw new Errors.InternalServerError(translations.response.error.user.delete);
   }
 
-  res.status(200).send(translations[language].response.success.user.delete);
+  res.status(200).send(translations.response.success.user.delete);
 };
 
 module.exports = {

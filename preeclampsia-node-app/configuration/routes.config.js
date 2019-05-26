@@ -7,6 +7,7 @@ const patientRouter = require('../routes/api/patient.routes');
 const pregnancyRouter = require('../routes/api/pregnancy.routes');
 const medicalExaminationRoutes = require('../routes/api/medicalExamination.routes');
 const riskRouter = require('../routes/api/risk.routes');
+const { setLanguage } = require('../middlewares/language.middleware');
 
 const useProductionRoutes = app => {
   app.use('/images', express.static(path.join(__dirname, '..', '..', 'dist-react', 'images'), { maxAge: 31557600000 }));
@@ -20,6 +21,7 @@ const useDevelopmentRoutes = app => {
 };
 
 const configure = app => {
+  app.use(setLanguage);
   app.use(`${apiConstants.API_PATH}/users`, userRouter);
   app.use(`${apiConstants.API_PATH}/patients`, patientRouter);
   app.use(`${apiConstants.API_PATH}/pregnancies`, pregnancyRouter);

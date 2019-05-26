@@ -14,6 +14,7 @@ const { formatDate, getAgeInYears, calculateGestationalAgeFromDate } = require('
 const generatePdf = async (req, res) => {
   const { medicalExaminationId } = req.params;
   const { generatedBy } = req.body;
+  const { translations } = res.locals;
 
   if (!medicalExaminationId) {
     throw new Errors.BadRequestError();

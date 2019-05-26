@@ -24,7 +24,16 @@ module.exports = (sequelize) => {
       foreignKey: {
         name: 'characteristicId',
         allowNull: false,
-      }
+      },
+      as: 'characteristic',
+    });
+
+    models.EnumMeasurement.belongsTo(models.MedicalExamination, {
+      foreignKey: {
+        name: 'medicalExaminationId',
+        allowNull: false,
+      },
+      as: 'medicalExamination',
     });
   };
 

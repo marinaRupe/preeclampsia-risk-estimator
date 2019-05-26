@@ -112,8 +112,8 @@ export const translations = {
     word: {
       pregnancy: 'Trudnoća',
       trimester: 'Tromjesečje',
-      yes: 'DA',
-      no: 'NE',
+      yes: 'Da',
+      no: 'Ne',
       unknown: 'nepoznato',
     }
   },
@@ -231,8 +231,8 @@ export const translations = {
     word: {
       pregnancy: 'Pregnancy',
       trimester: 'Trimester',
-      yes: 'YES',
-      no: 'NO',
+      yes: 'Yes',
+      no: 'No',
       unknown: 'unknown',
     }
   },
