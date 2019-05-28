@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { formatDate, getAgeInYears } from '../../../utils/dateTime.utils';
+import { getAgeInYears } from '../../../utils/dateTime.utils';
 import { getTranslations } from '../../../utils/translation.utils';
+import EnumMeasurement from '../../../components/Measurement/EnumMeasurement';
+import NumericalMeasurement from '../../../components/Measurement/NumericalMeasurement';
+import DateDisplay from '../../../components/Measurement/DateDisplay';
+import TextInfoDisplay from '../../../components/Measurement/TextInfoDisplay';
 
 class PatientSidebar extends Component {
   render() {
@@ -13,6 +17,8 @@ class PatientSidebar extends Component {
     } = this.props;
 
     const translations = getTranslations();
+    const labelColumnSize = 5;
+    const valueColumnSize = 6;
 
     return (
       <div className='table-view--details'>
@@ -22,26 +28,47 @@ class PatientSidebar extends Component {
             <i className='material-icons' onClick={closeSidebar}>close</i>
           </div>
           <div>
-            <div className='info-group'>
-              <label>{translations.patient.property.firstName}: </label>
-              <div>{patient.firstName || '-'}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.patient.property.lastName}: </label>
-              <div>{patient.lastName || '-'}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.patient.property.birthDate}: </label>
-              <div>{formatDate(patient.birthDate)}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.patient.property.ageInYears}: </label>
-              <div>{getAgeInYears(patient.birthDate)}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.patient.property.racialOrigin}: </label>
-              <div>{patient.racialOrigin}</div>
-            </div>
+            <TextInfoDisplay
+              label={translations.patient.property.firstName}
+              value={patient.firstName}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <TextInfoDisplay
+              label={translations.patient.property.lastName}
+              value={patient.lastName}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <TextInfoDisplay
+              label={translations.patient.property.MBO}
+              value={patient.MBO}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <DateDisplay
+              label={translations.patient.property.birthDate}
+              value={patient.birthDate}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <NumericalMeasurement
+              label={translations.patient.property.ageInYears}
+              value={getAgeInYears(patient.birthDate)}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+            
+            <EnumMeasurement
+              characteristicName='RacialOrigin'
+              value={patient.racialOrigin}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
           </div>
         </div>
         

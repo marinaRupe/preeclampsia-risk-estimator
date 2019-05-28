@@ -38,6 +38,13 @@ export function removeUser(userId) {
   return actionWrapper(action);
 }
 
+export function updateCurrentUser(userData) {
+  const action = async (dispatch) => {
+    await dispatch(actionCreators.loginUser({ status: ACTION_STATUS.SUCCESS, data: userData }));
+  };
+  return actionWrapper(action, true);
+}
+
 export function loginUser(userData) {
   const action = async (dispatch) => {
     const body = {

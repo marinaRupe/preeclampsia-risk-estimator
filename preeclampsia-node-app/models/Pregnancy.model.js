@@ -8,6 +8,9 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    gynecologist: {
+      type: Sequelize.STRING,
+    },
     pregnancyNumber: {
       type: Sequelize.INTEGER,
       allowNull: false,

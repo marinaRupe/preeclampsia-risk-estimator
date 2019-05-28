@@ -71,7 +71,7 @@ const updatePatient = async (req, res) => {
   }
 
   const { isValid, errors } = (
-    await PatientValidator.isValidPatient(patientData, translations.patient.validation)
+    await PatientValidator.isValidPatient(patientData, translations.patient.validation, true)
   );
 
   if (!isValid) {

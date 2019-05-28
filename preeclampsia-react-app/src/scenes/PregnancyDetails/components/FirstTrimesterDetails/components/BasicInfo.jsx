@@ -5,6 +5,7 @@ import { getTranslations } from '../../../../../utils/translation.utils';
 import DateDisplay from '../../../../../components/Measurement/DateDisplay';
 import GestationalAgeDisplay from '../../../../../components/Measurement/GestationalAgeDisplay';
 import NumericalMeasurement from '../../../../../components/Measurement/NumericalMeasurement';
+import TextInfoDisplay from '../../../../../components/Measurement/TextInfoDisplay';
 
 class BasicInfo extends Component {
   constructor(props) {
@@ -45,6 +46,8 @@ class BasicInfo extends Component {
         ultrasoundDate,
         bloodTestDate,
         numericalMeasurements,
+        protocol,
+        note,
       } } = this.props;
 
     const translations = getTranslations();
@@ -62,13 +65,18 @@ class BasicInfo extends Component {
             </h4>
           </Row>
 
+          <TextInfoDisplay
+            label={translations.medicalExamination.property.protocol}
+            value={protocol}
+          />
+
           <DateDisplay
-            label='Datum vađenja krvi'
+            label={translations.medicalExamination.property.bloodTestDate}
             value={bloodTestDate}
           />
 
           <DateDisplay
-            label='Datum ultrazvuka'
+            label={translations.medicalExamination.property.ultrasoundDate}
             value={ultrasoundDate}
           />
 
@@ -79,15 +87,20 @@ class BasicInfo extends Component {
           />
 
           <GestationalAgeDisplay
-            label='Gestacijska dob na ultrazvuku'
+            label={translations.medicalExamination.property.gestationalAgeByUltrasound}
             weeks={gestationalAgeByUltrasoundWeeks}
             days={gestationalAgeByUltrasoundDays}
           />
 
           <GestationalAgeDisplay
-            label='Gestacijska dob na dan vađenja krvi'
+            label={translations.medicalExamination.property.gestationalAgeOnBloodTest}
             weeks={gestationalAgeOnBloodTestWeeks}
             days={gestationalAgeOnBloodTestDays}
+          />
+
+          <TextInfoDisplay
+            label={translations.medicalExamination.property.note}
+            value={note}
           />
 
           {

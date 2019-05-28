@@ -4,6 +4,7 @@ export const translations = {
       save: 'Spremi',
       delete: 'Obriši',
       cancel: 'Odustani',
+      select: 'Odaberi',
     },
     patient: {
       action: {
@@ -73,6 +74,14 @@ export const translations = {
       action: {
         save: 'Spremi promjene',
       },
+      property: {
+        lastPeriodDate: 'Datum posljednje mjesečnice',
+        lastPeriodDateIsReliable: 'Datum posljednje mjesečnice pouzdan',
+        deliveryDate: 'Datum poroda',
+        numberOfPreviousPregnancies: 'Broj ranijih trudnoća',
+        numberOfPreviousBirths: 'Broj poroda',
+        hadPEInPreviousPregnancy: 'Preeklampsija u prethodnoj trudnoći',
+      },
       detailsTitle: 'Podaci o trudnoći',
       basicDetailsTitle: 'Osnovni podaci',
       trimestersTitle: 'Tromjesečja',
@@ -82,8 +91,28 @@ export const translations = {
       biophysicalMeasurementsTitle: 'Biofizička mjerenja',
       biochemicalMeasurementsTitle: 'Biokemijska mjerenja',
     },
+    medicalExamination: {
+      property: {
+        protocol: 'Protokol',
+        bloodTestDate: 'Datum vađenja krvi',
+        ultrasoundDate: 'Datum ultrazvuka',
+        gestationalAgeByUltrasound: 'Gestacijska dob na ultrazvuku',
+        gestationalAgeOnBloodTest: 'Gestacijska dob na dan vađenja krvi',
+        note: 'Napomena',
+      },
+    },
     risk: {
       calculateRisk: 'Izračunaj rizik',
+      report: {
+        previewTitle: 'Generiranje nalaza',
+        previewPatientDataTitle: 'Pregled podataka pacijentu',
+        action: {
+          generateReport: 'Generiraj nalaz'
+        },
+        property: {
+          responsiblePerson: 'Odgovorna osoba', 
+        },
+      }
     },
     statistics: {
       title: 'Statistika',
@@ -123,6 +152,7 @@ export const translations = {
       save: 'Save',
       delete: 'Delete',
       cancel: 'Cancel',
+      select: 'Choose',
     },
     patient: {
       action: {
@@ -199,6 +229,14 @@ export const translations = {
       action: {
         save: 'Save changes',
       },
+      property: {
+        lastPeriodDate: 'Last period date',
+        lastPeriodDateIsReliable: 'Last period date is reliable',
+        deliveryDate: 'Delivery date',
+        numberOfPreviousPregnancies: 'Number of previous pregnancies',
+        numberOfPreviousBirths: 'Number of previous births',
+        hadPEInPreviousPregnancy: 'PE in previous pregnancy',
+      },
       detailsTitle: 'Pregnancy Details',
       basicDetailsTitle: 'Basic Details',
       trimestersTitle: 'Trimesters',
@@ -208,8 +246,28 @@ export const translations = {
       biophysicalMeasurementsTitle: 'Biophysical Measurements',
       biochemicalMeasurementsTitle: 'Biochemical Measurements',
     },
+    medicalExamination: {
+      property: {
+        protocol: 'Protocol',
+        bloodTestDate: 'Blood test date',
+        ultrasoundDate: 'Ultrasound date',
+        gestationalAgeByUltrasound: 'Gestational age by ultrasound',
+        gestationalAgeOnBloodTest: 'Gestational age on blood test',
+        note: 'Note',
+      },
+    },
     risk: {
       calculateRisk: 'Calculate risk',
+      report: {
+        previewTitle: 'Generate Report',
+        previewPatientDataTitle: 'Patient Data',
+        action: {
+          generateReport: 'Generate report'
+        },
+        property: {
+          responsiblePerson: 'Responsible person', 
+        },
+      }
     },
     login: {
       title: 'Login',

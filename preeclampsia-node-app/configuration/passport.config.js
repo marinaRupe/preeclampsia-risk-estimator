@@ -4,7 +4,7 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const { db } = require('../models');
 
-const configure = (app) => {
+const configure = async (app) => {
   app.use(passport.initialize());
 
   // Login

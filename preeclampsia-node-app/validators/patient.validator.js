@@ -2,7 +2,7 @@ const { RacialOriginTypes } = require('../constants/patient.constants');
 const PatientService = require('../services/patient.service');
 const { addToArray } = require('../utils/array.utils');
 
-const isValidPatient = async (user, translations) => {
+const isValidPatient = async (user, translations, editMode = false) => {
   const {
     MBO,
     firstName,
@@ -38,8 +38,12 @@ const isValidPatient = async (user, translations) => {
 
   if (!MBO) {
     errors.MBO = addToArray(errors.MBO, translations.MBORequired);
-  } else if (await PatientService.existsPatientWithMBO(MBO)) {
-    errors.MBO = addToArray(errors.MBO, translations.patientWithMBOExist);
+  }
+
+  if (!editMode) {
+    if (MBO && await PatientService.existsPatientWithMBO(MBO)) {
+      errors.MBO = addToArray(errors.MBO, translations.patientWithMBOExist);
+    }
   }
 
   const isValid = Object.keys(errors).length === 0;

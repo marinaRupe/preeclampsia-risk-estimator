@@ -11,6 +11,10 @@ const { PregnancyTypes, ConceptionMethods } = require('../constants/pregnancy.co
 const { ConceptionMethodEnum } = require('../enums/pregnancy.enums');
 const { DiabetesTypes, HypertensionTypes } = require('../constants/measurements.constants');
 const { RacialOriginTypes } = require('../constants/patient.constants');
+const {
+  calculateGestationalAgeFromDate,
+  calculateGestationalAgeFromLastPeriodDate
+} = require('../utils/dateTime.utils');
 
 const expressConfig = require('../configuration/express.config');
 const sequelizeConfig = require('../configuration/sequelize.config');
@@ -169,7 +173,7 @@ async function addPatient(row, index) {
     firstName: `Ana${index}`,
     lastName: `Anić${index}`,
     birthDate: formatDate(row.birthDate),
-    racialOrigin: RacialOriginTypes.White.hr,
+    racialOrigin: RacialOriginTypes.White.key,
     MBO: index,
   });
 
@@ -188,12 +192,26 @@ async function addPatient(row, index) {
     resultedWithPE: row.resultedWithPE // 0 - false, 1 - true
   });
 
+  let gestationalAgeOnBloodTest = null;
+  if (row.ultrasoundDate && row.gestationalAgeByUltrasoundWeeks && row.gestationalAgeByUltrasoundDays) {
+    gestationalAgeOnBloodTest = calculateGestationalAgeFromDate(
+      row.ultrasoundDate,
+      row.bloodTestDate,
+      parseInt(row.gestationalAgeByUltrasoundWeeks),
+      parseInt(row.gestationalAgeByUltrasoundDays)
+    );
+  } else if (row.lastPeriodDate) {
+    gestationalAgeOnBloodTest = calculateGestationalAgeFromLastPeriodDate(row.bloodTestDate, row.lastPeriodDate);
+  }
+
   const medicalExamination = await models.db.MedicalExamination.create({
     pregnancyId: pregnancy.id,
     trimesterNumber: 1,
     protocol: row.protocol,
     gestationalAgeByUltrasoundWeeks: row.gestationalAgeByUltrasoundWeeks || null,
     gestationalAgeByUltrasoundDays: row.gestationalAgeByUltrasoundDays || null,
+    gestationalAgeOnBloodTestWeeks: gestationalAgeOnBloodTest && gestationalAgeOnBloodTest.weeks,
+    gestationalAgeOnBloodTestDays: gestationalAgeOnBloodTest && gestationalAgeOnBloodTest.days,
     ultrasoundDate: row.ultrasoundDate ? formatDate(row.ultrasoundDate) : null,
     bloodTestDate: formatDate(row.bloodTestDate),
     note: row.note

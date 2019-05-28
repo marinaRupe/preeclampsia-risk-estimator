@@ -4,7 +4,7 @@ import Input from '../../../components/Inputs/Input';
 import Select from '../../../components/Inputs/Select';
 import { RacialOriginTypes } from '../../../constants/patient.constants';
 import { generateOptions } from '../../../utils/form.utils';
-import { getTranslations } from '../../../utils/translation.utils';
+import { getTranslations, getLanguage } from '../../../utils/translation.utils';
 
 class PatientForm extends Component {
   render() {
@@ -15,8 +15,10 @@ class PatientForm extends Component {
       buttons,
     } = this.props;
 
-    const racialOriginTypes = generateOptions(Object.values(RacialOriginTypes), 'key', 'hr', 'hr', true, 'Odaberi');
     const translations = getTranslations();
+    const language = getLanguage();
+    const racialOriginTypes =
+      generateOptions(Object.values(RacialOriginTypes), 'key', 'key', language, true, translations.action.select);
 
     return (
       <form className='redux-form' onSubmit={onSubmit}>

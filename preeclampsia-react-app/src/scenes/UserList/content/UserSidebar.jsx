@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { userRoles } from '../../../constants/roles.constants';
 import { getTranslations } from '../../../utils/translation.utils';
+import TextInfoDisplay from '../../../components/Measurement/TextInfoDisplay';
 
 class UserSidebar extends Component {
   render() {
@@ -10,6 +11,9 @@ class UserSidebar extends Component {
     const userRolesValues = Object.values(userRoles);
     const translations = getTranslations();
 
+    const labelColumnSize = 3;
+    const valueColumnSize = 8;
+
     return (
       <div className='table-view--details'>
         <div>
@@ -17,23 +21,35 @@ class UserSidebar extends Component {
             <h4>{translations.user.detailsTitle}</h4>
             <i className='material-icons' onClick={closeSidebar}>close</i>
           </div>
+
           <div>
-            <div className='info-group'>
-              <label>{translations.user.property.firstName}: </label>
-              <div>{user.firstName || '-'}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.user.property.lastName}: </label>
-              <div>{user.lastName || '-'}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.user.property.role}: </label>
-              <div>{user.role ? userRolesValues.find(u => u.value === user.role).hr : ''}</div>
-            </div>
-            <div className='info-group'>
-              <label>{translations.user.property.email}: </label>
-              <div>{user.email || '-'}</div>
-            </div>
+            <TextInfoDisplay
+              label={translations.user.property.firstName}
+              value={user.firstName}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <TextInfoDisplay
+              label={translations.patient.property.lastName}
+              value={user.lastName}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <TextInfoDisplay
+              label={translations.user.property.role}
+              value={user.role && userRolesValues.find(u => u.value === user.role).hr}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
+
+            <TextInfoDisplay
+              label={translations.user.property.email}
+              value={user.email}
+              labelColumnSize={labelColumnSize}
+              valueColumnSize={valueColumnSize}
+            />
           </div>
         </div>
         

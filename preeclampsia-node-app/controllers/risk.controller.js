@@ -5,6 +5,7 @@ const path = require('path');
 const Handlebars = require('handlebars');
 const { Characteristics } = require('../constants/characteristics.constants');
 const { ConceptionMethods, PregnancyTypes } = require('../constants/pregnancy.constants');
+const { RacialOriginTypes } = require('../constants/patient.constants');
 const { DiabetesTypes } = require('../constants/measurements.constants');
 const hospitalLogo = require('../assets/hospitalLogo');
 const UserService = require('../services/user.service');
@@ -77,7 +78,8 @@ const generatePdf = async (req, res) => {
       lastName: patient.lastName,
       MBO: patient.MBO,
       birthDate: formatDate(patient.birthDate),
-      racialOrigin: patient.racialOrigin,
+      racialOrigin: patient.racialOrigin
+        && Object.values(RacialOriginTypes).find(r => r.key === patient.racialOrigin).hr,
       protocol: medicalExamination.protocol,
       gestationalAgeByUltrasoundWeeks: medicalExamination.gestationalAgeByUltrasoundWeeks,
       gestationalAgeByUltrasoundDays: medicalExamination.gestationalAgeByUltrasoundDays,

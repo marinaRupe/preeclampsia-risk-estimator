@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { RacialOriginTypes } = require('../constants/patient.constants');
 
 module.exports = (sequelize) => {
   const Patient = sequelize.define('Patient', {
@@ -22,7 +23,12 @@ module.exports = (sequelize) => {
       type: Sequelize.DATEONLY,
     },
     racialOrigin: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: RacialOriginTypes.White.key,
+      validate: {
+        isIn: [Object.values(RacialOriginTypes).map(v => v.key)]
+      },
     },
   }, {
     paranoid: true,

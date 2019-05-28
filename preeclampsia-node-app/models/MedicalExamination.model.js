@@ -18,17 +18,23 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    gestationalAgeByUltrasoundWeeks: {
-      type: Sequelize.INTEGER, // TODO: add trimester specific constraints
-    },
-    gestationalAgeByUltrasoundDays: {
-      type: Sequelize.INTEGER, // TODO: add trimester specific constraints
-    },
     ultrasoundDate: {
       type: Sequelize.DATE,
     },
+    gestationalAgeByUltrasoundWeeks: {
+      type: Sequelize.INTEGER,
+    },
+    gestationalAgeByUltrasoundDays: {
+      type: Sequelize.INTEGER,
+    },
     bloodTestDate: {
       type: Sequelize.DATE,
+    },
+    gestationalAgeOnBloodTestWeeks: {
+      type: Sequelize.INTEGER,
+    },
+    gestationalAgeOnBloodTestDays: {
+      type: Sequelize.INTEGER,
     },
     note: {
       type: Sequelize.STRING,

@@ -67,17 +67,17 @@ class BasicInfo extends Component {
           </Row>
 
           <DateDisplay
-            label='Datum posljednje mjesečnice'
+            label={translations.pregnancy.property.lastPeriodDate}
             value={lastPeriodDate}
           />
 
           <BooleanMeasurement
-            label='Datum posljednje mjesečnice pouzdan'
+            label={translations.pregnancy.property.lastPeriodDateIsReliable}
             value={lastPeriodDateIsReliable}
           />
 
           <DateDisplay
-            label='Datum poroda'
+            label={translations.pregnancy.property.deliveryDate}
             value={deliveryDate}
           />
 
@@ -92,17 +92,17 @@ class BasicInfo extends Component {
           />
 
           <NumericalMeasurement
-            label='Broj ranijih trudnoća'
+            label={translations.pregnancy.property.numberOfPreviousPregnancies}
             value={numberOfPreviousPregnancies}
           />
 
           <NumericalMeasurement
-            label='Broj poroda'
+            label={translations.pregnancy.property.numberOfPreviousBirths}
             value={numberOfPreviousBirths}
           />
 
           <BooleanMeasurement
-            label='Preeklampsija u prethodnoj trudnoći'
+            label={translations.pregnancy.property.hadPEInPreviousPregnancy}
             value={hadPEInPreviousPregnancy}
           />
 

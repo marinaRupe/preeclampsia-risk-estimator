@@ -8,8 +8,7 @@ const ConceptionMethodEnum = {
 
 const PregnancyTypeEnum = {
   Singleton: PregnancyTypes.Singleton.key,
-  MonochorionicTwins: PregnancyTypes.MonochorionicTwins.key,
-  DichorionicTwins: PregnancyTypes.DichorionicTwins.key,
+  Twins: PregnancyTypes.Twins.key,
 };
 
 module.exports = {

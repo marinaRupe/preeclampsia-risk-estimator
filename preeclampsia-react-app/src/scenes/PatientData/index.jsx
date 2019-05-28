@@ -4,10 +4,14 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { APP } from '../../constants/routes';
-import { formatDate, getAgeInYears } from '../../utils/dateTime.utils';
+import { getAgeInYears } from '../../utils/dateTime.utils';
 import { getTranslations } from '../../utils/translation.utils';
 import Spinner from '../../components/Spinner';
 import EditPatientModal from '../PatientList/content/EditPatientModal';
+import TextInfoDisplay from '../../components/Measurement/TextInfoDisplay';
+import DateDisplay from '../../components/Measurement/DateDisplay';
+import NumericalMeasurement from '../../components/Measurement/NumericalMeasurement';
+import EnumMeasurement from '../../components/Measurement/EnumMeasurement';
 
 class PatientData extends Component {
   constructor(props) {
@@ -56,6 +60,9 @@ class PatientData extends Component {
 
     const translations = getTranslations();
 
+    const labelColumnSize = 2;
+    const valueColumnSize = 9;
+
     if (isLoading || !patient) {
       return (
         <div className='page'>
@@ -90,35 +97,47 @@ class PatientData extends Component {
         </div>
 
         <div className='patient-details__content ml-20'>
-          <div className='info-group'>
-            <label>{translations.patient.property.firstName}: </label>
-            <div>{patient.firstName}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.firstName}
+            value={patient.firstName}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>{translations.patient.property.lastName}: </label>
-            <div>{patient.lastName}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.lastName}
+            value={patient.lastName}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>{translations.patient.property.MBO}: </label>
-            <div>{patient.MBO}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.MBO}
+            value={patient.MBO}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>{translations.patient.property.birthDate}: </label>
-            <div>{formatDate(patient.birthDate)}</div>
-          </div>
+          <DateDisplay
+            label={translations.patient.property.birthDate}
+            value={patient.birthDate}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>{translations.patient.property.ageInYears}: </label>
-            <div>{getAgeInYears(patient.birthDate)}</div>
-          </div>
-
-          <div className='info-group'>
-            <label>{translations.patient.property.racialOrigin}: </label>
-            <div>{patient.racialOrigin}</div>
-          </div>
+          <NumericalMeasurement
+            label={translations.patient.property.ageInYears}
+            value={getAgeInYears(patient.birthDate)}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
+          
+          <EnumMeasurement
+            characteristicName='RacialOrigin'
+            value={patient.racialOrigin}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
           <div className='patient-details__pregnancies'>
             <h3>{translations.patient.pregnanciesTitle}</h3>

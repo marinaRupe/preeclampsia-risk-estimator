@@ -30,7 +30,6 @@ class MedicalHistory extends Component {
     const { isEditModeOn } = this.state;
     const {
       medicalExaminationData: {
-        note,
         enumMeasurements,
         booleanMeasurements,
       } } = this.props;
@@ -69,21 +68,6 @@ class MedicalHistory extends Component {
             characteristicName='AntiPhospholipidSyndrome'
             value={booleanMeasurements.AntiPhospholipidSyndrome}
           />
-
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Napomena:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {note || '-'}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
 
           {
             isEditModeOn &&

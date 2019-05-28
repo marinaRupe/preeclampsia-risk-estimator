@@ -70,6 +70,10 @@ const getMediansByWeeks = async (characteristicId) => {
   return { withPE: mediansWithPE, withoutPE: mediansWithoutPE };
 };
 
+const updateMeasures = async (measures) => {
+  
+};
+
 module.exports = {
   getMediansByWeeks,
 };
