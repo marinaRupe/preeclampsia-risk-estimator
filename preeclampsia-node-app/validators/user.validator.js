@@ -2,6 +2,7 @@ const constraints = require('../constants/constraints.constants');
 const UserRoles = require('../constants/roles.constants');
 const UserService = require('../services/user.service');
 const { addToArray } = require('../utils/array.utils');
+const { isDefined } = require('../utils/value.utils');
 
 const isValidUser = async (user, translations, editMode = false) => {
   const {
@@ -15,15 +16,15 @@ const isValidUser = async (user, translations, editMode = false) => {
 
   const errors = {};
 
-  if (!firstName) {
+  if (!isDefined(firstName)) {
     errors.firstName = addToArray(errors.firstName, translations.firstNameRequired);
   }
 
-  if (!lastName) {
+  if (!isDefined(lastName)) {
     errors.lastName = addToArray(errors.lastName, translations.lastNameRequired);
   }
 
-  if (!role) {
+  if (!isDefined(role)) {
     errors.role = addToArray(errors.role, translations.roleRequired);
   } else {
     const roleExists = Object.values(UserRoles).includes(role);
@@ -33,7 +34,7 @@ const isValidUser = async (user, translations, editMode = false) => {
   }
 
   if (!editMode) {
-    if (!email) {
+    if (!isDefined(email)) {
       errors.email = addToArray(errors.email, translations.emailRequired);
     } else {
       if (!email.match(constraints.EMAIL_REGEX)) {
@@ -43,7 +44,7 @@ const isValidUser = async (user, translations, editMode = false) => {
       }
     }
 
-    if (!password) {
+    if (!isDefined(password)) {
       errors.password = addToArray(errors.password, translations.passwordRequired);
     } else {
       if (password.length < constraints.MIN_PASSWORD_LENGTH) {
@@ -51,7 +52,7 @@ const isValidUser = async (user, translations, editMode = false) => {
       }
     }
 
-    if (!repeatedPassword) {
+    if (!isDefined(repeatedPassword)) {
       errors.repeatedPassword = addToArray(errors.repeatedPassword, translations.repeatedPasswordRequired);
     } else {
       if (repeatedPassword !== password) {

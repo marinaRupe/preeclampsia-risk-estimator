@@ -144,7 +144,6 @@ async function addPregnancyMeasures(medicalExamination, row) {
     const diabetesType = parseInt(row.diabetesType);
     await models.db.EnumMeasurement.create({
       value: diabetesType,
-      hrName: Object.values(DiabetesTypes).find(t => t.key === diabetesType).hr,
       medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.DiabetesType.key,
     });
@@ -154,7 +153,6 @@ async function addPregnancyMeasures(medicalExamination, row) {
     const hypertensionType = parseInt(row.hypertensionType);
     await models.db.EnumMeasurement.create({
       value: hypertensionType,
-      hrName: Object.values(HypertensionTypes).find(t => t.key === hypertensionType).hr,
       medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.HypertensionType.key,
     });
@@ -162,7 +160,6 @@ async function addPregnancyMeasures(medicalExamination, row) {
 
   await models.db.EnumMeasurement.create({
     value: ConceptionMethodEnum.Spontaneous,
-    hrName: ConceptionMethods.Spontaneous.hr,
     medicalExaminationId: medicalExamination.id,
     characteristicId: Characteristics.ConceptionMethod.key,
   });

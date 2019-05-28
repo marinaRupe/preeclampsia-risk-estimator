@@ -1,5 +1,96 @@
 const { db } = require('../models');
 const { median } = require('../utils/math.utils');
+const { isDefined } = require('../utils/value.utils');
+const { Characteristics, CharacteristicTypes } = require('../constants/characteristics.constants');
+
+/**
+ * Updates measurements in the database.
+ * 
+ * @param {[Object]} measurements Array of measurements data
+ * @returns {Promise<[Object]>} Array of created measurement objects
+ */
+const updateMeasurements = async (measurements) => (
+  await Promise.all(Object.defineProperties(measurements).map(async ([characteristicName, measurementData]) => {
+    const characteristic = Characteristics[characteristicName];
+    const {
+      id,
+      value,
+      medicalExaminationId,
+      characteristicId,
+    } = measurementData;
+
+    let newMeasurement;
+    let oldMeasurement;
+
+    if (characteristic.type === CharacteristicTypes.Enum) {
+      newMeasurement = await createEnumMeasurement(value, medicalExaminationId, characteristicId);
+      if (isDefined(id)) {
+        oldMeasurement = await getEnumMeasurementById(id);
+      }
+    } else if (characteristic.type === CharacteristicTypes.Numerical) {
+      newMeasurement = await createNumericalMeasurement(value, medicalExaminationId, characteristicId);
+      if (isDefined(id)) {
+        oldMeasurement = await getNumericalMeasurementById(id);
+      }
+    } else if (characteristic.type === CharacteristicTypes.Boolean) {
+      newMeasurement = await createBooleanMeasurement(value, medicalExaminationId, characteristicId);
+      if (isDefined(id)) {
+        oldMeasurement = await getBooleanMeasurementById(id);
+      }
+    }
+
+    if (oldMeasurement) {
+      await oldMeasurement.destroy();
+    }
+
+    return newMeasurement;
+  }))
+);
+
+/**
+ * Searches for an enum measurement by ID.
+ * 
+ * @param {number} id Enum measurement ID
+ * @returns {Object} Enum measurement
+ */
+const getEnumMeasurementById = async (id) => await db.EnumMeasurement.findByPk(id);
+
+/**
+ * Searches for a numerical measurement by ID.
+ * 
+ * @param {number} id Numerical measurement ID
+ * @returns {Object} Numerical measurement
+ */
+const getNumericalMeasurementById = async (id) => await db.NumericalMeasurement.findByPk(id);
+
+/**
+ * Searches for a boolean measurement by ID.
+ * 
+ * @param {number} id Boolean measurement ID
+ * @returns {Object} Boolean measurement
+ */
+const getBooleanMeasurementById = async (id) => await db.BooleanMeasurement.findByPk(id);
+
+
+const createEnumMeasurement = async (value, medicalExaminationId, characteristicId) => (
+  await createMeasurement(value, medicalExaminationId, characteristicId, db.EnumMeasurement)
+);
+
+const createNumericalMeasurement = async (value, medicalExaminationId, characteristicId) => (
+  await createMeasurement(value, medicalExaminationId, characteristicId, db.NumericalMeasurement)
+);
+
+const createBooleanMeasurement = async (value, medicalExaminationId, characteristicId) => (
+  await createMeasurement(value, medicalExaminationId, characteristicId, db.BooleanMeasurement)
+);
+
+const createMeasurement = async (value, medicalExaminationId, characteristicId, measurementTable) => (
+  await measurementTable.create({
+    value: value,
+    medicalExaminationId: medicalExaminationId,
+    characteristicId: characteristicId,
+  })
+);
 
 const getMediansByWeeks = async (characteristicId) => {
   const measures = await db.NumericalMeasurement.findAll({
@@ -70,10 +161,13 @@ const getMediansByWeeks = async (characteristicId) => {
   return { withPE: mediansWithPE, withoutPE: mediansWithoutPE };
 };
 
-const updateMeasures = async (measures) => {
-  
-};
-
 module.exports = {
   getMediansByWeeks,
+  getEnumMeasurementById,
+  getNumericalMeasurementById,
+  getBooleanMeasurementById,
+  createEnumMeasurement,
+  createNumericalMeasurement,
+  createBooleanMeasurement,
+  updateMeasurements,
 };

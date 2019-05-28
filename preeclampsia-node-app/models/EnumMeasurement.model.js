@@ -11,9 +11,6 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    hrName: {
-      type: Sequelize.STRING,
-    },
     deletedAt: {
       type: Sequelize.DATE,
     },
