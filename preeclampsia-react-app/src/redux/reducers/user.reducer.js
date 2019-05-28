@@ -19,6 +19,17 @@ export default function userReducer(state = initialState.users, action) {
       };
     }
     return { ...state };
+  case types.EDIT_USER:
+    if (action.status === ACTION_STATUS.SUCCESS) {
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          data: state.list.data.map(u => (u.id === action.data.id) ? { ...u, ...action.data } : u)
+        },
+      };
+    }
+    return { ...state };
   case types.USER_LOGIN:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {

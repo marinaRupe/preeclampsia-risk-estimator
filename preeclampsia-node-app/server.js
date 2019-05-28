@@ -24,12 +24,11 @@ routesConfig.configure(app);
 
 sequelizeConfig.configure().then(() => {
   sequelizeConfig.initializeDatabase().then(() => {
-    passportConfig.configure(app);
+    passportConfig.configure(app).then(() => {
+      app.use(errorMiddleware);
+      expressConfig.listen(app);
+    });
   });
 });
-
-app.use(errorMiddleware);
-
-expressConfig.listen(app);
 
 module.exports = app;

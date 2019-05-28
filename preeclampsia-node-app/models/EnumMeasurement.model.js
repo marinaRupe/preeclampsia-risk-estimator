@@ -11,9 +11,6 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    hrName: {
-      type: Sequelize.STRING,
-    },
     deletedAt: {
       type: Sequelize.DATE,
     },
@@ -24,7 +21,16 @@ module.exports = (sequelize) => {
       foreignKey: {
         name: 'characteristicId',
         allowNull: false,
-      }
+      },
+      as: 'characteristic',
+    });
+
+    models.EnumMeasurement.belongsTo(models.MedicalExamination, {
+      foreignKey: {
+        name: 'medicalExaminationId',
+        allowNull: false,
+      },
+      as: 'medicalExamination',
     });
   };
 

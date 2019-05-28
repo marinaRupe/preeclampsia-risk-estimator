@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import history from '../../history';
 import { APP } from '../../constants/routes';
 import * as pregnancyActions from '../../redux/actions/pregnancy.actions';
+import { getTranslations } from '../../utils/translation.utils';
 import Spinner from '../../components/Spinner';
-import TrimesterDetails from './components/TrimesterDetails';
+import FirstTrimesterDetails from './components/FirstTrimesterDetails';
 import BasicInfo from './components/BasicInfo';
 
 class PregnancyDetails extends Component {
@@ -25,10 +25,12 @@ class PregnancyDetails extends Component {
     }, async () => {
       const {
         fetchPregnancyDetails,
+        fetchMedicalExaminationsForPregnancy,
         match: { params: { patientId, pregnancyNumber } },
       } = this.props;
 
-      await fetchPregnancyDetails(patientId, pregnancyNumber);
+      const pregnancy = await fetchPregnancyDetails(patientId, pregnancyNumber);
+      await fetchMedicalExaminationsForPregnancy(pregnancy.id);
 
       this.setState({
         isLoading: false,
@@ -36,22 +38,24 @@ class PregnancyDetails extends Component {
     });
   }
 
-  calculateRisk = () => {
+  calculateRisk = (medicalExaminationId) => {
     const {
       match: { params: { patientId, pregnancyNumber } },
     } = this.props;
 
-    history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber));
+    history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber, medicalExaminationId));
   }
 
   render() {
-    const { pregnancyDetails } = this.props;
+    const { pregnancyDetails, medicalExaminations } = this.props;
     const { isLoading } = this.state;
+
+    const translations = getTranslations();
 
     if (isLoading || !pregnancyDetails) {
       return (
         <div className='page'>
-          <h1>Detalji o trudnoći</h1>
+          <h1>{translations.pregnancy.detailsTitle}</h1>
           <div className='align-horizontal--center'>
             <Spinner />
           </div>
@@ -61,21 +65,18 @@ class PregnancyDetails extends Component {
 
     return (
       <div className='page'>
-        <h1>Detalji o trudnoći</h1>
+        <h1>{translations.pregnancy.detailsTitle}</h1>
       
         <div>
           <BasicInfo pregnancy={pregnancyDetails} />
 
-          <h2>Trimestri</h2>
+          <h2>{translations.pregnancy.trimestersTitle}</h2>
 
-          <TrimesterDetails pregnancyId={pregnancyDetails.id} trimesterNumber={1} />
-
-          <Button
-            bsStyle='primary'
-            onClick={this.calculateRisk}
-          >
-            Izračunaj rizik
-          </Button>
+          <FirstTrimesterDetails
+            pregnancyId={pregnancyDetails.id}
+            medicalExaminations={medicalExaminations.filter(me => me.trimesterNumber === 1)}
+            calculateRisk={this.calculateRisk}
+          />
         </div>
       </div>
     );
@@ -85,12 +86,13 @@ class PregnancyDetails extends Component {
 const mapStateToProps = ({ pregnancy }) => {
   return {
     pregnancyDetails: pregnancy.details,
-    trimesters: pregnancy.trimesters,
+    medicalExaminations: pregnancy.medicalExaminations,
   };
 };
 
 const mapDispatchToProps = {
   fetchPregnancyDetails: pregnancyActions.fetchPatientPregnancyDetails,
+  fetchMedicalExaminationsForPregnancy: pregnancyActions.fetchMedicalExaminationsForPregnancy,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PregnancyDetails));

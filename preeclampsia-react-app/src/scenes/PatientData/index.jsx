@@ -4,8 +4,14 @@ import { withRouter, Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import * as patientActions from '../../redux/actions/patient.actions';
 import { APP } from '../../constants/routes';
-import { formatDate } from '../../utils/dateTime.utils';
+import { getAgeInYears } from '../../utils/dateTime.utils';
+import { getTranslations } from '../../utils/translation.utils';
 import Spinner from '../../components/Spinner';
+import EditPatientModal from '../PatientList/content/EditPatientModal';
+import TextInfoDisplay from '../../components/Measurement/TextInfoDisplay';
+import DateDisplay from '../../components/Measurement/DateDisplay';
+import NumericalMeasurement from '../../components/Measurement/NumericalMeasurement';
+import EnumMeasurement from '../../components/Measurement/EnumMeasurement';
 
 class PatientData extends Component {
   constructor(props) {
@@ -42,15 +48,26 @@ class PatientData extends Component {
     this.setState({ editPatientModalIsOpen: false });
   }
 
+  editPatient = async (patientData) => {
+    const { updatePatient } = this.props;
+    await updatePatient(patientData);
+    this.closeEditPatientModal();
+  }
+
   render() {
     const { patient } = this.props;
-    const { isLoading } = this.state;
+    const { isLoading, editPatientModalIsOpen } = this.state;
+
+    const translations = getTranslations();
+
+    const labelColumnSize = 2;
+    const valueColumnSize = 9;
 
     if (isLoading || !patient) {
       return (
         <div className='page'>
           <div className='patient-details__header mb-10'>
-            <h1>Podaci o pacijentu</h1>
+            <h1>{translations.patient.detailsTitle}</h1>
           </div>
           <div className='patient-details__content ml-20'>
             <div className='align-horizontal--center'>
@@ -63,43 +80,71 @@ class PatientData extends Component {
 
     return (
       <div className='page'>
+        <EditPatientModal
+          show={editPatientModalIsOpen}
+          handleClose={this.closeEditPatientModal}
+          onSubmit={this.editPatient}
+          initialValues={patient}
+        />
         <div className='patient-details__header mb-10'>
-          <h1>Podaci o pacijentu</h1>
+          <h1>{translations.patient.detailsTitle}</h1>
           <Button
             bsStyle='primary'
             onClick={this.openEditPatientModal}
           >
-            Uredi podatke o pacijentu
+            {translations.patient.action.edit}
           </Button>
         </div>
 
         <div className='patient-details__content ml-20'>
-          <div className='info-group'>
-            <label>Ime: </label>
-            <div>{patient.firstName}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.firstName}
+            value={patient.firstName}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>Prezime: </label>
-            <div>{patient.lastName}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.lastName}
+            value={patient.lastName}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>Datum rođenja: </label>
-            <div>{formatDate(patient.birthDate)}</div>
-          </div>
+          <TextInfoDisplay
+            label={translations.patient.property.MBO}
+            value={patient.MBO}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
-          <div className='info-group'>
-            <label>Etnička skupina: </label>
-            <div>{patient.racialOrigin}</div>
-          </div>
+          <DateDisplay
+            label={translations.patient.property.birthDate}
+            value={patient.birthDate}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
+
+          <NumericalMeasurement
+            label={translations.patient.property.ageInYears}
+            value={getAgeInYears(patient.birthDate)}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
+          
+          <EnumMeasurement
+            characteristicName='RacialOrigin'
+            value={patient.racialOrigin}
+            labelColumnSize={labelColumnSize}
+            valueColumnSize={valueColumnSize}
+          />
 
           <div className='patient-details__pregnancies'>
-            <h3>Povijest trudnoća</h3>
+            <h3>{translations.patient.pregnanciesTitle}</h3>
             {(patient.pregnancies || []).map(preg => (
               <div key={preg.id}>
                 <Link to={APP.PATIENT.PREGNANCY_DETAILS(patient.id, preg.pregnancyNumber)}>
-                  {preg.pregnancyNumber}. trudnoća
+                  {translations.word.pregnancy} {preg.pregnancyNumber}
                 </Link>
               </div>
             ))}
@@ -118,6 +163,7 @@ const mapStateToProps = ({ patients }) => {
 
 const mapDispatchToProps = {
   fetchPatientDetails: patientActions.fetchPatient,
+  updatePatient: patientActions.updatePatientDetails,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PatientData));

@@ -21,7 +21,16 @@ module.exports = (sequelize) => {
       foreignKey: {
         name: 'characteristicId',
         allowNull: false,
-      }
+      },
+      as: 'characteristic',
+    });
+
+    models.BooleanMeasurement.belongsTo(models.MedicalExamination, {
+      foreignKey: {
+        name: 'medicalExaminationId',
+        allowNull: false,
+      },
+      as: 'medicalExamination',
     });
   };
 

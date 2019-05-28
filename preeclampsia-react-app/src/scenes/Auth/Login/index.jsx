@@ -7,6 +7,7 @@ import { APP } from '../../../constants/routes';
 import * as userActions from '../../../redux/actions/user.actions';
 import { LOGIN_FORM } from '../../../redux/forms';
 import { getLoginDataFromLocalStorage } from '../../../utils/auth.utils';
+import { getTranslations } from '../../../utils/translation.utils';
 import Input from '../../../components/Inputs/Input';
 
 class Login extends Component {
@@ -14,34 +15,36 @@ class Login extends Component {
     const { token } = getLoginDataFromLocalStorage();
     const { handleSubmit, error } = this.props;
 
+    const translations = getTranslations();
+
     if (token) {
       return <Redirect to={APP.ROOT} />;
     }
 
     return (
       <div className='auth-page'>
-        <div className='auth-page__title'>Prijava u sustav</div>
+        <div className='auth-page__title'>{translations.login.titleLong}</div>
         <div>
           <form className='redux-form' onSubmit={handleSubmit}>
             <div>
               <div className='redux-form__row'>
                 <label className='redux-form__label'>
-                  E-mail
+                  {translations.user.property.email}
                 </label>
                 <Field
                   name='email'
-                  placeholder='Unesi E-mail'
+                  placeholder={translations.user.placeholder.enterEmail}
                   component={Input}
                   type='text'
                 />
               </div>
               <div className='redux-form__row'>
                 <label className='redux-form__label'>
-                  Lozinka
+                  {translations.user.property.password}
                 </label>
                 <Field
                   name='password'
-                  placeholder='Unesi lozinku'
+                  placeholder={translations.user.placeholder.enterPassword}
                   component={Input}
                   type='password'
                 />
@@ -50,7 +53,7 @@ class Login extends Component {
             {error && <div className='redux-form__error'>{error}</div>}      
             <div>
               <Button bsStyle='primary' type='submit'>
-                Prijavi se
+                {translations.login.action}
               </Button>
             </div>
           </form>

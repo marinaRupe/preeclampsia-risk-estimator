@@ -6,7 +6,7 @@ export const RacialOriginTypes = {
   },
   Black: {
     key: 2,
-    en: 'Diabetes type II',
+    en: 'Black',
     hr: 'Crna',
   },
   SouthAsian: {

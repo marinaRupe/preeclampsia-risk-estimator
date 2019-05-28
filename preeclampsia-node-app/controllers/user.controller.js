@@ -21,10 +21,12 @@ const getAll = async (req, res) => {
 };
 
 const login = async (req, res, next) => {
+  const { translations } = res.locals;
+
   passport.authenticate('login', async (err, user, info) => {
     try {
       if (err) {
-        throw new Errors.InternalError(err.message || 'An Error Occured');
+        throw new Errors.InternalError(err.message || translations.response.defaultError);
       }
 
       if (!user) {
@@ -32,7 +34,7 @@ const login = async (req, res, next) => {
       }
 
       req.login(user, { session : false }, async (error) => {
-        if (error) throw new Errors.InternalError(error.message || 'An Error Occured');
+        if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
         
         const body = { id: user.id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
@@ -46,14 +48,16 @@ const login = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
+  const { translations } = res.locals;
+
   passport.authenticate('signup', async (err, user) => {
     try {
       if (err || !user) {
-        throw new Errors.InternalError(err && err.message || 'An Error Occured');
+        throw new Errors.InternalError(err && err.message || translations.response.defaultError);
       }
 
       req.login(user, { session : false }, async (error) => {
-        if (error) throw new Errors.InternalError(error.message || 'An Error Occured');
+        if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
         
         const body = { id: user.id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
@@ -68,12 +72,13 @@ const register = async (req, res, next) => {
 
 const createUser = async (req, res) => {
   const userData = req.body;
+  const { translations } = res.locals;
 
   if (!userData) {
-    throw new Errors.BadRequestError('User data is required');
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
   }
 
-  const { isValid, errors } = await UserValidator.isValidUser(userData);
+  const { isValid, errors } = await UserValidator.isValidUser(userData, translations.user.validation);
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
@@ -82,10 +87,86 @@ const createUser = async (req, res) => {
   const user = await UserService.createUser(userData);
 
   if (!user) {
-    throw new Errors.InternalServerError('Could not create new user');
+    throw new Errors.InternalServerError(translations.response.error.user.create);
   }
 
   res.json(new UserViewModel(user));
+};
+
+
+const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  const userData = req.body;
+  const { translations } = res.locals;
+
+  if (!userData) {
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
+  }
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError(translations.response.notFound.user);
+  }
+
+  const { isValid, errors } = (
+    await UserValidator.isValidUser(userData, translations.user.validation, true)
+  );
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const user = await UserService.updateUser(userId, userData);
+
+  if (!user) {
+    throw new Errors.InternalServerError(translations.response.error.user.update);
+  }
+
+  res.json(new UserViewModel(user));
+};
+
+const updateUserPassword = async (req, res) => {
+  const { userId } = req.params;
+  const userData = req.body;
+  const { translations } = res.locals;
+
+  if (!userData) {
+    throw new Errors.BadRequestError(translations.user.validation.dataRequired);
+  }
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError(translations.response.notFound.user);
+  }
+
+  const { isValid, errors } = await UserValidator.isValidUserPassword(userData, translations.user.validation);
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const user = await UserService.updateUserPassword(userId, userData);
+
+  if (!user) {
+    throw new Errors.InternalServerError(translations.response.error.user.updatePassword);
+  }
+
+  res.json(new UserViewModel(user));
+};
+
+const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+  const { translations } = res.locals;
+
+  if (!UserService.existsWithId(userId)) {
+    throw new Errors.NotFoundError(translations.response.notFound.user);
+  }
+
+  const user = await UserService.removeUser(userId);
+
+  if (!user) {
+    throw new Errors.InternalServerError(translations.response.error.user.delete);
+  }
+
+  res.status(200).send(translations.response.success.user.delete);
 };
 
 module.exports = {
@@ -93,4 +174,6 @@ module.exports = {
   login,
   register,
   createUser,
+  updateUser,
+  deleteUser,
 };

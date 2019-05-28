@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/Auth/PrivateRoute';
 import Login from './scenes/Auth/Login';
-import Register from './scenes/Auth/Register';
 import Error404 from './scenes/Error/Error404';
 import PatientList from './scenes/PatientList';
 import PatientData from './scenes/PatientData';

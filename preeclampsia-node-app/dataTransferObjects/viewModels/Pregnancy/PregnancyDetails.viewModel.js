@@ -7,7 +7,7 @@ class PregnancyDetailsViewModel {
     this.conceptionMethod = pregnancy.conceptionMethod;
     this.lastPeriodDate = pregnancy.lastPeriodDate;
     this.lastPeriodDateIsReliable = pregnancy.lastPeriodDateIsReliable;
-    this.birthDate = pregnancy.birthDate;
+    this.deliveryDate = pregnancy.deliveryDate;
     this.numberOfPreviousPregnancies = pregnancy.numberOfPreviousPregnancies;
     this.numberOfPreviousBirths = pregnancy.numberOfPreviousBirths;
     this.hadPEInPreviousPregnancy = pregnancy.hadPEInPreviousPregnancy;

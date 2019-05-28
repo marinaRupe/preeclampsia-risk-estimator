@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { formatDate } from '../../../utils/dateTime.utils';
-import {
-  displayBooleanValue,
-} from '../../../utils/measurement.utils';
+import { getTranslations } from '../../../utils/translation.utils';
+import DateDisplay from '../../../components/Measurement/DateDisplay';
+import BooleanMeasurement from '../../../components/Measurement/BooleanMeasurement';
+import EnumMeasurement from '../../../components/Measurement/EnumMeasurement';
+import NumericalMeasurement from '../../../components/Measurement/NumericalMeasurement';
 
 class BasicInfo extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class BasicInfo extends Component {
       pregnancy: {
         lastPeriodDate,
         lastPeriodDateIsReliable,
-        birthDate,
+        deliveryDate,
         pregnancyType,
         conceptionMethod,
         numberOfPreviousBirths,
@@ -49,12 +51,14 @@ class BasicInfo extends Component {
         motherOfPatientHadPE
       } } = this.props;
 
+    const translations = getTranslations();
+
     return (
       <div className='pregnancy__card'>
         <Grid>
           <Row>
             <h4 className='pregnancy__card--title'>
-              <span>Osnovni podaci</span>
+              <span>{translations.pregnancy.basicDetailsTitle}</span>
               {
                 !isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
@@ -62,140 +66,50 @@ class BasicInfo extends Component {
             </h4>
           </Row>
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Datum posljednje mjesečnice:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {formatDate(lastPeriodDate)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <DateDisplay
+            label={translations.pregnancy.property.lastPeriodDate}
+            value={lastPeriodDate}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Datum posljednje mjesečnice pouzdan:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayBooleanValue(lastPeriodDateIsReliable)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <BooleanMeasurement
+            label={translations.pregnancy.property.lastPeriodDateIsReliable}
+            value={lastPeriodDateIsReliable}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Datum poroda:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {formatDate(birthDate)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <DateDisplay
+            label={translations.pregnancy.property.deliveryDate}
+            value={deliveryDate}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Vrsta trudnoće:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {pregnancyType}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <EnumMeasurement
+            characteristicName='PregnancyType'
+            value={pregnancyType}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Vrsta začeća:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {conceptionMethod || '-'}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <EnumMeasurement
+            characteristicName='ConceptionMethod'
+            value={conceptionMethod}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Broj ranijih trudnoća:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {numberOfPreviousPregnancies || '-'}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <NumericalMeasurement
+            label={translations.pregnancy.property.numberOfPreviousPregnancies}
+            value={numberOfPreviousPregnancies}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Broj poroda:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {numberOfPreviousBirths || '-'}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <NumericalMeasurement
+            label={translations.pregnancy.property.numberOfPreviousBirths}
+            value={numberOfPreviousBirths}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Preeklampsija u prethodnoj trudnoći:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayBooleanValue(hadPEInPreviousPregnancy)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <BooleanMeasurement
+            label={translations.pregnancy.property.hadPEInPreviousPregnancy}
+            value={hadPEInPreviousPregnancy}
+          />
 
-          <Row className='measurement'>
-            <Col sm={3}>
-              <label>Majka pacijentice imala preeklampsiju:</label>
-            </Col>
-            <Col sm={8}>
-              <div className='measurement__info'>
-                <div className='details'>
-                  <span className='value'>
-                    {displayBooleanValue(motherOfPatientHadPE)}
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
+          <BooleanMeasurement
+            characteristicName='MotherOfPatientHadPE'
+            value={motherOfPatientHadPE}
+          />
 
           {
             isEditModeOn &&
@@ -204,13 +118,13 @@ class BasicInfo extends Component {
                 bsStyle='primary'
                 onClick={this.saveChanges}
               >
-                Spremi promjene
+                {translations.pregnancy.action.save}
               </Button>
               <Button
                 bsStyle='default'
                 onClick={this.closeEditMode}
               >
-                Odustani
+                {translations.action.cancel}
               </Button>
             </div> 
           }

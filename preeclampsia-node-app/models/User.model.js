@@ -32,6 +32,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+  }, {
+    paranoid: true,
   });
 
   User.prototype.isValidPassword = async function(password) {
@@ -47,7 +49,7 @@ module.exports = (sequelize) => {
   User.associate = (models) => {
     models.User.hasMany(models.Report, {
       foreignKey: {
-        name: 'generatedBy',
+        name: 'generatedById',
         allowNull: false,
       },
       as: 'reports',

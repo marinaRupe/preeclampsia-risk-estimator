@@ -17,15 +17,16 @@ const getAll = async (req, res) => {
 
 const getById = async (req, res) => {
   const { patientId } = req.params;
+  const { translations } = res.locals;
 
   if (!patientId) {
     throw new Errors.BadRequestError();
   }
 
-  const patient = await PatientService.getById(patientId);
+  const patient = await PatientService.getByIdWithPregnancies(patientId);
 
   if (!patient) {
-    throw new Errors.NotFoundError('Podaci o pacijentu nisu pronađeni.');
+    throw new Errors.NotFoundError(translations.response.notFound.patient);
   }
 
   res.json(patient);
@@ -33,28 +34,80 @@ const getById = async (req, res) => {
 
 const createPatient = async (req, res) => {
   const patientData = req.body;
+  const { translations } = res.locals;
 
   if (!patientData) {
-    throw new Errors.BadRequestError('Patient data is required');
+    throw new Errors.BadRequestError(translations.patient.validation.dataRequired);
   }
 
-  const { isValid, errors } = await PatientValidator.isValidPatient(patientData);
+  const { isValid, errors } = (
+    await PatientValidator.isValidPatient(patientData, translations.patient.validation)
+  );
 
   if (!isValid) {
     throw new Errors.BadRequestError({ info: errors });
   }
 
-  const user = await PatientService.createPatient(patientData);
+  const patient = await PatientService.createPatient(patientData);
 
-  if (!user) {
-    throw new Errors.InternalServerError('Could not create new patient');
+  if (!patient) {
+    throw new Errors.InternalServerError(translations.response.error.patient.create);
   }
 
-  res.json(user);
+  res.json(patient);
+};
+
+const updatePatient = async (req, res) => {
+  const { patientId } = req.params;
+  const patientData = req.body;
+  const { translations } = res.locals;
+
+  if (!patientData) {
+    throw new Errors.BadRequestError(translations.patient.validation.dataRequired);
+  }
+
+  if (!PatientService.existsPatientWithId(patientId)) {
+    throw new Errors.NotFoundError(translations.response.notFound.patient);
+  }
+
+  const { isValid, errors } = (
+    await PatientValidator.isValidPatient(patientData, translations.patient.validation, true)
+  );
+
+  if (!isValid) {
+    throw new Errors.BadRequestError({ info: errors });
+  }
+
+  const patient = await PatientService.updatePatient(patientId, patientData);
+
+  if (!patient) {
+    throw new Errors.InternalServerError(translations.response.error.patient.update);
+  }
+
+  res.json(patient);
+};
+
+const deletePatient = async (req, res) => {
+  const { patientId } = req.params;
+  const { translations } = res.locals;
+
+  if (!PatientService.existsPatientWithId(patientId)) {
+    throw new Errors.NotFoundError(translations.response.notFound.patient);
+  }
+
+  const patient = await PatientService.removePatient(patientId);
+
+  if (!patient) {
+    throw new Errors.InternalServerError(translations.response.error.patient.delete);
+  }
+
+  res.status(200).send(translations.response.success.patient.delete);
 };
 
 module.exports = {
   getAll,
   getById,
   createPatient,
+  updatePatient,
+  deletePatient,
 };

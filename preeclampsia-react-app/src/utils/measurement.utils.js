@@ -1,26 +1,52 @@
+import { EnumMeasurementValues } from '../constants/enumMeasurement.constants';
 import { formatDate } from './dateTime.utils';
+import { getTranslations, getMeasurementTranslation } from './translation.utils';
 
-export const exists = (measurement) => (measurement !== null && measurement !== undefined)
-  && (measurement.value !== null && measurement.value !== undefined);
+export const exists = (measurement) => (measurement !== null && measurement !== undefined);
 
 export const displayDateMeasured = (measurement) => (
   exists(measurement) ? formatDate(measurement.dateMeasured) : '-'
 );
 
-export const displayBooleanValue = (measurement) => (
-  (measurement !== null && measurement !== undefined)
-    ? (measurement ? 'DA' : 'NE')
-    : 'nepoznato'
-);
+export const displayBooleanValue = (measurement) => {
+  const translations = getTranslations();
+  return (
+    (measurement !== null && measurement !== undefined)
+      ? (measurement ? translations.word.yes : translations.word.no)
+      : translations.word.unknown
+  );
+};
 
-export const displayBooleanMeasurementValue = (measurement) => (
-  exists(measurement) ? (measurement.value ? 'DA' : 'NE') : 'nepoznato'
-);
+export const displayBooleanMeasurementValue = (measurement) => {
+  const translations = getTranslations();
 
-export const displayNumericalMeasurementValue = (measurement, unit) => (
-  exists(measurement) ? `${measurement.value} ${unit ? unit : ''}` : 'nepoznato'
-);
+  if (exists(measurement)) {
+    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+    return (measurementValue ? translations.word.yes : translations.word.no);
+  }
 
-export const displayEnumMeasurementValue = (measurement) => (
-  exists(measurement) ? measurement.hrName : 'nepoznato'
-);
+  return translations.word.unknown;
+};
+
+export const displayNumericalMeasurementValue = (measurement, unit) => {
+  const translations = getTranslations();
+
+  if (exists(measurement)) {
+    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+    return `${measurementValue} ${unit ? unit : ''}`;
+  }
+
+  return translations.word.unknown;
+};
+
+export const displayEnumMeasurementValue = (measurement, characteristicId) => {
+  const translations = getTranslations();
+
+  if (exists(measurement)) {
+    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+    const enumValue = EnumMeasurementValues[characteristicId][measurementValue];
+    return getMeasurementTranslation(enumValue);
+  }
+
+  return translations.word.unknown;
+};

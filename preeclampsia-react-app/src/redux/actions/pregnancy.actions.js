@@ -6,21 +6,24 @@ import * as actionCreators from '../actionCreators/pregnancy.actionCreators';
 
 export function fetchPatientPregnancyDetails(patientId, pregnancyNumber) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PREGNANCIES.GET_PREGNANCY_DETAILS(patientId, pregnancyNumber));
+    const resp = await httpCalls.GET(API.PREGNANCIES.PREGNANCY_DETAILS(patientId, pregnancyNumber));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatientPregnancyDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
+    
+    return resp.data;
   };
+
   return actionWrapper(action);
 }
 
-export function fetchPregnancyTrimesterDetails(pregnancyId, trimesterNumber) {
+export function fetchMedicalExaminationsForPregnancy(pregnancyId) {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PREGNANCIES.GET_TRIMESTER_DETAILS(pregnancyId, trimesterNumber));
+    const resp = await httpCalls.GET(API.PREGNANCIES.MEDICAL_EXAMINATIONS_FOR_PREGNANCY(pregnancyId));
     if (resp.status === 200) {
-      await dispatch(actionCreators.fetchPregnancyTrimesterDetails({
+      await dispatch(actionCreators.fetchMedicalExaminationsForPregnancy({
         status: ACTION_STATUS.SUCCESS,
-        data: { [`trimester${resp.data.trimesterNumber}`]: resp.data },
+        data: resp.data,
       }));
     }
   };

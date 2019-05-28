@@ -1,8 +1,9 @@
 const { RacialOriginTypes } = require('../constants/patient.constants');
 const PatientService = require('../services/patient.service');
 const { addToArray } = require('../utils/array.utils');
+const { isDefined } = require('../utils/value.utils');
 
-const isValidPatient = async (user) => {
+const isValidPatient = async (user, translations, editMode = false) => {
   const {
     MBO,
     firstName,
@@ -15,31 +16,35 @@ const isValidPatient = async (user) => {
 
   const errors = {};
 
-  if (!firstName) {
-    errors.firstName = addToArray(errors.firstName, 'First name is required');
+  if (!isDefined(firstName)) {
+    errors.firstName = addToArray(errors.firstName, translations.firstNameRequired);
   }
 
-  if (!lastName) {
-    errors.lastName = addToArray(errors.lastName, 'Last name is required');
+  if (!isDefined(lastName)) {
+    errors.lastName = addToArray(errors.lastName, translations.lastNameRequired);
   }
 
-  if (!birthDate) {
-    errors.birthDate = addToArray(errors.birthDate, 'Birth date is required');
+  if (!isDefined(birthDate)) {
+    errors.birthDate = addToArray(errors.birthDate, translations.birthDateRequired);
   }
 
-  if (!racialOrigin) {
-    errors.racialOrigin = addToArray(errors.racialOrigin, 'Racial origin is required');
+  if (!isDefined(racialOrigin)) {
+    errors.racialOrigin = addToArray(errors.racialOrigin, translations.racialOriginRequired);
   } else {
     const racialOriginExists = racialOriginTypes.includes(racialOrigin);
     if (!racialOriginExists) {
-      errors.racialOrigin = addToArray(errors.racialOrigin, 'Racial origin does not exist');
+      errors.racialOrigin = addToArray(errors.racialOrigin, translations.racialOriginNotExist);
     }
   }
 
-  if (!MBO) {
-    errors.MBO = addToArray(errors.MBO, 'MBO is required');
-  } else if (await PatientService.existsPatientWithMBO(MBO)) {
-    errors.MBO = addToArray(errors.MBO, 'Patient with this MBO already exists');
+  if (!isDefined(MBO)) {
+    errors.MBO = addToArray(errors.MBO, translations.MBORequired);
+  }
+
+  if (!editMode) {
+    if (MBO && await PatientService.existsPatientWithMBO(MBO)) {
+      errors.MBO = addToArray(errors.MBO, translations.patientWithMBOExist);
+    }
   }
 
   const isValid = Object.keys(errors).length === 0;

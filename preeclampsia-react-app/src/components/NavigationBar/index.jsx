@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { APP } from '../../constants/routes';
+import { getTranslations } from '../../utils/translation.utils';
 import { withPermission, isUserLoggedIn } from '../../utils/auth.utils';
 import * as userActions from '../../redux/actions/user.actions';
 import { userRoles } from '../../constants/roles.constants';
+import LanguageSelector from '../LanguageSelector';
 
 class NavigationBar extends Component {
   render() {
     const { logoutUser } = this.props;
+
+    const translations = getTranslations();
 
     return (
       <Navbar>
@@ -20,32 +24,32 @@ class NavigationBar extends Component {
             </a>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav className='w-80'>
+        <Nav className='w-50'>
           {
             withPermission((
               <NavItem eventKey={1} href={APP.PATIENTS}>
-                Lista pacijenata
+                {translations.patient.listTitle}
               </NavItem>
             ))
           }
           {
             withPermission((
               <NavItem eventKey={2} href={APP.STATISTICS}>
-                Statistika
+                {translations.statistics.title}
               </NavItem>
             ))
           }
           {
             withPermission((
               <NavItem eventKey={3} href={APP.USERS}>
-                Lista korisnika
+                {translations.user.listTitle}
               </NavItem>
             ), null, true, [userRoles.Admin.value])
           }
           {
             !isUserLoggedIn() &&
             <NavItem eventKey={10} href={APP.AUTH.LOGIN}>
-              Prijava
+              {translations.login.title}
             </NavItem>
           }
         </Nav>
@@ -55,11 +59,14 @@ class NavigationBar extends Component {
           <Nav className='w-20 align-horizontal--center'>
             <NavDropdown eventKey={11} title={<i className='material-icons'>person</i>} id='basic-nav-dropdown'>
               <MenuItem eventKey='11.1'>
-                <div onClick={logoutUser}>Odjava</div>
+                <div onClick={logoutUser}>{translations.logout.title}</div>
               </MenuItem>          
             </NavDropdown> 
           </Nav>
         }
+        <Nav className='w-10'>
+          <LanguageSelector />
+        </Nav>
       </Navbar>
     );
   } 

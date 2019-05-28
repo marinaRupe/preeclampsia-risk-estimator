@@ -17,11 +17,13 @@ const initialState = {
   },
   pregnancy: {
     details: null,
-    trimesters: {
-      trimester1: null,
-      trimester2: null,
-      trimester3: null,
-    }
+    medicalExaminations: [],
+  },
+  reports: {
+    pregnancyDataForReport: null
+  },
+  statistics: {
+    mediansForCharacteristics: {},
   },
 };
 

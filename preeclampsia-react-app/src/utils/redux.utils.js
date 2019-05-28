@@ -18,7 +18,7 @@ export function submissionErrorHandler(error) {
 export function actionWrapper(action, formSubmission = false) {
   return async (dispatch) => {
     try {
-      await action(dispatch);
+      return await action(dispatch);
     } catch (error) {
       if (error.response) {
         if (formSubmission) {

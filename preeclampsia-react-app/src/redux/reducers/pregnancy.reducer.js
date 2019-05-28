@@ -12,14 +12,11 @@ export default function pregnancyReducer(state = initialState.pregnancy, action)
       };
     }
     return { ...state };
-  case types.FETCH_PREGNANCY_TRIMESTER_DETAILS:
+  case types.FETCH_MEDICAL_EXAMINATIONS_FOR_PREGNANCY:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,
-        trimesters: {
-          ...state.trimesters,
-          ...action.data,
-        },
+        medicalExaminations: action.data,
       };
     }
     return { ...state };

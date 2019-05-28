@@ -1,9 +1,5 @@
-const addToArray = (array, item) => {
-  let newArray = array;
-  if (!array) {
-    newArray = [];
-  }
-  return [...newArray, item];
+const addToArray = (array = [], item) => {
+  return [...array, item];
 };
 
 module.exports = {

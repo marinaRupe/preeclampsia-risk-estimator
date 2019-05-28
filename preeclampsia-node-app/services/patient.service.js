@@ -22,7 +22,9 @@ const getAll = async (
   })
 );
 
-const getById = async (patientId) => await db.Patient.findOne({
+const getById = async (id) => await db.Patient.findByPk(id);
+
+const getByIdWithPregnancies = async (patientId) => await db.Patient.findOne({
   where: {
     id: patientId
   },
@@ -49,6 +51,34 @@ const createPatient = async (patientData) => {
   return patient;
 };
 
+const updatePatient = async (patientId, patientData) => {
+  const {
+    firstName,
+    lastName,
+    MBO,
+    birthDate,
+    racialOrigin,
+  } = patientData;
+
+  const patient = await getById(patientId);
+
+  return await patient.update({
+    firstName,
+    lastName,
+    MBO,
+    birthDate,
+    racialOrigin,
+  });
+};
+
+const removePatient = async (patientId) => {
+  const patient = await getById(patientId);
+
+  return await patient.destroy();
+};
+
+const existsPatientWithId = async (id) => !!(await getById(id));
+
 const existsPatientWithMBO = async (MBO) => {
   const patient = await db.Patient.findOne({
     where: { MBO }
@@ -60,6 +90,10 @@ const existsPatientWithMBO = async (MBO) => {
 module.exports = {
   getAll,
   getById,
+  getByIdWithPregnancies,
   createPatient,
+  updatePatient,
+  removePatient,
   existsPatientWithMBO,
+  existsPatientWithId,
 };

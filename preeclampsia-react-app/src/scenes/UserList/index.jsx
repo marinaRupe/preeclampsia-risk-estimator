@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { reset } from 'redux-form';
+import { getTranslations } from '../../utils/translation.utils';
 import {
-  reactTableConstants,
+  getReactTableConstants,
   sortDirections,
   defaultPageSize,
 } from '../../constants/reactTable.constants';
 import { userRoles } from '../../constants/roles.constants';
-import { ADD_USER_FORM } from '../../redux/forms';
 import * as userActions from '../../redux/actions/user.actions';
 import { formatDate } from '../../utils/dateTime.utils';
-import AddUserModal from './content/AddUserModal';
+import AddUserModal from './content/UserForm/AddUserModal';
+import EditUserModal from './content/UserForm/EditUserModal';
+import UserSidebar from './content/UserSidebar';
+import DeleteUserModal from './content/DeleteUserModal';
 
 class UserList extends Component {
   constructor(props) {
@@ -21,6 +23,9 @@ class UserList extends Component {
     this.state = {
       isLoading: false,
       addUserModalIsOpen: false,
+      editUserModalIsOpen: false,
+      deleteUserModalIsOpen: false,
+      selectedUser: null,
       page: 1,
       pageSize: defaultPageSize,
       sortColumn: '',
@@ -72,8 +77,35 @@ class UserList extends Component {
 
   closeAddUserModal = () => {
     this.setState({ addUserModalIsOpen: false });
-    const { resetAddUserForm  } = this.props;
-    resetAddUserForm();
+  }
+
+  openEditUserModal = () => {
+    this.setState({ editUserModalIsOpen: true });
+  }
+
+  closeEditUserModal = () => {
+    this.setState({ editUserModalIsOpen: false });
+  }
+
+  openDeleteUserModal = () => {
+    this.setState({ deleteUserModalIsOpen: true });
+  }
+
+  closeDeleteUserModal = () => {
+    this.setState({ deleteUserModalIsOpen: false });
+  }
+
+  selectUser = (selectedUser) => {
+    this.setState({ selectedUser });
+  }
+
+  unselectUser = () => {
+    this.setState({ selectedUser: null });
+  }
+
+  isRowSelected = (rowData) => {
+    const { selectedUser } = this.state;
+    return selectedUser && selectedUser.id === rowData.id;
   }
 
   addUser = async (userData) => {
@@ -83,24 +115,39 @@ class UserList extends Component {
     this.refreshTable();
   };
 
+  editUser = async (userData) => {
+    const { updateUser } = this.props;
+    await updateUser(userData);
+    this.closeEditUserModal();
+  };
+
+  deleteUser = async (userId) => {
+    const { removeUser } = this.props;
+    await removeUser(userId);
+    this.unselectUser();
+    this.closeDeleteUserModal();
+    this.refreshTable();
+  };
+
   getColumns = () => {
     const userRolesValues = Object.values(userRoles);
+    const translations = getTranslations();
   
     return [
       {
-        Header: 'E-mail',
+        Header: translations.user.property.email,
         accessor: 'email'
       },
       {
-        Header: 'Ime',
+        Header: translations.user.property.firstName,
         accessor: 'firstName',
       },
       {
-        Header: 'Prezime',
+        Header: translations.user.property.lastName,
         accessor: 'lastName',
       },
       {
-        Header: 'Uloga',
+        Header: translations.user.property.role,
         accessor: 'role',
         Cell: props => (
           <span>
@@ -112,7 +159,7 @@ class UserList extends Component {
         )
       },
       {
-        Header: 'Datum unosa',
+        Header: translations.user.property.createdAt,
         accessor: 'createdAt',
         Cell: props => <span>{formatDate(props.value)}</span>
       },
@@ -120,8 +167,16 @@ class UserList extends Component {
   }
 
   render() {
-    const { isLoading, addUserModalIsOpen } = this.state;
+    const {
+      isLoading,
+      addUserModalIsOpen,
+      editUserModalIsOpen,
+      deleteUserModalIsOpen,
+      selectedUser,
+    } = this.state;
     const { users, totalPages } = this.props;
+
+    const translations = getTranslations();
 
     return (
       <div className='page'>
@@ -130,27 +185,59 @@ class UserList extends Component {
           handleClose={this.closeAddUserModal}
           onSubmit={this.addUser}
         />
+        <EditUserModal
+          show={editUserModalIsOpen}
+          handleClose={this.closeEditUserModal}
+          onSubmit={this.editUser}
+          initialValues={selectedUser}
+        />
+        <DeleteUserModal
+          show={deleteUserModalIsOpen}
+          user={selectedUser}
+          deleteUser={this.deleteUser}
+          handleClose={this.closeDeleteUserModal}
+        />
         <div className='patient-list__header mb-10'>
-          <h1>Lista korisnika</h1>
+          <h1>{translations.user.listTitle}</h1>
           <Button
             bsStyle='primary'
             onClick={this.openAddUserModal}
           >
-            Dodaj korisnika
+            {translations.user.action.add}
           </Button>
         </div>
 
-        <div className='ml-20'>
-          <div className='ml-10'>
-            <ReactTable
-              loading={isLoading}
-              data={users}
-              pages={totalPages}
-              columns={this.getColumns()}
-              onFetchData={this.fetchData}
-              {...reactTableConstants}
-            />
+        <div className={`ml-20 table-view ${selectedUser ? 'row-selected' : ''}`}>
+          <div className='table-view--table'>
+            <div className='ml-10'>
+              <ReactTable
+                loading={isLoading}
+                data={users}
+                pages={totalPages}
+                columns={this.getColumns()}
+                onFetchData={this.fetchData}
+                {...getReactTableConstants()}
+                getTrProps={(state, rowInfo) => {
+                  if (!rowInfo) {
+                    return {};
+                  }
+                  return {
+                    onClick: this.selectUser.bind(null, rowInfo.original),
+                    className:`react-table__row ${this.isRowSelected(rowInfo.original) ? 'is-active' : ''}`
+                  };
+                }}
+              />
+            </div>
           </div>
+          {
+            selectedUser &&
+            <UserSidebar
+              user={selectedUser}
+              closeSidebar={this.unselectUser}
+              openEditUserModal={this.openEditUserModal}
+              openDeleteUserModal={this.openDeleteUserModal}
+            />
+          }
         </div>
       </div>
     );
@@ -167,7 +254,8 @@ const mapStateToProps = ({ users }) => {
 const mapDispatchToProps = {
   fetchUserList: userActions.fetchUserList,
   createUser: userActions.createUser,
-  resetAddUserForm: reset.bind(null, ADD_USER_FORM),
+  updateUser: userActions.updateUser,
+  removeUser: userActions.removeUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);
