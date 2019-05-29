@@ -3,7 +3,7 @@ const PregnancyService = require('../services/pregnancy.service');
 const MedicalExaminationService = require('../services/medicalExamination.service');
 const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
 const MedicalExaminationDetailsViewModel
-  = require('../dataTransferObjects/viewModels/Pregnancy/MedicalExaminationDetails.viewModel');
+  = require('../dataTransferObjects/viewModels/MedicalExamination/MedicalExaminationDetails.viewModel');
 const PregnancyDataForReportViewModel
   = require('../dataTransferObjects/viewModels/Report/PregnancyDataForReport.viewModel');
 

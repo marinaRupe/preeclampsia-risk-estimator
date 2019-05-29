@@ -3,6 +3,7 @@ const PatientService = require('../services/patient.service');
 const values = require('../constants/values.constants');
 const PatientValidator = require('../validators/patient.validator');
 const PageViewModel = require('../dataTransferObjects/viewModels/Paging/Page.viewModel');
+const PatientDetailsViewModel = require('../dataTransferObjects/viewModels/Patient/PatientDetails.viewModel');
 
 const getAll = async (req, res) => {
   let { page, pageSize } = req.query;
@@ -12,7 +13,11 @@ const getAll = async (req, res) => {
   pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
 
   const patientList = await PatientService.getAll(page, pageSize, sortColumn, sortDirection);
-  res.json(new PageViewModel(patientList.rows, patientList.count, page, pageSize));
+
+  const patients = patientList.rows.map(p => (new PatientDetailsViewModel(p)));
+  const model = new PageViewModel(patients, patientList.count, page, pageSize);
+
+  res.json(model);
 };
 
 const getById = async (req, res) => {
@@ -54,7 +59,9 @@ const createPatient = async (req, res) => {
     throw new Errors.InternalServerError(translations.response.error.patient.create);
   }
 
-  res.json(patient);
+  const model = new PatientDetailsViewModel(patient);
+
+  res.json(model);
 };
 
 const updatePatient = async (req, res) => {
@@ -84,7 +91,9 @@ const updatePatient = async (req, res) => {
     throw new Errors.InternalServerError(translations.response.error.patient.update);
   }
 
-  res.json(patient);
+  const model = new PatientDetailsViewModel(patient);
+
+  res.json(model);
 };
 
 const deletePatient = async (req, res) => {

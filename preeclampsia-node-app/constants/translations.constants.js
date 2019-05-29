@@ -57,6 +57,42 @@ const translations = {
         patientWithMBOExist: 'Pacijent s ovim MBO-om već postoji',
       },
     },
+    pregnancy: {
+      property: {
+        lastPeriodDate: 'Datum posljednje mjesečnice',
+        lastPeriodDateIsReliable: 'Datum posljednje mjesečnice pouzdan',
+        deliveryDate: 'Datum poroda',
+        numberOfPreviousPregnancies: 'Broj ranijih trudnoća',
+        numberOfPreviousBirths: 'Broj poroda',
+        hadPEInPreviousPregnancy: 'Preeklampsija u prethodnoj trudnoći',
+      },
+    },
+    medicalExamination: {
+      property: {
+        protocol: 'Protokol',
+        bloodTestDate: 'Datum vađenja krvi',
+        ultrasoundDate: 'Datum ultrazvuka',
+        gestationalAgeByUltrasound: 'Gestacijska dob na ultrazvuku',
+        gestationalAgeOnBloodTest: 'Gestacijska dob na dan vađenja krvi',
+        note: 'Napomena',
+      },
+    },
+    report: {
+      title: 'Probir za preeklampsiju',
+      subtitle: {
+        patient: 'Pacijent',
+        pregnancy: 'Trudnoća',
+        biochemycalMeasurements: 'Biokemijski biljezi i korigirane MoM vrijednosti',
+        ultrasoundData: 'UZV podaci',
+        risks: 'Rizici na dan vađenja krvi',
+        comment: 'Komentar',
+      },
+    },
+    word: {
+      yes: 'da',
+      no: 'ne',
+      unknown: 'nepoznato',
+    },
   },
 
   en: {
@@ -117,6 +153,42 @@ const translations = {
         MBORequired: 'MBO is required',
         patientWithMBOExist: 'Patient with this MBO already exists',
       },
+    },
+    pregnancy: {
+      property: {
+        lastPeriodDate: 'Last period date',
+        lastPeriodDateIsReliable: 'Last period date is reliable',
+        deliveryDate: 'Delivery date',
+        numberOfPreviousPregnancies: 'Number of previous pregnancies',
+        numberOfPreviousBirths: 'Number of previous births',
+        hadPEInPreviousPregnancy: 'PE in previous pregnancy',
+      },
+    },
+    medicalExamination: {
+      property: {
+        protocol: 'Protocol',
+        bloodTestDate: 'Blood test date',
+        ultrasoundDate: 'Ultrasound date',
+        gestationalAgeByUltrasound: 'Gestational age by ultrasound',
+        gestationalAgeOnBloodTest: 'Gestational age on blood test',
+        note: 'Note',
+      },
+    },
+    report: {
+      title: 'Preeclampsia Screening Results',
+      subtitle: {
+        patient: 'Patient',
+        pregnancy: 'Pregnancy',
+        biochemycalMeasurements: 'Biochemycal measurements',
+        ultrasoundData: 'Ultrasound data',
+        risks: 'Risks on the blood test date',
+        comment: 'Comment',
+      },
+    },
+    word: {
+      yes: 'yes',
+      no: 'no',
+      unknown: 'unknown',
     },
   },
 };

@@ -1,4 +1,4 @@
-const MedicalExaminationDetailsViewModel = require('../Pregnancy/MedicalExaminationDetails.viewModel');
+const MedicalExaminationDetailsViewModel = require('../MedicalExamination/MedicalExaminationDetails.viewModel');
 const PregnancyDetailsViewModel = require('../Pregnancy/PregnancyDetails.viewModel');
 
 class PregnancyDataForReportViewModel {

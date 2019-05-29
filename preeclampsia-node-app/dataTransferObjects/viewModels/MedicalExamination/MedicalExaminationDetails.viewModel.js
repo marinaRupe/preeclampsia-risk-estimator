@@ -1,4 +1,6 @@
-const { CharacteristicsByIdEnum } = require('../../../enums/characteristics.enums');
+const EnumMeasurementsDictionaryViewModel = require('../Measurement/EnumMeasurementsDictionary.viewModel');
+const NumericalMeasurementsDictionaryViewModel = require('../Measurement/NumericalMeasurementsDictionary.viewModel');
+const BooleanMeasurementsDictionaryViewModel = require('../Measurement/BooleanMeasurementsDictionary.viewModel');
 
 class MedicalExaminationDetailsViewModel {
   constructor(medicalExamination) {
@@ -13,21 +15,10 @@ class MedicalExaminationDetailsViewModel {
     this.ultrasoundDate = medicalExamination.ultrasoundDate;
     this.bloodTestDate = medicalExamination.bloodTestDate;
     this.note = medicalExamination.note;
-
-    this.booleanMeasurements = {};
-    (medicalExamination.booleanMeasurements || []).forEach(bm => {
-      this.booleanMeasurements[CharacteristicsByIdEnum[bm.characteristicId]] = bm;
-    });
-
-    this.numericalMeasurements = {};
-    (medicalExamination.numericalMeasurements || []).forEach(nm => {
-      this.numericalMeasurements[CharacteristicsByIdEnum[nm.characteristicId]] = nm;
-    });
-
-    this.enumMeasurements = {};
-    (medicalExamination.enumMeasurements || []).forEach(em => {
-      this.enumMeasurements[CharacteristicsByIdEnum[em.characteristicId]] = em;
-    });
+    
+    this.booleanMeasurements = new BooleanMeasurementsDictionaryViewModel(medicalExamination.booleanMeasurements);
+    this.enumMeasurements = new EnumMeasurementsDictionaryViewModel(medicalExamination.enumMeasurements);
+    this.numericalMeasurements = new NumericalMeasurementsDictionaryViewModel(medicalExamination.numericalMeasurements);
   }
 }
 

@@ -10,6 +10,7 @@ const setLanguage = (req, res, next) => {
   }
   
   res.locals.translations = translations[language];
+  res.locals.language = language;
 
   next();
 };

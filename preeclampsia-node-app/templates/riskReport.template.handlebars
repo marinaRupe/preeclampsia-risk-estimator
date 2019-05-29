@@ -112,11 +112,11 @@
     </div>
   </header>
   
-  <h2>Probir za preeklampsiju</h2>
+  <h2>{{translations.report.title}}</h2>
 
   <div>
     <div class="section border-top">
-      <h3>Pacijent</h3>
+      <h3>{{translations.report.subtitle.patient}}</h3>
       <div class="section-container">
         <div class="left-section personal-data">
           <div>Ime i prezime: <b>{{patient.firstName}} {{patient.lastName}}</b></div>
@@ -127,8 +127,8 @@
         <div class="right-section personal-data">
           <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
           <div>Dob na dan vađenja krvi: {{patient.bloodTestAge}}</div>
-          <div>Visina: {{patient.height}} cm</div>
-          <div>Težina: {{patient.weight}} kg</div>
+          <div>{{characteristicTranslations.height}}: {{measurements.height}}</div>
+          <div>{{characteristicTranslations.weight}}: {{measurements.weight}}</div>
           <div>Etnička skupina: <span class="measure-value">{{patient.racialOrigin}}</span></div>
           <div></div>
         </div>
@@ -136,7 +136,7 @@
     </div>
 
     <div class="section border-top">
-      <h3>Trudnoća</h3>
+      <h3>{{translations.report.subtitle.pregnancy}}</h3>
       <div class="section-container">
         <div class="left-section other-data">
           <div>
@@ -144,26 +144,26 @@
             <span>{{patient.gynecologist}}</span>
           </div>
           <div>
-            <span>Tip trudnoće: </span>
-            <span class="measure-value">{{patient.pregnancyType}}</span>
+            <span>{{characteristicTranslations.pregnancyType}}: </span>
+            <span class="measure-value">{{measurements.pregnancyType}}</span>
           </div>
           <div>
-            <span>Vrsta začeća: </span>
-            <span class="measure-value">{{patient.conceptionMethod}}</span>
+            <span>{{characteristicTranslations.conceptionMethod}}: </span>
+            <span class="measure-value">{{measurements.conceptionMethod}}</span>
           </div>
         </div>
         <div class="right-section other-data">
           <div>
             <span>PE u prethodnoj trudnoći: </span>
-            <span class="measure-value">{{patient.hadPEInPreviousPregnancy}}</span>
+            <span class="measure-value">{{measurements.hadPEInPreviousPregnancy}}</span>
           </div>
           <div>
-            <span>Pušenje za vrijeme trudnoće: </span>
-            <span class="measure-value">{{patient.smokingDuringPregnancy}}</span>
+            <span>{{characteristicTranslations.smokingDuringPregnancy}}: </span>
+            <span class="measure-value">{{measurements.smokingDuringPregnancy}}</span>
           </div>
           <div>
-            <span>Dijabetes: </span>
-            <span class="measure-value">{{patient.diabetesType}}</span>
+            <span>{{characteristicTranslations.diabetesType}}: </span>
+            <span class="measure-value">{{measurements.diabetesType}}</span>
           </div>
         </div>
       </div>
@@ -171,19 +171,19 @@
     
 
     <div class="section border-top">
-      <h3>Biokemijski biljezi i korigirane MoM vrijednosti</h3>
+      <h3>{{translations.report.subtitle.biochemycalMeasurements}}</h3>
       <div class="left-section biochem-data">
-        <div>PLGF: {{patient.serumPLGF}} pg/ml</div>
-        <div>PAPP-A: {{patient.serumPAPPA}} mU/L</div>
+        <div>{{characteristicTranslations.serumPLGF}}: {{measurements.serumPLGF}}</div>
+        <div>{{characteristicTranslations.serumPAPPA}}: {{measurements.serumPAPPA}}</div>
       </div>
       <div class="right-section biochem-data">
-        <div>Korigirani MoM: {{patient.serumPLGFMoM}}</div>
-        <div>Korigirani MoM: {{patient.serumPAPPAMoM}}</div>
+        <div>Korigirani MoM: {{measurements.serumPLGFMoM}}</div>
+        <div>Korigirani MoM: {{measurements.serumPAPPAMoM}}</div>
       </div>
     </div>
     
     <div class="section border-top">
-      <h3>UZV podaci</h3>
+      <h3>{{translations.report.subtitle.ultrasoundData}}</h3>
       <div class="left-section ultrasound-data">
         <div>
           <span>Datum UZV pregleda:</span>
@@ -196,8 +196,8 @@
       </div>
       <div class="right-section ultrasound-data">
         <div>
-          <span>CRL:</span>
-          <span>{{patient.CRL}} mm</span>
+          <span>{{characteristicTranslations.CRL}}:</span>
+          <span>{{measurements.CRL}}</span>
         </div>
         <div>
           <span>Gestacijska dob na datum UZV pregleda:</span>
@@ -211,7 +211,7 @@
     </div>
     
     <div class="section border-top">
-      <h3>Rizici na dan vađenja krvi</h3>
+      <h3>{{translations.report.subtitle.risks}}</h3>
       <div class="risk-box">
         <div>
           <div>&lt;1:1000</div>
@@ -221,7 +221,7 @@
     </div>
 
     <div class="section border-top">
-      <h3>Komentar</h3>
+      <h3>{{translations.report.subtitle.comment}}</h3>
       <div class="comment-section">{{report.note}}</div>
     </div>
     <div class="border-top"></div>
