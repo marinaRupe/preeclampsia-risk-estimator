@@ -1,6 +1,5 @@
 const Errors = require('restify-errors');
 const fs = require('fs');
-const html2pdf = require('html-pdf');
 const path = require('path');
 const Handlebars = require('handlebars');
 const { Characteristics } = require('../constants/characteristics.constants');
@@ -11,6 +10,7 @@ const hospitalLogo = require('../assets/hospitalLogo');
 const UserService = require('../services/user.service');
 const MedicalExaminationService = require('../services/medicalExamination.service');
 const { formatDate, getAgeInYears, calculateGestationalAgeFromDate } = require('../utils/dateTime.utils');
+const { createPDFFromHTML } = require('../utils/pdf.utils');
 
 const generatePdf = async (req, res) => {
   const { medicalExaminationId } = req.params;
@@ -125,14 +125,8 @@ const generatePdf = async (req, res) => {
   const compiledTemplate = Handlebars.compile(template);
   const html = compiledTemplate(data);
 
-  const options = { format: 'A4', border: { top: '30px', left: '30px', right: '30px' } };
   const pdfName = `preeclampsia_risk_report_${pregnancy.patientId}_${medicalExamination.id}_${new Date()}.pdf`;
-
-  const file = await new Promise((resolve, reject) =>
-    html2pdf
-      .create(html, options)
-      .toBuffer((err, stream) => err ? reject(err) : resolve(stream))
-  );
+  const file = await createPDFFromHTML(html);
 
   res.attachment(pdfName).send(file);
 };
