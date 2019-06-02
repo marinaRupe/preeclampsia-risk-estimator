@@ -310,7 +310,7 @@ def query_model(trace, new_observation):
 # ##########################################################################################################
 
 def main():
-    csv_location = sys.argv[1]  # '../../data/podaci.csv'
+    csv_location = sys.argv[1]
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
