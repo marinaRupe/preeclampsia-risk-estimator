@@ -13,7 +13,7 @@ const {
   getCharacteristicTranslation,
 } = require('../utils/measurement.utils');
 
-const generateHTMLReport = (medicalExamination, user, translations, language) => {
+const generateHTMLReport = (medicalExamination, risk, user, translations, language) => {
   const { pregnancy } = medicalExamination;
   const { patient } = pregnancy;
 
@@ -48,6 +48,8 @@ const generateHTMLReport = (medicalExamination, user, translations, language) =>
     },
     measurements: extractMeasurements(medicalExamination, translations, language),
     report: {
+      risk: 1 / risk,
+      riskExplain: 'rizik manji od graničnog',
       generatedBy: user || '-',
       note: medicalExamination.note || '-',
       createdAt: formatDate(new Date()),
