@@ -31,6 +31,7 @@ class PatientList extends Component {
       pageSize: defaultPageSize,
       sortColumn: '',
       sortDirection: '',
+      searchInput: ''
     };
   }
 
@@ -49,13 +50,13 @@ class PatientList extends Component {
   }
 
   updateTable = () => {
-    const { page, pageSize, sortColumn, sortDirection } = this.state;
+    const { page, pageSize, sortColumn, sortDirection, searchInput } = this.state;
 
     this.setState({
       isLoading: true,
     }, async () => {
       const { fetchPatientList } = this.props;
-      await fetchPatientList(page, pageSize, sortColumn, sortDirection);
+      await fetchPatientList(page, pageSize, sortColumn, sortDirection, searchInput);
 
       this.setState({
         isLoading: false,
@@ -69,6 +70,19 @@ class PatientList extends Component {
       pageSize: defaultPageSize,
       sortColumn: '',
       sortDirection: '',
+    }, this.updateTable);
+  }
+
+  onSearchInputChange = (e) => {
+    if (e.key && e.key !== 'Enter') {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({
+      searchInput: this.searchInput.value.trim(),
     }, this.updateTable);
   }
 
@@ -196,12 +210,25 @@ class PatientList extends Component {
         />
         <div className='page__header mb-10'>
           <h1>{translations.patient.listTitle}</h1>
-          <Button
-            bsStyle='primary'
-            onClick={this.openAddPatientModal}
-          >
-            {translations.patient.action.add}
-          </Button>
+          <div className='align-vertical--center'>
+            <div className='redux-form__input-container patient-list__search mr-20'>
+              <input
+                type='text'
+                className='redux-form__input'
+                onKeyDown={this.onSearchInputChange}
+                ref={r => { this.searchInput = r; } }
+                placeholder={translations.patient.search}
+              />
+              <i className='material-icons'>search</i>
+            </div>
+            
+            <Button
+              bsStyle='primary'
+              onClick={this.openAddPatientModal}
+            >
+              {translations.patient.action.add}
+            </Button>
+          </div>
         </div>
 
         <div className={`ml-20 table-view ${selectedPatient ? 'row-selected' : ''}`}>

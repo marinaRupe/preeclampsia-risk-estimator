@@ -36,6 +36,7 @@ export const translations = {
       listTitle: 'Lista pacijenata',
       detailsTitle: 'Detalji o pacijentu',
       pregnanciesTitle: 'Povijest trudnoća',
+      search: 'Pretraži pacijente',
     },
     user: {
       action: {
@@ -116,10 +117,8 @@ export const translations = {
     },
     statistics: {
       title: 'Statistika',
-      PAPPAMediansNoPETitle: 'PAPP-A medijani - pacijentice koje nisu oboljele od preeklampsije',
-      PAPPAMediansPETitle: 'PAPP-A medijani - pacijentice koje su oboljele od preeklampsije',
-      PLGFMediansNoPETitle: 'PLGF medijani - pacijentice koje nisu oboljele od preeklampsije',
-      PLGFMediansPETitle: 'PLGF medijani - pacijentice koje su oboljele od preeklampsije',
+      PAPPAMedians: 'PAPP-A medijani',
+      PLGFMedians: 'PLGF medijani',
     },
     login: {
       title: 'Prijava',
@@ -184,6 +183,7 @@ export const translations = {
       listTitle: 'Patient List',
       detailsTitle: 'Patient Details',
       pregnanciesTitle: 'Pregnancy History',
+      search: 'Search patients',
     },
     user: {
       action: {
@@ -220,10 +220,8 @@ export const translations = {
     },
     statistics: {
       title: 'Statistics',
-      PAPPAMediansNoPETitle: 'PAPP-A medians - patients without PE',
-      PAPPAMediansPETitle: 'PAPP-A medians - patients with PE',
-      PLGFMediansNoPETitle: 'PLGF medians - patients without PE',
-      PLGFMediansPETitle: 'PLGF medians - patients with PE',
+      PAPPAMedians: 'PAPP-A medians',
+      PLGFMedians: 'PLGF medians',
     },
     pregnancy: {
       action: {

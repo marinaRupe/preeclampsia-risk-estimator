@@ -3,14 +3,35 @@ const { patientListSortColumnNames } = require('../constants/patient.constants')
 const { sortDirections } = require('../constants/query.constants');
 const { getSortColumnName, getSortDirection } = require('../utils/query.utils');
 const { db } = require('../models');
+const { Sequelize: { Op } } = require('sequelize');
 
 const getAll = async (
   page = values.DEFAULT_PAGE,
   pageSize = values.DEFAULT_PAGE_SIZE,
   sortColumn,
   sortDirection,
+  search,
 ) => (
   await db.Patient.findAndCountAll({
+    where: {
+      [Op.or]: [
+        {
+          MBO: {
+            [Op.iLike]: search
+          }
+        },
+        {
+          lastName: {
+            [Op.iLike]: `${search}%`,
+          },
+        },
+        {
+          firstName: {
+            [Op.iLike]: `${search}%`,
+          },
+        },
+      ]
+    },
     offset: (page - 1) * pageSize,
     limit: pageSize,
     order: [

@@ -210,9 +210,17 @@ def format_data(df):
     df['weight'] = df['weight'].apply(lambda x: parse_float_values(x))
     df = calculateMoMs(df)
 
-    # Drop unnecessary columns
-    # df = df.loc[:, ['gestationalAgeAtDelivery', 'PLGF', 'PAPP_A', 'weight']]
-    df = df[['gestationalAgeAtDelivery', 'PLGF', 'PAPP_A', 'weight']]
+    # Pick columns
+    df = df[[
+        'gestationalAgeAtDelivery',
+        'PLGF',
+        'PAPP_A',
+        'weight',
+        'smokingDuringPregnancy',
+        'diabetes',
+        'IVF',
+        'age'
+    ]]
 
     labels = df['gestationalAgeAtDelivery']
 
@@ -345,8 +353,12 @@ def main():
                 'Intercept': 1,
                 'PLGF': 0.34,
                 'PAPP_A': 0.5,
-                'weight': 69}
-            )
+                'weight': 70,
+                'smokingDuringPregnancy': 0,
+                'diabetes': 0,
+                'IVF': 0,
+                'age': 30
+            })
 
             query_model(normal_trace, observation)
 

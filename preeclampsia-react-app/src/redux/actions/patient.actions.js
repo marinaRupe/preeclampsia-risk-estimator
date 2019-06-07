@@ -4,9 +4,9 @@ import { actionWrapper } from '../../utils/redux.utils';
 import * as httpCalls from '../../utils/http.utils';
 import * as actionCreators from '../actionCreators/patient.actionCreators';
 
-export function fetchPatientList(page = 1, pageSize = 10, sortColumn, sortDirection) {
+export function fetchPatientList(page = 1, pageSize = 10, sortColumn = '', sortDirection = '', searchInput = '') {
   const action = async (dispatch) => {
-    const resp = await httpCalls.GET(API.PATIENTS.ALL(page, pageSize, sortColumn, sortDirection));
+    const resp = await httpCalls.GET(API.PATIENTS.ALL(page, pageSize, sortColumn, sortDirection, searchInput));
     if (resp.status === 200) {
       await dispatch(actionCreators.fetchPatients({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }

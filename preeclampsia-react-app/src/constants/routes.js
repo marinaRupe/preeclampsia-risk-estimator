@@ -2,8 +2,8 @@ const API_VERSION = 'v1.0';
 
 export const API_URL = `/api/${API_VERSION}`;
 
-const pagingQueryString = (page = 1, pageSize, sortColumn = '', sortDirection = '') =>
-  `page=${page}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortDirection=${sortDirection}`;
+const pagingQueryString = (page = 1, pageSize, sortColumn = '', sortDirection = '', search = '') =>
+  `page=${page}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortDirection=${sortDirection}&search=${search}`;
 
 export const API = {
   USERS: {
@@ -15,8 +15,8 @@ export const API = {
   },
   PATIENTS: {
     ROOT: `${API_URL}/patients`,
-    ALL: (page, pageSize, sortColumn, sortDirection) =>
-      `${API.PATIENTS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
+    ALL: (page, pageSize, sortColumn, sortDirection, search) =>
+      `${API.PATIENTS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection, search)}`,
     BY_ID: (patientId) => `${API.PATIENTS.ROOT}/${patientId}`,
   },
   PREGNANCIES: {

@@ -112,6 +112,12 @@ a {
       justify-content: flex-end;
     }
   }
+  &-vertical {
+    &--center {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 
 .m {

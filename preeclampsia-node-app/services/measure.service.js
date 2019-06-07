@@ -114,10 +114,8 @@ const getMediansByWeeks = async (characteristicId) => {
             as: 'pregnancy',
             attributes: ['resultedWithPE'],
             where: {
-              resultedWithPE: {
-                [db.Sequelize.Op.ne]: null
-              }
-            }
+              resultedWithPE: false
+            },
           },
         ],
       },
@@ -126,39 +124,23 @@ const getMediansByWeeks = async (characteristicId) => {
   });
 
   const mediansWithoutPE = {};
-  const mediansWithPE = {};
 
   for (const measure of measures) {
-    const resultedWithPE = measure['medicalExamination.pregnancy.resultedWithPE'];
     const week = measure['medicalExamination.gestationalAgeByUltrasoundWeeks'];
     const { value } = measure;
 
-    if (resultedWithPE === true) {
-      if (!mediansWithPE[week]) {
-        mediansWithPE[week] = [];
-      }
-
-      mediansWithPE[week].push(value);
+    if (!mediansWithoutPE[week]) {
+      mediansWithoutPE[week] = [];
     }
 
-    if (resultedWithPE === false) {
-      if (!mediansWithoutPE[week]) {
-        mediansWithoutPE[week] = [];
-      }
-
-      mediansWithoutPE[week].push(value);
-    }
+    mediansWithoutPE[week].push(value);
   }
 
   for (const week of Object.keys(mediansWithoutPE)) {
     mediansWithoutPE[week] = median(mediansWithoutPE[week]);
   }
 
-  for (const week of Object.keys(mediansWithPE)) {
-    mediansWithPE[week] = median(mediansWithPE[week]);
-  }
-
-  return { withPE: mediansWithPE, withoutPE: mediansWithoutPE };
+  return { withoutPE: mediansWithoutPE };
 };
 
 module.exports = {

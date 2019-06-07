@@ -7,12 +7,12 @@ const PatientDetailsViewModel = require('../dataTransferObjects/viewModels/Patie
 
 const getAll = async (req, res) => {
   let { page, pageSize } = req.query;
-  const { sortColumn, sortDirection } = req.query;
+  const { sortColumn, sortDirection, search } = req.query;
 
   page = page || values.DEFAULT_PAGE;
   pageSize = pageSize || values.DEFAULT_PAGE_SIZE;
 
-  const patientList = await PatientService.getAll(page, pageSize, sortColumn, sortDirection);
+  const patientList = await PatientService.getAll(page, pageSize, sortColumn, sortDirection, search);
 
   const patients = patientList.rows.map(p => (new PatientDetailsViewModel(p)));
   const model = new PageViewModel(patients, patientList.count, page, pageSize);
