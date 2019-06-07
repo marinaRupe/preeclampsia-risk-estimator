@@ -11,9 +11,8 @@ module.exports = (sequelize) => {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+  }, {
+    paranoid: true,
   });
   
   BooleanMeasurement.associate = (models) => {

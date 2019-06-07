@@ -37,9 +37,15 @@ const generatePdf = async (req, res) => {
     const { risk } = JSON.parse(data.toString().replace(/'/g, '"'));
     console.info(`Return value: ${risk}`);
 
-    const html = ReportService.generateHTMLReport(medicalExamination, risk, user, translations, language);
+    const reportData = ReportService.generateReportData(medicalExamination, risk, user);
+    const report = await ReportService.createReport(reportData);
 
-    const pdfName = `preeclampsia_risk_report_${medicalExamination.id}_${new Date()}.pdf`;
+    if (!report) {
+      throw new Errors.InternalServerError();
+    }
+
+    const html = ReportService.generateHTMLReport(reportData, user, translations, language);
+
     const file = await createPDFFromHTML(html);
 
     res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });

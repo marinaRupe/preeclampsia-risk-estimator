@@ -30,7 +30,6 @@ module.exports = (sequelize) => {
         isIn: [Object.values(RacialOriginTypes).map(v => v.key)]
       },
     },
-    
   }, {
     paranoid: true,
   });

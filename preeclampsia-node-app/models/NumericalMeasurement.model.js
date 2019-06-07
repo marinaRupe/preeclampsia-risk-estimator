@@ -11,9 +11,8 @@ module.exports = (sequelize) => {
       type: Sequelize.DOUBLE,
       allowNull: false,
     },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+  }, {
+    paranoid: true,
   });
   
   NumericalMeasurement.associate = (models) => {

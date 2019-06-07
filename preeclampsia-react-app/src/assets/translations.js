@@ -106,7 +106,7 @@ export const translations = {
       calculateRisk: 'Izračunaj rizik',
       report: {
         previewTitle: 'Generiranje nalaza',
-        previewPatientDataTitle: 'Pregled podataka pacijentu',
+        previewPatientDataTitle: 'Pregled podataka o pacijentu',
         action: {
           generateReport: 'Generiraj nalaz'
         },

@@ -2,6 +2,12 @@ const { isDefined } = require('./value.utils.js');
 const { formatDate } = require('./dateTime.utils');
 const { EnumMeasurementValues } = require('../constants/enumMeasurement.constants');
 
+const getMeasurementValue = (measurement) => {
+  return (isDefined(measurement) && isDefined(measurement.value))
+    ? measurement.value
+    : (isDefined(measurement) ? measurement : null);
+};
+
 const getMeasurementTranslation = (measurement, language) => {
   return measurement[language];
 };
@@ -23,7 +29,7 @@ const displayDateMeasured = (measurement) => (
  */
 const displayBooleanMeasurementValue = (measurement, translations) => {
   if (isDefined(measurement)) {
-    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
+    const measurementValue = getMeasurementValue(measurement);
     return (measurementValue ? translations.word.yes : translations.word.no);
   }
 
@@ -40,7 +46,7 @@ const displayBooleanMeasurementValue = (measurement, translations) => {
   */
 const displayNumericalMeasurementValue = (measurement, unit, translations) => {
   if (isDefined(measurement)) {
-    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
+    const measurementValue = getMeasurementValue(measurement);
     return `${measurementValue} ${unit ? unit : ''}`;
   }
 
@@ -58,7 +64,7 @@ const displayNumericalMeasurementValue = (measurement, unit, translations) => {
  */
 const displayEnumMeasurementValue = (measurement, characteristicId, translations, language) => {
   if (isDefined(measurement)) {
-    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
+    const measurementValue = getMeasurementValue(measurement);
     const enumValue = EnumMeasurementValues[characteristicId][measurementValue];
     return getMeasurementTranslation(enumValue, language);
   }
@@ -67,6 +73,7 @@ const displayEnumMeasurementValue = (measurement, characteristicId, translations
 };
 
 module.exports = {
+  getMeasurementValue,
   displayDateMeasured,
   displayBooleanMeasurementValue,
   displayNumericalMeasurementValue,

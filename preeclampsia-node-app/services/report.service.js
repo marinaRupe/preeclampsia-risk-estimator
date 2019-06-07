@@ -5,72 +5,23 @@ const Handlebars = require('handlebars');
 const { Characteristics } = require('../constants/characteristics.constants');
 const { RacialOriginTypes } = require('../constants/patient.constants');
 const hospitalLogo = require('../assets/hospitalLogo');
-const { formatDate, getAgeInYears, calculateGestationalAgeFromDate } = require('../utils/dateTime.utils');
+const { formatDate, getAgeInYears } = require('../utils/dateTime.utils');
 const {
+  getMeasurementValue,
   displayNumericalMeasurementValue,
   displayBooleanMeasurementValue,
   displayEnumMeasurementValue,
   getCharacteristicTranslation,
 } = require('../utils/measurement.utils');
 
-const generateHTMLReport = (medicalExamination, risk, user, translations, language) => {
-  const { pregnancy } = medicalExamination;
-  const { patient } = pregnancy;
-
-  const gestationalAgeOnBloodTest = calculateGestationalAgeFromDate(
-    medicalExamination.ultrasoundDate,
-    medicalExamination.bloodTestDate,
-    medicalExamination.gestationalAgeByUltrasoundWeeks,
-    medicalExamination.gestationalAgeByUltrasoundDays
-  );
-
-  // TODO: refactor
-  const data = {
-    translations,
-    characteristicTranslations: getCharacteristicTranslations(language),
-    patient: {
-      firstName: patient.firstName,
-      lastName: patient.lastName,
-      MBO: patient.MBO,
-      birthDate: formatDate(patient.birthDate),
-      racialOrigin: patient.racialOrigin
-        && Object.values(RacialOriginTypes).find(r => r.key === patient.racialOrigin).hr,
-      gynecologist: patient.gynecologist || '-',
-      protocol: medicalExamination.protocol,
-      gestationalAgeByUltrasoundWeeks: medicalExamination.gestationalAgeByUltrasoundWeeks,
-      gestationalAgeByUltrasoundDays: medicalExamination.gestationalAgeByUltrasoundDays,
-      gestationalAgeOnBloodTestWeeks: gestationalAgeOnBloodTest.weeks,
-      gestationalAgeOnBloodTestDays: gestationalAgeOnBloodTest.days,
-      ultrasoundDate: formatDate(medicalExamination.ultrasoundDate),
-      bloodTestDate: formatDate(medicalExamination.bloodTestDate),
-      bloodTestAge: getAgeInYears(patient.birthDate, medicalExamination.bloodTestDate),
-      note: medicalExamination.note,
-    },
-    measurements: extractMeasurements(medicalExamination, translations, language),
-    report: {
-      risk: 1 / risk,
-      riskExplain: 'rizik manji od graničnog',
-      generatedBy: user || '-',
-      note: medicalExamination.note || '-',
-      createdAt: formatDate(new Date()),
-    },
-    hospitalLogo
-  };
-
-  const template = fs.readFileSync(path.join(__dirname, '..', 'templates', 'riskReport.template.handlebars'), 'utf8');
-  const compiledTemplate = Handlebars.compile(template);
-  const html = compiledTemplate(data);
-
-  return html;
+const createReport = async (reportData) => {
+  const report = await db.Report.create(reportData);
+  return report;
 };
 
-const extractMeasurements = (medicalExamination, translations, language) => {
+const generateReportData = (medicalExamination, risk, user) => {
   const { pregnancy } = medicalExamination;
-  const {
-    hadPEInPreviousPregnancy,
-    conceptionMethod,
-    pregnancyType,
-  } = pregnancy;
+  const { patient } = pregnancy;
 
   const booleanMeasurements = {};
   (medicalExamination.booleanMeasurements || []).forEach(bm => {
@@ -87,20 +38,98 @@ const extractMeasurements = (medicalExamination, translations, language) => {
     numericalMeasurements[nm.characteristicId] = nm;
   });
 
-  const serumPLGF = numericalMeasurements[Characteristics.SerumPLGF.key];
-  const serumPAPPA = numericalMeasurements[Characteristics.SerumPAPPA.key];
-  const CRL = numericalMeasurements[Characteristics.FetalCrownRumpLength.key];
-  const weight = numericalMeasurements[Characteristics.Weight.key];
-  const height = numericalMeasurements[Characteristics.Height.key];
+  const reportData = {
+    firstName: patient.firstName,
+    lastName: patient.lastName,
+    MBO: patient.MBO,
+    birthDate: patient.birthDate,
+    protocol: medicalExamination.protocol,
+    bloodTestDate: medicalExamination.bloodTestDate,
+    weight: getMeasurementValue(numericalMeasurements[Characteristics.Weight.key]),
+    height: getMeasurementValue(numericalMeasurements[Characteristics.Height.key]),
+    racialOrigin: patient.racialOrigin,
+    pregnancyType: pregnancy.pregnancyType,
+    conceptionMethod: pregnancy.conceptionMethod,
+    lastPeriodDate: pregnancy.lastPeriodDate,
+    hadPEInPreviousPregnancy: pregnancy.hadPEInPreviousPregnancy,
+    smokingDuringPregnancy: getMeasurementValue(booleanMeasurements[Characteristics.SmokingDuringPregnancy.key]),
+    diabetesType: getMeasurementValue(enumMeasurements[Characteristics.DiabetesType.key]),
+    PLGF: getMeasurementValue(numericalMeasurements[Characteristics.SerumPLGF.key]),
+    PAPPA: getMeasurementValue(numericalMeasurements[Characteristics.SerumPAPPA.key]),
+    ultrasoundDate: medicalExamination.ultrasoundDate,
+    gestationalAgeByUltrasoundWeeks: medicalExamination.gestationalAgeByUltrasoundWeeks,
+    gestationalAgeByUltrasoundDays: medicalExamination.gestationalAgeByUltrasoundDays,
+    gestationalAgeOnBloodTestWeeks: medicalExamination.gestationalAgeOnBloodTestWeeks,
+    gestationalAgeOnBloodTestDays: medicalExamination.gestationalAgeOnBloodTestDays,
+    CRL: getMeasurementValue(numericalMeasurements[Characteristics.FetalCrownRumpLength.key]),
+    calculatedRisk: 1 / risk,
+    note: medicalExamination.note,
+    dateGenerated: new Date(),
+    generatedById: user.id,
+    medicalExaminationId: medicalExamination.id,
+  };
 
-  const diabetes = enumMeasurements[Characteristics.DiabetesType.key];
-  const smokingDuringPregnancy = booleanMeasurements[Characteristics.SmokingDuringPregnancy.key];
+  return reportData;
+};
+
+const generateHTMLReport = (reportData, user, translations, language) => {
+  const data = {
+    translations,
+    characteristicTranslations: getCharacteristicTranslations(language),
+    patient: {
+      firstName: reportData.firstName,
+      lastName: reportData.lastName,
+      MBO: reportData.MBO,
+      birthDate: formatDate(reportData.birthDate),
+      racialOrigin: reportData.racialOrigin
+        && Object.values(RacialOriginTypes).find(r => r.key === reportData.racialOrigin).hr,
+      gynecologist: reportData.gynecologist || '-',
+      protocol: reportData.protocol,
+      gestationalAgeByUltrasoundWeeks: reportData.gestationalAgeByUltrasoundWeeks,
+      gestationalAgeByUltrasoundDays: reportData.gestationalAgeByUltrasoundDays,
+      gestationalAgeOnBloodTestWeeks: reportData.gestationalAgeOnBloodTestWeeks,
+      gestationalAgeOnBloodTestDays: reportData.gestationalAgeOnBloodTestDays,
+      ultrasoundDate: formatDate(reportData.ultrasoundDate),
+      bloodTestDate: formatDate(reportData.bloodTestDate),
+      bloodTestAge: getAgeInYears(reportData.birthDate, reportData.bloodTestDate),
+    },
+    measurements: extractMeasurements(reportData, translations, language),
+    report: {
+      risk: reportData.calculatedRisk,
+      riskExplain: 'rizik manji od graničnog',
+      generatedBy: user || '-',
+      note: reportData.note || '-',
+      createdAt: formatDate(reportData.dateGenerated),
+    },
+    hospitalLogo
+  };
+
+  const template = fs.readFileSync(path.join(__dirname, '..', 'templates', 'riskReport.template.handlebars'), 'utf8');
+  const compiledTemplate = Handlebars.compile(template);
+  const html = compiledTemplate(data);
+
+  return html;
+};
+
+const extractMeasurements = (reportData, translations, language) => {
+  const {
+    hadPEInPreviousPregnancy,
+    conceptionMethod,
+    pregnancyType,
+    CRL,
+    weight,
+    height,
+    smokingDuringPregnancy,
+    diabetesType,
+    PLGF,
+    PAPPA,
+  } = reportData;
 
   return {
-    serumPLGF: displayNumericalMeasurementValue(serumPLGF, Characteristics.SerumPLGF.unitOfMeasure, translations),
-    serumPAPPA: displayNumericalMeasurementValue(serumPAPPA, Characteristics.SerumPAPPA.unitOfMeasure, translations),
-    serumPLGFMoM: serumPLGF ? serumPLGF.value : '-', // TODO: calculate
-    serumPAPPAMoM: serumPAPPA ? serumPAPPA.value : '-', // TODO: calculate
+    serumPLGF: displayNumericalMeasurementValue(PLGF, Characteristics.SerumPLGF.unitOfMeasure, translations),
+    serumPAPPA: displayNumericalMeasurementValue(PAPPA, Characteristics.SerumPAPPA.unitOfMeasure, translations),
+    serumPLGFMoM: PLGF || '-', // TODO: calculate
+    serumPAPPAMoM: PAPPA || '-', // TODO: calculate
     CRL: displayNumericalMeasurementValue(CRL, Characteristics.FetalCrownRumpLength.unitOfMeasure, translations),
     weight: displayNumericalMeasurementValue(weight, Characteristics.Weight.unitOfMeasure, translations),
     height: displayNumericalMeasurementValue(height, Characteristics.Height.unitOfMeasure, translations),
@@ -112,7 +141,7 @@ const extractMeasurements = (medicalExamination, translations, language) => {
     pregnancyType: displayEnumMeasurementValue(
       pregnancyType, Characteristics.PregnancyType.key, translations, language
     ),
-    diabetesType: displayEnumMeasurementValue(diabetes, Characteristics.DiabetesType.key, translations, language),
+    diabetesType: displayEnumMeasurementValue(diabetesType, Characteristics.DiabetesType.key, translations, language),
   };
 };
 
@@ -129,5 +158,7 @@ const getCharacteristicTranslations = (language) => ({
 });
 
 module.exports = {
+  generateReportData,
   generateHTMLReport,
+  createReport,
 };

@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     ultrasoundDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     gestationalAgeByUltrasoundWeeks: {
       type: Sequelize.INTEGER,
@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
     },
     bloodTestDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     gestationalAgeOnBloodTestWeeks: {
       type: Sequelize.INTEGER,
@@ -39,6 +39,8 @@ module.exports = (sequelize) => {
     note: {
       type: Sequelize.STRING,
     },
+  }, {
+    paranoid: true,
   });
 
   MedicalExamination.associate = (models) => {

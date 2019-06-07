@@ -59,6 +59,8 @@ module.exports = (sequelize) => {
     resultedWithPE: {
       type: Sequelize.BOOLEAN,
     },
+  }, {
+    paranoid: true,
   });
 
   Pregnancy.associate = (models) => {

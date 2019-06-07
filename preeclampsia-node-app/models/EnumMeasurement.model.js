@@ -11,9 +11,8 @@ module.exports = (sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+  }, {
+    paranoid: true,
   });
   
   EnumMeasurement.associate = (models) => {

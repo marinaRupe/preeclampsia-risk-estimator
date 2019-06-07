@@ -43,7 +43,7 @@ import matplotlib
 matplotlib.rcParams['font.size'] = 16
 matplotlib.rcParams['figure.figsize'] = (9, 9)
 
-DATE_FORMAT = "%d.%m.%Y"
+DATE_FORMAT = "%Y-%m-%d"
 
 
 def parse_float_values(x):

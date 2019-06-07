@@ -19,6 +19,8 @@ module.exports = (sequelize) => {
     type: {
       type: Sequelize.ENUM(...Object.values(CharacteristicTypes)),
     },
+  }, {
+    paranoid: true,
   });
 
   return Characteristic;
