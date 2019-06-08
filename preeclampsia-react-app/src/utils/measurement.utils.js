@@ -2,11 +2,10 @@ import { EnumMeasurementValues } from '../constants/enumMeasurement.constants';
 import { formatDate } from './dateTime.utils';
 import { getLanguage, getTranslations, getMeasurementTranslation } from './translation.utils';
 import { generateOptions } from './form.utils';
-
-export const exists = (measurement) => (measurement !== null && measurement !== undefined);
+import { isDefined } from './value.utils';
 
 export const displayDateMeasured = (measurement) => (
-  exists(measurement) ? formatDate(measurement.dateMeasured) : '-'
+  isDefined(measurement) ? formatDate(measurement.dateMeasured) : '-'
 );
 
 export const displayBooleanValue = (measurement) => {
@@ -21,8 +20,8 @@ export const displayBooleanValue = (measurement) => {
 export const displayBooleanMeasurementValue = (measurement) => {
   const translations = getTranslations();
 
-  if (exists(measurement)) {
-    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+  if (isDefined(measurement)) {
+    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
     return (measurementValue ? translations.word.yes : translations.word.no);
   }
 
@@ -32,8 +31,8 @@ export const displayBooleanMeasurementValue = (measurement) => {
 export const displayNumericalMeasurementValue = (measurement, unit) => {
   const translations = getTranslations();
 
-  if (exists(measurement)) {
-    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+  if (isDefined(measurement)) {
+    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
     return `${measurementValue} ${unit ? unit : ''}`;
   }
 
@@ -43,8 +42,8 @@ export const displayNumericalMeasurementValue = (measurement, unit) => {
 export const displayEnumMeasurementValue = (measurement, characteristicId) => {
   const translations = getTranslations();
 
-  if (exists(measurement)) {
-    const measurementValue = exists(measurement.value) ? measurement.value : measurement;
+  if (isDefined(measurement)) {
+    const measurementValue = isDefined(measurement.value) ? measurement.value : measurement;
     const enumValue = EnumMeasurementValues[characteristicId][measurementValue];
     return getMeasurementTranslation(enumValue);
   }

@@ -4,11 +4,22 @@ import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
 export default function pregnancyReducer(state = initialState.pregnancy, action) {
   switch (action.type) {
-  case types.UPDATE_PATIENT_PREGNANCY_DETAILS:
+  case types.UPDATE_PREGNANCY_DETAILS:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,
         details: action.data,
+      };
+    }
+    return { ...state };
+  case types.EDIT_PREGNANCY:
+    if (action.status === ACTION_STATUS.SUCCESS) {
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          ...action.data,
+        },
       };
     }
     return { ...state };

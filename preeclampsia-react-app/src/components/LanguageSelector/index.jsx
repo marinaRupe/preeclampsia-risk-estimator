@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { NavDropdown, MenuItem } from 'react-bootstrap';
 import { languages } from '../../constants/language.constants';
 import { getLanguage, setLanguage } from '../../utils/translation.utils';
 import croFlag from '../../assets/images/flags/croatia.png';

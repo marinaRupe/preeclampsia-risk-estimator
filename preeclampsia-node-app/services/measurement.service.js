@@ -54,7 +54,8 @@ const updateMeasurements = async (medicalExaminationId, measurements) => (
       }
     }
 
-    if (isDefined(oldMeasurement) && isDefined(newMeasurement)) {
+    // if the value has changed or is removed, delete old measurement
+    if (isDefined(oldMeasurement) && (isDefined(newMeasurement) || !isDefined(value) )) {
       await oldMeasurement.destroy();
     }
 

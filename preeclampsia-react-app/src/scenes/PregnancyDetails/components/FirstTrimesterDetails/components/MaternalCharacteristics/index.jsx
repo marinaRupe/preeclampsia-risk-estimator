@@ -4,7 +4,7 @@ import { extractMeasurementsInitialValues } from '../../../../../../utils/measur
 import { getTranslations } from '../../../../../../utils/translation.utils';
 import BooleanMeasurement from '../../../../../../components/Measurement/BooleanMeasurement';
 import NumericalMeasurement from '../../../../../../components/Measurement/NumericalMeasurement';
-import MaternalCharacteristicsForm from './MaternalCharacteristicsForm';
+import EditMaternalCharacteristicsForm from './EditMaternalCharacteristicsForm';
 
 class MaternalCharacteristics extends Component {
   constructor(props) {
@@ -88,7 +88,7 @@ class MaternalCharacteristics extends Component {
                 />
               </div>
               :
-              <MaternalCharacteristicsForm
+              <EditMaternalCharacteristicsForm
                 onSubmit={this.saveChanges}
                 initialValues={this.getEditMeasurementsInitialValues()}
                 closeEditMode={this.closeEditMode}

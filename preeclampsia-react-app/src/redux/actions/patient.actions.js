@@ -25,8 +25,10 @@ export function fetchPatient(patientId) {
 }
 
 export function createPatient(patientData) {
+  const body = parsePatientData(patientData);
+
   const action = async (dispatch) => {
-    const resp = await httpCalls.POST(API.PATIENTS.ROOT, patientData);
+    const resp = await httpCalls.POST(API.PATIENTS.ROOT, body);
     if (resp.status === 200) {
       await dispatch(actionCreators.addPatient({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -35,8 +37,10 @@ export function createPatient(patientData) {
 }
 
 export function updatePatient(patientData) {
+  const body = parsePatientData(patientData);
+
   const action = async (dispatch) => {
-    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), patientData);
+    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), body);
     if (resp.status === 200) {
       await dispatch(actionCreators.editPatient({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
@@ -55,11 +59,23 @@ export function removePatient(patientId) {
 }
 
 export function updatePatientDetails(patientData) {
+  const body = {
+    ...patientData,
+    racialOrigin: patientData.racialOrigin && parseInt(patientData.racialOrigin),
+  };
+
   const action = async (dispatch) => {
-    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), patientData);
+    const resp = await httpCalls.PUT(API.PATIENTS.BY_ID(patientData.id), body);
     if (resp.status === 200) {
       await dispatch(actionCreators.editPatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
   };
   return actionWrapper(action, true);
 }
+
+/* Helpers */
+
+const parsePatientData = (patientData) => ({
+  ...patientData,
+  racialOrigin: patientData.racialOrigin && parseInt(patientData.racialOrigin),
+});

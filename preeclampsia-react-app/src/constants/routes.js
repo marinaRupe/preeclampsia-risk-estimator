@@ -20,10 +20,12 @@ export const API = {
     BY_ID: (patientId) => `${API.PATIENTS.ROOT}/${patientId}`,
   },
   PREGNANCIES: {
+    ROOT: `${API_URL}/pregnancies`,
+    BY_ID: (pregnancyId) => `${API.PREGNANCIES.ROOT}/${pregnancyId}`,
     PREGNANCY_DETAILS: (patientId, pregnancyNumber) =>
-      `${API_URL}/patients/${patientId}/pregnancies/${pregnancyNumber}`,
+      `${API.PATIENTS.ROOT}/${patientId}/pregnancies/${pregnancyNumber}`,
     MEDICAL_EXAMINATIONS_FOR_PREGNANCY: (pregnancyId) =>
-      `${API_URL}/pregnancies/${pregnancyId}/med-examinations`,
+      `${API.PREGNANCIES.ROOT}/${pregnancyId}/med-examinations`,
   },
   MEDICAL_EXAMINATIONS: {
     ROOT: `${API_URL}/med-examinations`,

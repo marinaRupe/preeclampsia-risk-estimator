@@ -10,7 +10,7 @@ import NumericalMeasurement from '../../components/Measurement/NumericalMeasurem
 import DateDisplay from '../../components/Measurement/DateDisplay';
 import TextInfoDisplay from '../../components/Measurement/TextInfoDisplay';
 import GestationalAgeDisplay from '../../components/Measurement/GestationalAgeDisplay';
-import { formatDate, getAgeInYears } from '../../utils/dateTime.utils';
+import { getAgeInYears } from '../../utils/dateTime.utils';
 import { getTranslations } from '../../utils/translation.utils';
 
 class RiskEstimate extends Component {

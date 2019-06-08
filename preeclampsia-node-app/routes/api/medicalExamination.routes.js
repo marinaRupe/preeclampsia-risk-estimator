@@ -5,12 +5,20 @@ const { authenticate } = require('../../middlewares/authentication.middleware');
 
 const router = express.Router();
 
+router.put('/:medicalExaminationId/measurements',
+  authenticate, asyncWrap(MedicalExaminationController.updateMeasurements)
+);
+
 router.get('/:medicalExaminationId',
   authenticate, asyncWrap(MedicalExaminationController.getMedicalExaminationDetails)
 );
 
-router.put('/:medicalExaminationId/measurements',
-  authenticate, asyncWrap(MedicalExaminationController.updateMeasurements)
+router.put('/:medicalExaminationId',
+  authenticate, asyncWrap(MedicalExaminationController.updateMedicalExamination)
+);
+
+router.post('/',
+  authenticate, asyncWrap(MedicalExaminationController.createMedicalExamination)
 );
 
 module.exports = router;

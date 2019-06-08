@@ -4,7 +4,7 @@ import { getTranslations } from '../../../../../../utils/translation.utils';
 import { extractMeasurementsInitialValues } from '../../../../../../utils/measurement.utils';
 import BooleanMeasurement from '../../../../../../components/Measurement/BooleanMeasurement';
 import EnumMeasurement from '../../../../../../components/Measurement/EnumMeasurement';
-import MedicalHistoryForm from './MedicalHistoryForm';
+import EditMedicalHistoryForm from './EditMedicalHistoryForm';
 
 class MedicalHistory extends Component {
   constructor(props) {
@@ -91,7 +91,7 @@ class MedicalHistory extends Component {
                 />
               </div>
               :
-              <MedicalHistoryForm
+              <EditMedicalHistoryForm
                 onSubmit={this.saveChanges}
                 closeEditMode={this.closeEditMode}
                 initialValues={this.getEditMeasurementsInitialValues()}

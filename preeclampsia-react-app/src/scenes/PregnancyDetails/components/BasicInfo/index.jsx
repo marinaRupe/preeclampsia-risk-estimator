@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { formatDate } from '../../../utils/dateTime.utils';
-import { getTranslations } from '../../../utils/translation.utils';
-import DateDisplay from '../../../components/Measurement/DateDisplay';
-import BooleanMeasurement from '../../../components/Measurement/BooleanMeasurement';
-import EnumMeasurement from '../../../components/Measurement/EnumMeasurement';
-import NumericalMeasurement from '../../../components/Measurement/NumericalMeasurement';
+import { Grid, Row, Button } from 'react-bootstrap';
+import { getTranslations } from '../../../../utils/translation.utils';
+import DateDisplay from '../../../../components/Measurement/DateDisplay';
+import BooleanMeasurement from '../../../../components/Measurement/BooleanMeasurement';
+import EnumMeasurement from '../../../../components/Measurement/EnumMeasurement';
+import NumericalMeasurement from '../../../../components/Measurement/NumericalMeasurement';
 
 class BasicInfo extends Component {
   constructor(props) {

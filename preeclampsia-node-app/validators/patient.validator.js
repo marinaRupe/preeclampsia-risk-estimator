@@ -12,7 +12,7 @@ const isValidPatient = async (user, translations, editMode = false) => {
     racialOrigin,
   } = user;
 
-  const racialOriginTypes = Object.values(RacialOriginTypes).map(r => r.hr);
+  const racialOriginTypes = Object.values(RacialOriginTypes).map(r => r.key);
 
   const errors = {};
 

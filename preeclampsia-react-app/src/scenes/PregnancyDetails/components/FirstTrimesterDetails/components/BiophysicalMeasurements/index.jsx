@@ -3,7 +3,7 @@ import { Grid, Row } from 'react-bootstrap';
 import { extractMeasurementsInitialValues } from '../../../../../../utils/measurement.utils';
 import { getTranslations } from '../../../../../../utils/translation.utils';
 import NumericalMeasurement from '../../../../../../components/Measurement/NumericalMeasurement';
-import BiophysicalMeasurementsForm from './BiophysicalMeasurementsForm';
+import EditBiophysicalMeasurementsForm from './EditBiophysicalMeasurementsForm';
 
 class BiophysicalMeasurements extends Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class BiophysicalMeasurements extends Component {
                 />
               </div>
               :
-              <BiophysicalMeasurementsForm
+              <EditBiophysicalMeasurementsForm
                 onSubmit={this.saveChanges}
                 initialValues={this.getEditMeasurementsInitialValues()}
                 closeEditMode={this.closeEditMode}

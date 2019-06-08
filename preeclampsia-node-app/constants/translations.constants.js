@@ -27,6 +27,14 @@ const translations = {
           update: 'Ažuriranje podataka o korisniku nije uspjelo',
           delete: 'Brisanje korisnika nije uspjelo',
         },
+        pregnancy: {
+          create: 'Unos podataka o trudnoći nije uspio',
+          update: 'Ažuriranje podataka o trudnoći nije uspjelo',
+        },
+        medicalExamination: {
+          create: 'Unos podataka o pregledu nije uspio',
+          update: 'Ažuriranje podataka o pregledu nije uspjelo',
+        },
         measurements: {
           update: 'Ažuriranje podataka nije uspjelo',
         },
@@ -69,6 +77,9 @@ const translations = {
         numberOfPreviousBirths: 'Broj poroda',
         hadPEInPreviousPregnancy: 'Preeklampsija u prethodnoj trudnoći',
       },
+      validation: {
+        dataRequired: 'Podaci o trudnoći su obavezni',
+      }
     },
     medicalExamination: {
       property: {
@@ -78,6 +89,9 @@ const translations = {
         gestationalAgeByUltrasound: 'Gestacijska dob na ultrazvuku',
         gestationalAgeOnBloodTest: 'Gestacijska dob na dan vađenja krvi',
         note: 'Napomena',
+      },
+      validation: {
+        dataRequired: 'Podaci o pregledu su obavezni',
       },
     },
     measurement: {
@@ -135,6 +149,14 @@ const translations = {
           updatePassword: 'Could not update user password',
           delete: 'Could not delete user',
         },
+        pregnancy: {
+          create: 'Could not create new pregnancy',
+          update: 'Could not update pregnancy',
+        },
+        medicalExamination: {
+          create: 'Could not create new medical examination',
+          update: 'Could not update medical examination',
+        },
         measurements: {
           update: 'Could not update measurements',
         },
@@ -177,6 +199,9 @@ const translations = {
         numberOfPreviousBirths: 'Number of previous births',
         hadPEInPreviousPregnancy: 'PE in previous pregnancy',
       },
+      validation: {
+        dataRequired: 'Pregnancy data is required',
+      }
     },
     medicalExamination: {
       property: {
@@ -186,6 +211,9 @@ const translations = {
         gestationalAgeByUltrasound: 'Gestational age by ultrasound',
         gestationalAgeOnBloodTest: 'Gestational age on blood test',
         note: 'Note',
+      },
+      validation: {
+        dataRequired: 'Medical examination data is required',
       },
     },
     measurement: {
