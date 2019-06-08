@@ -1,9 +1,9 @@
-const MeasureService = require('../services/measure.service');
+const MeasurementService = require('../services/measurement.service');
 
 const getMediansForCharacteristic = async (req, res) => {
   const { characteristicId } = req.params;
 
-  const medians = await MeasureService.getMediansByWeeks(characteristicId);
+  const medians = await MeasurementService.getMediansByWeeks(characteristicId);
   res.json(medians);
 };
 

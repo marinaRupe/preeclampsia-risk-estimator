@@ -24,8 +24,11 @@ export const API = {
       `${API_URL}/patients/${patientId}/pregnancies/${pregnancyNumber}`,
     MEDICAL_EXAMINATIONS_FOR_PREGNANCY: (pregnancyId) =>
       `${API_URL}/pregnancies/${pregnancyId}/med-examinations`,
-    GET_MEDICAL_EXAMINATION: (medicalExaminationId) =>
-      `${API_URL}/med-examinations/${medicalExaminationId}`,
+  },
+  MEDICAL_EXAMINATIONS: {
+    ROOT: `${API_URL}/med-examinations`,
+    BY_ID: (medicalExaminationId) => `${API.MEDICAL_EXAMINATIONS.ROOT}/${medicalExaminationId}`,
+    MEASUREMENTS: (medicalExaminationId) => `${API.MEDICAL_EXAMINATIONS.BY_ID(medicalExaminationId)}/measurements`,
   },
   RISK: {
     GENERATE_PDF_REPORT: (medicalExaminationId) =>

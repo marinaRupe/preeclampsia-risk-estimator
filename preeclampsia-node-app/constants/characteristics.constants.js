@@ -92,7 +92,7 @@ const Characteristics = {
     key: 16,
     type: CharacteristicTypes.Boolean,
     en: { name: 'Anti-phospholipid syndrome', display: 'Anti-phospholipid syndrome' },
-    hr: { name: 'Antifosfolipidni sindrom', display: 'Etnička skupina' },
+    hr: { name: 'Antifosfolipidni sindrom', display: 'Antifosfolipidni sindrom' },
   },
   MeanArterialPressure: {
     key: 17,

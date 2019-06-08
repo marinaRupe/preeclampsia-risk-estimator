@@ -15,7 +15,7 @@ const generatePdf = async (req, res) => {
     throw new Errors.BadRequestError();
   }
 
-  const medicalExamination = await MedicalExaminationService.getById(medicalExaminationId);
+  const medicalExamination = await MedicalExaminationService.getByIdDetailed(medicalExaminationId);
   if (!medicalExamination) {
     throw new Errors.NotFoundError();
   }
@@ -45,7 +45,6 @@ const generatePdf = async (req, res) => {
     }
 
     const html = ReportService.generateHTMLReport(reportData, user, translations, language);
-
     const file = await createPDFFromHTML(html);
 
     res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });

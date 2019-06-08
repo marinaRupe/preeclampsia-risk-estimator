@@ -8,10 +8,10 @@ export const generatePDF = ({ status, data }) => {
   };
 };
 
-export const fetchPregnancyDataForReport = ({ status, data }) => {
+export const updatePregnancyDataForReport = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_PREGNANCY_DATA_FOR_REPORT,
+    type: types.UPDATE_PREGNANCY_DATA_FOR_REPORT,
   };
 };

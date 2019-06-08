@@ -4,7 +4,7 @@ import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
 export default function pregnancyReducer(state = initialState.pregnancy, action) {
   switch (action.type) {
-  case types.FETCH_PATIENT_PREGNANCY_DETAILS:
+  case types.UPDATE_PATIENT_PREGNANCY_DETAILS:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,
@@ -12,11 +12,19 @@ export default function pregnancyReducer(state = initialState.pregnancy, action)
       };
     }
     return { ...state };
-  case types.FETCH_MEDICAL_EXAMINATIONS_FOR_PREGNANCY:
+  case types.UPDATE_MEDICAL_EXAMINATIONS_FOR_PREGNANCY:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,
         medicalExaminations: action.data,
+      };
+    }
+    return { ...state };
+  case types.UPDATE_MEDICAL_EXAMINATION_DETAILS:
+    if (action.status === ACTION_STATUS.SUCCESS) {
+      return {
+        ...state,
+        medicalExaminations: state.medicalExaminations.map(m => m.id === action.data.id ? action.data : m),
       };
     }
     return { ...state };

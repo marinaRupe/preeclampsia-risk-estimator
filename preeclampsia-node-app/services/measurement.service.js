@@ -6,16 +6,16 @@ const { Characteristics, CharacteristicTypes } = require('../constants/character
 /**
  * Updates measurements in the database.
  * 
+ * @param {number} medicalExaminationId Medical Examination ID
  * @param {[Object]} measurements Array of measurements data
  * @returns {Promise<[Object]>} Array of created measurement objects
  */
-const updateMeasurements = async (measurements) => (
-  await Promise.all(Object.defineProperties(measurements).map(async ([characteristicName, measurementData]) => {
+const updateMeasurements = async (medicalExaminationId, measurements) => (
+  await Promise.all(Object.entries(measurements).map(async ([characteristicName, measurementData]) => {
     const characteristic = Characteristics[characteristicName];
     const {
       id,
       value,
-      medicalExaminationId,
       characteristicId,
     } = measurementData;
 
@@ -23,23 +23,38 @@ const updateMeasurements = async (measurements) => (
     let oldMeasurement;
 
     if (characteristic.type === CharacteristicTypes.Enum) {
-      newMeasurement = await createEnumMeasurement(value, medicalExaminationId, characteristicId);
       if (isDefined(id)) {
         oldMeasurement = await getEnumMeasurementById(id);
       }
+
+      if (isDefined(value)) {
+        if (!isDefined(oldMeasurement) || oldMeasurement.value !== value) {
+          newMeasurement = await createEnumMeasurement(value, medicalExaminationId, characteristicId);
+        }
+      }
     } else if (characteristic.type === CharacteristicTypes.Numerical) {
-      newMeasurement = await createNumericalMeasurement(value, medicalExaminationId, characteristicId);
       if (isDefined(id)) {
         oldMeasurement = await getNumericalMeasurementById(id);
       }
+
+      if (isDefined(value)) {
+        if (!isDefined(oldMeasurement) || oldMeasurement.value !== value) {
+          newMeasurement = await createNumericalMeasurement(value, medicalExaminationId, characteristicId);
+        }
+      }
     } else if (characteristic.type === CharacteristicTypes.Boolean) {
-      newMeasurement = await createBooleanMeasurement(value, medicalExaminationId, characteristicId);
       if (isDefined(id)) {
         oldMeasurement = await getBooleanMeasurementById(id);
       }
+
+      if (isDefined(value)) {
+        if (!isDefined(oldMeasurement) || oldMeasurement.value !== value) {
+          newMeasurement = await createBooleanMeasurement(value, medicalExaminationId, characteristicId);
+        }
+      }
     }
 
-    if (oldMeasurement) {
+    if (isDefined(oldMeasurement) && isDefined(newMeasurement)) {
       await oldMeasurement.destroy();
     }
 

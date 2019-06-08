@@ -4,7 +4,7 @@ export const fetchUsers = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_USERS,
+    type: types.UPDATE_USERS,
   };
 };
 

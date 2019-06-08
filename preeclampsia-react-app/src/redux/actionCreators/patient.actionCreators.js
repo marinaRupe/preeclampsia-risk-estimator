@@ -1,18 +1,18 @@
 import * as types from '../actionTypes';
 
-export const fetchPatients = ({ status, data }) => {
+export const updatePatients = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_PATIENTS,
+    type: types.UPDATE_PATIENTS,
   };
 };
 
-export const fetchPatientDetails = ({ status, data }) => {
+export const updatePatientDetails = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_PATIENT_DETAILS,
+    type: types.UPDATE_PATIENT_DETAILS,
   };
 };
 

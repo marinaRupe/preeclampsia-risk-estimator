@@ -4,7 +4,7 @@ import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
 export default function patientReducer(state = initialState.patients, action) {
   switch (action.type) {
-  case types.FETCH_PATIENTS:
+  case types.UPDATE_PATIENTS:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,
@@ -19,7 +19,7 @@ export default function patientReducer(state = initialState.patients, action) {
       };
     }
     return { ...state };
-  case types.FETCH_PATIENT_DETAILS:
+  case types.UPDATE_PATIENT_DETAILS:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,

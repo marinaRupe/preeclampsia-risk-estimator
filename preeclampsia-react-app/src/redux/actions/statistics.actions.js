@@ -11,7 +11,7 @@ export function fetchMediansForCharacteristic(characteristicId) {
     );
 
     if (resp.status === 200) {
-      await dispatch(actionCreators.fetchMediansForCharacteristic({
+      await dispatch(actionCreators.updateMediansForCharacteristic({
         status: ACTION_STATUS.SUCCESS,
         data: { characteristicId, medians: resp.data }
       }));

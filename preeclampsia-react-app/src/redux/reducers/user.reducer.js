@@ -4,7 +4,7 @@ import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
 export default function userReducer(state = initialState.users, action) {
   switch (action.type) {
-  case types.FETCH_USERS:
+  case types.UPDATE_USERS:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,

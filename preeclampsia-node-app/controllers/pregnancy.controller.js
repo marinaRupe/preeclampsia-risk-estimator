@@ -4,8 +4,6 @@ const MedicalExaminationService = require('../services/medicalExamination.servic
 const PregnancyDetailsViewModel = require('../dataTransferObjects/viewModels/Pregnancy/PregnancyDetails.viewModel');
 const MedicalExaminationDetailsViewModel
   = require('../dataTransferObjects/viewModels/MedicalExamination/MedicalExaminationDetails.viewModel');
-const PregnancyDataForReportViewModel
-  = require('../dataTransferObjects/viewModels/Report/PregnancyDataForReport.viewModel');
 
 const getPregnancyDetails = async (req, res) => {
   const { patientId, pregnancyNumber } = req.params;
@@ -36,31 +34,7 @@ const getMedicalExaminationsForPregnancy = async (req, res) => {
   res.json(model);
 };
 
-const getMedicalExaminationDetails = async (req, res) => {
-  const { pregnancyId, medicalExaminationId } = req.params;
-  const { translations } = res.locals;
-
-  if (!PregnancyService.existWithId(pregnancyId)) {
-    throw new Errors.NotFoundError(translations.response.notFound.pregnancy);
-  }
-
-  if (!MedicalExaminationService.existWithId(medicalExaminationId)) {
-    throw new Errors.NotFoundError(translations.response.notFound.trimester);
-  }
-
-  const medicalExamination = await MedicalExaminationService.getById(medicalExaminationId);
-
-  const model = new PregnancyDataForReportViewModel(
-    medicalExamination,
-    medicalExamination.pregnancy,
-    medicalExamination.pregnancy.patient
-  );
-
-  res.json(model);
-};
-
 module.exports = {
   getPregnancyDetails,
   getMedicalExaminationsForPregnancy,
-  getMedicalExaminationDetails,
 };

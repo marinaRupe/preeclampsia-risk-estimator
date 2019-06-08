@@ -13,7 +13,7 @@ const translations = {
       notFound: {
         patient: 'Pacijent nije pronađen',
         pregnancy: 'Podaci o trudnoći nisu pronađeni',
-        trimester: 'Podaci o tromjesečju nisu pronađeni',
+        medicalExamination: 'Podaci o pregledu nisu pronađeni',
         user: 'Korisnik nije pronađen',
       },
       error: {
@@ -26,7 +26,10 @@ const translations = {
           create: 'Unos korisnika nije uspio',
           update: 'Ažuriranje podataka o korisniku nije uspjelo',
           delete: 'Brisanje korisnika nije uspjelo',
-        }
+        },
+        measurements: {
+          update: 'Ažuriranje podataka nije uspjelo',
+        },
       }
     },
     user: {
@@ -77,6 +80,14 @@ const translations = {
         note: 'Napomena',
       },
     },
+    measurement: {
+      validation: {
+        dataRequired: 'Podaci o mjerenjima su obavezni',
+        characteristicIdRequired: 'ID karakteristike je obavezan',
+        invalidValue: 'Unesena vrijednost je neispravna',
+        valueMustBeNumber: 'Vrijednost mora biti numerička',
+      }
+    },
     report: {
       title: 'Probir za preeklampsiju',
       subtitle: {
@@ -109,7 +120,7 @@ const translations = {
       notFound: {
         patient: 'Patient not found',
         pregnancy: 'Pregnancy data not found',
-        trimester: 'Trimester data not found',
+        medicalExamination: 'Medical examination data not found',
         user: 'User not found',
       },
       error: {
@@ -123,6 +134,9 @@ const translations = {
           update: 'Could not update user',
           updatePassword: 'Could not update user password',
           delete: 'Could not delete user',
+        },
+        measurements: {
+          update: 'Could not update measurements',
         },
       }
     },
@@ -173,6 +187,14 @@ const translations = {
         gestationalAgeOnBloodTest: 'Gestational age on blood test',
         note: 'Note',
       },
+    },
+    measurement: {
+      validation: {
+        dataRequired: 'Measurement data is required',
+        characteristicIdRequired: 'Characteristic ID is required',
+        invalidValue: 'Value is invalid',
+        valueMustBeNumber: 'Value must be a number',
+      }
     },
     report: {
       title: 'Preeclampsia Screening Results',

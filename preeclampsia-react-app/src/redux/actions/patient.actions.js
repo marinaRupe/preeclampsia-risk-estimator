@@ -8,7 +8,7 @@ export function fetchPatientList(page = 1, pageSize = 10, sortColumn = '', sortD
   const action = async (dispatch) => {
     const resp = await httpCalls.GET(API.PATIENTS.ALL(page, pageSize, sortColumn, sortDirection, searchInput));
     if (resp.status === 200) {
-      await dispatch(actionCreators.fetchPatients({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+      await dispatch(actionCreators.updatePatients({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
   };
   return actionWrapper(action);
@@ -18,7 +18,7 @@ export function fetchPatient(patientId) {
   const action = async (dispatch) => {
     const resp = await httpCalls.GET(API.PATIENTS.BY_ID(patientId));
     if (resp.status === 200) {
-      await dispatch(actionCreators.fetchPatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+      await dispatch(actionCreators.updatePatientDetails({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
     }
   };
   return actionWrapper(action);

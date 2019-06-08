@@ -4,7 +4,7 @@ import { ACTION_STATUS } from '../../enums/responseStatus.enums';
 
 export default function statisticsReducer(state = initialState.statistics, action) {
   switch (action.type) {
-  case types.FETCH_MEDIANS_FOR_CHARACTERISTIC:
+  case types.UPDATE_MEDIANS_FOR_CHARACTERISTIC:
     if (action.status === ACTION_STATUS.SUCCESS) {
       return {
         ...state,

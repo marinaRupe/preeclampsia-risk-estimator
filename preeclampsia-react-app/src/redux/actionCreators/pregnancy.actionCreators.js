@@ -1,17 +1,25 @@
 import * as types from '../actionTypes';
 
-export const fetchPatientPregnancyDetails = ({ status, data }) => {
+export const updatePatientPregnancyDetails = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_PATIENT_PREGNANCY_DETAILS,
+    type: types.UPDATE_PATIENT_PREGNANCY_DETAILS,
   };
 };
 
-export const fetchMedicalExaminationsForPregnancy = ({ status, data }) => {
+export const updateMedicalExaminationsForPregnancy = ({ status, data }) => {
   return {
     data,
     status,
-    type: types.FETCH_MEDICAL_EXAMINATIONS_FOR_PREGNANCY,
+    type: types.UPDATE_MEDICAL_EXAMINATIONS_FOR_PREGNANCY,
+  };
+};
+
+export const updateMedicalExaminationDetails = ({ status, data }) => {
+  return {
+    data,
+    status,
+    type: types.UPDATE_MEDICAL_EXAMINATION_DETAILS,
   };
 };

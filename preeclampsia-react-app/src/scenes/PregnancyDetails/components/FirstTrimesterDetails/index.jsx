@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { getTranslations } from '../../../../utils/translation.utils';
 import Spinner from '../../../../components/Spinner';
+import * as medicalExaminationActions from '../../../../redux/actions/pregnancy.actions';
 import MaternalCharacteristics from './components/MaternalCharacteristics';
 import MedicalHistory from './components/MedicalHistory';
 import BiophysicalMeasurements from './components/BiophysicalMeasurements';
@@ -16,6 +18,11 @@ class FirstTrimesterDetails extends Component {
       isLoading: false,
       isEditModeOn: false,
     };
+  }
+
+  updateMeasurements = (medicalExaminationId, measurementsData) => {
+    const { updateMeasurements } = this.props;
+    updateMeasurements(medicalExaminationId, measurementsData);
   }
   
   render() {
@@ -45,10 +52,22 @@ class FirstTrimesterDetails extends Component {
             <div key={medicalExamination.id}>
               <div>
                 <BasicInfo medicalExaminationData={medicalExamination} />
-                <MaternalCharacteristics medicalExaminationData={medicalExamination} />
-                <MedicalHistory medicalExaminationData={medicalExamination} />
-                <BiophysicalMeasurements medicalExaminationData={medicalExamination} />
-                <BiochemicalMeasurements medicalExaminationData={medicalExamination} />
+                <MaternalCharacteristics
+                  medicalExaminationData={medicalExamination}
+                  updateMeasurements={this.updateMeasurements}
+                />
+                <MedicalHistory
+                  medicalExaminationData={medicalExamination}
+                  updateMeasurements={this.updateMeasurements}
+                />
+                <BiophysicalMeasurements
+                  medicalExaminationData={medicalExamination}
+                  updateMeasurements={this.updateMeasurements}
+                />
+                <BiochemicalMeasurements
+                  medicalExaminationData={medicalExamination}
+                  updateMeasurements={this.updateMeasurements}
+                />
               </div>
               <Button
                 bsStyle='primary'
@@ -64,4 +83,8 @@ class FirstTrimesterDetails extends Component {
   }
 }
 
-export default FirstTrimesterDetails;
+const mapDispatchToProps = {
+  updateMeasurements: medicalExaminationActions.updateMeasurementsForMedicalExaminations,
+};
+
+export default connect(null, mapDispatchToProps)(FirstTrimesterDetails);
