@@ -30,6 +30,17 @@
     }
   }
 
+  &__input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .material-icons {
+      position: relative;
+      left: -25px;
+      font-size: 22px;
+    }
+  }
+
   &__input {
     border: none;
     border-bottom: 1px solid $col-gray-05;

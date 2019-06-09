@@ -17,49 +17,49 @@ import history from './history';
 import './styles/App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <Router history={history}>
-        <div>
-          <NavigationBar />
-          <Switch>
-            <Route exact path={APP.AUTH.LOGIN} component={Login} />
-            <Route exact path={APP.NOT_FOUND_ERROR} component={Error404} />
+	render() {
+		return (
+			<Router history={history}>
+				<div>
+					<NavigationBar />
+					<Switch>
+						<Route exact path={APP.AUTH.LOGIN} component={Login} />
+						<Route exact path={APP.NOT_FOUND_ERROR} component={Error404} />
             
-            <Route exact path={APP.ROOT} component={Home}/>
+						<Route exact path={APP.ROOT} component={Home}/>
 
-            <PrivateRoute
-              path={APP.RISK_ESTIMATE()}
-              component={RiskEstimate}
-            />
-            <PrivateRoute
-              path={APP.PATIENT.PREGNANCY_DETAILS()}
-              component={PregnancyDetails}
-            />
-            <PrivateRoute
-              path={APP.PATIENT.DETAILS()}
-              component={PatientData}
-            />
-            <PrivateRoute
-              path={APP.PATIENTS}
-              component={PatientList}
-            />
-            <PrivateRoute
-              path={APP.STATISTICS}
-              component={Statistics}
-            />
-            <PrivateRoute
-              path={APP.USERS}
-              component={UserList}
-              allowedRoles={[userRoles.Admin.value]}
-            />
+						<PrivateRoute
+							path={APP.RISK_ESTIMATE()}
+							component={RiskEstimate}
+						/>
+						<PrivateRoute
+							path={APP.PATIENT.PREGNANCY_DETAILS()}
+							component={PregnancyDetails}
+						/>
+						<PrivateRoute
+							path={APP.PATIENT.DETAILS()}
+							component={PatientData}
+						/>
+						<PrivateRoute
+							path={APP.PATIENTS}
+							component={PatientList}
+						/>
+						<PrivateRoute
+							path={APP.STATISTICS}
+							component={Statistics}
+						/>
+						<PrivateRoute
+							path={APP.USERS}
+							component={UserList}
+							allowedRoles={[userRoles.Admin.value]}
+						/>
 
-            <Route path='*' component={Error404} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
+						<Route path='*' component={Error404} />
+					</Switch>
+				</div>
+			</Router>
+		);
+	}
 }
 
 export default App;

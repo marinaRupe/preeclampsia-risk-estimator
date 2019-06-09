@@ -14,5 +14,13 @@
   },
   "eslint.workingDirectories": [
     "./preeclampsia-node-app", "./preeclampsia-react-app"
-  ]
+  ],
+  "tslint.enable": true,
+  "javascript.updateImportsOnFileMove.enabled": "prompt",
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
 }

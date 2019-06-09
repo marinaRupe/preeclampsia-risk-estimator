@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Probir na preeklampsiju</title>
+    <style>
+      body {
+        font-size: 16px;
+        font-family: "Times New Roman", Times, serif;
+      }
+      h2 {
+        text-align: center;
+      }
+      h3 {
+        text-transform: uppercase;
+        margin: 0;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      div {
+        font-size: 14px;
+        line-height: 18px;
+      }
+      header {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        height: 90px;
+      }
+      footer {
+        margin-top: 50px;
+      }
+      .hospital-details {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        margin-left: 10%;
+        text-align: center;
+      }
+      .hospital-details--row {
+        font-size: 16px;
+        line-height: 20px;
+      }
+      .hospital-details--address {
+        font-size: 14px;
+      }
+      .hospital-logo-container {
+        width: 20%;
+        float: left;
+        padding-left: 20px;
+      }
+      .hospital-logo {
+        height: 90px;
+        width: 90px;
+      }
+      .border-top {
+        border-top: 2px solid black;
+      }
+      .section {
+        margin-bottom: 10px;
+        padding: 0 10px;
+        padding-bottom: 5px;
+      }
+      .section-container {
+        padding-bottom: 5px;
+      }
+      .left-section {
+        width: calc(50% - 21px);
+        float: left;
+        padding: 5px;
+      }
+      .right-section {
+        margin-left: 50%;
+        padding: 5px;
+      }
+      .personal-data {
+        min-height: 90px;
+      }
+      .other-data {
+        min-height: 60px;
+      }
+      .biochem-data {
+        min-height: 40px;
+      }
+      .ultrasound-data {
+        min-height: 60px;
+      }
+      .comment-section {
+        padding: 10px;
+        height: 60px;
+      }
+      .risk-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .measure-value {
+        text-transform: lowercase;
+      }
+    </style>
+</head>
+
+<body>
+  <header>
+    <div class="hospital-logo-container">
+      <img src={{hospitalLogo}} alt="" class="hospital-logo" />
+    </div>
+    <div class="hospital-details">
+      <div class="hospital-details--row">Klinički bolnički centar Sestre milosrdnice/Klinika za onkologiju i nuklearnu medicinu</div>
+      <div class="hospital-details--row"><b>Endokrinološki laboratorij</b></div>
+      <div class="hospital-details--address">Vinogradska cesta 29, Zagreb;  01 3787 163;  www.endolab.kbcsm.hr</div>
+    </div>
+  </header>
+  
+  <h2>{{translations.report.title}}</h2>
+
+  <div>
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.patient}}</h3>
+      <div class="section-container">
+        <div class="left-section personal-data">
+          <div>Ime i prezime: <b>{{patient.firstName}} {{patient.lastName}}</b></div>
+          <div>Datum rođenja: {{patient.birthDate}}</div>
+          <div>MBO: {{patient.MBO}}</div>
+          <div>Protokol: {{patient.protocol}}</div>
+        </div>
+        <div class="right-section personal-data">
+          <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
+          <div>Dob na dan vađenja krvi: {{patient.bloodTestAge}}</div>
+          <div>{{characteristicTranslations.height}}: {{measurements.height}}</div>
+          <div>{{characteristicTranslations.weight}}: {{measurements.weight}}</div>
+          <div>Etnička skupina: <span class="measure-value">{{patient.racialOrigin}}</span></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.pregnancy}}</h3>
+      <div class="section-container">
+        <div class="left-section other-data">
+          <div>
+            <span>PZZ ginekolog: </span>
+            <span>{{patient.gynecologist}}</span>
+          </div>
+          <div>
+            <span>{{characteristicTranslations.pregnancyType}}: </span>
+            <span class="measure-value">{{measurements.pregnancyType}}</span>
+          </div>
+          <div>
+            <span>{{characteristicTranslations.conceptionMethod}}: </span>
+            <span class="measure-value">{{measurements.conceptionMethod}}</span>
+          </div>
+        </div>
+        <div class="right-section other-data">
+          <div>
+            <span>PE u prethodnoj trudnoći: </span>
+            <span class="measure-value">{{measurements.hadPEInPreviousPregnancy}}</span>
+          </div>
+          <div>
+            <span>{{characteristicTranslations.smokingDuringPregnancy}}: </span>
+            <span class="measure-value">{{measurements.smokingDuringPregnancy}}</span>
+          </div>
+          <div>
+            <span>{{characteristicTranslations.diabetesType}}: </span>
+            <span class="measure-value">{{measurements.diabetesType}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.biochemycalMeasurements}}</h3>
+      <div class="left-section biochem-data">
+        <div>{{characteristicTranslations.serumPLGF}}: {{measurements.serumPLGF}}</div>
+        <div>{{characteristicTranslations.serumPAPPA}}: {{measurements.serumPAPPA}}</div>
+      </div>
+      <div class="right-section biochem-data">
+        <div>Korigirani MoM: {{measurements.serumPLGFMoM}}</div>
+        <div>Korigirani MoM: {{measurements.serumPAPPAMoM}}</div>
+      </div>
+    </div>
+    
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.ultrasoundData}}</h3>
+      <div class="left-section ultrasound-data">
+        <div>
+          <span>Datum UZV pregleda:</span>
+          <span>{{patient.ultrasoundDate}}</span>
+        </div>
+        <div>
+          <span>Izmjerio/la:</span>
+          <span>-</span>
+        </div>
+      </div>
+      <div class="right-section ultrasound-data">
+        <div>
+          <span>{{characteristicTranslations.CRL}}:</span>
+          <span>{{measurements.CRL}}</span>
+        </div>
+        <div>
+          <span>Gestacijska dob na datum UZV pregleda:</span>
+          <span>{{patient.gestationalAgeByUltrasoundWeeks}}<sup>+{{patient.gestationalAgeByUltrasoundDays}}</sup></span>
+        </div>
+        <div>
+          <span>Gestacijska dob na dan vađenja krvi:</span>
+          <span>{{patient.gestationalAgeOnBloodTestWeeks}}<sup>+{{patient.gestationalAgeOnBloodTestDays}}</sup></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.risks}}</h3>
+      <div class="risk-box">
+        <div>
+          <div>&lt;1:{{report.risk}}</div>
+          <div>{{report.riskExplain}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section border-top">
+      <h3>{{translations.report.subtitle.comment}}</h3>
+      <div class="comment-section">{{report.note}}</div>
+    </div>
+    <div class="border-top"></div>
+  </div>
+  
+  <footer>
+    <div class="left-section">Datum nalaza: {{report.createdAt}}</div>
+    <div class="right-section">Odgovorna osoba: {{report.generatedBy.firstName}} {{report.generatedBy.lastName}}</div>
+  </footer>
+</body>
+</html>

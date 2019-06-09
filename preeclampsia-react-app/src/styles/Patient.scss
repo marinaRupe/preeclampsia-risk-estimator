@@ -16,6 +16,11 @@
       padding: 0 20px;
     }
   }
+  
+  &__search {
+    width: 250px;
+  }
+
   &__item {
     font-size: $val-fontSizeNormal;
   }

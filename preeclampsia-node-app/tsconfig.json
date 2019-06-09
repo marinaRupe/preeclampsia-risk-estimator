@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "target": "es6",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "../dist-node",
+      "baseUrl": "../preeclampsia-node-app",
+      "typeRoots" : ["./src/typings"],
+      "paths": {
+          "*": ["../node_modules/*"],
+          "assets/*": ["./src/assets/*"],
+          "configuration/*": ["./src/configuration/*"],
+          "controllers/*": ["./src/controllers/*"],
+          "constants/*": ["./src/constants/*"],
+          "dataTransferObjects/*": ["./src/dataTransferObjects/*"],
+          "enums/*": ["./src/enums/*"],
+          "middlewares/*": ["./src/middlewares/*"],
+          "models/*": ["./src/models/*"],
+          "routes/*": ["./src/routes/*"],
+          "scripts/*": ["./src/scripts/*"],
+          "services/*": ["./src/services/*"],
+          "templates/*": ["./src/templates/*"],
+          "utils/*": ["./src/utils/*"],
+          "validators/*": ["./src/validators/*"]
+      },
+      "noImplicitAny": false,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+  },
+  "include": [
+      "./src/**/*",
+  ]
+}

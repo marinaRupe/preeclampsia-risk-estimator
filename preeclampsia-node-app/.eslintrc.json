@@ -3,17 +3,60 @@
     "es6": true,
     "node": true
   },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": true
   },
-  "extends": "eslint:recommended",
   "rules": {
+    "@typescript-eslint/class-name-casing": [
+      "warn"
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      "tab"
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/interface-name-prefix": [
+      "warn",
+      "never"
+    ],
+    "@typescript-eslint/member-delimiter-style": [
+      "warn",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": true
+        }
+      }
+    ],
+    "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/no-angle-bracket-type-assertion": [
+      "warn"
+    ],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-object-literal-type-assertion": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/prefer-interface": "off",
+    "@typescript-eslint/type-annotation-spacing": "error",
     "indent": [
       "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
+      "tab"
     ],
     "quotes": [
       "error",
@@ -27,21 +70,15 @@
       "warn",
       {
         "allow": [
-          "error",
-          "info"
+          "info",
+          "error"
         ]
       }
     ],
+    "no-eval": "error",
     "no-debugger": "warn",
     "no-var": "warn",
-    "valid-jsdoc": [
-      "warn",
-      {
-        "requireReturnType": false,
-        "requireParamDescription": false,
-        "requireReturnDescription": false
-      }
-    ],
+    "valid-jsdoc": "off",
     "curly": [
       "error",
       "multi-line"
