@@ -3,12 +3,12 @@ import { Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { APP } from '../../../constants/routes';
-import * as userActions from '../../../redux/actions/user.actions';
-import { LOGIN_FORM } from '../../../redux/forms';
-import { getLoginDataFromLocalStorage } from '../../../utils/auth.utils';
-import { getTranslations } from '../../../utils/translation.utils';
-import Input from '../../../components/Inputs/Input';
+import { APP } from 'constants/routes';
+import * as userActions from 'redux/actions/user.actions';
+import { LOGIN_FORM } from 'redux/forms';
+import { getLoginDataFromLocalStorage } from 'utils/auth.utils';
+import { getTranslations } from 'utils/translation.utils';
+import Input from 'components/Inputs/Input';
 
 class Login extends Component {
   render() {

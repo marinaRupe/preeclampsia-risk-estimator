@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { APP } from '../../constants/routes';
-import { getTranslations } from '../../utils/translation.utils';
-import { withPermission, isUserLoggedIn } from '../../utils/auth.utils';
-import * as userActions from '../../redux/actions/user.actions';
-import { userRoles } from '../../constants/roles.constants';
+import { APP } from 'constants/routes';
+import { getTranslations } from 'utils/translation.utils';
+import { withPermission, isUserLoggedIn } from 'utils/auth.utils';
+import * as userActions from 'redux/actions/user.actions';
+import { userRoles } from 'constants/roles.constants';
 import LanguageSelector from '../LanguageSelector';
 
 class NavigationBar extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { defaultLabelColumnSize, defaultValueColumnSize } from '../../constants/values';
-import { formatDate } from '../../utils/dateTime.utils';
+import { defaultLabelColumnSize, defaultValueColumnSize } from 'constants/values';
+import { formatDate } from 'utils/dateTime.utils';
 
 class DateDisplay extends Component {
   render() {

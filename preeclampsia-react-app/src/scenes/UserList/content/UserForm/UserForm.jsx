@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import Input from '../../../../components/Inputs/Input';
-import Select from '../../../../components/Inputs/Select';
-import { userRoles } from '../../../../constants/roles.constants';
-import { generateOptions } from '../../../../utils/form.utils';
-import { getTranslations } from '../../../../utils/translation.utils';
+import Input from 'components/Inputs/Input';
+import Select from 'components/Inputs/Select';
+import { userRoles } from 'constants/roles.constants';
+import { generateOptions } from 'utils/form.utils';
+import { getTranslations } from 'utils/translation.utils';
 import PasswordInputs from '../PasswordInputs';
 
 class UserForm extends Component {

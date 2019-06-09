@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit } from 'redux-form';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import { EDIT_MEDICAL_HISTORY_FORM } from '../../../../../../redux/forms';
+import { getTranslations } from 'utils/translation.utils';
+import { EDIT_MEDICAL_HISTORY_FORM } from 'redux/forms';
 import MedicalHistoryForm from './MedicalHistoryForm';
 
 class EditMedicalHistoryForm extends Component {

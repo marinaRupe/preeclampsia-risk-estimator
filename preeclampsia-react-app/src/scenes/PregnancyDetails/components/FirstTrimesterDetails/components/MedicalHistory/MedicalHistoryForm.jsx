@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import EnumMeasurementInput from '../../../../../../components/Measurement/Inputs/EnumMeasurementInput';
-import BooleanMeasurementInput from '../../../../../../components/Measurement/Inputs/BooleanMeasurementInput';
+import EnumMeasurementInput from 'components/Measurement/Inputs/EnumMeasurementInput';
+import BooleanMeasurementInput from 'components/Measurement/Inputs/BooleanMeasurementInput';
 
 class MedicalHistoryForm extends Component {
   render() {

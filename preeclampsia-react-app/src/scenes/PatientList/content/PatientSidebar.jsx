@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { getAgeInYears } from '../../../utils/dateTime.utils';
-import { getTranslations } from '../../../utils/translation.utils';
-import EnumMeasurement from '../../../components/Measurement/EnumMeasurement';
-import NumericalMeasurement from '../../../components/Measurement/NumericalMeasurement';
-import DateDisplay from '../../../components/Measurement/DateDisplay';
-import TextInfoDisplay from '../../../components/Measurement/TextInfoDisplay';
+import { getAgeInYears } from 'utils/dateTime.utils';
+import { getTranslations } from 'utils/translation.utils';
+import EnumMeasurement from 'components/Measurement/EnumMeasurement';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import DateDisplay from 'components/Measurement/DateDisplay';
+import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class PatientSidebar extends Component {
   render() {

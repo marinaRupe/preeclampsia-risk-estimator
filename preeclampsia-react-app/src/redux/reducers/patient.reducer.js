@@ -1,6 +1,6 @@
 import initialState from './initialState';
 import * as types from '../actionTypes';
-import { ACTION_STATUS } from '../../enums/responseStatus.enums';
+import { ACTION_STATUS } from 'enums/responseStatus.enums';
 
 export default function patientReducer(state = initialState.patients, action) {
   switch (action.type) {

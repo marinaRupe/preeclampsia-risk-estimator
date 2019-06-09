@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { reduxForm, stopSubmit } from 'redux-form';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import { EDIT_BIOCHEMICAL_MEASUREMENTS_FORM } from '../../../../../../redux/forms';
+import { getTranslations } from 'utils/translation.utils';
+import { EDIT_BIOCHEMICAL_MEASUREMENTS_FORM } from 'redux/forms';
 import BiochemicalMeasurementsForm from './BiochemicalMeasurementsForm';
 
 class EditBiochemicalMeasurementsForm extends Component {

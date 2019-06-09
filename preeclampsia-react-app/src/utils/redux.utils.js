@@ -1,5 +1,5 @@
 import { SubmissionError } from 'redux-form';
-import { APP } from '../constants/routes';
+import { APP } from 'constants/routes';
 import history from '../history';
 
 export function errorHandler(error) {

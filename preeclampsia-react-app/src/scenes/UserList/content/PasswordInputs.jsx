@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import Input from '../../../components/Inputs/Input';
-import { getTranslations } from '../../../utils/translation.utils';
+import Input from 'components/Inputs/Input';
+import { getTranslations } from 'utils/translation.utils';
 
 class PasswordInputs extends Component {
   render() {

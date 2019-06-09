@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import * as reportActions from '../../redux/actions/report.actions';
-import Spinner from '../../components/Spinner';
-import BooleanMeasurement from '../../components/Measurement/BooleanMeasurement';
-import EnumMeasurement from '../../components/Measurement/EnumMeasurement';
-import NumericalMeasurement from '../../components/Measurement/NumericalMeasurement';
-import DateDisplay from '../../components/Measurement/DateDisplay';
-import TextInfoDisplay from '../../components/Measurement/TextInfoDisplay';
-import GestationalAgeDisplay from '../../components/Measurement/GestationalAgeDisplay';
-import { getAgeInYears } from '../../utils/dateTime.utils';
-import { getTranslations } from '../../utils/translation.utils';
+import * as reportActions from 'redux/actions/report.actions';
+import Spinner from 'components/Spinner';
+import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
+import EnumMeasurement from 'components/Measurement/EnumMeasurement';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import DateDisplay from 'components/Measurement/DateDisplay';
+import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
+import GestationalAgeDisplay from 'components/Measurement/GestationalAgeDisplay';
+import { getAgeInYears } from 'utils/dateTime.utils';
+import { getTranslations } from 'utils/translation.utils';
 
 class RiskEstimate extends Component {
   constructor(props) {

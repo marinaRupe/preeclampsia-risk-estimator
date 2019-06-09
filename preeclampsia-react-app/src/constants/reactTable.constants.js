@@ -1,5 +1,5 @@
-import LoadingComponent from '../components/LoadingComponent';
-import { getTranslations } from '../utils/translation.utils';
+import LoadingComponent from 'components/LoadingComponent';
+import { getTranslations } from 'utils/translation.utils';
 
 export const pageSizeOptions = [5, 10, 25, 50, 75, 100];
 

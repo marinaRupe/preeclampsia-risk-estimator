@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Characteristics } from '../../constants/characteristics.constants';
-import { getTranslations } from '../../utils/translation.utils';
-import * as statisticsActions from '../../redux/actions/statistics.actions';
+import { Characteristics } from 'constants/characteristics.constants';
+import { getTranslations } from 'utils/translation.utils';
+import * as statisticsActions from 'redux/actions/statistics.actions';
 import PregnancyLineChart from './content/PregnancyLineChart';
 
 class Statistics extends Component {

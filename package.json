@@ -4,15 +4,15 @@
   "description": "Preeclampsia risk estimation application",
   "main": "server.js",
   "scripts": {
-    "start": "node preeclampsia-node-app/server.js",
+    "start": "node preeclampsia-node-app/src/server.js",
     "rstart": "npm run rlint && npm start --prefix preeclampsia-react-app",
     "build": "npm run rlint && npm run build --prefix preeclampsia-react-app",
-    "nstart": "npm run nlint && nodemon preeclampsia-node-app/server.js",
+    "nstart": "npm run nlint && nodemon preeclampsia-node-app/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint preeclampsia-node-app preeclampsia-react-app --ext .js,.jsx",
     "rlint": "./node_modules/.bin/eslint preeclampsia-react-app --ext .js,.jsx",
     "nlint": "./node_modules/.bin/eslint preeclampsia-node-app",
-    "populate-db": "node preeclampsia-node-app/scripts/populateDatabase.js"
+    "populate-db": "node preeclampsia-node-app/src/scripts/populateDatabase.js"
   },
   "keywords": [
     "preeclampsia",
@@ -24,6 +24,21 @@
   ],
   "author": "Marina Rupe",
   "license": "ISC",
+  "_moduleAliases": {
+    "assets": "./preeclampsia-node-app/src/assets",
+    "configuration": "./preeclampsia-node-app/src/configuration",
+    "constants": "./preeclampsia-node-app/src/constants",
+    "dataTransferObjects": "./preeclampsia-node-app/src/dataTransferObjects",
+    "enums": "./preeclampsia-node-app/src/enums",
+    "middlewares": "./preeclampsia-node-app/src/middlewares",
+    "models": "./preeclampsia-node-app/src/models",
+    "routes": "./preeclampsia-node-app/src/routes",
+    "scripts": "./preeclampsia-node-app/src/scripts",
+    "services": "./preeclampsia-node-app/src/services",
+    "templates": "./preeclampsia-node-app/src/templates",
+    "utils": "./preeclampsia-node-app/src/utils",
+    "validators": "./preeclampsia-node-app/src/validators"
+  },
   "dependencies": {
     "axios": "~0.18.0",
     "bcrypt": "~3.0.6",
@@ -38,6 +53,7 @@
     "http-errors": "~1.6.2",
     "jsonwebtoken": "~8.5.1",
     "material-icons": "~0.2.3",
+    "module-alias": "^2.2.0",
     "moment": "~2.23.0",
     "morgan": "~1.9.0",
     "node-sass-chokidar": "~1.3.4",

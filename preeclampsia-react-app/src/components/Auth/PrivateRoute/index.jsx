@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as userActions from '../../../redux/actions/user.actions';
-import { getLoginDataFromLocalStorage, getAllRoles, isRoleAllowed } from '../../../utils/auth.utils';
+import * as userActions from 'redux/actions/user.actions';
+import { getLoginDataFromLocalStorage, getAllRoles, isRoleAllowed } from 'utils/auth.utils';
 
 class PrivateRoute extends Component {
   componentDidMount() {

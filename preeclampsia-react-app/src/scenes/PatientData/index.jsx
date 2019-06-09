@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import * as patientActions from '../../redux/actions/patient.actions';
-import { APP } from '../../constants/routes';
-import { getAgeInYears } from '../../utils/dateTime.utils';
-import { getTranslations } from '../../utils/translation.utils';
-import Spinner from '../../components/Spinner';
+import * as patientActions from 'redux/actions/patient.actions';
+import { APP } from 'constants/routes';
+import { getAgeInYears } from 'utils/dateTime.utils';
+import { getTranslations } from 'utils/translation.utils';
+import Spinner from 'components/Spinner';
+import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
+import DateDisplay from 'components/Measurement/DateDisplay';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import EnumMeasurement from 'components/Measurement/EnumMeasurement';
 import EditPatientModal from '../PatientList/content/EditPatientModal';
-import TextInfoDisplay from '../../components/Measurement/TextInfoDisplay';
-import DateDisplay from '../../components/Measurement/DateDisplay';
-import NumericalMeasurement from '../../components/Measurement/NumericalMeasurement';
-import EnumMeasurement from '../../components/Measurement/EnumMeasurement';
 
 class PatientData extends Component {
   constructor(props) {

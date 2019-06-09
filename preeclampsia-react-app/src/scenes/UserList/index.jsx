@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
-import { getTranslations } from '../../utils/translation.utils';
+import { getTranslations } from 'utils/translation.utils';
 import {
   getReactTableConstants,
   sortDirections,
   defaultPageSize,
-} from '../../constants/reactTable.constants';
-import { userRoles } from '../../constants/roles.constants';
-import * as userActions from '../../redux/actions/user.actions';
-import { formatDate } from '../../utils/dateTime.utils';
+} from 'constants/reactTable.constants';
+import { userRoles } from 'constants/roles.constants';
+import * as userActions from 'redux/actions/user.actions';
+import { formatDate } from 'utils/dateTime.utils';
 import AddUserModal from './content/UserForm/AddUserModal';
 import EditUserModal from './content/UserForm/EditUserModal';
 import UserSidebar from './content/UserSidebar';

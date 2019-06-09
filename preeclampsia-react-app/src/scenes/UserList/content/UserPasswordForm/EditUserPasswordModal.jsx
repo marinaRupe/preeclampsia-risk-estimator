@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit } from 'redux-form';
-import { EDIT_USER_PASSWORD_FORM } from '../../../../redux/forms';
+import { EDIT_USER_PASSWORD_FORM } from 'redux/forms';
+import { getTranslations } from 'utils/translation.utils';
 import UserPasswordForm from './UserPasswordForm';
-import { getTranslations } from '../../../../utils/translation.utils';
 
 class EditUserPasswordModal extends Component {
   handleCloseModal = async () => {

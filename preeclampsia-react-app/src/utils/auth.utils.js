@@ -1,5 +1,5 @@
-import * as values from '../constants/values';
-import { userRolesList } from '../constants/roles.constants';
+import * as values from 'constants/values';
+import { userRolesList } from 'constants/roles.constants';
 
 export const getAllRoles = () => {
   return userRolesList;

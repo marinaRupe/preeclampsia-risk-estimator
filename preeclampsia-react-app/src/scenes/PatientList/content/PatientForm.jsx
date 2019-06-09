@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import Input from '../../../components/Inputs/Input';
-import Select from '../../../components/Inputs/Select';
-import { RacialOriginTypes } from '../../../constants/patient.constants';
-import { generateOptions } from '../../../utils/form.utils';
-import { getTranslations, getLanguage } from '../../../utils/translation.utils';
+import Input from 'components/Inputs/Input';
+import Select from 'components/Inputs/Select';
+import { RacialOriginTypes } from 'constants/patient.constants';
+import { generateOptions } from 'utils/form.utils';
+import { getTranslations, getLanguage } from 'utils/translation.utils';
 
 class PatientForm extends Component {
   render() {

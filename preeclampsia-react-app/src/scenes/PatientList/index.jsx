@@ -7,11 +7,11 @@ import {
   getReactTableConstants,
   sortDirections,
   defaultPageSize,
-} from '../../constants/reactTable.constants';
-import { APP } from '../../constants/routes';
-import * as patientActions from '../../redux/actions/patient.actions';
-import { formatDate } from '../../utils/dateTime.utils';
-import { getTranslations } from '../../utils/translation.utils';
+} from 'constants/reactTable.constants';
+import { APP } from 'constants/routes';
+import * as patientActions from 'redux/actions/patient.actions';
+import { formatDate } from 'utils/dateTime.utils';
+import { getTranslations } from 'utils/translation.utils';
 import AddPatientModal from './content/AddPatientModal';
 import EditPatientModal from './content/EditPatientModal';
 import PatientSidebar from './content/PatientSidebar';

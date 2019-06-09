@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { Characteristics } from '../../constants/characteristics.constants';
-import { defaultLabelColumnSize, defaultValueColumnSize } from '../../constants/values';
-import { getCharacteristicTranslation } from '../../utils/translation.utils';
-import {
-  displayNumericalMeasurementValue,
-} from '../../utils/measurement.utils';
+import { Characteristics } from 'constants/characteristics.constants';
+import { defaultLabelColumnSize, defaultValueColumnSize } from 'constants/values';
+import { getCharacteristicTranslation } from 'utils/translation.utils';
+import { displayNumericalMeasurementValue } from 'utils/measurement.utils';
 
 class NumericalMeasurement extends Component {
   render() {

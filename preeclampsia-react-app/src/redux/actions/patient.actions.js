@@ -1,7 +1,7 @@
-import { ACTION_STATUS } from '../../enums/responseStatus.enums';
-import { API } from '../../constants/routes';
-import { actionWrapper } from '../../utils/redux.utils';
-import * as httpCalls from '../../utils/http.utils';
+import { ACTION_STATUS } from 'enums/responseStatus.enums';
+import { API } from 'constants/routes';
+import { actionWrapper } from 'utils/redux.utils';
+import * as httpCalls from 'utils/http.utils';
 import * as actionCreators from '../actionCreators/patient.actionCreators';
 
 export function fetchPatientList(page = 1, pageSize = 10, sortColumn = '', sortDirection = '', searchInput = '') {

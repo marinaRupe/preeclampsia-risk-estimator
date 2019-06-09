@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { getTranslations } from '../../../utils/translation.utils';
+import { getTranslations } from 'utils/translation.utils';
 
 class DeletePatientModal extends Component {
   handleDeletePatient = () => {

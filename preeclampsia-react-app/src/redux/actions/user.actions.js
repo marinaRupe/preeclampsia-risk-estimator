@@ -1,11 +1,11 @@
-import { ACTION_STATUS } from '../../enums/responseStatus.enums';
-import { API } from '../../constants/routes';
-import { actionWrapper } from '../../utils/redux.utils';
+import { ACTION_STATUS } from 'enums/responseStatus.enums';
+import { API } from 'constants/routes';
+import { actionWrapper } from 'utils/redux.utils';
 import {
   addLoginDataToLocalStorage,
   removeLoginDataFromLocalStorage,
-} from '../../utils/auth.utils';
-import * as httpCalls from '../../utils/http.utils';
+} from 'utils/auth.utils';
+import * as httpCalls from 'utils/http.utils';
 import * as actionCreators from '../actionCreators/user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {

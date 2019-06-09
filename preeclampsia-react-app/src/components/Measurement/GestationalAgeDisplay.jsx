@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { defaultLabelColumnSize, defaultValueColumnSize } from '../../constants/values';
+import { defaultLabelColumnSize, defaultValueColumnSize } from 'constants/values';
 
 class GestationalAgeDisplay extends Component {
   render() {

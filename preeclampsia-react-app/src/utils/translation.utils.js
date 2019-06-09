@@ -1,5 +1,5 @@
-import * as values from '../constants/values';
-import translations from '../assets/translations';
+import * as values from 'constants/values';
+import translations from 'assets/translations';
 
 class Translator {
   constructor(language) {

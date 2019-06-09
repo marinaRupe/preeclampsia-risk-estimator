@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row } from 'react-bootstrap';
-import { extractMeasurementsInitialValues } from '../../../../../../utils/measurement.utils';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import NumericalMeasurement from '../../../../../../components/Measurement/NumericalMeasurement';
+import { extractMeasurementsInitialValues } from 'utils/measurement.utils';
+import { getTranslations } from 'utils/translation.utils';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
 import EditBiochemicalMeasurementsForm from './EditBiochemicalMeasurementsForm';
 
 class BiophysicalMeasurements extends Component {

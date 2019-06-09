@@ -1,8 +1,8 @@
-import { ACTION_STATUS } from '../../enums/responseStatus.enums';
-import { API } from '../../constants/routes';
-import { actionWrapper } from '../../utils/redux.utils';
-import { getLoginDataFromLocalStorage } from '../../utils/auth.utils';
-import * as httpCalls from '../../utils/http.utils';
+import { ACTION_STATUS } from 'enums/responseStatus.enums';
+import { API } from 'constants/routes';
+import { actionWrapper } from 'utils/redux.utils';
+import { getLoginDataFromLocalStorage } from 'utils/auth.utils';
+import * as httpCalls from 'utils/http.utils';
 import * as actionCreators from '../actionCreators/report.actionCreators';
 
 export function generatePDFReport(medicalExaminationId) {

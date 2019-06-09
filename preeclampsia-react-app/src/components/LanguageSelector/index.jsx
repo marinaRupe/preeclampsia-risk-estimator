@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { NavDropdown, MenuItem } from 'react-bootstrap';
-import { languages } from '../../constants/language.constants';
-import { getLanguage, setLanguage } from '../../utils/translation.utils';
-import croFlag from '../../assets/images/flags/croatia.png';
-import ukFlag from '../../assets/images/flags/uk.png';
+import { languages } from 'constants/language.constants';
+import { getLanguage, setLanguage } from 'utils/translation.utils';
+import croFlag from 'assets/images/flags/croatia.png';
+import ukFlag from 'assets/images/flags/uk.png';
 
 class LanguageSelector extends Component {
   render() {

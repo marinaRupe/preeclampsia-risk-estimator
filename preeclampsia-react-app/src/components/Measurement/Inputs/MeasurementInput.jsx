@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Characteristics } from '../../../constants/characteristics.constants';
+import { Characteristics } from 'constants/characteristics.constants';
 
 class MeasurementInput extends Component {
   constructor(props) {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
-import { ADD_PATIENT_FORM } from '../../../redux/forms';
-import { getTranslations } from '../../../utils/translation.utils';
+import { ADD_PATIENT_FORM } from 'redux/forms';
+import { getTranslations } from 'utils/translation.utils';
 import PatientForm from './PatientForm';
 
 class AddPatientModal extends Component {

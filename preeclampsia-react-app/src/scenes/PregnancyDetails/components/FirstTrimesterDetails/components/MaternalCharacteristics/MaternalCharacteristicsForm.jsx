@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import BooleanMeasurementInput from '../../../../../../components/Measurement/Inputs/BooleanMeasurementInput';
-import NumericalMeasurementInput from '../../../../../../components/Measurement/Inputs/NumericalMeasurementInput';
+import BooleanMeasurementInput from 'components/Measurement/Inputs/BooleanMeasurementInput';
+import NumericalMeasurementInput from 'components/Measurement/Inputs/NumericalMeasurementInput';
 
 class MaternalCharacteristicsForm extends Component {
   render() {

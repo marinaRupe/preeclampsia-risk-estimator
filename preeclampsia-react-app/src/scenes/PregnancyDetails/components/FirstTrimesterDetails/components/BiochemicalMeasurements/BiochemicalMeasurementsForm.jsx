@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NumericalMeasurementInput from '../../../../../../components/Measurement/Inputs/NumericalMeasurementInput';
+import NumericalMeasurementInput from 'components/Measurement/Inputs/NumericalMeasurementInput';
 
 class BiochemicalMeasurementsForm extends Component {
   render() {

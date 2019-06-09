@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Grid, Row } from 'react-bootstrap';
-import { extractMeasurementsInitialValues } from '../../../../../../utils/measurement.utils';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import BooleanMeasurement from '../../../../../../components/Measurement/BooleanMeasurement';
-import NumericalMeasurement from '../../../../../../components/Measurement/NumericalMeasurement';
+import { extractMeasurementsInitialValues } from 'utils/measurement.utils';
+import { getTranslations } from 'utils/translation.utils';
+import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
 import EditMaternalCharacteristicsForm from './EditMaternalCharacteristicsForm';
 
 class MaternalCharacteristics extends Component {

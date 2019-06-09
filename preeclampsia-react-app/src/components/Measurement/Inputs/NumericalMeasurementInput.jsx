@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { Characteristics } from '../../../constants/characteristics.constants';
-import { getCharacteristicTranslation } from '../../../utils/translation.utils';
+import { Characteristics } from 'constants/characteristics.constants';
+import { getCharacteristicTranslation } from 'utils/translation.utils';
 import MeasurementInput from './MeasurementInput';
 
 class NumericalMeasurementInput extends Component {

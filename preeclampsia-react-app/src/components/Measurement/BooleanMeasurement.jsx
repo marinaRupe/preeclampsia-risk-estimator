@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Characteristics } from '../../constants/characteristics.constants';
-import { defaultLabelColumnSize, defaultValueColumnSize } from '../../constants/values';
-import { getCharacteristicTranslation } from '../../utils/translation.utils';
-import { displayBooleanMeasurementValue } from '../../utils/measurement.utils';
+import { Characteristics } from 'constants/characteristics.constants';
+import { defaultLabelColumnSize, defaultValueColumnSize } from 'constants/values';
+import { getCharacteristicTranslation } from 'utils/translation.utils';
+import { displayBooleanMeasurementValue } from 'utils/measurement.utils';
 
 class BooleanMeasurement extends Component {
   render() {

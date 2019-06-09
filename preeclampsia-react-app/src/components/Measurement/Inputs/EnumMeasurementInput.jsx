@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { Characteristics } from '../../../constants/characteristics.constants';
-import { getCharacteristicTranslation } from '../../../utils/translation.utils';
-import {
-  getEnumMeasurementOptions,
-} from '../../../utils/measurement.utils';
+import { Characteristics } from 'constants/characteristics.constants';
+import { getCharacteristicTranslation } from 'utils/translation.utils';
+import { getEnumMeasurementOptions } from 'utils/measurement.utils';
 import MeasurementSelect from './MeasurementSelect';
 
 class EnumMeasurementInput extends Component {

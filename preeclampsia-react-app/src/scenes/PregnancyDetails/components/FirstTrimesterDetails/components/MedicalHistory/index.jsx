@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Grid, Row } from 'react-bootstrap';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import { extractMeasurementsInitialValues } from '../../../../../../utils/measurement.utils';
-import BooleanMeasurement from '../../../../../../components/Measurement/BooleanMeasurement';
-import EnumMeasurement from '../../../../../../components/Measurement/EnumMeasurement';
+import { getTranslations } from 'utils/translation.utils';
+import { extractMeasurementsInitialValues } from 'utils/measurement.utils';
+import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
+import EnumMeasurement from 'components/Measurement/EnumMeasurement';
 import EditMedicalHistoryForm from './EditMedicalHistoryForm';
 
 class MedicalHistory extends Component {

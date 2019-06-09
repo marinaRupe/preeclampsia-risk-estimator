@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { MAX_PREGNANCY_WEEKS } from '../../../constants/values';
+import { MAX_PREGNANCY_WEEKS } from 'constants/values';
 
 class PregnancyLineChart extends Component {
   render() {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Row, Button } from 'react-bootstrap';
-import { getTranslations } from '../../../../../../utils/translation.utils';
-import DateDisplay from '../../../../../../components/Measurement/DateDisplay';
-import GestationalAgeDisplay from '../../../../../../components/Measurement/GestationalAgeDisplay';
-import NumericalMeasurement from '../../../../../../components/Measurement/NumericalMeasurement';
-import TextInfoDisplay from '../../../../../../components/Measurement/TextInfoDisplay';
+import { getTranslations } from 'utils/translation.utils';
+import DateDisplay from 'components/Measurement/DateDisplay';
+import GestationalAgeDisplay from 'components/Measurement/GestationalAgeDisplay';
+import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class BasicInfo extends Component {
   constructor(props) {

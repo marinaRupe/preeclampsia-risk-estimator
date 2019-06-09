@@ -1,4 +1,4 @@
-import { EnumMeasurementValues } from '../constants/enumMeasurement.constants';
+import { EnumMeasurementValues } from 'constants/enumMeasurement.constants';
 import { formatDate } from './dateTime.utils';
 import { getLanguage, getTranslations, getMeasurementTranslation } from './translation.utils';
 import { generateOptions } from './form.utils';

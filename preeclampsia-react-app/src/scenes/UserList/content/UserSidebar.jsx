@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { userRoles } from '../../../constants/roles.constants';
-import { getTranslations } from '../../../utils/translation.utils';
-import TextInfoDisplay from '../../../components/Measurement/TextInfoDisplay';
+import { userRoles } from 'constants/roles.constants';
+import { getTranslations } from 'utils/translation.utils';
+import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class UserSidebar extends Component {
   render() {
