@@ -2,7 +2,7 @@ import warnings
 import sys
 import logging
 import re
-
+import os
 
 class StderrFilter:
     def __init__(self, original_stderr):
@@ -318,8 +318,8 @@ def query_model(trace, new_observation):
 # ##########################################################################################################
 
 def main():
-    csv_location = sys.argv[1]  # '../../data/podaci.csv'
-
+    csv_location = sys.argv[1]
+    
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         df = pd.read_csv(csv_location, encoding="ISO-8859-1", sep=';')

@@ -87,6 +87,8 @@ preeclampsia-node-app/.DS_Store
 
 # react
 preeclampsia-react-app/build
+
+dist-node/
 dist-react/
 
 # CSS files
