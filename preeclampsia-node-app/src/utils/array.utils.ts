@@ -1,7 +1,7 @@
-export const addToArray = <T>(array: Array<T> = [], item: T): Array<T> => {
-  return [...array, item];
+export const addToArray = <T>(array: T[] = [], item: T): T[] => {
+	return [...array, item];
 };
 
 export default {
-  addToArray,
+	addToArray,
 };

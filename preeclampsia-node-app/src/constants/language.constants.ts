@@ -1,8 +1,8 @@
 export const languages = {
-  en: 'en',
-  hr: 'hr',
+	en: 'en',
+	hr: 'hr',
 };
 
 export default {
-  languages,
+	languages,
 };

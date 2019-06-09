@@ -8,53 +8,53 @@ import MaternalCharacteristicsForm from './MaternalCharacteristicsForm';
 
 class EditMaternalCharacteristicsForm extends Component {
   handleClose = async () => {
-    const { closeEditMode, stopSubmitForm } = this.props;
-    closeEditMode();
-    await stopSubmitForm();
+  	const { closeEditMode, stopSubmitForm } = this.props;
+  	closeEditMode();
+  	await stopSubmitForm();
   }
 
   render() {
-    const {
-      handleSubmit,
-      error,
-      initialValues,
-      change,
-    } = this.props;
+  	const {
+  		handleSubmit,
+  		error,
+  		initialValues,
+  		change,
+  	} = this.props;
 
-    const translations = getTranslations();
+  	const translations = getTranslations();
 
-    return (
-      <MaternalCharacteristicsForm
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-        error={error}
-        change={change}
-        buttons={
-          <div>
-            <Button
-              bsStyle='primary'
-              type='submit'
-            >
-              {translations.pregnancy.action.save}
-            </Button>
-            <Button
-              bsStyle='default'
-              onClick={this.handleClose}
-            >
-              {translations.action.cancel}
-            </Button>
-          </div>
-        }
-      />
-    );
+  	return (
+  		<MaternalCharacteristicsForm
+  			onSubmit={handleSubmit}
+  			initialValues={initialValues}
+  			error={error}
+  			change={change}
+  			buttons={
+  				<div>
+  					<Button
+  						bsStyle='primary'
+  						type='submit'
+  					>
+  						{translations.pregnancy.action.save}
+  					</Button>
+  					<Button
+  						bsStyle='default'
+  						onClick={this.handleClose}
+  					>
+  						{translations.action.cancel}
+  					</Button>
+  				</div>
+  			}
+  		/>
+  	);
   }
 }
 
 const mapDispatchToProps = {
-  stopSubmitForm: stopSubmit.bind(null, EDIT_MATERNAL_CHARACTERISTICS_FORM, {}),
+	stopSubmitForm: stopSubmit.bind(null, EDIT_MATERNAL_CHARACTERISTICS_FORM, {}),
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
-  form: EDIT_MATERNAL_CHARACTERISTICS_FORM,
-  enableReinitialize: true,
+	form: EDIT_MATERNAL_CHARACTERISTICS_FORM,
+	enableReinitialize: true,
 })(EditMaternalCharacteristicsForm));

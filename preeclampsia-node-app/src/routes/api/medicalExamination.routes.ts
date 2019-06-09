@@ -6,19 +6,19 @@ import { authenticate } from 'middlewares/authentication.middleware';
 const router = express.Router();
 
 router.put('/:medicalExaminationId/measurements',
-  authenticate, asyncWrap(MedicalExaminationController.updateMeasurements)
+	authenticate, asyncWrap(MedicalExaminationController.updateMeasurements)
 );
 
 router.get('/:medicalExaminationId',
-  authenticate, asyncWrap(MedicalExaminationController.getMedicalExaminationDetails)
+	authenticate, asyncWrap(MedicalExaminationController.getMedicalExaminationDetails)
 );
 
 router.put('/:medicalExaminationId',
-  authenticate, asyncWrap(MedicalExaminationController.updateMedicalExamination)
+	authenticate, asyncWrap(MedicalExaminationController.updateMedicalExamination)
 );
 
 router.post('/',
-  authenticate, asyncWrap(MedicalExaminationController.createMedicalExamination)
+	authenticate, asyncWrap(MedicalExaminationController.createMedicalExamination)
 );
 
 export default router;

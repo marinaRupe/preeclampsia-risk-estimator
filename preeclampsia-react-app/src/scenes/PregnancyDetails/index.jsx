@@ -10,89 +10,89 @@ import FirstTrimesterDetails from './components/FirstTrimesterDetails';
 import BasicInfo from './components/BasicInfo';
 
 class PregnancyDetails extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      isLoading: false,
-      isEditModeOn: false,
-    };
-  }
+		this.state = {
+			isLoading: false,
+			isEditModeOn: false,
+		};
+	}
 
-  componentDidMount() {
-    this.setState({
-      isLoading: true,
-    }, async () => {
-      const {
-        fetchPregnancyDetails,
-        fetchMedicalExaminationsForPregnancy,
-        match: { params: { patientId, pregnancyNumber } },
-      } = this.props;
+	componentDidMount() {
+		this.setState({
+			isLoading: true,
+		}, async () => {
+			const {
+				fetchPregnancyDetails,
+				fetchMedicalExaminationsForPregnancy,
+				match: { params: { patientId, pregnancyNumber } },
+			} = this.props;
 
-      const pregnancy = await fetchPregnancyDetails(patientId, pregnancyNumber);
-      await fetchMedicalExaminationsForPregnancy(pregnancy.id);
+			const pregnancy = await fetchPregnancyDetails(patientId, pregnancyNumber);
+			await fetchMedicalExaminationsForPregnancy(pregnancy.id);
 
-      this.setState({
-        isLoading: false,
-      });
-    });
-  }
+			this.setState({
+				isLoading: false,
+			});
+		});
+	}
 
   calculateRisk = (medicalExaminationId) => {
-    const {
-      match: { params: { patientId, pregnancyNumber } },
-    } = this.props;
+  	const {
+  		match: { params: { patientId, pregnancyNumber } },
+  	} = this.props;
 
-    history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber, medicalExaminationId));
+  	history.push(APP.RISK_ESTIMATE(patientId, pregnancyNumber, medicalExaminationId));
   }
 
   render() {
-    const { pregnancyDetails, medicalExaminations } = this.props;
-    const { isLoading } = this.state;
+  	const { pregnancyDetails, medicalExaminations } = this.props;
+  	const { isLoading } = this.state;
 
-    const translations = getTranslations();
+  	const translations = getTranslations();
 
-    if (isLoading || !pregnancyDetails) {
-      return (
-        <div className='page'>
-          <h1>{translations.pregnancy.detailsTitle}</h1>
-          <div className='align-horizontal--center'>
-            <Spinner />
-          </div>
-        </div>
-      );
-    }
+  	if (isLoading || !pregnancyDetails) {
+  		return (
+  			<div className='page'>
+  				<h1>{translations.pregnancy.detailsTitle}</h1>
+  				<div className='align-horizontal--center'>
+  					<Spinner />
+  				</div>
+  			</div>
+  		);
+  	}
 
-    return (
-      <div className='page'>
-        <h1>{translations.pregnancy.detailsTitle}</h1>
+  	return (
+  		<div className='page'>
+  			<h1>{translations.pregnancy.detailsTitle}</h1>
       
-        <div>
-          <BasicInfo pregnancy={pregnancyDetails} />
+  			<div>
+  				<BasicInfo pregnancy={pregnancyDetails} />
 
-          <h2>{translations.pregnancy.trimestersTitle}</h2>
+  				<h2>{translations.pregnancy.trimestersTitle}</h2>
 
-          <FirstTrimesterDetails
-            pregnancyId={pregnancyDetails.id}
-            medicalExaminations={medicalExaminations.filter(me => me.trimesterNumber === 1)}
-            calculateRisk={this.calculateRisk}
-          />
-        </div>
-      </div>
-    );
+  				<FirstTrimesterDetails
+  					pregnancyId={pregnancyDetails.id}
+  					medicalExaminations={medicalExaminations.filter(me => me.trimesterNumber === 1)}
+  					calculateRisk={this.calculateRisk}
+  				/>
+  			</div>
+  		</div>
+  	);
   }
 }
 
 const mapStateToProps = ({ pregnancy }) => {
-  return {
-    pregnancyDetails: pregnancy.details,
-    medicalExaminations: pregnancy.medicalExaminations,
-  };
+	return {
+		pregnancyDetails: pregnancy.details,
+		medicalExaminations: pregnancy.medicalExaminations,
+	};
 };
 
 const mapDispatchToProps = {
-  fetchPregnancyDetails: pregnancyActions.fetchPatientPregnancyDetails,
-  fetchMedicalExaminationsForPregnancy: pregnancyActions.fetchMedicalExaminationsForPregnancy,
+	fetchPregnancyDetails: pregnancyActions.fetchPatientPregnancyDetails,
+	fetchMedicalExaminationsForPregnancy: pregnancyActions.fetchMedicalExaminationsForPregnancy,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PregnancyDetails));

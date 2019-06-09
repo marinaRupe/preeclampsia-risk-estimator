@@ -5,59 +5,59 @@ import * as dotenv from 'dotenv';
 const debugInstance = debug('node:server');
 
 export const allowCrossDomain = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	next();
 };
 
 export const isProduction = () => process.env.NODE_ENV && process.env.NODE_ENV === 'production';
 export const isDevelopment = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export const initialize = app => {
-  if (isDevelopment()) {
-    dotenv.config({ path: '.env' });
-    app.use(allowCrossDomain);
-  }
+	if (isDevelopment()) {
+		dotenv.config({ path: '.env' });
+		app.use(allowCrossDomain);
+	}
 };
 
 export const normalizePort = val => {
-  const normalizedPort = parseInt(val, 10);
+	const normalizedPort = parseInt(val, 10);
 
-  if (Number.isNaN(normalizedPort)) {
-    // named pipe
-    return val;
-  }
+	if (Number.isNaN(normalizedPort)) {
+		// named pipe
+		return val;
+	}
 
-  if (normalizedPort >= 0) {
-    // port number
-    return normalizedPort;
-  }
+	if (normalizedPort >= 0) {
+		// port number
+		return normalizedPort;
+	}
 
-  return false;
+	return false;
 };
 
 export const onListening = server => {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
-    debugInstance(`Listening on ${bind}`);
+	const addr = server.address();
+	const bind = typeof addr === 'string'
+		? `pipe ${addr}`
+		: `port ${addr.port}`;
+	debugInstance(`Listening on ${bind}`);
 };
 
 export const listen = app => {
-  const port = normalizePort(process.env.PORT || '3001');
-  app.set('port', port);
+	const port = normalizePort(process.env.PORT || '3001');
+	app.set('port', port);
 
-  const server = http.createServer(app);
+	const server = http.createServer(app);
 
-  server.listen(port);
-  server.on('listening', onListening.bind(null, server));
+	server.listen(port);
+	server.on('listening', onListening.bind(null, server));
 };
 
 export default {
-  initialize,
-  listen,
-  isProduction,
-  isDevelopment,
+	initialize,
+	listen,
+	isProduction,
+	isDevelopment,
 };

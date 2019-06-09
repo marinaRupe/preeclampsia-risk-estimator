@@ -7,7 +7,7 @@ import { authenticate } from 'middlewares/authentication.middleware';
 const router = express.Router();
 
 router.get('/:patientId/pregnancies/:pregnancyNumber',
-  authenticate, asyncWrap(PregnancyController.getPregnancyDetails)
+	authenticate, asyncWrap(PregnancyController.getPregnancyDetails)
 );
 
 router.get('/:patientId', authenticate, asyncWrap(PatientController.getById));

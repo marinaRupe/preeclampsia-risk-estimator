@@ -4,9 +4,9 @@
       "target": "es6",
       "moduleResolution": "node",
       "sourceMap": true,
-      "allowJs": true,
       "outDir": "../dist-node",
       "baseUrl": "../preeclampsia-node-app",
+      "typeRoots" : ["./src/typings"],
       "paths": {
           "*": ["../node_modules/*"],
           "assets/*": ["./src/assets/*"],
@@ -29,6 +29,6 @@
       "emitDecoratorMetadata": true
   },
   "include": [
-      "./src/**/*"
+      "./src/**/*",
   ]
 }

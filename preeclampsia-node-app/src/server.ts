@@ -25,12 +25,12 @@ app.use(bodyParser.json());
 routesConfig.configure(app);
 
 sequelizeConfig.configure().then(() => {
-  sequelizeConfig.initializeDatabase().then(() => {
-    passportConfig.configure(app).then(() => {
-      app.use(errorMiddleware);
-      expressConfig.listen(app);
-    });
-  });
+	sequelizeConfig.initializeDatabase().then(() => {
+		passportConfig.configure(app).then(() => {
+			app.use(errorMiddleware);
+			expressConfig.listen(app);
+		});
+	});
 });
 
 export default app;

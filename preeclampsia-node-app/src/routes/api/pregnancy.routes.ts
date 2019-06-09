@@ -6,7 +6,7 @@ import { authenticate } from 'middlewares/authentication.middleware';
 const router = express.Router();
 
 router.get('/:pregnancyId/med-examinations',
-  authenticate, asyncWrap(PregnancyController.getMedicalExaminationsForPregnancy)
+	authenticate, asyncWrap(PregnancyController.getMedicalExaminationsForPregnancy)
 );
 
 router.put('/:pregnancyId', authenticate, asyncWrap(PregnancyController.updatePregnancy));

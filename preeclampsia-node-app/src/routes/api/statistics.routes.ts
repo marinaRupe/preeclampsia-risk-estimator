@@ -6,6 +6,6 @@ import { authenticate } from 'middlewares/authentication.middleware';
 const router = express.Router();
 
 router.get('/characteristics/:characteristicId/medians',
-  authenticate, asyncWrap(StatisticsController.getMediansForCharacteristic));
+	authenticate, asyncWrap(StatisticsController.getMediansForCharacteristic));
 
 export default router;

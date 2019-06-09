@@ -7,99 +7,99 @@ import EnumMeasurement from 'components/Measurement/EnumMeasurement';
 import EditMedicalHistoryForm from './EditMedicalHistoryForm';
 
 class MedicalHistory extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      isEditModeOn: false,
-    };
-  }
+		this.state = {
+			isEditModeOn: false,
+		};
+	}
 
   openEditMode = () => {
-    this.setState({ isEditModeOn: true });
+  	this.setState({ isEditModeOn: true });
   }
 
   closeEditMode = () => {
-    this.setState({ isEditModeOn: false });
+  	this.setState({ isEditModeOn: false });
   }
 
   saveChanges = (measurementsData) => {
-    const { medicalExaminationData, updateMeasurements } = this.props;
-    updateMeasurements(medicalExaminationData.id, measurementsData);
-    this.closeEditMode();
+  	const { medicalExaminationData, updateMeasurements } = this.props;
+  	updateMeasurements(medicalExaminationData.id, measurementsData);
+  	this.closeEditMode();
   };
 
   getEditMeasurementsInitialValues = () => {
-    const { medicalExaminationData } = this.props;
-    const enumCharacteristics = ['HypertensionType', 'DiabetesType'];
-    const booleanCharacteristics = ['SystemicLupusErythematosus', 'AntiPhospholipidSyndrome'];
+  	const { medicalExaminationData } = this.props;
+  	const enumCharacteristics = ['HypertensionType', 'DiabetesType'];
+  	const booleanCharacteristics = ['SystemicLupusErythematosus', 'AntiPhospholipidSyndrome'];
 
-    return extractMeasurementsInitialValues(
-      medicalExaminationData,
-      booleanCharacteristics,
-      enumCharacteristics,
-      [],
-    );
+  	return extractMeasurementsInitialValues(
+  		medicalExaminationData,
+  		booleanCharacteristics,
+  		enumCharacteristics,
+  		[],
+  	);
   }
 
   render() {
-    const { isEditModeOn } = this.state;
-    const {
-      medicalExaminationData: {
-        enumMeasurements,
-        booleanMeasurements,
-      },
-    } = this.props;
+  	const { isEditModeOn } = this.state;
+  	const {
+  		medicalExaminationData: {
+  			enumMeasurements,
+  			booleanMeasurements,
+  		},
+  	} = this.props;
 
-    const translations = getTranslations();
+  	const translations = getTranslations();
 
-    return (
-      <div className='pregnancy__card'>
-        <Grid>
-          <Row>
-            <h4 className='pregnancy__card--title'>
-              <span>{translations.pregnancy.medicalHistoryTitle}</span>
-              {
-                !isEditModeOn &&
+  	return (
+  		<div className='pregnancy__card'>
+  			<Grid>
+  				<Row>
+  					<h4 className='pregnancy__card--title'>
+  						<span>{translations.pregnancy.medicalHistoryTitle}</span>
+  						{
+  							!isEditModeOn &&
                 <i onClick={this.openEditMode} className='material-icons'>edit</i>
-              }
-            </h4>
-          </Row>
+  						}
+  					</h4>
+  				</Row>
 
-          {
-            !isEditModeOn
-              ?
-              <div>
-                <EnumMeasurement
-                  characteristicName='HypertensionType'
-                  value={enumMeasurements.HypertensionType}
-                />
+  				{
+  					!isEditModeOn
+  						?
+  						<div>
+  							<EnumMeasurement
+  								characteristicName='HypertensionType'
+  								value={enumMeasurements.HypertensionType}
+  							/>
 
-                <EnumMeasurement
-                  characteristicName='DiabetesType'
-                  value={enumMeasurements.DiabetesType}
-                />
+  							<EnumMeasurement
+  								characteristicName='DiabetesType'
+  								value={enumMeasurements.DiabetesType}
+  							/>
 
-                <BooleanMeasurement
-                  characteristicName='SystemicLupusErythematosus'
-                  value={booleanMeasurements.SystemicLupusErythematosus}
-                />
+  							<BooleanMeasurement
+  								characteristicName='SystemicLupusErythematosus'
+  								value={booleanMeasurements.SystemicLupusErythematosus}
+  							/>
 
-                <BooleanMeasurement
-                  characteristicName='AntiPhospholipidSyndrome'
-                  value={booleanMeasurements.AntiPhospholipidSyndrome}
-                />
-              </div>
-              :
-              <EditMedicalHistoryForm
-                onSubmit={this.saveChanges}
-                closeEditMode={this.closeEditMode}
-                initialValues={this.getEditMeasurementsInitialValues()}
-              />
-          }
-        </Grid>
-      </div>
-    );
+  							<BooleanMeasurement
+  								characteristicName='AntiPhospholipidSyndrome'
+  								value={booleanMeasurements.AntiPhospholipidSyndrome}
+  							/>
+  						</div>
+  						:
+  						<EditMedicalHistoryForm
+  							onSubmit={this.saveChanges}
+  							closeEditMode={this.closeEditMode}
+  							initialValues={this.getEditMeasurementsInitialValues()}
+  						/>
+  				}
+  			</Grid>
+  		</div>
+  	);
   }
 }
 

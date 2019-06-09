@@ -8,57 +8,57 @@ import { spawn } from 'child_process';
 import { isDefined } from 'utils/value.utils';
 
 const generatePdf = async (req, res) => {
-  const medicalExaminationId = +req.params.medicalExaminationId;
-  const { generatedBy } = req.body;
-  const { translations, language } = res.locals;
+	const medicalExaminationId = +req.params.medicalExaminationId;
+	const { generatedBy } = req.body;
+	const { translations, language } = res.locals;
 
-  if (!isDefined(medicalExaminationId)) {
-    throw new Errors.BadRequestError();
-  }
+	if (!isDefined(medicalExaminationId)) {
+		throw new Errors.BadRequestError();
+	}
 
-  const medicalExamination = await MedicalExaminationService.getByIdDetailed(medicalExaminationId);
-  if (!isDefined(medicalExamination)) {
-    throw new Errors.NotFoundError();
-  }
+	const medicalExamination = await MedicalExaminationService.getByIdDetailed(medicalExaminationId);
+	if (!isDefined(medicalExamination)) {
+		throw new Errors.NotFoundError();
+	}
 
-  const user = await UserService.getById(generatedBy.id);
-  if (!isDefined(user)) {
-    throw new Errors.BadRequestError();
-  }
+	const user = await UserService.getById(generatedBy.id);
+	if (!isDefined(user)) {
+		throw new Errors.BadRequestError();
+	}
 
-  console.info('Starting the python script...');
+	console.info('Starting the python script...');
 
-  const pythonProcess = spawn('python', [
-    path.join(__dirname, '..', 'scripts', 'bayesian_linear_regression.py'), 
-    process.env.TRAIN_DATA_LOCATION,
-  ]);
+	const pythonProcess = spawn('python', [
+		path.join(__dirname, '..', 'scripts', 'bayesian_linear_regression.py'), 
+		process.env.TRAIN_DATA_LOCATION,
+	]);
 
-  pythonProcess.stdout.on('data', async (data) => {
-    console.info('The python script finished successfully');
-    const { risk } = JSON.parse(data.toString().replace(/'/g, '"'));
-    console.info(`Return value: ${risk}`);
+	pythonProcess.stdout.on('data', async (data) => {
+		console.info('The python script finished successfully');
+		const { risk } = JSON.parse(data.toString().replace(/'/g, '"'));
+		console.info(`Return value: ${risk}`);
 
-    const reportData = ReportService.generateReportData(medicalExamination, risk, user);
-    const report = await ReportService.createReport(reportData);
+		const reportData = ReportService.generateReportData(medicalExamination, risk, user);
+		const report = await ReportService.createReport(reportData);
 
-    if (!isDefined(report)) {
-      throw new Errors.InternalServerError();
-    }
+		if (!isDefined(report)) {
+			throw new Errors.InternalServerError();
+		}
 
-    const html = ReportService.generateHTMLReport(reportData, user, translations, language);
-    const file = await createPDFFromHTML(html);
+		const html = ReportService.generateHTMLReport(reportData, user, translations, language);
+		const file = await createPDFFromHTML(html);
 
-    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });
-    res.send(file);
-  });
+		res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });
+		res.send(file);
+	});
 
-  pythonProcess.stderr.on('data', (err) => {
-    console.info('The python script finished unsuccessfully');
-    console.info(`Error: ${err.toString()}`);
-    throw new Errors.InternalServerError();
-  });
+	pythonProcess.stderr.on('data', (err) => {
+		console.info('The python script finished unsuccessfully');
+		console.info(`Error: ${err.toString()}`);
+		throw new Errors.InternalServerError();
+	});
 };
 
 export default {
-  generatePdf,
+	generatePdf,
 };

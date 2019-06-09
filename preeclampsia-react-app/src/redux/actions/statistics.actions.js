@@ -5,17 +5,17 @@ import * as httpCalls from 'utils/http.utils';
 import * as actionCreators from '../actionCreators/statistics.actionCreators';
 
 export function fetchMediansForCharacteristic(characteristicId) {
-  const action = async (dispatch) => {
-    const resp = await httpCalls.GET(
-      API.STATISTICS.MEDIANS_FOR_CHARACTERISTIC(characteristicId)
-    );
+	const action = async (dispatch) => {
+		const resp = await httpCalls.GET(
+			API.STATISTICS.MEDIANS_FOR_CHARACTERISTIC(characteristicId)
+		);
 
-    if (resp.status === 200) {
-      await dispatch(actionCreators.updateMediansForCharacteristic({
-        status: ACTION_STATUS.SUCCESS,
-        data: { characteristicId, medians: resp.data }
-      }));
-    }
-  };
-  return actionWrapper(action);
+		if (resp.status === 200) {
+			await dispatch(actionCreators.updateMediansForCharacteristic({
+				status: ACTION_STATUS.SUCCESS,
+				data: { characteristicId, medians: resp.data }
+			}));
+		}
+	};
+	return actionWrapper(action);
 }

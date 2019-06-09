@@ -8,24 +8,24 @@ export const defaultPageSize = 10;
 export const minRows = 5;
 
 export const sortDirections = {
-  ASC: 'ASC',
-  DESC: 'DESC',
+	ASC: 'ASC',
+	DESC: 'DESC',
 };
 
 export const getReactTableConstants = () => {
-  const tableTranslations = getTranslations().table;
-  return ({
-    manual: true,
-    pageSizeOptions,
-    defaultPageSize,
-    minRows,
-    previousText: tableTranslations.previousText,
-    nextText: tableTranslations.nextText,
-    loadingText: tableTranslations.loadingText,
-    noDataText: tableTranslations.noDataText,
-    pageText: tableTranslations.pageText,
-    ofText: tableTranslations.ofText,
-    rowsText: tableTranslations.rowsText,
-    LoadingComponent
-  });
+	const tableTranslations = getTranslations().table;
+	return ({
+		manual: true,
+		pageSizeOptions,
+		defaultPageSize,
+		minRows,
+		previousText: tableTranslations.previousText,
+		nextText: tableTranslations.nextText,
+		loadingText: tableTranslations.loadingText,
+		noDataText: tableTranslations.noDataText,
+		pageText: tableTranslations.pageText,
+		ofText: tableTranslations.ofText,
+		rowsText: tableTranslations.rowsText,
+		LoadingComponent
+	});
 };

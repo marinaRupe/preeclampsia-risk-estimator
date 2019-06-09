@@ -8,61 +8,61 @@ import UserForm from './UserForm';
 
 class EditUserModal extends Component {
   handleCloseModal = async () => {
-    const { handleClose, stopSubmitForm } = this.props;
-    handleClose();
-    await stopSubmitForm();
+  	const { handleClose, stopSubmitForm } = this.props;
+  	handleClose();
+  	await stopSubmitForm();
   }
 
   handleAfterCloseModal = async () => {
-    const { resetForm } = this.props;
-    await resetForm();
+  	const { resetForm } = this.props;
+  	await resetForm();
   }
 
   render() {
-    const { show, handleSubmit, error, initialValues } = this.props;
+  	const { show, handleSubmit, error, initialValues } = this.props;
 
-    const translations = getTranslations();
+  	const translations = getTranslations();
 
-    return (
-      <Modal
-        show={show}
-        onHide={this.handleCloseModal}
-        onExited={this.handleAfterCloseModal}
-        centered='true'
-        dialogClassName='app-modal'
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>{translations.user.modal.editUserTitle}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <UserForm
-            onSubmit={handleSubmit}
-            initialValues={initialValues}
-            showPasswordInputs={false}
-            error={error}
-            buttons={
-              <Modal.Footer>
-                <Button bsStyle='default' onClick={this.handleCloseModal}>
-                  {translations.action.cancel}
-                </Button>
-                <Button bsStyle='primary' type='submit'>
-                  {translations.action.save}
-                </Button>
-              </Modal.Footer>
-            }
-          />
-        </Modal.Body>
-      </Modal>
-    );
+  	return (
+  		<Modal
+  			show={show}
+  			onHide={this.handleCloseModal}
+  			onExited={this.handleAfterCloseModal}
+  			centered='true'
+  			dialogClassName='app-modal'
+  		>
+  			<Modal.Header closeButton>
+  				<Modal.Title>{translations.user.modal.editUserTitle}</Modal.Title>
+  			</Modal.Header>
+  			<Modal.Body>
+  				<UserForm
+  					onSubmit={handleSubmit}
+  					initialValues={initialValues}
+  					showPasswordInputs={false}
+  					error={error}
+  					buttons={
+  						<Modal.Footer>
+  							<Button bsStyle='default' onClick={this.handleCloseModal}>
+  								{translations.action.cancel}
+  							</Button>
+  							<Button bsStyle='primary' type='submit'>
+  								{translations.action.save}
+  							</Button>
+  						</Modal.Footer>
+  					}
+  				/>
+  			</Modal.Body>
+  		</Modal>
+  	);
   }
 }
 
 const mapDispatchToProps = {
-  stopSubmitForm: stopSubmit.bind(null, EDIT_USER_FORM, {}),
-  resetForm: reset.bind(null, EDIT_USER_FORM),
+	stopSubmitForm: stopSubmit.bind(null, EDIT_USER_FORM, {}),
+	resetForm: reset.bind(null, EDIT_USER_FORM),
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
-  form: EDIT_USER_FORM,
-  enableReinitialize: true,
+	form: EDIT_USER_FORM,
+	enableReinitialize: true,
 })(EditUserModal));

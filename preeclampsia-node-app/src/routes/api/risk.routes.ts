@@ -7,6 +7,6 @@ import UserRoles from 'constants/roles.constants';
 const router = express.Router();
 
 router.post('/med-examinations/:medicalExaminationId/generate-pdf',
-  authenticate, authorize([UserRoles.Admin]), asyncWrap(RiskController.generatePdf));
+	authenticate, authorize([UserRoles.Admin]), asyncWrap(RiskController.generatePdf));
 
 export default router;

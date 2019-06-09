@@ -8,53 +8,53 @@ import BiophysicalMeasurementsForm from './BiophysicalMeasurementsForm';
 
 class EditBiophysicalMeasurementsForm extends Component {
   handleClose = async () => {
-    const { closeEditMode, stopSubmitForm } = this.props;
-    closeEditMode();
-    await stopSubmitForm();
+  	const { closeEditMode, stopSubmitForm } = this.props;
+  	closeEditMode();
+  	await stopSubmitForm();
   }
 
   render() {
-    const {
-      handleSubmit,
-      error,
-      initialValues,
-      change,
-    } = this.props;
+  	const {
+  		handleSubmit,
+  		error,
+  		initialValues,
+  		change,
+  	} = this.props;
 
-    const translations = getTranslations();
+  	const translations = getTranslations();
 
-    return (
-      <BiophysicalMeasurementsForm
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-        error={error}
-        change={change}
-        buttons={
-          <div>
-            <Button
-              bsStyle='primary'
-              type='submit'
-            >
-              {translations.pregnancy.action.save}
-            </Button>
-            <Button
-              bsStyle='default'
-              onClick={this.handleClose}
-            >
-              {translations.action.cancel}
-            </Button>
-          </div>
-        }
-      />
-    );
+  	return (
+  		<BiophysicalMeasurementsForm
+  			onSubmit={handleSubmit}
+  			initialValues={initialValues}
+  			error={error}
+  			change={change}
+  			buttons={
+  				<div>
+  					<Button
+  						bsStyle='primary'
+  						type='submit'
+  					>
+  						{translations.pregnancy.action.save}
+  					</Button>
+  					<Button
+  						bsStyle='default'
+  						onClick={this.handleClose}
+  					>
+  						{translations.action.cancel}
+  					</Button>
+  				</div>
+  			}
+  		/>
+  	);
   }
 }
 
 const mapDispatchToProps = {
-  stopSubmitForm: stopSubmit.bind(null, EDIT_BIOPHYSICAL_MEASUREMENTS_FORM, {}),
+	stopSubmitForm: stopSubmit.bind(null, EDIT_BIOPHYSICAL_MEASUREMENTS_FORM, {}),
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
-  form: EDIT_BIOPHYSICAL_MEASUREMENTS_FORM,
-  enableReinitialize: true,
+	form: EDIT_BIOPHYSICAL_MEASUREMENTS_FORM,
+	enableReinitialize: true,
 })(EditBiophysicalMeasurementsForm));
