@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Dialog from 'react-bootstrap-dialog';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
@@ -138,10 +139,14 @@ class PatientList extends Component {
 
 	deletePatient = async (patientId) => {
 		const { removePatient } = this.props;
-		await removePatient(patientId);
-		this.unselectPatient();
-		this.closeDeletePatientModal();
-		this.refreshTable();
+		try {
+			await removePatient(patientId);
+			this.unselectPatient();
+			this.closeDeletePatientModal();
+			this.refreshTable();
+		} catch (err) {
+			this.dialog.showAlert(err.data && err.data.message);
+		}
 	};
 
 	getColumns = () => {
@@ -191,6 +196,7 @@ class PatientList extends Component {
 
 		return (
 			<div className='page'>
+				<Dialog ref={(r) => { this.dialog = r; }} />
 				<AddPatientModal
 					show={addPatientModalIsOpen}
 					handleClose={this.closeAddPatientModal}

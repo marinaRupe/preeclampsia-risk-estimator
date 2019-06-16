@@ -24,6 +24,14 @@ export const editPregnancy = ({ status, data }) => {
 	};
 };
 
+export const removePregnancy = ({ status, data }) => {
+	return {
+		data,
+		status,
+		type: types.REMOVE_PREGNANCY,
+	};
+};
+
 export const addMedicalExamination = ({ status, data }) => {
 	return {
 		data,

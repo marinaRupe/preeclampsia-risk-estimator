@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import Dialog from 'react-bootstrap-dialog';
 import ReactTable from 'react-table';
 import { getTranslations } from 'utils/translation.utils';
 import {
@@ -123,10 +124,14 @@ class UserList extends Component {
 
 	deleteUser = async (userId) => {
 		const { removeUser } = this.props;
-		await removeUser(userId);
-		this.unselectUser();
-		this.closeDeleteUserModal();
-		this.refreshTable();
+		try {
+			await removeUser(userId);
+			this.unselectUser();
+			this.closeDeleteUserModal();
+			this.refreshTable();
+		} catch (err) {
+			this.dialog.showAlert(err.data && err.data.message);
+		}
 	};
 
 	getColumns = () => {
@@ -180,6 +185,7 @@ class UserList extends Component {
 
 		return (
 			<div className='page'>
+				<Dialog ref={(r) => { this.dialog = r; }} />
 				<AddUserModal
 					show={addUserModalIsOpen}
 					handleClose={this.closeAddUserModal}

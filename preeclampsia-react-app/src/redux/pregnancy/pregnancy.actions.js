@@ -44,6 +44,16 @@ export function updatePregnancy(patientId, pregnancyData) {
 	return actionWrapper(action, true);
 }
 
+export function deletePregnancy(pregnancyId) {
+	const action = async (dispatch) => {
+		const res = await httpCalls.DELETE(API.PREGNANCIES.BY_ID(pregnancyId));
+		if (res.status === 200) {
+			await dispatch(actionCreators.removePregnancy({ status: ACTION_STATUS.SUCCESS, data: res.data }));
+		}
+	};
+	return actionWrapper(action);
+}
+
 /* Medical Examination */
 
 export function fetchMedicalExaminationsForPregnancy(pregnancyId) {

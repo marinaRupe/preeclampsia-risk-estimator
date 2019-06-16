@@ -8,7 +8,10 @@ export const translations = {
 				},
 				user: {
 					delete: 'Korisnik je uspješno izbrisan',
-				}
+				},
+				pregnancy: {
+					delete: 'Trudnoća je uspješno izbrisana',
+				},
 			},
 			notFound: {
 				patient: 'Pacijent nije pronađen',
@@ -30,6 +33,7 @@ export const translations = {
 				pregnancy: {
 					create: 'Unos podataka o trudnoći nije uspio',
 					update: 'Ažuriranje podataka o trudnoći nije uspjelo',
+					delete: 'Brisanje trudnoće nije uspjelo',
 				},
 				medicalExamination: {
 					create: 'Unos podataka o pregledu nije uspio',
@@ -145,6 +149,9 @@ export const translations = {
 				},
 				user: {
 					deleted: 'User is successfully deleted',
+				},
+				pregnancy: {
+					deleted: 'Pregnancy is successfully deleted',
 				}
 			},
 			notFound: {
@@ -168,6 +175,7 @@ export const translations = {
 				pregnancy: {
 					create: 'Could not create new pregnancy',
 					update: 'Could not update pregnancy',
+					delete: 'Could not delete pregnancy',
 				},
 				medicalExamination: {
 					create: 'Could not create new medical examination',

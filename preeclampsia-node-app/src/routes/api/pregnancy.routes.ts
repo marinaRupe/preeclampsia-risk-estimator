@@ -11,6 +11,8 @@ router.get('/:pregnancyId/med-examinations',
 
 router.put('/:pregnancyId', authenticate, asyncWrap(PregnancyController.updatePregnancy));
 
+router.delete('/:pregnancyId', authenticate, asyncWrap(PregnancyController.deletePregnancy));
+
 router.post('/', authenticate, asyncWrap(PregnancyController.createPregnancy));
 
 export default router;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Dialog from 'react-bootstrap-dialog';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { APP } from 'constants/routes';
@@ -10,6 +11,7 @@ import history from '../../history';
 import FirstTrimesterDetails from './components/FirstTrimesterDetails';
 import BasicInfo from './components/BasicInfo';
 import AddMedicalExaminationModal from './components/Modals/AddMedicalExaminationModal';
+import DeletePregnancyModal from './components/Modals/DeletePregnancyModal';
 
 class PregnancyDetails extends Component {
 	constructor(props) {
@@ -19,6 +21,7 @@ class PregnancyDetails extends Component {
 			isLoading: false,
 			isEditModeOn: false,
 			addMedicalExaminationModalIsOpen: false,
+			deletePregnancyModalIsOpen: false,
 		};
 	}
 
@@ -68,9 +71,35 @@ class PregnancyDetails extends Component {
 		this.closeAddMedicalExaminationModal();
 	}
 
+	openDeletePregnancyModal = () => {
+		this.setState({ deletePregnancyModalIsOpen: true });
+	}
+
+	closeDeletePregnancyModal = () => {
+		this.setState({ deletePregnancyModalIsOpen: false });
+	}
+
+	deletePregnancy = async () => {
+		const {
+			pregnancyDetails,
+			deletePregnancy,
+			match: { params: { patientId } },
+		} = this.props;
+		try {
+			await deletePregnancy(pregnancyDetails.id);
+			history.push(APP.PATIENT.DETAILS(patientId));
+		} catch (err) {
+			this.dialog.showAlert(err.data && err.data.message);
+		}
+	}
+
 	render() {
 		const { pregnancyDetails, medicalExaminations } = this.props;
-		const { isLoading, addMedicalExaminationModalIsOpen } = this.state;
+		const {
+			isLoading,
+			addMedicalExaminationModalIsOpen,
+			deletePregnancyModalIsOpen
+		} = this.state;
 
 		const translations = getTranslations();
 
@@ -87,7 +116,19 @@ class PregnancyDetails extends Component {
 
 		return (
 			<div className='page'>
-				<h1>{translations.pregnancy.detailsTitle}</h1>
+				<Dialog ref={(r) => { this.dialog = r; }} />
+				<div className='header'>
+					<h1>{translations.pregnancy.detailsTitle}</h1>
+					<div>
+						<Button
+							className='mr-10'
+							bsStyle='primary'
+							onClick={this.openDeletePregnancyModal}
+						>
+							{translations.pregnancy.action.delete}
+						</Button>
+					</div>
+				</div>
 			
 				<div>
 					<BasicInfo
@@ -99,10 +140,15 @@ class PregnancyDetails extends Component {
 						handleClose={this.closeAddMedicalExaminationModal}
 						onSubmit={this.addMedicalExamination}
 					/>
+					<DeletePregnancyModal
+						show={deletePregnancyModalIsOpen}
+						handleClose={this.closeDeletePregnancyModal}
+						deletePregnancy={this.deletePregnancy}
+					/>
 
 					<div className='header mt-10'>
 						<h2 className='mt-10 ml-10'>{translations.pregnancy.medicalExaminationsTitle}</h2>
-						<div >
+						<div>
 							<Button
 								className='mr-10'
 								bsStyle='primary'
@@ -135,6 +181,7 @@ const mapDispatchToProps = {
 	fetchPregnancyDetails: pregnancyActions.fetchPatientPregnancyDetails,
 	fetchMedicalExaminationsForPregnancy: pregnancyActions.fetchMedicalExaminationsForPregnancy,
 	updatePregnancy: pregnancyActions.updatePregnancy,
+	deletePregnancy: pregnancyActions.deletePregnancy,
 	createMedicalExamination: pregnancyActions.createMedicalExamination,
 };
 
