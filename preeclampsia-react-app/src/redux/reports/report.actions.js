@@ -3,7 +3,7 @@ import { API } from 'constants/routes';
 import { actionWrapper } from 'utils/redux.utils';
 import { getLoginDataFromLocalStorage } from 'utils/auth.utils';
 import * as httpCalls from 'utils/http.utils';
-import * as actionCreators from '../actionCreators/report.actionCreators';
+import * as actionCreators from './report.actionCreators';
 
 export function generatePDFReport(medicalExaminationId) {
 	const action = async (dispatch) => {

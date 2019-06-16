@@ -3,7 +3,7 @@ import { API } from 'constants/routes';
 import { actionWrapper } from 'utils/redux.utils';
 import * as httpCalls from 'utils/http.utils';
 import { castToInt } from 'utils/value.utils';
-import * as actionCreators from '../actionCreators/pregnancy.actionCreators';
+import * as actionCreators from './pregnancy.actionCreators';
 
 /* Pregnancy */
 

@@ -9,7 +9,7 @@ import {
 	defaultPageSize,
 } from 'constants/reactTable.constants';
 import { userRoles } from 'constants/roles.constants';
-import * as userActions from 'redux/actions/user.actions';
+import * as userActions from 'redux/users/user.actions';
 import { formatDate } from 'utils/dateTime.utils';
 import AddUserModal from './content/UserForm/AddUserModal';
 import EditUserModal from './content/UserForm/EditUserModal';

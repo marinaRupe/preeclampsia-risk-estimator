@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { APP } from 'constants/routes';
-import * as pregnancyActions from 'redux/actions/pregnancy.actions';
+import * as pregnancyActions from 'redux/pregnancy/pregnancy.actions';
 import { getTranslations } from 'utils/translation.utils';
 import Spinner from 'components/Spinner';
 import history from '../../history';

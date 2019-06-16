@@ -2,7 +2,7 @@ import { ACTION_STATUS } from 'enums/responseStatus.enums';
 import { API } from 'constants/routes';
 import { actionWrapper } from 'utils/redux.utils';
 import * as httpCalls from 'utils/http.utils';
-import * as actionCreators from '../actionCreators/statistics.actionCreators';
+import * as actionCreators from './statistics.actionCreators';
 
 export function fetchMediansForCharacteristic(characteristicId) {
 	const action = async (dispatch) => {

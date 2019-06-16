@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './user.actionTypes';
 
 export const fetchUsers = ({ status, data }) => {
 	return {

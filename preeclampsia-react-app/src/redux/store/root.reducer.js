@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import userReducer from './user.reducer';
-import patientReducer from './patient.reducer';
-import pregnancyReducer from './pregnancy.reducer';
-import reportReducer from './report.reducer';
-import statisticsReducer from './statistics.reducer';
+import userReducer from '../users/user.reducer';
+import patientReducer from '../patients/patient.reducer';
+import pregnancyReducer from '../pregnancy/pregnancy.reducer';
+import reportReducer from '../reports/report.reducer';
+import statisticsReducer from '../statistics/statistics.reducer';
 
 export default function rootReducer(asyncReducers) {
 	return combineReducers({

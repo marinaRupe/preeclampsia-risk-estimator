@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import * as reportActions from 'redux/actions/report.actions';
+import * as reportActions from 'redux/reports/report.actions';
 import Spinner from 'components/Spinner';
 import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
 import EnumMeasurement from 'components/Measurement/EnumMeasurement';

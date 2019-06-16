@@ -9,7 +9,7 @@ import {
 	defaultPageSize,
 } from 'constants/reactTable.constants';
 import { APP } from 'constants/routes';
-import * as patientActions from 'redux/actions/patient.actions';
+import * as patientActions from 'redux/patients/patient.actions';
 import { formatDate } from 'utils/dateTime.utils';
 import { getTranslations } from 'utils/translation.utils';
 import AddPatientModal from './content/AddPatientModal';

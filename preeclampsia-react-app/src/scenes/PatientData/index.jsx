@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import * as patientActions from 'redux/actions/patient.actions';
+import * as patientActions from 'redux/patients/patient.actions';
 import { APP } from 'constants/routes';
 import { getAgeInYears } from 'utils/dateTime.utils';
 import { getTranslations } from 'utils/translation.utils';

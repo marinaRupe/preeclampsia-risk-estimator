@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getTranslations } from 'utils/translation.utils';
 import Spinner from 'components/Spinner';
-import * as medicalExaminationActions from 'redux/actions/pregnancy.actions';
+import * as medicalExaminationActions from 'redux/pregnancy/pregnancy.actions';
 import MaternalCharacteristics from './components/MaternalCharacteristics';
 import MedicalHistory from './components/MedicalHistory';
 import BiophysicalMeasurements from './components/BiophysicalMeasurements';

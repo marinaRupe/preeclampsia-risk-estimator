@@ -6,7 +6,7 @@ import {
 	removeLoginDataFromLocalStorage,
 } from 'utils/auth.utils';
 import * as httpCalls from 'utils/http.utils';
-import * as actionCreators from '../actionCreators/user.actionCreators';
+import * as actionCreators from './user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {
 	const action = async (dispatch) => {
