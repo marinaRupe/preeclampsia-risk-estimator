@@ -62,7 +62,7 @@ class PatientSidebar extends Component {
 							labelColumnSize={labelColumnSize}
 							valueColumnSize={valueColumnSize}
 						/>
-            
+						
 						<EnumMeasurement
 							characteristicName='RacialOrigin'
 							value={patient.racialOrigin}
@@ -71,7 +71,7 @@ class PatientSidebar extends Component {
 						/>
 					</div>
 				</div>
-        
+				
 				<div className='table-view--details__footer'>
 					<Button
 						bsStyle='primary'

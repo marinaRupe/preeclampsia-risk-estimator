@@ -28,54 +28,23 @@ class PregnancyBasicInfoForm extends Component {
 			<form className='redux-form' onSubmit={onSubmit}>
 				<div>
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
-								{translations.pregnancy.property.lastPeriodDate}
+								{translations.pregnancy.property.pregnancyNumber}
 								<span className='required'>*</span>
 							</label>
 							<Field
-								name='lastPeriodDate'
+								name='pregnancyNumber'
 								placeholder={''}
 								component={Input}
-								type='date'
-								disabled={disabled.lastPeriodDate}
+								type='number'
+								disabled={disabled.pregnancyNumber}
 							/>
 						</div>
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
-							<label className='redux-form__label'>
-								{translations.pregnancy.property.lastPeriodDateIsReliable}
-								<span className='required'>*</span>
-							</label>
-							<Field
-								name='lastPeriodDateIsReliable'
-								component={Select}
-								children={booleanMeasurementOptions}
-								disabled={disabled.lastPeriodDateIsReliable}
-							/>
-						</div>
-					</div>
-
-					<div className='redux-form__row'>
-						<div className='w-50'>
-							<label className='redux-form__label'>
-								{translations.pregnancy.property.deliveryDate}
-								<span className='required'>*</span>
-							</label>
-							<Field
-								name='deliveryDate'
-								placeholder={''}
-								component={Input}
-								type='date'
-								disabled={disabled.deliveryDate}
-							/>
-						</div>
-					</div>
-
-					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{getCharacteristicTranslation(getCharacteristicByName('PregnancyType'))}
 								<span className='required'>*</span>
@@ -91,7 +60,7 @@ class PregnancyBasicInfoForm extends Component {
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{getCharacteristicTranslation(getCharacteristicByName('ConceptionMethod'))}
 								<span className='required'>*</span>
@@ -106,10 +75,9 @@ class PregnancyBasicInfoForm extends Component {
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{translations.pregnancy.property.numberOfPreviousPregnancies}
-								<span className='required'>*</span>
 							</label>
 							<Field
 								name='numberOfPreviousPregnancies'
@@ -122,10 +90,9 @@ class PregnancyBasicInfoForm extends Component {
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{translations.pregnancy.property.numberOfPreviousBirths}
-								<span className='required'>*</span>
 							</label>
 							<Field
 								name='numberOfPreviousBirths'
@@ -138,10 +105,53 @@ class PregnancyBasicInfoForm extends Component {
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.pregnancy.property.lastPeriodDate}
+							</label>
+							<Field
+								name='lastPeriodDate'
+								placeholder={''}
+								component={Input}
+								type='date'
+								disabled={disabled.lastPeriodDate}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.pregnancy.property.lastPeriodDateIsReliable}
+							</label>
+							<Field
+								name='lastPeriodDateIsReliable'
+								component={Select}
+								children={booleanMeasurementOptions}
+								disabled={disabled.lastPeriodDateIsReliable}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.pregnancy.property.deliveryDate}
+							</label>
+							<Field
+								name='deliveryDate'
+								placeholder={''}
+								component={Input}
+								type='date'
+								disabled={disabled.deliveryDate}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{translations.pregnancy.property.hadPEInPreviousPregnancy}
-								<span className='required'>*</span>
 							</label>
 							<Field
 								name='hadPEInPreviousPregnancy'
@@ -153,16 +163,29 @@ class PregnancyBasicInfoForm extends Component {
 					</div>
 
 					<div className='redux-form__row'>
-						<div className='w-50'>
+						<div className='w-100'>
 							<label className='redux-form__label'>
 								{getCharacteristicTranslation(getCharacteristicByName('MotherOfPatientHadPE'))}
-								<span className='required'>*</span>
 							</label>
 							<Field
 								name='motherOfPatientHadPE'
 								component={Select}
 								children={booleanMeasurementOptions}
 								disabled={disabled.motherOfPatientHadPE}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.pregnancy.property.resultedWithPE}
+							</label>
+							<Field
+								name='resultedWithPE'
+								component={Select}
+								children={booleanMeasurementOptions}
+								disabled={disabled.resultedWithPE}
 							/>
 						</div>
 					</div>

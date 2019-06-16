@@ -40,36 +40,17 @@ const getAllForPregnancy = async (pregnancyId: number) => (
 const existWithId = async (id) => !!(getById(id));
 
 const createMedicalExamination = async (medicalExaminationData) => {
-	const {
-		gynecologist,
-		pregnancyNumber,
-		pregnancyType,
-		conceptionMethod,
-		lastPeriodDate,
-		lastPeriodDateIsReliable,
-		deliveryDate,
-		birthWeight,
-		birthLength,
-		numberOfPreviousPregnancies,
-		numberOfPreviousBirths,
-		hadPEInPreviousPregnancy,
-		resultedWithPE,
-	} = medicalExaminationData;
-
 	const medicalExamination = await db.MedicalExamination.create({
-		gynecologist,
-		pregnancyNumber,
-		pregnancyType,
-		conceptionMethod,
-		lastPeriodDate,
-		lastPeriodDateIsReliable,
-		deliveryDate,
-		birthWeight,
-		birthLength,
-		numberOfPreviousPregnancies,
-		numberOfPreviousBirths,
-		hadPEInPreviousPregnancy,
-		resultedWithPE,
+		pregnancyId: medicalExaminationData.pregnancyId,
+		trimesterNumber: medicalExaminationData.trimesterNumber,
+		protocol: medicalExaminationData.protocol,
+		ultrasoundDate: medicalExaminationData.ultrasoundDate,
+		gestationalAgeByUltrasoundWeeks: medicalExaminationData.gestationalAgeByUltrasoundWeeks,
+		gestationalAgeByUltrasoundDays: medicalExaminationData.gestationalAgeByUltrasoundDays,
+		bloodTestDate: medicalExaminationData.bloodTestDate,
+		gestationalAgeOnBloodTestWeeks: medicalExaminationData.gestationalAgeOnBloodTestWeeks,
+		gestationalAgeOnBloodTestDays: medicalExaminationData.gestationalAgeOnBloodTestDays,
+		note: medicalExaminationData.note,
 	});
 
 	return medicalExamination;

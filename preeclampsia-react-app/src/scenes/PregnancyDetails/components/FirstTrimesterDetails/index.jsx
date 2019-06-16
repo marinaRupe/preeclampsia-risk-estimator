@@ -20,70 +20,79 @@ class FirstTrimesterDetails extends Component {
 		};
 	}
 
-  updateMeasurements = (medicalExaminationId, measurementsData) => {
-  	const { updateMeasurements } = this.props;
-  	updateMeasurements(medicalExaminationId, measurementsData);
-  }
-  
-  render() {
-  	const { medicalExaminations, calculateRisk } = this.props;
-  	const { isLoading } = this.state;
-  	const trimesterNumber = 1;
+	editMedicalExamination = async (pregnancyId, medicalExaminationDataa) => {
+		const { editMedicalExamination } = this.props;
+		await editMedicalExamination(pregnancyId, medicalExaminationDataa);
+	}
 
-  	const translations = getTranslations();
+	updateMeasurements = async (medicalExaminationId, measurementsData) => {
+		const { updateMeasurements } = this.props;
+		await updateMeasurements(medicalExaminationId, measurementsData);
+	}
+	
+	render() {
+		const { medicalExaminations, calculateRisk } = this.props;
+		const { isLoading } = this.state;
+		const trimesterNumber = 1;
 
-  	if (isLoading || !medicalExaminations) {
-  		return (
-  			<div className='pregnancy__trimester'>
-  				<h3>{translations.word.trimester} {trimesterNumber}</h3>
-  				<div className='align-horizontal--center'>
-  					<Spinner />
-  				</div>
-  			</div>
-  		);
-  	}
+		const translations = getTranslations();
 
-  	return (
-  		<div className='pregnancy__trimester'>
-  			<h3>{translations.word.trimester} {trimesterNumber}</h3>
-      
-  			{
-  				medicalExaminations.map(medicalExamination => (
-  					<div key={medicalExamination.id}>
-  						<div>
-  							<BasicInfo medicalExaminationData={medicalExamination} />
-  							<MaternalCharacteristics
-  								medicalExaminationData={medicalExamination}
-  								updateMeasurements={this.updateMeasurements}
-  							/>
-  							<MedicalHistory
-  								medicalExaminationData={medicalExamination}
-  								updateMeasurements={this.updateMeasurements}
-  							/>
-  							<BiophysicalMeasurements
-  								medicalExaminationData={medicalExamination}
-  								updateMeasurements={this.updateMeasurements}
-  							/>
-  							<BiochemicalMeasurements
-  								medicalExaminationData={medicalExamination}
-  								updateMeasurements={this.updateMeasurements}
-  							/>
-  						</div>
-  						<Button
-  							bsStyle='primary'
-  							onClick={calculateRisk.bind(null, medicalExamination.id)}
-  						>
-  							{translations.risk.calculateRisk}
-  						</Button>
-  					</div>
-  				))
-  			}
-  		</div>
-  	);
-  }
+		if (isLoading || !medicalExaminations) {
+			return (
+				<div className='pregnancy__trimester'>
+					<h3>{translations.word.trimester} {trimesterNumber}</h3>
+					<div className='align-horizontal--center'>
+						<Spinner />
+					</div>
+				</div>
+			);
+		}
+
+		return (
+			<div className='pregnancy__trimester'>
+				<h3>{translations.word.trimester} {trimesterNumber}</h3>
+			
+				{
+					medicalExaminations.map(medicalExamination => (
+						<div key={medicalExamination.id}>
+							<div>
+								<BasicInfo
+									medicalExaminationData={medicalExamination}
+									editMedicalExamination={this.editMedicalExamination}
+								/>
+								<MaternalCharacteristics
+									medicalExaminationData={medicalExamination}
+									updateMeasurements={this.updateMeasurements}
+								/>
+								<MedicalHistory
+									medicalExaminationData={medicalExamination}
+									updateMeasurements={this.updateMeasurements}
+								/>
+								<BiophysicalMeasurements
+									medicalExaminationData={medicalExamination}
+									updateMeasurements={this.updateMeasurements}
+								/>
+								<BiochemicalMeasurements
+									medicalExaminationData={medicalExamination}
+									updateMeasurements={this.updateMeasurements}
+								/>
+							</div>
+							<Button
+								bsStyle='primary'
+								onClick={calculateRisk.bind(null, medicalExamination.id)}
+							>
+								{translations.risk.calculateRisk}
+							</Button>
+						</div>
+					))
+				}
+			</div>
+		);
+	}
 }
 
 const mapDispatchToProps = {
+	editMedicalExamination: medicalExaminationActions.editMedicalExamination,
 	updateMeasurements: medicalExaminationActions.updateMeasurementsForMedicalExaminations,
 };
 

@@ -18,7 +18,7 @@ class PatientForm extends Component {
 		const translations = getTranslations();
 		const language = getLanguage();
 		const racialOriginTypes =
-      generateOptions(Object.values(RacialOriginTypes), 'key', 'key', language, true, translations.action.select);
+			generateOptions(Object.values(RacialOriginTypes), 'key', 'key', language, true, translations.action.select);
 
 		return (
 			<form className='redux-form' onSubmit={onSubmit}>

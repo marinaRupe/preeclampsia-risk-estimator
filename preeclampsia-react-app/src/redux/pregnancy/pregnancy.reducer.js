@@ -39,6 +39,22 @@ export default function pregnancyReducer(state = initialState.pregnancy, action)
 			};
 		}
 		return { ...state };
+	case types.ADD_MEDICAL_EXAMINATION:
+		if (action.status === ACTION_STATUS.SUCCESS) {
+			return {
+				...state,
+				medicalExaminations: [...state.medicalExaminations, action.data],
+			};
+		}
+		return { ...state };
+	case types.EDIT_MEDICAL_EXAMINATION:
+		if (action.status === ACTION_STATUS.SUCCESS) {
+			return {
+				...state,
+				medicalExaminations: state.medicalExaminations.map(m => m.id === action.data.id ? action.data : m),
+			};
+		}
+		return { ...state };
 	default:
 		return { ...state };
 	}

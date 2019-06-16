@@ -87,7 +87,7 @@ class UserForm extends Component {
 
 					{
 						showPasswordInputs &&
-            <PasswordInputs disabled={disabled} />
+						<PasswordInputs disabled={disabled} />
 					}
 
 				</div>

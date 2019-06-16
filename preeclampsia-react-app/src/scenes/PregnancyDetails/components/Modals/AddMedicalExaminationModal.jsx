@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, stopSubmit, reset } from 'redux-form';
-import { EDIT_PATIENT_FORM } from 'redux/forms';
+import { ADD_FIRST_TRIMESTER_BASIC_INFO_FORM } from 'redux/forms';
 import { getTranslations } from 'utils/translation.utils';
-import PatientForm from './PatientForm';
+import FirstTrimesterBasicInfoForm from '../FirstTrimesterDetails/components/BasicInfo/FirstTrimesterBasicInfoForm';
 
-class EditPatientModal extends Component {
+class AddMedicalExaminationModal extends Component {
 	handleCloseModal = async () => {
 		const { handleClose, stopSubmitForm } = this.props;
 		handleClose();
@@ -19,7 +19,7 @@ class EditPatientModal extends Component {
 	}
 
 	render() {
-		const { show, handleSubmit, error, initialValues } = this.props;
+		const { show, handleSubmit, error, change } = this.props;
 
 		const translations = getTranslations();
 
@@ -32,22 +32,28 @@ class EditPatientModal extends Component {
 				dialogClassName='app-modal'
 			>
 				<Modal.Header closeButton>
-					<Modal.Title>{translations.patient.modal.editPatientTitle}</Modal.Title>
+					<Modal.Title>{translations.medicalExamination.modal.addMedicalExaminationTitle}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<PatientForm
+					<FirstTrimesterBasicInfoForm
 						onSubmit={handleSubmit}
-						initialValues={initialValues}
 						error={error}
+						change={change}
 						buttons={
-							<Modal.Footer>
-								<Button bsStyle='default' onClick={this.handleCloseModal}>
+							<div>
+								<Button
+									bsStyle='primary'
+									type='submit'
+								>
+									{translations.pregnancy.action.save}
+								</Button>
+								<Button
+									bsStyle='default'
+									onClick={this.handleCloseModal}
+								>
 									{translations.action.cancel}
 								</Button>
-								<Button bsStyle='primary' type='submit'>
-									{translations.action.save}
-								</Button>
-							</Modal.Footer>
+							</div>
 						}
 					/>
 				</Modal.Body>
@@ -57,11 +63,11 @@ class EditPatientModal extends Component {
 }
 
 const mapDispatchToProps = {
-	stopSubmitForm: stopSubmit.bind(null, EDIT_PATIENT_FORM, {}),
-	resetForm: reset.bind(null, EDIT_PATIENT_FORM),
+	stopSubmitForm: stopSubmit.bind(null, ADD_FIRST_TRIMESTER_BASIC_INFO_FORM, {}),
+	resetForm: reset.bind(null, ADD_FIRST_TRIMESTER_BASIC_INFO_FORM),
 };
 
 export default connect(null, mapDispatchToProps)(reduxForm({
-	form: EDIT_PATIENT_FORM,
-	enableReinitialize: true,
-})(EditPatientModal));
+	form: ADD_FIRST_TRIMESTER_BASIC_INFO_FORM,
+	enableReinitialize: false,
+})(AddMedicalExaminationModal));

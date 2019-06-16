@@ -52,7 +52,7 @@ class UserSidebar extends Component {
 						/>
 					</div>
 				</div>
-        
+				
 				<div className='table-view--details__footer'>
 					<Button
 						bsStyle='primary'

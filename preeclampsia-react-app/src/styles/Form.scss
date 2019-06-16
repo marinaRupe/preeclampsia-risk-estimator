@@ -61,7 +61,11 @@
     }
     &::placeholder {
       color: $col-gray-04 !important;
-    }
+		}
+
+		&--gestational-age {
+			width: 40px;
+		}
   }
 }
 

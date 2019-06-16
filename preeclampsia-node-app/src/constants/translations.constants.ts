@@ -70,6 +70,7 @@ export const translations = {
 		},
 		pregnancy: {
 			property: {
+				pregnancyNumber: 'Broj trudnoće',
 				lastPeriodDate: 'Datum posljednje mjesečnice',
 				lastPeriodDateIsReliable: 'Datum posljednje mjesečnice pouzdan',
 				deliveryDate: 'Datum poroda',
@@ -79,6 +80,10 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Podaci o trudnoći su obavezni',
+				pregnancyNumberRequired: 'Broj trudnoće je obavezno polje',
+				pregnancyNumberMustBeNumber: 'Broj trudnoće mora biti broj',
+				pregnancyTypeRequired: 'Tip trudnoće je obavezno polje',
+				conceptionMethodRequired: 'Vrsta zaćeća je obavezno polje',
 			}
 		},
 		medicalExamination: {
@@ -92,6 +97,17 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Podaci o pregledu su obavezni',
+				trimesterNumberRequired: 'Tromjesečje je obavezno polje',
+				trimesterNumberMustBeNumber: 'Tromjesečje može biti 1., 2. ili 3.',
+				protocolRequired: 'Protokol je obavezno polje',
+				bloodTestDateRequired: 'Datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestWeeksRequired: 'Gestacijska dob na datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestDaysRequired: 'Gestacijska dob na datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestWeeksMustBeNumber: 'Gestacijska dob na datum vađenja krvi je neispravna',
+				gestationalAgeOnBloodTestDaysMustBeNumber: 'Gestacijska dob na datum vađenja krvi je neispravna',
+				gestationalAgeByUltrasoundWeeksMustBeNumber: 'Gestacijska dob na ultrazvuku je neispravna',
+				gestationalAgeByUltrasoundDaysMustBeNumber: 'Gestacijska dob na ultrazvuku je neispravna',
+				gestationalAgeByUltrasoundIncomplete: 'Gestacijska dob na ultrazvuku nije potpuna',
 			},
 		},
 		measurement: {
@@ -192,6 +208,7 @@ export const translations = {
 		},
 		pregnancy: {
 			property: {
+				pregnancyNumber: 'Pregnancy number',
 				lastPeriodDate: 'Last period date',
 				lastPeriodDateIsReliable: 'Last period date is reliable',
 				deliveryDate: 'Delivery date',
@@ -201,6 +218,10 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Pregnancy data is required',
+				pregnancyNumberRequired: 'Pregnancy number is required',
+				pregnancyNumberMustBeNumber: 'Pregnancy number must be a number',
+				pregnancyTypeRequired: 'Pregnancy type is required',
+				conceptionMethodRequired: 'Conception method is required',
 			}
 		},
 		medicalExamination: {
@@ -214,6 +235,17 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Medical examination data is required',
+				trimesterNumberRequired: 'Trimester number is required',
+				trimesterNumberMustBeNumber: 'Trimester number must be 1, 2 or 3',
+				protocolRequired: 'Protocol is required',
+				bloodTestDateRequired: 'Blood test date is required',
+				gestationalAgeOnBloodTestWeeksRequired: 'Gestational age on blood test is required',
+				gestationalAgeOnBloodTestDaysRequired: 'Gestational age on blood test is required',
+				gestationalAgeOnBloodTestWeeksMustBeNumber: 'Gestational age on blood test is invalid',
+				gestationalAgeOnBloodTestDaysMustBeNumber: 'Gestational age on blood test is invalid',
+				gestationalAgeByUltrasoundWeeksMustBeNumber: 'Gestational age by ultrasound is invalid',
+				gestationalAgeByUltrasoundDaysMustBeNumber: 'Gestational age by ultrasound must is invalid',
+				gestationalAgeByUltrasoundIncomplete: 'Gestational age by ultrasound is incomplete',
 			},
 		},
 		measurement: {
