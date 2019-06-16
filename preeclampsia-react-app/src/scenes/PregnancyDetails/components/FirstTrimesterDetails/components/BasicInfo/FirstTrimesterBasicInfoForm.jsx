@@ -20,33 +20,67 @@ class FirstTrimesterBasicInfoForm extends Component {
 					<div className='redux-form__row'>
 						<div className='w-50'>
 							<label className='redux-form__label'>
-								{translations.patient.property.firstName}
+								{translations.medicalExamination.property.protocol}
 								<span className='required'>*</span>
 							</label>
 							<Field
-								name='firstName'
-								placeholder={translations.patient.placeholder.enterFirstName}
+								name='protocol'
+								placeholder={''}
 								component={Input}
-								type='text'
-								disabled={disabled.firstName}
-								className='mr-20'
-							/>
-						</div>
-
-						<div className='w-50'>
-							<label className='redux-form__label'>
-								{translations.patient.property.lastName}
-								<span className='required'>*</span>
-							</label>
-							<Field
-								name='lastName'
-								placeholder={translations.patient.placeholder.enterLastName}
-								component={Input}
-								type='text'
-								disabled={disabled.lastName}
+								type='number'
+								disabled={disabled.protocol}
 							/>
 						</div>
 					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-50'>
+							<label className='redux-form__label'>
+								{translations.medicalExamination.property.bloodTestDate}
+								<span className='required'>*</span>
+							</label>
+							<Field
+								name='bloodTestDate'
+								placeholder={''}
+								component={Input}
+								type='date'
+								disabled={disabled.bloodTestDate}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-50'>
+							<label className='redux-form__label'>
+								{translations.patient.property.ultrasoundDate}
+								<span className='required'>*</span>
+							</label>
+							<Field
+								name='ultrasoundDate'
+								placeholder={''}
+								component={Input}
+								type='date'
+								disabled={disabled.ultrasoundDate}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-50'>
+							<label className='redux-form__label'>
+								{translations.medicalExamination.property.note}
+								<span className='required'>*</span>
+							</label>
+							<Field
+								name='note'
+								placeholder={''}
+								component={Input}
+								type='text'
+								disabled={disabled.note}
+							/>
+						</div>
+					</div>
+
 				</div>
 				{error && <div className='redux-form__error'>{error}</div>}      
 				{buttons}

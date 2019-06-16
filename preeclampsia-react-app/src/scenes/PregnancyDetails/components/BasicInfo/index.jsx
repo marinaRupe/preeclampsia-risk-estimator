@@ -5,6 +5,7 @@ import DateDisplay from 'components/Measurement/DateDisplay';
 import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
 import EnumMeasurement from 'components/Measurement/EnumMeasurement';
 import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import EditPregnancyBasicInfoForm from './EditPregnancyBasicInfoForm';
 
 class BasicInfo extends Component {
 	constructor(props) {
@@ -14,13 +15,33 @@ class BasicInfo extends Component {
 			isEditModeOn: false,
 		};
 	}
+	
+	getInitialValues = () => {
+  	const {
+  		pregnancy: {
+  			lastPeriodDate,
+  			lastPeriodDateIsReliable,
+  			deliveryDate,
+  			pregnancyType,
+  			conceptionMethod,
+  			numberOfPreviousBirths,
+  			numberOfPreviousPregnancies,
+  			hadPEInPreviousPregnancy,
+  			motherOfPatientHadPE
+  		} } = this.props;
 
-  gestationalAge = (CRL) => {
-  	const gestationalAgeInDays = Math.pow((CRL * 1.037), 0.5) * 8.052 + 23.73;
-  	const weeks = Math.floor(gestationalAgeInDays / 7);
-  	const days = Math.floor(gestationalAgeInDays % 7);
-  	return <span>{weeks}<sup>+{days}</sup></span>;
-  }
+  	return {
+			lastPeriodDate,
+			lastPeriodDateIsReliable,
+			deliveryDate,
+			pregnancyType,
+			conceptionMethod,
+			numberOfPreviousBirths,
+			numberOfPreviousPregnancies,
+			hadPEInPreviousPregnancy,
+			motherOfPatientHadPE
+		};
+	}
 
   openEditMode = () => {
   	this.setState({ isEditModeOn: true });
@@ -64,67 +85,62 @@ class BasicInfo extends Component {
   					</h4>
   				</Row>
 
-  				<DateDisplay
-  					label={translations.pregnancy.property.lastPeriodDate}
-  					value={lastPeriodDate}
-  				/>
-
-  				<BooleanMeasurement
-  					label={translations.pregnancy.property.lastPeriodDateIsReliable}
-  					value={lastPeriodDateIsReliable}
-  				/>
-
-  				<DateDisplay
-  					label={translations.pregnancy.property.deliveryDate}
-  					value={deliveryDate}
-  				/>
-
-  				<EnumMeasurement
-  					characteristicName='PregnancyType'
-  					value={pregnancyType}
-  				/>
-
-  				<EnumMeasurement
-  					characteristicName='ConceptionMethod'
-  					value={conceptionMethod}
-  				/>
-
-  				<NumericalMeasurement
-  					label={translations.pregnancy.property.numberOfPreviousPregnancies}
-  					value={numberOfPreviousPregnancies}
-  				/>
-
-  				<NumericalMeasurement
-  					label={translations.pregnancy.property.numberOfPreviousBirths}
-  					value={numberOfPreviousBirths}
-  				/>
-
-  				<BooleanMeasurement
-  					label={translations.pregnancy.property.hadPEInPreviousPregnancy}
-  					value={hadPEInPreviousPregnancy}
-  				/>
-
-  				<BooleanMeasurement
-  					characteristicName='MotherOfPatientHadPE'
-  					value={motherOfPatientHadPE}
-  				/>
-
   				{
-  					isEditModeOn &&
-            <div>
-            	<Button
-            		bsStyle='primary'
-            		onClick={this.saveChanges}
-            	>
-            		{translations.pregnancy.action.save}
-            	</Button>
-            	<Button
-            		bsStyle='default'
-            		onClick={this.closeEditMode}
-            	>
-            		{translations.action.cancel}
-            	</Button>
-            </div> 
+  					!isEditModeOn
+  						?
+  						<div>
+  							<DateDisplay
+  								label={translations.pregnancy.property.lastPeriodDate}
+  								value={lastPeriodDate}
+  							/>
+
+  							<BooleanMeasurement
+  								label={translations.pregnancy.property.lastPeriodDateIsReliable}
+  								value={lastPeriodDateIsReliable}
+  							/>
+
+  							<DateDisplay
+  								label={translations.pregnancy.property.deliveryDate}
+  								value={deliveryDate}
+  							/>
+
+  							<EnumMeasurement
+  								characteristicName='PregnancyType'
+  								value={pregnancyType}
+  							/>
+
+  							<EnumMeasurement
+  								characteristicName='ConceptionMethod'
+  								value={conceptionMethod}
+  							/>
+
+  							<NumericalMeasurement
+  								label={translations.pregnancy.property.numberOfPreviousPregnancies}
+  								value={numberOfPreviousPregnancies}
+  							/>
+
+  							<NumericalMeasurement
+  								label={translations.pregnancy.property.numberOfPreviousBirths}
+  								value={numberOfPreviousBirths}
+  							/>
+
+  							<BooleanMeasurement
+  								label={translations.pregnancy.property.hadPEInPreviousPregnancy}
+  								value={hadPEInPreviousPregnancy}
+  							/>
+
+  							<BooleanMeasurement
+  								characteristicName='MotherOfPatientHadPE'
+  								value={motherOfPatientHadPE}
+  							/>
+  						</div>
+							
+  						:
+  						<EditPregnancyBasicInfoForm
+  							onSubmit={this.saveChanges}
+  							initialValues={this.getInitialValues()}
+  							closeEditMode={this.closeEditMode}
+  						/>
   				}
   			</Grid>
   		</div>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Grid, Row, Button } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import { getTranslations } from 'utils/translation.utils';
 import DateDisplay from 'components/Measurement/DateDisplay';
 import GestationalAgeDisplay from 'components/Measurement/GestationalAgeDisplay';
 import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
 import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
+import EditFirstTrimesterBasicInfoForm from './EditFirstTrimesterBasicInfoForm';
 
 class BasicInfo extends Component {
 	constructor(props) {
@@ -21,6 +22,34 @@ class BasicInfo extends Component {
   	const days = Math.floor(gestationalAgeInDays % 7);
   	return <span>{weeks}<sup>+{days}</sup></span>;
   }
+	
+	getInitialValues = () => {
+  	const {
+  		medicalExaminationData: {
+  			gestationalAgeByUltrasoundWeeks,
+  			gestationalAgeByUltrasoundDays,
+  			gestationalAgeOnBloodTestWeeks,
+  			gestationalAgeOnBloodTestDays,
+  			ultrasoundDate,
+  			bloodTestDate,
+  			numericalMeasurements,
+  			protocol,
+  			note,
+  		} } = this.props;
+
+  	return {
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays,
+			gestationalAgeOnBloodTestWeeks,
+			gestationalAgeOnBloodTestDays,
+			ultrasoundDate,
+			bloodTestDate,
+			numericalMeasurements,
+			protocol,
+			note,
+			FetalCrownRumpLength: numericalMeasurements.FetalCrownRumpLength
+		};
+	}
 
   openEditMode = () => {
   	this.setState({ isEditModeOn: true });
@@ -64,60 +93,54 @@ class BasicInfo extends Component {
   					</h4>
   				</Row>
 
-  				<TextInfoDisplay
-  					label={translations.medicalExamination.property.protocol}
-  					value={protocol}
-  				/>
-
-  				<DateDisplay
-  					label={translations.medicalExamination.property.bloodTestDate}
-  					value={bloodTestDate}
-  				/>
-
-  				<DateDisplay
-  					label={translations.medicalExamination.property.ultrasoundDate}
-  					value={ultrasoundDate}
-  				/>
-
-  				<NumericalMeasurement
-  					characteristicName='FetalCrownRumpLength'
-  					value={numericalMeasurements.FetalCrownRumpLength}
-  					info='45 - 85 mm'
-  				/>
-
-  				<GestationalAgeDisplay
-  					label={translations.medicalExamination.property.gestationalAgeByUltrasound}
-  					weeks={gestationalAgeByUltrasoundWeeks}
-  					days={gestationalAgeByUltrasoundDays}
-  				/>
-
-  				<GestationalAgeDisplay
-  					label={translations.medicalExamination.property.gestationalAgeOnBloodTest}
-  					weeks={gestationalAgeOnBloodTestWeeks}
-  					days={gestationalAgeOnBloodTestDays}
-  				/>
-
-  				<TextInfoDisplay
-  					label={translations.medicalExamination.property.note}
-  					value={note}
-  				/>
-
   				{
-  					isEditModeOn &&
-            <div>
-            	<Button
-            		bsStyle='primary'
-            		onClick={this.saveChanges}
-            	>
-            		{translations.pregnancy.action.save}
-            	</Button>
-            	<Button
-            		bsStyle='default'
-            		onClick={this.closeEditMode}
-            	>
-            		{translations.action.cancel}
-            	</Button>
-            </div> 
+  					!isEditModeOn
+  						?
+  						<div>
+  							<TextInfoDisplay
+  								label={translations.medicalExamination.property.protocol}
+  								value={protocol}
+  							/>
+
+  							<DateDisplay
+  								label={translations.medicalExamination.property.bloodTestDate}
+  								value={bloodTestDate}
+  							/>
+
+  							<DateDisplay
+  								label={translations.medicalExamination.property.ultrasoundDate}
+  								value={ultrasoundDate}
+  							/>
+
+  							<NumericalMeasurement
+  								characteristicName='FetalCrownRumpLength'
+  								value={numericalMeasurements.FetalCrownRumpLength}
+  								info='45 - 85 mm'
+  							/>
+
+  							<GestationalAgeDisplay
+  								label={translations.medicalExamination.property.gestationalAgeByUltrasound}
+  								weeks={gestationalAgeByUltrasoundWeeks}
+  								days={gestationalAgeByUltrasoundDays}
+  							/>
+
+  							<GestationalAgeDisplay
+  								label={translations.medicalExamination.property.gestationalAgeOnBloodTest}
+  								weeks={gestationalAgeOnBloodTestWeeks}
+  								days={gestationalAgeOnBloodTestDays}
+  							/>
+
+  							<TextInfoDisplay
+  								label={translations.medicalExamination.property.note}
+  								value={note}
+  							/>
+  						</div>
+  						:
+  						<EditFirstTrimesterBasicInfoForm
+  							onSubmit={this.saveChanges}
+  							initialValues={this.getInitialValues()}
+  							closeEditMode={this.closeEditMode}
+  						/>
   				}
   			</Grid>
   		</div>

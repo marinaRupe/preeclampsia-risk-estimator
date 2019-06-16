@@ -1,8 +1,11 @@
+import { Characteristics } from 'constants/characteristics.constants';
 import { EnumMeasurementValues } from 'constants/enumMeasurement.constants';
 import { formatDate } from './dateTime.utils';
 import { getLanguage, getTranslations, getMeasurementTranslation } from './translation.utils';
 import { generateOptions } from './form.utils';
 import { isDefined } from './value.utils';
+
+export const getCharacteristicByName = (characteristicName) => (Characteristics[characteristicName]);
 
 export const displayDateMeasured = (measurement) => (
 	isDefined(measurement) ? formatDate(measurement.dateMeasured) : '-'
