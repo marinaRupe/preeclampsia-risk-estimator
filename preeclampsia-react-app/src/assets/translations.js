@@ -42,6 +42,7 @@ export const translations = {
 			action: {
 				add: 'Dodaj korisnika',
 				edit: 'Uredi podatke',
+				changePassword: 'Izmijeni lozinku',
 				delete: 'Izbriši korisnika'
 			},
 			modal: {
@@ -216,6 +217,7 @@ export const translations = {
 			action: {
 				add: 'Add User',
 				edit: 'Edit User Data',
+				changePassword: 'Change Password',
 				delete: 'Delete User',
 			},
 			modal: {

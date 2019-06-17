@@ -28,6 +28,21 @@ export function updateUser(userData) {
 	return actionWrapper(action, true);
 }
 
+export function updateUserPassword(userId, userPasswordData) {
+	const body = {
+		password: userPasswordData.password,
+		repeatedPassword: userPasswordData.repeatedPassword,
+	};
+
+	const action = async (dispatch) => {
+		const resp = await httpCalls.PUT(API.USERS.PASSWORD(userId), body);
+		if (resp.status === 200) {
+			await dispatch(actionCreators.editUserPassword({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+		}
+	};
+	return actionWrapper(action, true);
+}
+
 export function removeUser(userId) {
 	const action = async (dispatch) => {
 		const resp = await httpCalls.DELETE(API.USERS.BY_ID(userId));

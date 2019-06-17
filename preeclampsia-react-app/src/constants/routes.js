@@ -11,6 +11,7 @@ export const API = {
 		ALL: (page, pageSize, sortColumn, sortDirection) =>
 			`${API.USERS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
 		BY_ID: (userId) => `${API.USERS.ROOT}/${userId}`,
+		PASSWORD: (userId) => `${API.USERS.BY_ID(userId)}/password`,
 		LOGIN: () => `${API.USERS.ROOT}/login`,
 	},
 	PATIENTS: {

@@ -2,6 +2,7 @@ import values from 'constants/values.constants';
 import { userListSortColumnNames } from 'constants/user.constants';
 import { sortDirections } from 'constants/query.constants';
 import { getSortColumnName, getSortDirection } from 'utils/query.utils';
+import { encrypt } from 'utils/encryption.utils';
 import { db } from 'models/index';
 
 const getAll = async (
@@ -76,7 +77,7 @@ const updateUserPassword = async (userId: number, password: string) => {
 	const user = await getById(userId);
 
 	return await user.update({
-		hashedPassword: password,
+		hashedPassword: await encrypt(password),
 	});
 };
 

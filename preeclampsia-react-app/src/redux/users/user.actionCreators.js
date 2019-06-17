@@ -24,6 +24,14 @@ export const editUser = ({ status, data }) => {
 	};
 };
 
+export const editUserPassword = ({ status, data }) => {
+	return {
+		data,
+		status,
+		type: types.EDIT_USER_PASSWORD,
+	};
+};
+
 export const deleteUser = ({ status, data }) => {
 	return {
 		data,

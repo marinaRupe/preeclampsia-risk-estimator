@@ -8,6 +8,7 @@ export const translations = {
 				},
 				user: {
 					delete: 'Korisnik je uspješno izbrisan',
+					updatePassword: 'Lozinka je uspješno ažurirana',
 				},
 				pregnancy: {
 					delete: 'Trudnoća je uspješno izbrisana',
@@ -149,6 +150,7 @@ export const translations = {
 				},
 				user: {
 					deleted: 'User is successfully deleted',
+					updatePassword: 'User password is successfully updated',
 				},
 				pregnancy: {
 					deleted: 'Pregnancy is successfully deleted',

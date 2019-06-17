@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.post('/login', asyncWrap(UserController.login));
 
+router.put('/:userId/password', authenticate,  authorize([UserRoles.Admin]), asyncWrap(UserController.updateUserPassword));
+
 router.put('/:userId', authenticate, authorize([UserRoles.Admin]), asyncWrap(UserController.updateUser));
 
 router.delete('/:userId', authenticate, authorize([UserRoles.Admin]), asyncWrap(UserController.deleteUser));

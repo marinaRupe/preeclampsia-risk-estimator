@@ -16,6 +16,7 @@ import AddUserModal from './content/UserForm/AddUserModal';
 import EditUserModal from './content/UserForm/EditUserModal';
 import UserSidebar from './content/UserSidebar';
 import DeleteUserModal from './content/DeleteUserModal';
+import EditUserPasswordModal from './content/UserPasswordForm/EditUserPasswordModal';
 
 class UserList extends Component {
 	constructor(props) {
@@ -26,6 +27,7 @@ class UserList extends Component {
 			addUserModalIsOpen: false,
 			editUserModalIsOpen: false,
 			deleteUserModalIsOpen: false,
+			editUserPasswordModalIsOpen: false,
 			selectedUser: null,
 			page: 1,
 			pageSize: defaultPageSize,
@@ -96,6 +98,14 @@ class UserList extends Component {
 		this.setState({ deleteUserModalIsOpen: false });
 	}
 
+	openEditUserPasswordModal = () => {
+		this.setState({ editUserPasswordModalIsOpen: true });
+	}
+
+	closeEditUserPasswordModal = () => {
+		this.setState({ editUserPasswordModalIsOpen: false });
+	}
+
 	selectUser = (selectedUser) => {
 		this.setState({ selectedUser });
 	}
@@ -133,6 +143,13 @@ class UserList extends Component {
 			this.dialog.showAlert(err.data && err.data.message);
 		}
 	};
+
+	editUserPassword = async (userPasswordData) => {
+		const { selectedUser } = this.state;
+		const { updateUserPassword } = this.props;
+		await updateUserPassword(selectedUser.id, userPasswordData);
+		this.closeEditUserPasswordModal();
+	}
 
 	getColumns = () => {
 		const userRolesValues = Object.values(userRoles);
@@ -177,6 +194,7 @@ class UserList extends Component {
 			addUserModalIsOpen,
 			editUserModalIsOpen,
 			deleteUserModalIsOpen,
+			editUserPasswordModalIsOpen,
 			selectedUser,
 		} = this.state;
 		const { users, totalPages } = this.props;
@@ -202,6 +220,12 @@ class UserList extends Component {
 					user={selectedUser}
 					deleteUser={this.deleteUser}
 					handleClose={this.closeDeleteUserModal}
+				/>
+				<EditUserPasswordModal
+					show={editUserPasswordModalIsOpen}
+					handleClose={this.closeEditUserPasswordModal}
+					onSubmit={this.editUserPassword}
+					initialValues={selectedUser}
 				/>
 				<div className='patient-list__header mb-10'>
 					<h1>{translations.user.listTitle}</h1>
@@ -229,7 +253,10 @@ class UserList extends Component {
 									}
 									return {
 										onClick: this.selectUser.bind(null, rowInfo.original),
-										className:`react-table__row ${this.isRowSelected(rowInfo.original) ? 'is-active' : ''}`
+										className:`react-table__row ${this.isRowSelected(rowInfo.original)
+											? 'is-active'
+											: ''
+										}`
 									};
 								}}
 							/>
@@ -242,6 +269,7 @@ class UserList extends Component {
 							closeSidebar={this.unselectUser}
 							openEditUserModal={this.openEditUserModal}
 							openDeleteUserModal={this.openDeleteUserModal}
+							openEditUserPasswordModal={this.openEditUserPasswordModal}
 						/>
 					}
 				</div>
@@ -262,6 +290,7 @@ const mapDispatchToProps = {
 	createUser: userActions.createUser,
 	updateUser: userActions.updateUser,
 	removeUser: userActions.removeUser,
+	updateUserPassword: userActions.updateUserPassword,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

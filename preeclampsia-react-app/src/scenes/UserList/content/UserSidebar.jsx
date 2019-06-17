@@ -6,7 +6,13 @@ import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class UserSidebar extends Component {
 	render() {
-		const { user, closeSidebar, openEditUserModal, openDeleteUserModal } = this.props;
+		const {
+			user,
+			closeSidebar,
+			openEditUserModal,
+			openDeleteUserModal,
+			openEditUserPasswordModal,
+		} = this.props;
 
 		const userRolesValues = Object.values(userRoles);
 		const translations = getTranslations();
@@ -59,6 +65,12 @@ class UserSidebar extends Component {
 						onClick={openEditUserModal}
 					>
 						{translations.user.action.edit}
+					</Button>
+					<Button
+						bsStyle='primary'
+						onClick={openEditUserPasswordModal}
+					>
+						{translations.user.action.changePassword}
 					</Button>
 					<Button
 						bsStyle='danger'
