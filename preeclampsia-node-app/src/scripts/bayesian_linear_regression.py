@@ -25,8 +25,9 @@ class StderrFilter:
                 or re.search("\sNUTS: ]", s) is not None:
             pass
         else:
-            self.original_stderr.write(s)
-            self.original_stderr.flush()
+            if len(s.strip()) > 0:
+                self.original_stderr.write(s)
+                self.original_stderr.flush()
 
 
 original_stderr = sys.stderr  # keep a reference to STDOUT
@@ -36,10 +37,8 @@ logger = logging.getLogger("pymc3")
 logger.setLevel(logging.ERROR)
 logger.propagate = False
 
-import seaborn as sns
 import numpy as np
 import pandas as pd
-from datetime import datetime
 
 DATE_FORMAT = "%Y-%m-%d"
 
@@ -127,6 +126,8 @@ def main():
     infile = open(filename, 'rb')
     normal_trace = pickle.load(infile)
     infile.close()
+
+    sys.argv = [sys.argv[0], 32, 0.34, 0.5, 66, 0, 0, 0]
 
     age_param = sys.argv[1]
     PLGF_param = sys.argv[2]
