@@ -2,7 +2,13 @@ $offset: 187;
 $duration: 1.4s;
 
 .spinner {
-  animation: rotator $duration linear infinite;
+	animation: rotator $duration linear infinite;
+	&--small {
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
 }
 
 @keyframes rotator {

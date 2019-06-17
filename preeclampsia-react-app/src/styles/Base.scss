@@ -109,6 +109,10 @@ a {
 
 .align {
   &-horizontal {
+		&--left {
+      display: flex;
+      justify-content: flex-start;
+    }
     &--center {
       display: flex;
       justify-content: center;
@@ -156,6 +160,12 @@ a {
   &b {
     &-10 {
       margin-bottom: 10px;
+		}
+		&-20 {
+      margin-bottom: 20px;
+		}
+		&-30 {
+      margin-bottom: 30px;
     }
   }
   &t {

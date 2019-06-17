@@ -13,6 +13,9 @@ import {
 	displayEnumMeasurementValue,
 	getCharacteristicTranslation,
 } from 'utils/measurement.utils';
+import { DiabetesTypes } from 'constants/measurements.constants';
+import { isDefined } from 'utils/value.utils';
+import { PregnancyTypes, ConceptionMethods } from 'constants/pregnancy.constants';
 
 const createReport = async (reportData) => {
 	const report = await db.Report.create(reportData);
@@ -159,8 +162,56 @@ const getCharacteristicTranslations = (language: string) => ({
 	diabetesType: getCharacteristicTranslation(Characteristics.DiabetesType, language),
 });
 
+const parseRiskEstimationData = (medicalExamination) => {
+	const { pregnancy } = medicalExamination;
+	const { patient } = pregnancy;
+
+	const booleanMeasurements = {};
+	(medicalExamination.booleanMeasurements || []).forEach(bm => {
+		booleanMeasurements[bm.characteristicId] = bm;
+	});
+
+	const enumMeasurements = {};
+	(medicalExamination.enumMeasurements || []).forEach(em => {
+		enumMeasurements[em.characteristicId] = em;
+	});
+
+	const numericalMeasurements = {};
+	(medicalExamination.numericalMeasurements || []).forEach(nm => {
+		numericalMeasurements[nm.characteristicId] = nm;
+	});
+
+	const diabetesType = getMeasurementValue(enumMeasurements[Characteristics.DiabetesType.key]);
+	const { conceptionMethod } = pregnancy;
+
+	const age: number = getAgeInYears(patient.birthDate, medicalExamination.bloodTestDate);
+	const PLGF: number = 0.34;
+	const PAPP_A: number = 0.5;
+	const weight: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.Weight.key]);
+	const smokingDuringPregnancy: number
+		= getMeasurementValue(booleanMeasurements[Characteristics.SmokingDuringPregnancy.key]) === true ? 1 : 0;
+	const diabetes: number
+		= isDefined(diabetesType) ? ((diabetesType === DiabetesTypes.None.key) ? 0 : 1) : null;
+	const IVF: number
+		= isDefined(conceptionMethod) ? (conceptionMethod === ConceptionMethods.InVitroFertilization ? 1 : 0) : null;
+
+	const riskEstimationData: string[] = [
+		isDefined(age) ? age.toString() : '',
+		isDefined(PLGF) ? PLGF.toString() : '',
+		isDefined(PAPP_A) ? PAPP_A.toString() : '',
+		isDefined(weight) ? weight.toString() : '',
+		isDefined(smokingDuringPregnancy) ? smokingDuringPregnancy.toString() : '',
+		isDefined(diabetes) ? diabetes.toString() : '',
+		isDefined(IVF) ? IVF.toString() : ''
+	];
+
+	return riskEstimationData;
+};
+
 export default {
 	generateReportData,
 	generateHTMLReport,
 	createReport,
+	parseRiskEstimationData,
 };

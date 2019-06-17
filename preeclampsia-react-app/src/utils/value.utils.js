@@ -1,5 +1,5 @@
 export const isDefined = (property) => (
-	property !== undefined && property !== null && property !== '' && !isNaN(property)
+	property !== undefined && property !== null && property !== '' && property !== NaN
 );
 
 export const castToInt = (property) => (

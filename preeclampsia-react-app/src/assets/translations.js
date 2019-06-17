@@ -136,7 +136,8 @@ export const translations = {
 				previewTitle: 'Generiranje nalaza',
 				previewPatientDataTitle: 'Pregled podataka o pacijentu',
 				action: {
-					generateReport: 'Generiraj nalaz'
+					generateReport: 'Generiraj nalaz',
+					generating: 'Nalaz se generira. Molimo pričekajte...',
 				},
 				property: {
 					responsiblePerson: 'Odgovorna osoba', 
@@ -316,7 +317,8 @@ export const translations = {
 				previewTitle: 'Generate Report',
 				previewPatientDataTitle: 'Patient Data',
 				action: {
-					generateReport: 'Generate report'
+					generateReport: 'Generate report',
+					generating: 'Generating report, please wait...',
 				},
 				property: {
 					responsiblePerson: 'Responsible person', 

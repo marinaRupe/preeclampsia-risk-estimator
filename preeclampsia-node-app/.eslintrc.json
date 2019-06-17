@@ -8,7 +8,6 @@
     "@typescript-eslint"
   ],
   "extends": [
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
@@ -31,6 +30,7 @@
       "warn",
       "never"
     ],
+    "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/member-delimiter-style": [
       "warn",
       {

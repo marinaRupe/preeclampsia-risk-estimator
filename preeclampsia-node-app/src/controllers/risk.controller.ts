@@ -26,16 +26,20 @@ const generatePdf = async (req, res) => {
 		throw new Errors.BadRequestError();
 	}
 
+	const params = ReportService.parseRiskEstimationData(medicalExamination);
 	console.info('Starting the python script...');
+	console.info(`Params: ${params}`);
 
 	const pythonProcess = spawn('python', [
 		path.join(__dirname, '..', 'scripts', 'bayesian_linear_regression.py'), 
-		process.env.TRAIN_DATA_LOCATION,
+		...params
 	]);
 
 	pythonProcess.stdout.on('data', async (data) => {
 		console.info('The python script finished successfully');
-		const { risk } = JSON.parse(data.toString().replace(/'/g, '"'));
+		const response = JSON.parse(data.toString().replace(/'/g, '"'));
+		const { risk } = response;
+		console.info(response);
 		console.info(`Return value: ${risk}`);
 
 		const reportData = ReportService.generateReportData(medicalExamination, risk, user);

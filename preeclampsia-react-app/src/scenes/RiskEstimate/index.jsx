@@ -19,6 +19,7 @@ class RiskEstimate extends Component {
 
 		this.state = {
 			isLoading: false,
+			isGenerating: false,
 		};
 	}
 
@@ -45,11 +46,20 @@ class RiskEstimate extends Component {
 			match: { params: { medicalExaminationId } },
 		} = this.props;
 
-		await generatePDFReport(medicalExaminationId);
+		this.setState({
+			isGenerating: true
+		}, async () => {
+			try {
+				await generatePDFReport(medicalExaminationId);
+				this.setState({ isGenerating: false });
+			} catch (err) {
+				this.setState({ isGenerating: false });
+			}
+		});
 	}
 
 	render() {
-		const { isLoading } = this.state;
+		const { isLoading, isGenerating } = this.state;
 		const { pregnancyDataForReport, currentUser } = this.props;
 		const translations = getTranslations();
 
@@ -250,13 +260,23 @@ class RiskEstimate extends Component {
 				</div>
 
 				<br />
-				<div>
-					<Button
-						bsStyle='primary'
-						onClick={this.generatePDF}
-					>
-						{translations.risk.report.action.generateReport}
-					</Button>
+				<div className='mb-30 align-horizontal--left'>
+					<div>
+						<Button
+							bsStyle='primary'
+							onClick={this.generatePDF}
+							disabled={isGenerating}
+						>
+							{translations.risk.report.action.generateReport}
+						</Button>
+					</div>
+					{
+						isGenerating &&
+						<div className='ml-20 align-horizontal--center align-vertical--center'>
+							<h4>{translations.risk.report.action.generating}</h4>
+							<div className='ml-10 spinner--small'><Spinner /></div>
+						</div>
+					}
 				</div>
 			</div>
 		);
