@@ -127,8 +127,6 @@ def main():
     normal_trace = pickle.load(infile)
     infile.close()
 
-    sys.argv = [sys.argv[0], 32, 0.34, 0.5, 66, 0, 0, 0]
-
     age_param = sys.argv[1]
     PLGF_param = sys.argv[2]
     PAPP_A_param = sys.argv[3]

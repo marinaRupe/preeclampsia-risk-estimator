@@ -29,6 +29,7 @@ class AddUserModal extends Component {
 				onHide={this.handleCloseModal}
 				onExited={this.handleAfterCloseModal}
 				centered='true'
+				backdrop='static'
 				dialogClassName='app-modal'
 			>
 				<Modal.Header closeButton>

@@ -23,6 +23,7 @@ class DeletePatientModal extends Component {
 				show={show}
 				onHide={this.handleCloseModal}
 				centered='true'
+				backdrop='static'
 				dialogClassName='app-modal'
 			>
 				<Modal.Header closeButton>

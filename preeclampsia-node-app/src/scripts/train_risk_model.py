@@ -24,7 +24,9 @@ class StderrFilter:
                 or re.search("\sNUTS: ]", s) is not None:
             pass
         else:
-            self.original_stderr.write(s)
+            if len(s.strip()) > 0:
+                self.original_stderr.write(s)
+                self.original_stderr.flush()
 
 
 original_stderr = sys.stderr  # keep a reference to STDOUT
@@ -347,14 +349,32 @@ def main():
             for variable in normal_trace.varnames:
                 model_formula += ' %0.2f * %s +' % (np.mean(normal_trace[variable]), variable)
 
-            test_model(normal_trace, X_test.iloc[15])
+            # print(' '.join(model_formula.split(' ')[:-1]))
 
-            test_model(normal_trace, X_test.iloc[16])
+            for i in range(len(X_test)):
+                test_model(normal_trace, X_test.iloc[i])
 
             filename = 'files/risk_model'
             outfile = open(filename, 'wb')
             pickle.dump(normal_trace, outfile)
             outfile.close()
+
+            """
+            plt.show()
+
+            observation = pd.Series({
+                'Intercept': 1,
+                'PLGF': 1,
+                'PAPP_A': 1,
+                'weight': 70,
+                'smokingDuringPregnancy': 0,
+                'diabetes': 0,
+                'IVF': 0,
+                'age': 30
+            })
+
+            query_model(normal_trace, observation)
+            """
 
             print('Done')
             sys.stdout.flush()

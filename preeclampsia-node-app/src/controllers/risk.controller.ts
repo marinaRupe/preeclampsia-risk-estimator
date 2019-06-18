@@ -26,7 +26,7 @@ const generatePdf = async (req, res) => {
 		throw new Errors.BadRequestError();
 	}
 
-	const params = ReportService.parseRiskEstimationData(medicalExamination);
+	const params = await ReportService.parseRiskEstimationData(medicalExamination);
 	console.info('Starting the python script...');
 	console.info(`Params: ${params}`);
 
@@ -49,16 +49,19 @@ const generatePdf = async (req, res) => {
 			throw new Errors.InternalServerError();
 		}
 
-		const html = ReportService.generateHTMLReport(reportData, user, translations, language);
+		const html = await ReportService.generateHTMLReport(reportData, user, translations, language);
 		const file = await createPDFFromHTML(html);
 
 		res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });
 		res.send(file);
+
+		pythonProcess.kill();
 	});
 
 	pythonProcess.stderr.on('data', (err) => {
 		console.info('The python script finished unsuccessfully');
 		console.info(`Error: ${err.toString()}`);
+		pythonProcess.kill();
 		throw new Errors.InternalServerError();
 	});
 };

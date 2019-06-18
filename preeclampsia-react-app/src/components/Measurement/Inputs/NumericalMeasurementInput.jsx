@@ -33,6 +33,7 @@ class NumericalMeasurementInput extends Component {
 						change={change}
 						characteristicName={characteristicName}
 						measurement={measurement}
+						type='number'
 					/>
 				</div>
 			</div>

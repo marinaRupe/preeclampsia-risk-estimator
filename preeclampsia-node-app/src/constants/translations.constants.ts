@@ -133,6 +133,10 @@ export const translations = {
 				risks: 'Rizici na dan vađenja krvi',
 				comment: 'Komentar',
 			},
+			risk: {
+				lowRisk: 'rizik manji od graničnog',
+				highRisk: 'rizik veći od graničnog',
+			},
 		},
 		word: {
 			yes: 'da',
@@ -275,6 +279,10 @@ export const translations = {
 				ultrasoundData: 'Ultrasound data',
 				risks: 'Risks on the blood test date',
 				comment: 'Comment',
+			},
+			risk: {
+				lowRisk: 'low risk of preeclampsia',
+				highRisk: 'high risk of preeclampsia',
 			},
 		},
 		word: {

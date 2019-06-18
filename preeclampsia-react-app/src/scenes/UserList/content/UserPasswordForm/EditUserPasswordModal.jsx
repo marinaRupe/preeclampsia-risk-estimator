@@ -20,7 +20,13 @@ class EditUserPasswordModal extends Component {
 		const translations = getTranslations();
 
 		return (
-			<Modal show={show} onHide={this.handleCloseModal} centered='true' dialogClassName='app-modal'>
+			<Modal
+				show={show}
+				onHide={this.handleCloseModal}
+				centered='true'
+				backdrop='static'
+				dialogClassName='app-modal'
+			>
 				<Modal.Header closeButton>
 					<Modal.Title>{translations.user.modal.editPasswordTitle}</Modal.Title>
 				</Modal.Header>
