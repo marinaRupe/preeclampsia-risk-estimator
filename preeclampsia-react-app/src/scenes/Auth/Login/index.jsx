@@ -39,7 +39,7 @@ class Login extends Component {
 								/>
 							</div>
 							<div className='redux-form__row'>
-								<label className='redux-form__label'>
+								<label className='redux-form__label mr-10'>
 									{translations.user.property.password}
 								</label>
 								<Field

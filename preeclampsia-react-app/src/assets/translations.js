@@ -53,7 +53,6 @@ export const translations = {
 				editPasswordTitle: 'Promjena lozinke korisnika',
 			},
 			property: {
-				MBO: 'MBO',
 				firstName: 'Ime',
 				lastName: 'Prezime',
 				email: 'E-mail',
@@ -195,7 +194,7 @@ export const translations = {
 				deleteUserText: 'Are you sure you want to delete patient',
 			},
 			property: {
-				MBO: 'MBO',
+				MBO: 'Patient ID',
 				firstName: 'First name',
 				lastName: 'Last name',
 				birthDate: 'Birth date',
@@ -206,7 +205,7 @@ export const translations = {
 			placeholder: {
 				enterFirstName: 'Enter first name',
 				enterLastName: 'Enter last name',
-				enterMBO: 'Enter MBO',
+				enterMBO: 'Enter patient ID',
 				enterBirthDate: 'Enter birth date',
 			},
 			listTitle: 'Patient List',
@@ -229,7 +228,6 @@ export const translations = {
 				editPasswordTitle: 'Change password for user',
 			},
 			property: {
-				MBO: 'MBO',
 				firstName: 'First name',
 				lastName: 'Last name',
 				email: 'E-mail',

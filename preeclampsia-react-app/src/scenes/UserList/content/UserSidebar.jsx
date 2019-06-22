@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { userRoles } from 'constants/roles.constants';
-import { getTranslations } from 'utils/translation.utils';
+import { getTranslations, getLanguage } from 'utils/translation.utils';
 import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class UserSidebar extends Component {
@@ -15,6 +15,7 @@ class UserSidebar extends Component {
 		} = this.props;
 
 		const userRolesValues = Object.values(userRoles);
+		const language = getLanguage();
 		const translations = getTranslations();
 
 		const labelColumnSize = 3;
@@ -45,7 +46,7 @@ class UserSidebar extends Component {
 
 						<TextInfoDisplay
 							label={translations.user.property.role}
-							value={user.role && userRolesValues.find(u => u.value === user.role).hr}
+							value={user.role && userRolesValues.find(u => u.value === user.role)[language]}
 							labelColumnSize={labelColumnSize}
 							valueColumnSize={valueColumnSize}
 						/>

@@ -21,6 +21,7 @@ export const translations = {
 				user: 'Korisnik nije pronađen',
 			},
 			error: {
+				login: 'E-mail ili lozinka su neispravni',
 				patient: {
 					create: 'Unos pacijenta nije uspio',
 					update: 'Ažuriranje podataka o pacijentu nije uspjelo',
@@ -167,6 +168,7 @@ export const translations = {
 				user: 'User not found',
 			},
 			error: {
+				login: 'Incorrect E-mail or password',
 				patient: {
 					create: 'Could not create new patient',
 					update: 'Could not update patient',

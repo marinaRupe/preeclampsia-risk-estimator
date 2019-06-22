@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog';
 import ReactTable from 'react-table';
-import { getTranslations } from 'utils/translation.utils';
+import { getTranslations, getLanguage } from 'utils/translation.utils';
 import {
 	getReactTableConstants,
 	sortDirections,
@@ -55,6 +55,7 @@ class UserList extends Component {
 
 		this.setState({
 			isLoading: true,
+			selectUser: null,
 		}, async () => {
 			const { fetchUserList } = this.props;
 			await fetchUserList(page, pageSize, sortColumn, sortDirection);
@@ -153,6 +154,7 @@ class UserList extends Component {
 
 	getColumns = () => {
 		const userRolesValues = Object.values(userRoles);
+		const language = getLanguage();
 		const translations = getTranslations();
 	
 		return [
@@ -174,7 +176,7 @@ class UserList extends Component {
 				Cell: props => (
 					<span>
 						{props.value
-							? userRolesValues.find(u => u.value === props.value).hr
+							? userRolesValues.find(u => u.value === props.value)[language]
 							: '-'
 						}
 					</span>

@@ -27,15 +27,15 @@ const login = async (req, res, next) => {
 	passport.authenticate('login', async (err, user, info) => {
 		try {
 			if (err) {
-				throw new Errors.InternalError(err.message || translations.response.defaultError);
+				throw new Errors.InternalError(translations.response.error.login);
 			}
 
 			if (!user) {
-				throw new Errors.UnauthorizedError(info.message);
+				throw new Errors.UnauthorizedError(translations.response.error.login);
 			}
 
 			req.login(user, { session : false }, async (error) => {
-				if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
+				if (error) throw new Errors.InternalError(translations.response.error.login);
         
 				const body = { id: user.id, email: user.email };
 				const token = jwt.sign({ user: body }, process.env.JWT_SECRET);

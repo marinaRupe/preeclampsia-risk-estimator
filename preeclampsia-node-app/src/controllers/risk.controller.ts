@@ -31,7 +31,7 @@ const generatePdf = async (req, res) => {
 	console.info(`Params: ${params}`);
 
 	const pythonProcess = spawn('python', [
-		path.join(__dirname, '..', 'scripts', 'bayesian_linear_regression.py'), 
+		path.join(__dirname, '..', 'scripts', 'calculate_risk.py'), 
 		...params
 	]);
 

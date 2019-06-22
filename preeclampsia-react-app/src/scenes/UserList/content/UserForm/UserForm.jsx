@@ -4,7 +4,7 @@ import Input from 'components/Inputs/Input';
 import Select from 'components/Inputs/Select';
 import { userRoles } from 'constants/roles.constants';
 import { generateOptions } from 'utils/form.utils';
-import { getTranslations } from 'utils/translation.utils';
+import { getTranslations, getLanguage } from 'utils/translation.utils';
 import PasswordInputs from '../PasswordInputs';
 
 class UserForm extends Component {
@@ -17,8 +17,11 @@ class UserForm extends Component {
 			showPasswordInputs = true
 		} = this.props;
 
-		const userRolesOptions = generateOptions(Object.values(userRoles), 'key', 'value', 'hr', true, 'Odaberi');
+		const language = getLanguage();
 		const translations = getTranslations();
+		const userRolesOptions = generateOptions(
+			Object.values(userRoles), 'key', 'value', language, true, translations.action.select
+		);
 
 		return (
 			<form className='redux-form' onSubmit={onSubmit}>
@@ -65,7 +68,7 @@ class UserForm extends Component {
 								placeholder={translations.patient.placeholder.enterEmail}
 								component={Input}
 								type='text'
-								disabled={disabled.MBO}
+								disabled={disabled.email}
 								className='mr-20'
 							/>
 						</div>

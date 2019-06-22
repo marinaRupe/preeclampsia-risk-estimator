@@ -55,6 +55,7 @@ class PatientList extends Component {
 
 		this.setState({
 			isLoading: true,
+			selectedPatient: null,
 		}, async () => {
 			const { fetchPatientList } = this.props;
 			await fetchPatientList(page, pageSize, sortColumn, sortDirection, searchInput);
@@ -154,8 +155,8 @@ class PatientList extends Component {
 
 		return [
 			{
-				Header: 'MBO',
-				accessor: translations.patient.property.MBO,
+				Header: translations.patient.property.MBO,
+				accessor: 'MBO',
 				Cell: props => (
 					<span>
 						<Link to={APP.PATIENT.DETAILS(props.original.id)}>

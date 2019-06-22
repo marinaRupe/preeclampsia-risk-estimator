@@ -25,6 +25,8 @@ const getAll = async (
 
 const getById = async (id: number) => await db.User.findByPk(id);
 
+const getByEmail = async (email: string) => await db.User.findOne({ where: { email }});
+
 const existsEmail = async (email: string) => {
 	const user = await db.User.findOne({
 		where: { email }
@@ -89,6 +91,7 @@ const removeUser = async (id: number) => {
 
 export default {
 	getAll,
+	getByEmail,
 	getById,
 	createUser,
 	removeUser,

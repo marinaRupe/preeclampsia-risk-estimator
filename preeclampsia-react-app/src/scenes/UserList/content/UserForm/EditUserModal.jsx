@@ -41,6 +41,7 @@ class EditUserModal extends Component {
 						initialValues={initialValues}
 						showPasswordInputs={false}
 						error={error}
+						disabled={{ email: true }}
 						buttons={
 							<Modal.Footer>
 								<Button bsStyle='default' onClick={this.handleCloseModal}>

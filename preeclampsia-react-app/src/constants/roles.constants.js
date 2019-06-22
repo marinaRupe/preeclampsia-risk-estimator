@@ -3,16 +3,19 @@ export const userRoles = {
 		key: 0,
 		value: 'admin',
 		hr: 'Admin (VSS)',
+		en: 'Admin',
 	},
 	Supervisor: {
 		key: 1,
 		value: 'supervisor',
-		hr: 'Supervisor (VSS)'
+		hr: 'Supervisor (VSS)',
+		en: 'Supervisor',
 	},
 	Standard: {
 		key: 2,
 		value: 'standard',
 		hr: 'Standard (SSS/VŠS)',
+		en: 'Standard',
 	},
 };
 
