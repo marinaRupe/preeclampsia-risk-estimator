@@ -78,16 +78,21 @@ const generateReportData = (medicalExamination, risk: number, user) => {
 };
 
 const generateHTMLReport = async (reportData, user, translations, language: string): Promise<string> => {
+	const racialOrigin: object = isDefined(reportData.racialOrigin)
+		&& Object.values(RacialOriginTypes).find(r => r.key === reportData.racialOrigin);
+	const risk: number = Math.round(reportData.calculatedRisk);
+
 	const data = {
 		translations,
 		characteristicTranslations: getCharacteristicTranslations(language),
 		patient: {
 			firstName: reportData.firstName,
 			lastName: reportData.lastName,
-			MBO: reportData.MBO,
+			patientId: reportData.MBO,
 			birthDate: formatDate(reportData.birthDate),
-			racialOrigin: reportData.racialOrigin
-        && Object.values(RacialOriginTypes).find(r => r.key === reportData.racialOrigin).hr,
+			racialOrigin: isDefined(racialOrigin)
+				? racialOrigin[language]
+				: '-',
 			gynecologist: reportData.gynecologist || '-',
 			protocol: reportData.protocol,
 			gestationalAgeByUltrasoundWeeks: isDefined(reportData.gestationalAgeByUltrasoundWeeks)
@@ -97,7 +102,7 @@ const generateHTMLReport = async (reportData, user, translations, language: stri
 				? `+${reportData.gestationalAgeByUltrasoundDays}`
 				: '',
 			gestationalAgeOnBloodTestWeeks: isDefined(reportData.gestationalAgeOnBloodTestWeeks)
-				?reportData.gestationalAgeOnBloodTestWeeks
+				? reportData.gestationalAgeOnBloodTestWeeks
 				: '-',
 			gestationalAgeOnBloodTestDays: isDefined(reportData.gestationalAgeOnBloodTestDays)
 				? `+${reportData.gestationalAgeOnBloodTestDays}`
@@ -106,11 +111,12 @@ const generateHTMLReport = async (reportData, user, translations, language: stri
 			ultrasoundDate: formatDate(reportData.ultrasoundDate),
 			bloodTestDate: formatDate(reportData.bloodTestDate),
 			bloodTestAge: getAgeInYears(reportData.birthDate, reportData.bloodTestDate),
+			ultrasoundDataMeasuredBy: '-',
 		},
 		measurements: await extractMeasurements(reportData, translations, language),
 		report: {
-			risk: reportData.calculatedRisk.toFixed(2),
-			riskExplain: (reportData.calculatedRisk > riskBarrier)
+			risk: risk.toFixed(0),
+			riskExplain: (risk > riskBarrier)
 				? translations.report.risk.lowRisk
 				: translations.report.risk.highRisk,
 			generatedBy: user || '-',
