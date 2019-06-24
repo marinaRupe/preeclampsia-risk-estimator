@@ -20,7 +20,7 @@ export const calculateGestationalAgeFromDate = (
 ) => {
 	const gestationalAgeInDays1 = gestationalAgeWeeks * 7 + gestationalAgeDays;
 	const gestationalAgeInDays2 = gestationalAgeInDays1
-    + moment(dateForCalculation).diff(dateWithGestationalAge, 'days');
+		+ moment(dateForCalculation).diff(dateWithGestationalAge, 'days');
 
 	const gestationalAgeWeeks2 = Math.floor(gestationalAgeInDays2 / 7);
 	const gestationalAgeDays2 = Math.floor(gestationalAgeInDays2 % 7);

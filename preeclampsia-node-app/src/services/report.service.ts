@@ -12,6 +12,7 @@ import {
 	displayBooleanMeasurementValue,
 	displayEnumMeasurementValue,
 	getCharacteristicTranslation,
+	calculateBodyMassIndex,
 } from 'utils/measurement.utils';
 import { DiabetesTypes } from 'constants/measurements.constants';
 import { isDefined } from 'utils/value.utils';
@@ -224,6 +225,13 @@ const parseRiskEstimationData = async (medicalExamination) => {
 
 	const weight: number
 		= getMeasurementValue(numericalMeasurements[Characteristics.Weight.key]);
+	const height: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.Height.key]);
+	
+	const BMI = (isDefined(weight) && isDefined(height)) ? calculateBodyMassIndex(weight, height) : null;
+
+	const MAP: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.MeanArterialPressure.key]);
 	const smokingDuringPregnancy: number
 		= getMeasurementValue(booleanMeasurements[Characteristics.SmokingDuringPregnancy.key]) === true ? 1 : 0;
 	const diabetes: number
@@ -235,10 +243,11 @@ const parseRiskEstimationData = async (medicalExamination) => {
 		isDefined(age) ? age.toString() : '',
 		isDefined(PLGF) ? PLGF.toString() : '',
 		isDefined(PAPP_A) ? PAPP_A.toString() : '',
-		isDefined(weight) ? weight.toString() : '',
+		isDefined(BMI) ? BMI.toString() : '',
 		isDefined(smokingDuringPregnancy) ? smokingDuringPregnancy.toString() : '',
 		isDefined(diabetes) ? diabetes.toString() : '',
-		isDefined(IVF) ? IVF.toString() : ''
+		isDefined(IVF) ? IVF.toString() : '',
+		isDefined(MAP) ? MAP.toString() : '',
 	];
 
 	return riskEstimationData;

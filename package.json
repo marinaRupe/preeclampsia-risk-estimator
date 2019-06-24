@@ -22,7 +22,7 @@
     "lint": "./node_modules/.bin/eslint preeclampsia-node-app/src preeclampsia-react-app/src --ext .ts,.tsx,.js,.jsx",
     "rlint": "./node_modules/.bin/eslint preeclampsia-react-app/src --ext .js,.jsx,.ts,.tsx --fix",
     "nlint": "./node_modules/.bin/eslint preeclampsia-node-app/src --ext .ts,.js",
-    "populate-db": "node preeclampsia-node-app/src/scripts/populateDatabase.ts"
+    "populate-db": "node preeclampsia-node-app/src/scripts/populateDatabase.js"
   },
   "keywords": [
     "preeclampsia",

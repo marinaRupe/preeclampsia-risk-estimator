@@ -130,15 +130,17 @@ def main():
     age_param = sys.argv[1]
     PLGF_param = sys.argv[2]
     PAPP_A_param = sys.argv[3]
-    weight_param = sys.argv[4]
+    BMI_param = sys.argv[4]
     smoking_during_pregnancy_param = sys.argv[5]
     diabetes_param = sys.argv[6]
     IVF_param = sys.argv[7]
+    MAP_param = sys.argv[8]
 
     age = int(age_param) if age_param != "" else 30
-    PLGF = float(PLGF_param) if PLGF_param != "" else 0.34
-    PAPP_A = float(PAPP_A_param) if PAPP_A_param != "" else 0.34
-    weight = int(weight_param) if weight_param != "" else 69
+    PLGF = float(PLGF_param) if PLGF_param != "" else 1
+    PAPP_A = float(PAPP_A_param) if PAPP_A_param != "" else 1
+    BMI = float(BMI_param) if BMI_param != "" else 20
+    MAP = float(MAP_param) if MAP_param != "" else 93.3
     smoking_during_pregnancy = int(smoking_during_pregnancy_param) if smoking_during_pregnancy_param != "" else 0
     diabetes = int(diabetes_param) if diabetes_param != "" else 0
     IVF = int(IVF_param) if IVF_param != "" else 0
@@ -148,7 +150,8 @@ def main():
       'age': age,
       'PLGF': PLGF,
       'PAPP_A': PAPP_A,
-      'weight': weight,
+      'BMI': BMI,
+      'MAP': MAP,
       'smokingDuringPregnancy': smoking_during_pregnancy,
       'diabetes': diabetes,
       'IVF': IVF
@@ -165,10 +168,11 @@ def main():
             'age': age,
             'PLGF': PLGF,
             'PAPP_A': PAPP_A,
-            'weight': weight,
+            'BMI': BMI,
             'smokingDuringPregnancy': smoking_during_pregnancy,
             'diabetes': diabetes,
-            'IVF': IVF
+            'IVF': IVF,
+            'MAP': MAP
         },
         "meanLoc": meanLoc,
         "sdValue": sdValue
