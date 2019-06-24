@@ -154,8 +154,10 @@ def main():
       'IVF': IVF
     })
 
+    deliveryWeek = 42
+
     meanLoc, sdValue = query_model(normal_trace, observation)
-    risk = 0.5 * (1 + math.erf((42 - meanLoc) / (sdValue * math.sqrt(2))))
+    risk = 0.5 * (1 + math.erf((deliveryWeek - meanLoc) / (sdValue * math.sqrt(2))))
 
     print({
         "risk": risk,

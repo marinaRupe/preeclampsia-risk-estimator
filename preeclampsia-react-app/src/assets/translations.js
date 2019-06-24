@@ -1,5 +1,10 @@
 export const translations = {
 	hr: {
+		home: {
+			subtitle: 'Aplikacija za procjenu rizika za preeklampsiju',
+			appInfo: `Aplikacija je razvijena za KBC Sestre milosrdnice, Zagreb, Hrvatska,
+			u sklopu diplomskog rada na Fakultetu Elektrotehnike i računarstva, Sveučilište u Zagrebu.`,
+		},
 		action: {
 			save: 'Spremi',
 			delete: 'Obriši',
@@ -175,6 +180,12 @@ export const translations = {
 	},
 
 	en: {
+		home: {
+			subtitle: 'The application for the calculation of risk for preeclampsia',
+			appInfo: `This application is developed for the The teaching hospital Sisters of Charity in Zagreb, Croatia,
+			as a part of the master thesis project on
+			the Faculty of Electrical Engineering and Computing, University of Zagreb.`,
+		},
 		action: {
 			save: 'Save',
 			delete: 'Delete',
