@@ -1,12 +1,13 @@
 /* eslint-disable */
+require('module-alias/register');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const fs = require('fs'); 
 const csv = require('csv-parser');
 const moment = require('moment');
-const models = require('models');
-const UserRoles = require('constants/roles.constants');
+const models = require('models/index').default;
+const UserRoles = require('constants/roles.constants').default;
 const { Characteristics } = require('constants/characteristics.constants');
 const { PregnancyTypes, ConceptionMethods } = require('constants/pregnancy.constants');
 const { ConceptionMethodEnum } = require('enums/pregnancy.enums');
@@ -16,9 +17,11 @@ const {
   calculateGestationalAgeFromDate,
   calculateGestationalAgeFromLastPeriodDate
 } = require('utils/dateTime.utils');
-
-const expressConfig = require('configuration/express.config');
-const sequelizeConfig = require('configuration/sequelize.config');
+const {
+	calculateMeanArterialPressure
+} = require('utils/measurement.utils');
+const expressConfig = require('configuration/express.config').default;
+const sequelizeConfig = require('configuration/sequelize.config').default;
 
 const app = express();
 expressConfig.initialize(app);
@@ -58,7 +61,7 @@ async function addCharacteristics() {
 }
 
 async function addPregnancyMeasures(medicalExamination, row) {
-  // Boolean measurements
+	// Boolean measurements
   if (row.smokingDuringPregnancy) {
     await models.db.BooleanMeasurement.create({
       value: row.smokingDuringPregnancy, // 0 - false, 1 - true
@@ -98,11 +101,12 @@ async function addPregnancyMeasures(medicalExamination, row) {
       medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.Weight.key,
     });
-  }
+	}
 
-  if (row.meanArterialPressure) {
+  if (row.SysBP && row.DysBP) {
+		console.log(calculateMeanArterialPressure(parseFloat(row.SysBP), parseFloat(row.DysBP)));
     await models.db.NumericalMeasurement.create({
-      value: parseFloat(row.meanArterialPressure),
+      value: calculateMeanArterialPressure(parseFloat(row.SysBP), parseFloat(row.DysBP)),
       medicalExaminationId: medicalExamination.id,
       characteristicId: Characteristics.MeanArterialPressure.key,
     });
@@ -187,7 +191,7 @@ async function addPatient(row, index) {
     numberOfPreviousPregnancies: row.numberOfPreviousPregnancies,
     numberOfPreviousBirths: row.numberOfPreviousBirths,
     hadPEInPreviousPregnancy: null, // TODO: get from CSV
-    resultedWithPE: row.resultedWithPE // 0 - false, 1 - true
+    resultedWithPE: row.resultedWithPE !== '' ? row.resultedWithPE === '1' : null // 0 - false, 1 - true
   });
 
   let gestationalAgeOnBloodTest = null;
@@ -197,7 +201,7 @@ async function addPatient(row, index) {
       row.bloodTestDate,
       parseInt(row.gestationalAgeByUltrasoundWeeks),
       parseInt(row.gestationalAgeByUltrasoundDays)
-    );
+		);
   } else if (row.lastPeriodDate) {
     gestationalAgeOnBloodTest = calculateGestationalAgeFromLastPeriodDate(row.bloodTestDate, row.lastPeriodDate);
   }

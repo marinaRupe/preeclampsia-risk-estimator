@@ -3,6 +3,8 @@ import sys
 import logging
 import re
 import os
+import pickle
+
 
 class StderrFilter:
     def __init__(self, original_stderr):
@@ -22,7 +24,9 @@ class StderrFilter:
                 or re.search("\sNUTS: ]", s) is not None:
             pass
         else:
-            self.original_stderr.write(s)
+            if len(s.strip()) > 0:
+                self.original_stderr.write(s)
+                self.original_stderr.flush()
 
 
 original_stderr = sys.stderr  # keep a reference to STDOUT
@@ -75,6 +79,16 @@ def calculate_blood_test_gestation(blood_test_date,
         return int(np.ceil(
             (gestational_age_ultrasound_weeks * 7 + gestational_age_ultrasound_days
                 + delta.days) / 7))
+
+
+# Body Mass Index
+def calulate_BMI(weight, height):
+    return weight / pow(height / 100, 2)
+
+
+# Mean Arterial Pressure
+def calculate_MAP(sys_bp, dys_bpp):
+    return 1/3 * (sys_bp - dys_bpp) + dys_bpp
 
 
 def calculateMoMs(df):
@@ -192,6 +206,9 @@ def format_data(df):
     # Filter out data
     df = df[df['resultedWithPE'].notnull()]
     df = df[df['weight'].notnull()]
+    df = df[df['height'].notnull()]
+    df = df[df['SysBP'].notnull()]
+    df = df[df['DysBP'].notnull()]
     df = df[df['PAPP_A'].notnull()]
     df = df[df['PLGF'].notnull()]
     df = df[df['gestationalAgeAtDeliveryWeeks'].notnull()]
@@ -208,6 +225,10 @@ def format_data(df):
     df['PLGF'] = df['PLGF'].apply(lambda x: parse_float_values(x))
     df['PAPP_A'] = df['PAPP_A'].apply(lambda x: parse_float_values(x))
     df['weight'] = df['weight'].apply(lambda x: parse_float_values(x))
+    df['height'] = df['height'].apply(lambda x: parse_float_values(x))
+
+    df['BMI'] = df.apply(lambda row: calulate_BMI(row['weight'], row['height']), axis=1)
+    df['MAP'] = df.apply(lambda row: calculate_MAP(row['SysBP'], row['DysBP']), axis=1)
     df = calculateMoMs(df)
 
     # Pick columns
@@ -215,7 +236,8 @@ def format_data(df):
         'gestationalAgeAtDelivery',
         'PLGF',
         'PAPP_A',
-        'weight',
+        'BMI',
+        'MAP',
         'smokingDuringPregnancy',
         'diabetes',
         'IVF',
@@ -345,15 +367,28 @@ def main():
             for variable in normal_trace.varnames:
                 model_formula += ' %0.2f * %s +' % (np.mean(normal_trace[variable]), variable)
 
-            test_model(normal_trace, X_test.iloc[15])
+            print(' '.join(model_formula.split(' ')[:-1]))
 
-            test_model(normal_trace, X_test.iloc[16])
+            for i in range(len(X_test)):
+                test_model(normal_trace, X_test.iloc[i])
+
+            filename = 'files/risk_model'
+            outfile = open(filename, 'wb')
+            pickle.dump(normal_trace, outfile)
+            outfile.close()
+
+            """
+            weight = 57
+            height = 165
+            sys_bp = 120
+            dys_bp = 80
 
             observation = pd.Series({
                 'Intercept': 1,
-                'PLGF': 0.34,
-                'PAPP_A': 0.5,
-                'weight': 70,
+                'PLGF': 1,
+                'PAPP_A': 1,
+                'BMI': calulate_BMI(weight, height),
+                'MAP': calculate_MAP(sys_bp, dys_bp),
                 'smokingDuringPregnancy': 0,
                 'diabetes': 0,
                 'IVF': 0,
@@ -361,8 +396,11 @@ def main():
             })
 
             query_model(normal_trace, observation)
+            
+            plt.show()
+            """
 
-            print({"risk": 0.2})
+            print('Done')
             sys.stdout.flush()
 
 # ###########################################################################################################

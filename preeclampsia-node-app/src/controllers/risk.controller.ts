@@ -26,16 +26,20 @@ const generatePdf = async (req, res) => {
 		throw new Errors.BadRequestError();
 	}
 
+	const params = await ReportService.parseRiskEstimationData(medicalExamination);
 	console.info('Starting the python script...');
+	console.info(`Params: ${params}`);
 
 	const pythonProcess = spawn('python', [
-		path.join(__dirname, '..', 'scripts', 'bayesian_linear_regression.py'), 
-		process.env.TRAIN_DATA_LOCATION,
+		path.join(__dirname, '..', 'scripts', 'calculate_risk.py'), 
+		...params
 	]);
 
 	pythonProcess.stdout.on('data', async (data) => {
 		console.info('The python script finished successfully');
-		const { risk } = JSON.parse(data.toString().replace(/'/g, '"'));
+		const response = JSON.parse(data.toString().replace(/'/g, '"'));
+		const { risk } = response;
+		console.info(response);
 		console.info(`Return value: ${risk}`);
 
 		const reportData = ReportService.generateReportData(medicalExamination, risk, user);
@@ -45,16 +49,19 @@ const generatePdf = async (req, res) => {
 			throw new Errors.InternalServerError();
 		}
 
-		const html = ReportService.generateHTMLReport(reportData, user, translations, language);
+		const html = await ReportService.generateHTMLReport(reportData, user, translations, language);
 		const file = await createPDFFromHTML(html);
 
 		res.set({ 'Content-Type': 'application/pdf', 'Content-Length': file.length });
 		res.send(file);
+
+		pythonProcess.kill();
 	});
 
 	pythonProcess.stderr.on('data', (err) => {
 		console.info('The python script finished unsuccessfully');
 		console.info(`Error: ${err.toString()}`);
+		pythonProcess.kill();
 		throw new Errors.InternalServerError();
 	});
 };

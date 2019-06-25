@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { userRoles } from 'constants/roles.constants';
-import { getTranslations } from 'utils/translation.utils';
+import { getTranslations, getLanguage } from 'utils/translation.utils';
 import TextInfoDisplay from 'components/Measurement/TextInfoDisplay';
 
 class UserSidebar extends Component {
 	render() {
-		const { user, closeSidebar, openEditUserModal, openDeleteUserModal } = this.props;
+		const {
+			user,
+			closeSidebar,
+			openEditUserModal,
+			openDeleteUserModal,
+			openEditUserPasswordModal,
+		} = this.props;
 
 		const userRolesValues = Object.values(userRoles);
+		const language = getLanguage();
 		const translations = getTranslations();
 
 		const labelColumnSize = 3;
@@ -39,7 +46,7 @@ class UserSidebar extends Component {
 
 						<TextInfoDisplay
 							label={translations.user.property.role}
-							value={user.role && userRolesValues.find(u => u.value === user.role).hr}
+							value={user.role && userRolesValues.find(u => u.value === user.role)[language]}
 							labelColumnSize={labelColumnSize}
 							valueColumnSize={valueColumnSize}
 						/>
@@ -52,13 +59,19 @@ class UserSidebar extends Component {
 						/>
 					</div>
 				</div>
-        
+				
 				<div className='table-view--details__footer'>
 					<Button
 						bsStyle='primary'
 						onClick={openEditUserModal}
 					>
 						{translations.user.action.edit}
+					</Button>
+					<Button
+						bsStyle='primary'
+						onClick={openEditUserPasswordModal}
+					>
+						{translations.user.action.changePassword}
 					</Button>
 					<Button
 						bsStyle='danger'

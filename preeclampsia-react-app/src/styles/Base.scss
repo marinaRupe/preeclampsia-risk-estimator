@@ -101,8 +101,18 @@ a {
   }
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .align {
   &-horizontal {
+		&--left {
+      display: flex;
+      justify-content: flex-start;
+    }
     &--center {
       display: flex;
       justify-content: center;
@@ -116,6 +126,10 @@ a {
     &--center {
       display: flex;
       align-items: center;
+		}
+		&--baseline {
+      display: flex;
+      align-items: baseline;
     }
   }
 }
@@ -128,11 +142,17 @@ a {
     &-10 {
       margin-left: 10px;
     }
+    &-15 {
+      margin-left: 15px;
+    }
     &-20 {
       margin-left: 20px;
     }
   }
   &r {
+    &-10 {
+      margin-right: 10px;
+    }
     &-20 {
       margin-right: 20px;
     }
@@ -140,6 +160,17 @@ a {
   &b {
     &-10 {
       margin-bottom: 10px;
+		}
+		&-20 {
+      margin-bottom: 20px;
+		}
+		&-30 {
+      margin-bottom: 30px;
+    }
+  }
+  &t {
+    &-10 {
+      margin-top: 10px;
     }
   }
 }
@@ -167,6 +198,9 @@ a {
   }
   &-60 {
     width: 60%;
+	}
+	&-70 {
+    width: 70%;
   }
   &-80 {
     width: 80%;

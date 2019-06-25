@@ -27,15 +27,15 @@ const login = async (req, res, next) => {
 	passport.authenticate('login', async (err, user, info) => {
 		try {
 			if (err) {
-				throw new Errors.InternalError(err.message || translations.response.defaultError);
+				throw new Errors.InternalError(translations.response.error.login);
 			}
 
-			if (!isDefined(user)) {
-				throw new Errors.UnauthorizedError(info.message);
+			if (!user) {
+				throw new Errors.UnauthorizedError(translations.response.error.login);
 			}
 
 			req.login(user, { session : false }, async (error) => {
-				if (error) throw new Errors.InternalError(error.message || translations.response.defaultError);
+				if (error) throw new Errors.InternalError(translations.response.error.login);
         
 				const body = { id: user.id, email: user.email };
 				const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
@@ -131,14 +131,14 @@ const updateUser = async (req, res) => {
 
 const updateUserPassword = async (req, res) => {
 	const userId = +req.params.userId;
-	const userData = req.body;
+	const userPasswordData = req.body;
 	const { translations } = res.locals;
 
 	if (!isDefined(userId)) {
 		throw new Errors.BadRequestError();
 	}
 
-	if (!isDefined(userData)) {
+	if (!isDefined(userPasswordData)) {
 		throw new Errors.BadRequestError(translations.user.validation.dataRequired);
 	}
 
@@ -146,19 +146,19 @@ const updateUserPassword = async (req, res) => {
 		throw new Errors.NotFoundError(translations.response.notFound.user);
 	}
 
-	const { isValid, errors } = await UserValidator.isValidUserPassword(userData, translations.user.validation);
+	const { isValid, errors } = await UserValidator.isValidUserPassword(userPasswordData, translations.user.validation);
 
 	if (!isValid) {
 		throw new Errors.BadRequestError({ info: errors });
 	}
 
-	const user = await UserService.updateUserPassword(userId, userData);
+	const user = await UserService.updateUserPassword(userId, userPasswordData.password);
 
 	if (!isDefined(user)) {
 		throw new Errors.InternalServerError(translations.response.error.user.updatePassword);
 	}
 
-	res.json(new UserViewModel(user));
+	res.status(200).send(translations.response.success.user.updatePassword);
 };
 
 const deleteUser = async (req, res) => {
@@ -188,5 +188,6 @@ export default {
 	register,
 	createUser,
 	updateUser,
+	updateUserPassword,
 	deleteUser,
 };

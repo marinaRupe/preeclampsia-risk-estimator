@@ -15,6 +15,7 @@ const getDetails = async (patientId: number, pregnancyNumber: number) => (
 
 const createPregnancy = async (pregnancyData) => {
 	const {
+		patientId,
 		gynecologist,
 		pregnancyNumber,
 		pregnancyType,
@@ -31,6 +32,7 @@ const createPregnancy = async (pregnancyData) => {
 	} = pregnancyData;
 
 	const pregnancy = await db.Pregnancy.create({
+		patientId,
 		gynecologist,
 		pregnancyNumber,
 		pregnancyType,

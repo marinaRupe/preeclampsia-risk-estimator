@@ -1,5 +1,10 @@
 export const translations = {
 	hr: {
+		home: {
+			subtitle: 'Aplikacija za procjenu rizika za preeklampsiju',
+			appInfo: `Aplikacija je razvijena za KBC Sestre milosrdnice, Zagreb, Hrvatska,
+			u sklopu diplomskog rada na Fakultetu Elektrotehnike i računarstva, Sveučilište u Zagrebu.`,
+		},
 		action: {
 			save: 'Spremi',
 			delete: 'Obriši',
@@ -42,6 +47,7 @@ export const translations = {
 			action: {
 				add: 'Dodaj korisnika',
 				edit: 'Uredi podatke',
+				changePassword: 'Izmijeni lozinku',
 				delete: 'Izbriši korisnika'
 			},
 			modal: {
@@ -52,7 +58,6 @@ export const translations = {
 				editPasswordTitle: 'Promjena lozinke korisnika',
 			},
 			property: {
-				MBO: 'MBO',
 				firstName: 'Ime',
 				lastName: 'Prezime',
 				email: 'E-mail',
@@ -74,18 +79,30 @@ export const translations = {
 		pregnancy: {
 			action: {
 				save: 'Spremi promjene',
+				add: 'Dodaj trudnoću',
+				edit: 'Uredi podatke',
+				delete: 'Izbriši podatke o trudnoći'
+			},
+			modal: {
+				addPregnancyTitle: 'Dodavanje nove trudnoće',
+				editPregnancyTitle: 'Uređivanje podataka o trudnoći',
+				deletePregnancyTitle: 'Brisanje trudnoće',
+				deletePregnancyText: 'Jeste li sigurni da želite obrisati trudnoću',
 			},
 			property: {
+				pregnancyNumber: 'Broj trudnoće',
 				lastPeriodDate: 'Datum posljednje mjesečnice',
 				lastPeriodDateIsReliable: 'Datum posljednje mjesečnice pouzdan',
 				deliveryDate: 'Datum poroda',
 				numberOfPreviousPregnancies: 'Broj ranijih trudnoća',
 				numberOfPreviousBirths: 'Broj poroda',
 				hadPEInPreviousPregnancy: 'Preeklampsija u prethodnoj trudnoći',
+				resultedWithPE: 'Oboljela od preeklampsije',
 			},
 			detailsTitle: 'Podaci o trudnoći',
 			basicDetailsTitle: 'Osnovni podaci',
 			trimestersTitle: 'Tromjesečja',
+			medicalExaminationsTitle: 'Pregledi',
 			trimestersBasicDetails: 'Osnovni podaci',
 			maternalCharacteristicsTitle: 'Podaci o pacijentici',
 			medicalHistoryTitle: 'Medicinska povijest',
@@ -93,12 +110,27 @@ export const translations = {
 			biochemicalMeasurementsTitle: 'Biokemijska mjerenja',
 		},
 		medicalExamination: {
+			action: {
+				save: 'Spremi promjene',
+				add: 'Dodaj pregled',
+				edit: 'Uredi podatke',
+				delete: 'Izbriši podatke o pregledu'
+			},
+			modal: {
+				addMedicalExaminationTitle: 'Dodavanje novog pregleda',
+				editMedicalExaminationTitle: 'Uređivanje podataka o pregledu',
+				deleteMedicalExaminationTitle: 'Brisanje pregleda',
+				deleteMedicalExaminationText: 'Jeste li sigurni da želite obrisati pregled',
+			},
 			property: {
+				trimesterNumber: 'Tromjesečje',
 				protocol: 'Protokol',
 				bloodTestDate: 'Datum vađenja krvi',
 				ultrasoundDate: 'Datum ultrazvuka',
 				gestationalAgeByUltrasound: 'Gestacijska dob na ultrazvuku',
 				gestationalAgeOnBloodTest: 'Gestacijska dob na dan vađenja krvi',
+				weeks: 'tjedana',
+				days: 'dana',
 				note: 'Napomena',
 			},
 		},
@@ -108,7 +140,8 @@ export const translations = {
 				previewTitle: 'Generiranje nalaza',
 				previewPatientDataTitle: 'Pregled podataka o pacijentu',
 				action: {
-					generateReport: 'Generiraj nalaz'
+					generateReport: 'Generiraj nalaz',
+					generating: 'Nalaz se generira. Molimo pričekajte...',
 				},
 				property: {
 					responsiblePerson: 'Odgovorna osoba', 
@@ -147,6 +180,12 @@ export const translations = {
 	},
 
 	en: {
+		home: {
+			subtitle: 'The application for the calculation of risk for preeclampsia',
+			appInfo: `This application is developed for the The teaching hospital Sisters of Charity in Zagreb, Croatia,
+			as a part of the master thesis project on
+			the Faculty of Electrical Engineering and Computing, University of Zagreb.`,
+		},
 		action: {
 			save: 'Save',
 			delete: 'Delete',
@@ -166,7 +205,7 @@ export const translations = {
 				deleteUserText: 'Are you sure you want to delete patient',
 			},
 			property: {
-				MBO: 'MBO',
+				MBO: 'Patient ID',
 				firstName: 'First name',
 				lastName: 'Last name',
 				birthDate: 'Birth date',
@@ -177,7 +216,7 @@ export const translations = {
 			placeholder: {
 				enterFirstName: 'Enter first name',
 				enterLastName: 'Enter last name',
-				enterMBO: 'Enter MBO',
+				enterMBO: 'Enter patient ID',
 				enterBirthDate: 'Enter birth date',
 			},
 			listTitle: 'Patient List',
@@ -189,6 +228,7 @@ export const translations = {
 			action: {
 				add: 'Add User',
 				edit: 'Edit User Data',
+				changePassword: 'Change Password',
 				delete: 'Delete User',
 			},
 			modal: {
@@ -199,7 +239,6 @@ export const translations = {
 				editPasswordTitle: 'Change password for user',
 			},
 			property: {
-				MBO: 'MBO',
 				firstName: 'First name',
 				lastName: 'Last name',
 				email: 'E-mail',
@@ -226,18 +265,30 @@ export const translations = {
 		pregnancy: {
 			action: {
 				save: 'Save changes',
+				add: 'Add Pregnancy',
+				edit: 'Edit Pregnancy Data',
+				delete: 'Delete Pregnancy',
+			},
+			modal: {
+				addPregnancyTitle: 'Add Pregnancy',
+				editPregnancyTitle: 'Edit Pregnancy',
+				deletePregnancyTitle: 'Delete Pregnancy',
+				deletePregnancyText: 'Are you sure you want to delete pregnancy',
 			},
 			property: {
+				pregnancyNumber: 'Pregnancy number',
 				lastPeriodDate: 'Last period date',
 				lastPeriodDateIsReliable: 'Last period date is reliable',
 				deliveryDate: 'Delivery date',
 				numberOfPreviousPregnancies: 'Number of previous pregnancies',
 				numberOfPreviousBirths: 'Number of previous births',
 				hadPEInPreviousPregnancy: 'PE in previous pregnancy',
+				resultedWithPE: 'Resulted with PE',
 			},
 			detailsTitle: 'Pregnancy Details',
 			basicDetailsTitle: 'Basic Details',
 			trimestersTitle: 'Trimesters',
+			medicalExaminationsTitle: 'Medical Examinations',
 			trimestersBasicDetails: 'Basic Details',
 			maternalCharacteristicsTitle: 'Maternal Characteristics',
 			medicalHistoryTitle: 'Medical History',
@@ -245,12 +296,27 @@ export const translations = {
 			biochemicalMeasurementsTitle: 'Biochemical Measurements',
 		},
 		medicalExamination: {
+			action: {
+				save: 'Save changes',
+				add: 'Add Medical Examination',
+				edit: 'Edit Medical Examination Data',
+				delete: 'Delete Medical Examination',
+			},
+			modal: {
+				addMedicalExaminationTitle: 'Add Medical Examination',
+				editMedicalExaminationTitle: 'Edit Medical Examination',
+				deleteMedicalExaminationTitle: 'Delete Medical Examination',
+				deleteMedicalExaminationText: 'Are you sure you want to delete medical examination',
+			},
 			property: {
+				trimesterNumber: 'Trimester',
 				protocol: 'Protocol',
 				bloodTestDate: 'Blood test date',
 				ultrasoundDate: 'Ultrasound date',
 				gestationalAgeByUltrasound: 'Gestational age by ultrasound',
 				gestationalAgeOnBloodTest: 'Gestational age on blood test',
+				weeks: 'weeks',
+				days: 'days',
 				note: 'Note',
 			},
 		},
@@ -260,7 +326,8 @@ export const translations = {
 				previewTitle: 'Generate Report',
 				previewPatientDataTitle: 'Patient Data',
 				action: {
-					generateReport: 'Generate report'
+					generateReport: 'Generate report',
+					generating: 'Generating report, please wait...',
 				},
 				property: {
 					responsiblePerson: 'Responsible person', 

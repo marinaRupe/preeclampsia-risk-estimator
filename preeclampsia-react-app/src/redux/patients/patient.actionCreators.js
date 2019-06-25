@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './patient.actionTypes';
 
 export const updatePatients = ({ status, data }) => {
 	return {

@@ -3,7 +3,7 @@ import { API } from 'constants/routes';
 import { actionWrapper } from 'utils/redux.utils';
 import * as httpCalls from 'utils/http.utils';
 import { castToInt } from 'utils/value.utils';
-import * as actionCreators from '../actionCreators/pregnancy.actionCreators';
+import * as actionCreators from './pregnancy.actionCreators';
 
 /* Pregnancy */
 
@@ -20,8 +20,8 @@ export function fetchPatientPregnancyDetails(patientId, pregnancyNumber) {
 	return actionWrapper(action);
 }
 
-export function createPregnancy(pregnancyData) {
-	const body = parsePregnancyData(pregnancyData);
+export function createPregnancy(patientId, pregnancyData) {
+	const body = parsePregnancyData(patientId, pregnancyData);
 
 	const action = async (dispatch) => {
 		const res = await httpCalls.POST(API.PREGNANCIES.ROOT, body);
@@ -32,8 +32,8 @@ export function createPregnancy(pregnancyData) {
 	return actionWrapper(action, true);
 }
 
-export function updatePregnancy(pregnancyData) {
-	const body = parsePregnancyData(pregnancyData);
+export function updatePregnancy(patientId, pregnancyData) {
+	const body = parsePregnancyData(patientId, pregnancyData);
 
 	const action = async (dispatch) => {
 		const res = await httpCalls.PUT(API.PREGNANCIES.BY_ID(pregnancyData.id), body);
@@ -42,6 +42,16 @@ export function updatePregnancy(pregnancyData) {
 		}
 	};
 	return actionWrapper(action, true);
+}
+
+export function deletePregnancy(pregnancyId) {
+	const action = async (dispatch) => {
+		const res = await httpCalls.DELETE(API.PREGNANCIES.BY_ID(pregnancyId));
+		if (res.status === 200) {
+			await dispatch(actionCreators.removePregnancy({ status: ACTION_STATUS.SUCCESS, data: res.data }));
+		}
+	};
+	return actionWrapper(action);
 }
 
 /* Medical Examination */
@@ -59,8 +69,8 @@ export function fetchMedicalExaminationsForPregnancy(pregnancyId) {
 	return actionWrapper(action);
 }
 
-export function createMedicalExamination(medicalExaminationData) {
-	const body = parseMedicalExaminationData(medicalExaminationData);
+export function createMedicalExamination(pregnancyId, medicalExaminationData) {
+	const body = parseMedicalExaminationData(pregnancyId, medicalExaminationData);
 
 	const action = async (dispatch) => {
 		const res = await httpCalls.POST(API.MEDICAL_EXAMINATIONS.ROOT, body);
@@ -71,8 +81,8 @@ export function createMedicalExamination(medicalExaminationData) {
 	return actionWrapper(action, true);
 }
 
-export function editMedicalExamination(medicalExaminationData) {
-	const body = parseMedicalExaminationData(medicalExaminationData);
+export function editMedicalExamination(pregnancyId, medicalExaminationData) {
+	const body = parseMedicalExaminationData(pregnancyId, medicalExaminationData);
 
 	const action = async (dispatch) => {
 		const res = await httpCalls.PUT(API.MEDICAL_EXAMINATIONS.BY_ID(medicalExaminationData.id), body);
@@ -94,17 +104,25 @@ export function updateMeasurementsForMedicalExaminations(medicalExaminationId, m
 			}));
 		}
 	};
-	return actionWrapper(action);
+	return actionWrapper(action, true);
 }
 
 /* Helpers */
 
-const parsePregnancyData = (pregnancyData) => ({
+const parsePregnancyData = (patientId, pregnancyData) => ({
 	...pregnancyData,
+	patientId,
+	conceptionMethod: castToInt(pregnancyData.conceptionMethod),
+	pregnancyType: castToInt(pregnancyData.pregnancyType),
 	numberOfPreviousPregnancies: castToInt(pregnancyData.numberOfPreviousPregnancies),
 	numberOfPreviousBirths: castToInt(pregnancyData.numberOfPreviousBirths),
 });
 
-const parseMedicalExaminationData = (medicalExaminationData) => ({
+const parseMedicalExaminationData = (pregnancyId, medicalExaminationData) => ({
 	...medicalExaminationData,
+	pregnancyId,
+	gestationalAgeByUltrasoundWeeks: castToInt(medicalExaminationData.gestationalAgeByUltrasoundWeeks),
+	gestationalAgeByUltrasoundDays: castToInt(medicalExaminationData.gestationalAgeByUltrasoundDays),
+	gestationalAgeOnBloodTestWeeks: castToInt(medicalExaminationData.gestationalAgeOnBloodTestWeeks),
+	gestationalAgeOnBloodTestDays: castToInt(medicalExaminationData.gestationalAgeOnBloodTestDays),
 });

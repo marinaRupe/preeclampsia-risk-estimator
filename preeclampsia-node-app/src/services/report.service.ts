@@ -12,7 +12,13 @@ import {
 	displayBooleanMeasurementValue,
 	displayEnumMeasurementValue,
 	getCharacteristicTranslation,
+	calculateBodyMassIndex,
 } from 'utils/measurement.utils';
+import { DiabetesTypes } from 'constants/measurements.constants';
+import { isDefined } from 'utils/value.utils';
+import { PregnancyTypes, ConceptionMethods } from 'constants/pregnancy.constants';
+import { riskBarrier } from 'constants/report.constants';
+import MeasurementService from './measurement.service';
 
 const createReport = async (reportData) => {
 	const report = await db.Report.create(reportData);
@@ -72,31 +78,48 @@ const generateReportData = (medicalExamination, risk: number, user) => {
 	return reportData;
 };
 
-const generateHTMLReport = (reportData, user, translations, language: string): string => {
+const generateHTMLReport = async (reportData, user, translations, language: string): Promise<string> => {
+	const racialOrigin: object = isDefined(reportData.racialOrigin)
+		&& Object.values(RacialOriginTypes).find(r => r.key === reportData.racialOrigin);
+	const risk: number = Math.round(reportData.calculatedRisk);
+
 	const data = {
 		translations,
 		characteristicTranslations: getCharacteristicTranslations(language),
 		patient: {
 			firstName: reportData.firstName,
 			lastName: reportData.lastName,
-			MBO: reportData.MBO,
+			patientId: reportData.MBO,
 			birthDate: formatDate(reportData.birthDate),
-			racialOrigin: reportData.racialOrigin
-        && Object.values(RacialOriginTypes).find(r => r.key === reportData.racialOrigin).hr,
+			racialOrigin: isDefined(racialOrigin)
+				? racialOrigin[language]
+				: '-',
 			gynecologist: reportData.gynecologist || '-',
 			protocol: reportData.protocol,
-			gestationalAgeByUltrasoundWeeks: reportData.gestationalAgeByUltrasoundWeeks,
-			gestationalAgeByUltrasoundDays: reportData.gestationalAgeByUltrasoundDays,
-			gestationalAgeOnBloodTestWeeks: reportData.gestationalAgeOnBloodTestWeeks,
-			gestationalAgeOnBloodTestDays: reportData.gestationalAgeOnBloodTestDays,
+			gestationalAgeByUltrasoundWeeks: isDefined(reportData.gestationalAgeByUltrasoundWeeks)
+				? reportData.gestationalAgeByUltrasoundWeeks
+				: '-',
+			gestationalAgeByUltrasoundDays: isDefined(reportData.gestationalAgeByUltrasoundDays)
+				? `+${reportData.gestationalAgeByUltrasoundDays}`
+				: '',
+			gestationalAgeOnBloodTestWeeks: isDefined(reportData.gestationalAgeOnBloodTestWeeks)
+				? reportData.gestationalAgeOnBloodTestWeeks
+				: '-',
+			gestationalAgeOnBloodTestDays: isDefined(reportData.gestationalAgeOnBloodTestDays)
+				? `+${reportData.gestationalAgeOnBloodTestDays}`
+				: ''
+			,
 			ultrasoundDate: formatDate(reportData.ultrasoundDate),
 			bloodTestDate: formatDate(reportData.bloodTestDate),
 			bloodTestAge: getAgeInYears(reportData.birthDate, reportData.bloodTestDate),
+			ultrasoundDataMeasuredBy: '-',
 		},
-		measurements: extractMeasurements(reportData, translations, language),
+		measurements: await extractMeasurements(reportData, translations, language),
 		report: {
-			risk: reportData.calculatedRisk,
-			riskExplain: 'rizik manji od graničnog',
+			risk: risk.toFixed(0),
+			riskExplain: (risk > riskBarrier)
+				? translations.report.risk.lowRisk
+				: translations.report.risk.highRisk,
 			generatedBy: user || '-',
 			note: reportData.note || '-',
 			createdAt: formatDate(reportData.dateGenerated),
@@ -111,7 +134,7 @@ const generateHTMLReport = (reportData, user, translations, language: string): s
 	return html;
 };
 
-const extractMeasurements = (reportData, translations, language: string) => {
+const extractMeasurements = async (reportData, translations, language: string) => {
 	const {
 		hadPEInPreviousPregnancy,
 		conceptionMethod,
@@ -123,13 +146,18 @@ const extractMeasurements = (reportData, translations, language: string) => {
 		diabetesType,
 		PLGF,
 		PAPPA,
+		gestationalAgeOnBloodTestWeeks,
 	} = reportData;
 
 	return {
 		serumPLGF: displayNumericalMeasurementValue(PLGF, Characteristics.SerumPLGF.unitOfMeasure, translations),
 		serumPAPPA: displayNumericalMeasurementValue(PAPPA, Characteristics.SerumPAPPA.unitOfMeasure, translations),
-		serumPLGFMoM: PLGF || '-', // TODO: calculate
-		serumPAPPAMoM: PAPPA || '-', // TODO: calculate
+		serumPLGFMoM: (await MeasurementService.getCorrectedMoMValue(
+			Characteristics.SerumPLGF.key, PLGF, gestationalAgeOnBloodTestWeeks
+		)).toFixed(2),
+		serumPAPPAMoM: (await MeasurementService.getCorrectedMoMValue(
+			Characteristics.SerumPAPPA.key, PAPPA, gestationalAgeOnBloodTestWeeks
+		)).toFixed(2),
 		CRL: displayNumericalMeasurementValue(CRL, Characteristics.FetalCrownRumpLength.unitOfMeasure, translations),
 		weight: displayNumericalMeasurementValue(weight, Characteristics.Weight.unitOfMeasure, translations),
 		height: displayNumericalMeasurementValue(height, Characteristics.Height.unitOfMeasure, translations),
@@ -159,8 +187,75 @@ const getCharacteristicTranslations = (language: string) => ({
 	diabetesType: getCharacteristicTranslation(Characteristics.DiabetesType, language),
 });
 
+const parseRiskEstimationData = async (medicalExamination) => {
+	const { pregnancy } = medicalExamination;
+	const { patient } = pregnancy;
+	const { gestationalAgeOnBloodTestWeeks } = medicalExamination;
+
+	const booleanMeasurements = {};
+	(medicalExamination.booleanMeasurements || []).forEach(bm => {
+		booleanMeasurements[bm.characteristicId] = bm;
+	});
+
+	const enumMeasurements = {};
+	(medicalExamination.enumMeasurements || []).forEach(em => {
+		enumMeasurements[em.characteristicId] = em;
+	});
+
+	const numericalMeasurements = {};
+	(medicalExamination.numericalMeasurements || []).forEach(nm => {
+		numericalMeasurements[nm.characteristicId] = nm;
+	});
+
+	const diabetesType = getMeasurementValue(enumMeasurements[Characteristics.DiabetesType.key]);
+	const { conceptionMethod } = pregnancy;
+
+	const age: number = getAgeInYears(patient.birthDate, medicalExamination.bloodTestDate);
+	const PLGF: number = await MeasurementService.getMoMValue(
+		Characteristics.SerumPLGF.key,
+		getMeasurementValue(numericalMeasurements[Characteristics.SerumPLGF.key]),
+		gestationalAgeOnBloodTestWeeks
+	);
+
+	const PAPP_A: number = await MeasurementService.getMoMValue(
+		Characteristics.SerumPAPPA.key,
+		getMeasurementValue(numericalMeasurements[Characteristics.SerumPAPPA.key]),
+		gestationalAgeOnBloodTestWeeks
+	);
+
+	const weight: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.Weight.key]);
+	const height: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.Height.key]);
+	
+	const BMI = (isDefined(weight) && isDefined(height)) ? calculateBodyMassIndex(weight, height) : null;
+
+	const MAP: number
+		= getMeasurementValue(numericalMeasurements[Characteristics.MeanArterialPressure.key]);
+	const smokingDuringPregnancy: number
+		= getMeasurementValue(booleanMeasurements[Characteristics.SmokingDuringPregnancy.key]) === true ? 1 : 0;
+	const diabetes: number
+		= isDefined(diabetesType) ? ((diabetesType === DiabetesTypes.None.key) ? 0 : 1) : null;
+	const IVF: number
+		= isDefined(conceptionMethod) ? (conceptionMethod === ConceptionMethods.InVitroFertilization ? 1 : 0) : null;
+
+	const riskEstimationData: string[] = [
+		isDefined(age) ? age.toString() : '',
+		isDefined(PLGF) ? PLGF.toString() : '',
+		isDefined(PAPP_A) ? PAPP_A.toString() : '',
+		isDefined(BMI) ? BMI.toString() : '',
+		isDefined(smokingDuringPregnancy) ? smokingDuringPregnancy.toString() : '',
+		isDefined(diabetes) ? diabetes.toString() : '',
+		isDefined(IVF) ? IVF.toString() : '',
+		isDefined(MAP) ? MAP.toString() : '',
+	];
+
+	return riskEstimationData;
+};
+
 export default {
 	generateReportData,
 	generateHTMLReport,
 	createReport,
+	parseRiskEstimationData,
 };

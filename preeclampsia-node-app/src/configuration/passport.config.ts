@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTstrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 import { db } from 'models/index';
+import UserService from 'services/user.service';
 
 export const configure = async (app) => {
 	app.use(passport.initialize());
@@ -11,21 +12,23 @@ export const configure = async (app) => {
 	passport.use('login', new LocalStrategy({
 		usernameField : 'email',
 		passwordField : 'password',
-	}, async (email, password, done) => {
+	}, async (email: string, password: string, done) => {
 		try {
-			// Find the user associated with the email provided by the user
-			const user = await db.User.findOne({ where: { email }});
+			// Find the user by E-mail
+			const user = await UserService.getByEmail(email);
 			if (!user) {
-				return done(null, false, { message : 'User not found'});
+				// User not found
+				return done(null, false);
 			}
 
-			const isValidPassword = await user.isValidPassword(password);
+			const isValidPassword: boolean = await user.isValidPassword(password);
 			if (!isValidPassword) {
-				return done(null, false, { message : 'Incorrect Password' });
+				// Incorrect password
+				return done(null, false);
 			}
 
-			// Send the user information to the next middleware
-			return done(null, user, { message : 'Logged in Successfully'});
+			// Call the next middleware
+			return done(null, user);
 		} catch (error) {
 			return done(error);
 		}
@@ -36,7 +39,7 @@ export const configure = async (app) => {
 		usernameField : 'email',
 		passwordField : 'password',
 		passReqToCallback : true,
-	}, async (req, email, password, done) => {
+	}, async (req, email: string, password: string, done) => {
 		try {
 			const {
 				firstName,
@@ -44,13 +47,15 @@ export const configure = async (app) => {
 				role,
 			} = req.body;
 
-			const user = await db.User.create({
+			const userData = {
 				firstName,
 				lastName,
 				role,
 				email,
-				hashedPassword: password
-			});
+				password,
+			};
+
+			const user = await UserService.createUser(userData);
 
 			//Send the user information to the next middleware
 			return done(null, user);

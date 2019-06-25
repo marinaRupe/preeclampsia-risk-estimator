@@ -1,6 +1,6 @@
-import initialState from './initialState';
-import * as types from '../actionTypes';
 import { ACTION_STATUS } from 'enums/responseStatus.enums';
+import initialState from '../store/initialState';
+import * as types from './user.actionTypes';
 
 export default function userReducer(state = initialState.users, action) {
 	switch (action.type) {

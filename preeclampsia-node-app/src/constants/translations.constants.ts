@@ -8,7 +8,11 @@ export const translations = {
 				},
 				user: {
 					delete: 'Korisnik je uspješno izbrisan',
-				}
+					updatePassword: 'Lozinka je uspješno ažurirana',
+				},
+				pregnancy: {
+					delete: 'Trudnoća je uspješno izbrisana',
+				},
 			},
 			notFound: {
 				patient: 'Pacijent nije pronađen',
@@ -17,6 +21,7 @@ export const translations = {
 				user: 'Korisnik nije pronađen',
 			},
 			error: {
+				login: 'E-mail ili lozinka su neispravni',
 				patient: {
 					create: 'Unos pacijenta nije uspio',
 					update: 'Ažuriranje podataka o pacijentu nije uspjelo',
@@ -30,6 +35,7 @@ export const translations = {
 				pregnancy: {
 					create: 'Unos podataka o trudnoći nije uspio',
 					update: 'Ažuriranje podataka o trudnoći nije uspjelo',
+					delete: 'Brisanje trudnoće nije uspjelo',
 				},
 				medicalExamination: {
 					create: 'Unos podataka o pregledu nije uspio',
@@ -70,6 +76,7 @@ export const translations = {
 		},
 		pregnancy: {
 			property: {
+				pregnancyNumber: 'Broj trudnoće',
 				lastPeriodDate: 'Datum posljednje mjesečnice',
 				lastPeriodDateIsReliable: 'Datum posljednje mjesečnice pouzdan',
 				deliveryDate: 'Datum poroda',
@@ -79,6 +86,10 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Podaci o trudnoći su obavezni',
+				pregnancyNumberRequired: 'Broj trudnoće je obavezno polje',
+				pregnancyNumberMustBeNumber: 'Broj trudnoće mora biti broj',
+				pregnancyTypeRequired: 'Tip trudnoće je obavezno polje',
+				conceptionMethodRequired: 'Vrsta zaćeća je obavezno polje',
 			}
 		},
 		medicalExamination: {
@@ -92,6 +103,17 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Podaci o pregledu su obavezni',
+				trimesterNumberRequired: 'Tromjesečje je obavezno polje',
+				trimesterNumberMustBeNumber: 'Tromjesečje može biti 1., 2. ili 3.',
+				protocolRequired: 'Protokol je obavezno polje',
+				bloodTestDateRequired: 'Datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestWeeksRequired: 'Gestacijska dob na datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestDaysRequired: 'Gestacijska dob na datum vađenja krvi je obavezno polje',
+				gestationalAgeOnBloodTestWeeksMustBeNumber: 'Gestacijska dob na datum vađenja krvi je neispravna',
+				gestationalAgeOnBloodTestDaysMustBeNumber: 'Gestacijska dob na datum vađenja krvi je neispravna',
+				gestationalAgeByUltrasoundWeeksMustBeNumber: 'Gestacijska dob na ultrazvuku je neispravna',
+				gestationalAgeByUltrasoundDaysMustBeNumber: 'Gestacijska dob na ultrazvuku je neispravna',
+				gestationalAgeByUltrasoundIncomplete: 'Gestacijska dob na ultrazvuku nije potpuna',
 			},
 		},
 		measurement: {
@@ -112,6 +134,28 @@ export const translations = {
 				risks: 'Rizici na dan vađenja krvi',
 				comment: 'Komentar',
 			},
+			property: {
+				patientId: 'MBO',
+				fullname: 'Ime i prezime',
+				birthDate: 'Datum rođenja',
+				protocol: 'Protokol',
+				bloodTestDate: 'Datum vađenja krvi',
+				bloodTestAge: 'Dob na dan vađenja krvi',
+				gynecologist: 'PZZ ginekolog',
+				racialOrigin: 'Etnička skupina',
+				hadPEInPreviousPregnancy: 'PE u prethodnoj trudnoći',
+				adjustedMoM: 'Korigirani MoM',
+				ultrasoundDate: 'Datum UZV pregleda',
+				gestationalAgeByUltrasound: 'Gestacijska dob na datum UZV pregleda',
+				gestationalAgeOnBloodTest: 'Gestacijska dob na dan vađenja krvi',
+				ultrasoundDataMeasuredBy: 'Izmjerio/la',
+				reportDateCreated: 'Datum nalaza',
+				reportGeneratedBy: 'Odgovorna osoba',
+			},
+			risk: {
+				lowRisk: 'rizik manji od graničnog',
+				highRisk: 'rizik veći od graničnog',
+			},
 		},
 		word: {
 			yes: 'da',
@@ -129,6 +173,10 @@ export const translations = {
 				},
 				user: {
 					deleted: 'User is successfully deleted',
+					updatePassword: 'User password is successfully updated',
+				},
+				pregnancy: {
+					deleted: 'Pregnancy is successfully deleted',
 				}
 			},
 			notFound: {
@@ -138,6 +186,7 @@ export const translations = {
 				user: 'User not found',
 			},
 			error: {
+				login: 'Incorrect E-mail or password',
 				patient: {
 					create: 'Could not create new patient',
 					update: 'Could not update patient',
@@ -152,6 +201,7 @@ export const translations = {
 				pregnancy: {
 					create: 'Could not create new pregnancy',
 					update: 'Could not update pregnancy',
+					delete: 'Could not delete pregnancy',
 				},
 				medicalExamination: {
 					create: 'Could not create new medical examination',
@@ -192,6 +242,7 @@ export const translations = {
 		},
 		pregnancy: {
 			property: {
+				pregnancyNumber: 'Pregnancy number',
 				lastPeriodDate: 'Last period date',
 				lastPeriodDateIsReliable: 'Last period date is reliable',
 				deliveryDate: 'Delivery date',
@@ -201,6 +252,10 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Pregnancy data is required',
+				pregnancyNumberRequired: 'Pregnancy number is required',
+				pregnancyNumberMustBeNumber: 'Pregnancy number must be a number',
+				pregnancyTypeRequired: 'Pregnancy type is required',
+				conceptionMethodRequired: 'Conception method is required',
 			}
 		},
 		medicalExamination: {
@@ -214,6 +269,17 @@ export const translations = {
 			},
 			validation: {
 				dataRequired: 'Medical examination data is required',
+				trimesterNumberRequired: 'Trimester number is required',
+				trimesterNumberMustBeNumber: 'Trimester number must be 1, 2 or 3',
+				protocolRequired: 'Protocol is required',
+				bloodTestDateRequired: 'Blood test date is required',
+				gestationalAgeOnBloodTestWeeksRequired: 'Gestational age on blood test is required',
+				gestationalAgeOnBloodTestDaysRequired: 'Gestational age on blood test is required',
+				gestationalAgeOnBloodTestWeeksMustBeNumber: 'Gestational age on blood test is invalid',
+				gestationalAgeOnBloodTestDaysMustBeNumber: 'Gestational age on blood test is invalid',
+				gestationalAgeByUltrasoundWeeksMustBeNumber: 'Gestational age by ultrasound is invalid',
+				gestationalAgeByUltrasoundDaysMustBeNumber: 'Gestational age by ultrasound must is invalid',
+				gestationalAgeByUltrasoundIncomplete: 'Gestational age by ultrasound is incomplete',
 			},
 		},
 		measurement: {
@@ -233,6 +299,28 @@ export const translations = {
 				ultrasoundData: 'Ultrasound data',
 				risks: 'Risks on the blood test date',
 				comment: 'Comment',
+			},
+			property: {
+				patientId: 'Patient ID',
+				fullname: 'Fullname',
+				birthDate: 'Birth date',
+				protocol: 'Protocol',
+				bloodTestDate: 'Blood test date',
+				bloodTestAge: 'Age on blood test',
+				gynecologist: 'Gynecologist',
+				racialOrigin: 'Racial origin',
+				hadPEInPreviousPregnancy: 'PE in previous pregnancy',
+				adjustedMoM: 'Adjusted MoM',
+				ultrasoundDate: 'Ultrasound date',
+				gestationalAgeByUltrasound: 'Gestational age on ultrasound',
+				gestationalAgeOnBloodTest: 'Gestational age on blood test',
+				ultrasoundDataMeasuredBy: 'Measured by',
+				reportDateCreated: 'Report date',
+				reportGeneratedBy: 'Person responsible',
+			},
+			risk: {
+				lowRisk: 'low risk of preeclampsia',
+				highRisk: 'high risk of preeclampsia',
 			},
 		},
 		word: {

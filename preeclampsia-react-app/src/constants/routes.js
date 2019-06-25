@@ -11,6 +11,7 @@ export const API = {
 		ALL: (page, pageSize, sortColumn, sortDirection) =>
 			`${API.USERS.ROOT}/?${pagingQueryString(page, pageSize, sortColumn, sortDirection)}`,
 		BY_ID: (userId) => `${API.USERS.ROOT}/${userId}`,
+		PASSWORD: (userId) => `${API.USERS.BY_ID(userId)}/password`,
 		LOGIN: () => `${API.USERS.ROOT}/login`,
 	},
 	PATIENTS: {
@@ -61,7 +62,7 @@ export const APP = {
 		patientId = ':patientId',
 		pregnancyNumber = ':pregnancyNumber',
 		medicalExaminationId = ':medicalExaminationId',
-	) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/examinations/${medicalExaminationId}/risk`,
+	) => `/patients/${patientId}/pregnancies/${pregnancyNumber}/examinations/${medicalExaminationId}`,
 	STATISTICS: '/statistics',
 	USERS: '/users',
 };

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Grid, Row, Button } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import { getTranslations } from 'utils/translation.utils';
 import DateDisplay from 'components/Measurement/DateDisplay';
 import BooleanMeasurement from 'components/Measurement/BooleanMeasurement';
 import EnumMeasurement from 'components/Measurement/EnumMeasurement';
 import NumericalMeasurement from 'components/Measurement/NumericalMeasurement';
+import EditPregnancyBasicInfoForm from './EditPregnancyBasicInfoForm';
 
 class BasicInfo extends Component {
 	constructor(props) {
@@ -14,122 +15,157 @@ class BasicInfo extends Component {
 			isEditModeOn: false,
 		};
 	}
+	
+	getInitialValues = () => {
+		const {
+			pregnancy: {
+				id,
+				pregnancyNumber,
+				lastPeriodDate,
+				lastPeriodDateIsReliable,
+				deliveryDate,
+				pregnancyType,
+				conceptionMethod,
+				numberOfPreviousBirths,
+				numberOfPreviousPregnancies,
+				hadPEInPreviousPregnancy,
+				motherOfPatientHadPE,
+				resultedWithPE,
+			} } = this.props;
 
-  gestationalAge = (CRL) => {
-  	const gestationalAgeInDays = Math.pow((CRL * 1.037), 0.5) * 8.052 + 23.73;
-  	const weeks = Math.floor(gestationalAgeInDays / 7);
-  	const days = Math.floor(gestationalAgeInDays % 7);
-  	return <span>{weeks}<sup>+{days}</sup></span>;
-  }
+		return {
+			id,
+			pregnancyNumber,
+			lastPeriodDate,
+			lastPeriodDateIsReliable,
+			deliveryDate,
+			pregnancyType,
+			conceptionMethod,
+			numberOfPreviousBirths,
+			numberOfPreviousPregnancies,
+			hadPEInPreviousPregnancy,
+			motherOfPatientHadPE,
+			resultedWithPE,
+		};
+	}
 
-  openEditMode = () => {
-  	this.setState({ isEditModeOn: true });
-  }
+	openEditMode = () => {
+		this.setState({ isEditModeOn: true });
+	}
 
-  closeEditMode = () => {
-  	this.setState({ isEditModeOn: false });
-  }
+	closeEditMode = () => {
+		this.setState({ isEditModeOn: false });
+	}
 
-  saveChanges = () => {
-  	this.closeEditMode();
-  };
+	saveChanges = async (pregnancyData) => {
+		const { pregnancy: { patientId }, editPregnancy } = this.props;
+		await editPregnancy(patientId, pregnancyData);
+		this.closeEditMode();
+	};
 
-  render() {
-  	const { isEditModeOn } = this.state;
-  	const {
-  		pregnancy: {
-  			lastPeriodDate,
-  			lastPeriodDateIsReliable,
-  			deliveryDate,
-  			pregnancyType,
-  			conceptionMethod,
-  			numberOfPreviousBirths,
-  			numberOfPreviousPregnancies,
-  			hadPEInPreviousPregnancy,
-  			motherOfPatientHadPE
-  		} } = this.props;
+	render() {
+		const { isEditModeOn } = this.state;
+		const {
+			pregnancy: {
+				pregnancyNumber,
+				lastPeriodDate,
+				lastPeriodDateIsReliable,
+				deliveryDate,
+				pregnancyType,
+				conceptionMethod,
+				numberOfPreviousBirths,
+				numberOfPreviousPregnancies,
+				hadPEInPreviousPregnancy,
+				motherOfPatientHadPE,
+				resultedWithPE
+			} } = this.props;
 
-  	const translations = getTranslations();
+		const translations = getTranslations();
 
-  	return (
-  		<div className='pregnancy__card'>
-  			<Grid>
-  				<Row>
-  					<h4 className='pregnancy__card--title'>
-  						<span>{translations.pregnancy.basicDetailsTitle}</span>
-  						{
-  							!isEditModeOn &&
-                <i onClick={this.openEditMode} className='material-icons'>edit</i>
-  						}
-  					</h4>
-  				</Row>
+		return (
+			<div className='pregnancy__card'>
+				<Grid>
+					<Row>
+						<h4 className='pregnancy__card--title'>
+							<span>{translations.pregnancy.basicDetailsTitle}</span>
+							{
+								!isEditModeOn &&
+								<i onClick={this.openEditMode} className='material-icons'>edit</i>
+							}
+						</h4>
+					</Row>
 
-  				<DateDisplay
-  					label={translations.pregnancy.property.lastPeriodDate}
-  					value={lastPeriodDate}
-  				/>
+					{
+						!isEditModeOn
+							?
+							<div>
+								<NumericalMeasurement
+									label={translations.pregnancy.property.pregnancyNumber}
+									value={pregnancyNumber}
+								/>
 
-  				<BooleanMeasurement
-  					label={translations.pregnancy.property.lastPeriodDateIsReliable}
-  					value={lastPeriodDateIsReliable}
-  				/>
+								<EnumMeasurement
+									characteristicName='PregnancyType'
+									value={pregnancyType}
+								/>
 
-  				<DateDisplay
-  					label={translations.pregnancy.property.deliveryDate}
-  					value={deliveryDate}
-  				/>
+								<EnumMeasurement
+									characteristicName='ConceptionMethod'
+									value={conceptionMethod}
+								/>
 
-  				<EnumMeasurement
-  					characteristicName='PregnancyType'
-  					value={pregnancyType}
-  				/>
+								<NumericalMeasurement
+									label={translations.pregnancy.property.numberOfPreviousPregnancies}
+									value={numberOfPreviousPregnancies}
+								/>
 
-  				<EnumMeasurement
-  					characteristicName='ConceptionMethod'
-  					value={conceptionMethod}
-  				/>
+								<NumericalMeasurement
+									label={translations.pregnancy.property.numberOfPreviousBirths}
+									value={numberOfPreviousBirths}
+								/>
 
-  				<NumericalMeasurement
-  					label={translations.pregnancy.property.numberOfPreviousPregnancies}
-  					value={numberOfPreviousPregnancies}
-  				/>
+								<DateDisplay
+									label={translations.pregnancy.property.lastPeriodDate}
+									value={lastPeriodDate}
+								/>
 
-  				<NumericalMeasurement
-  					label={translations.pregnancy.property.numberOfPreviousBirths}
-  					value={numberOfPreviousBirths}
-  				/>
+								<BooleanMeasurement
+									label={translations.pregnancy.property.lastPeriodDateIsReliable}
+									value={lastPeriodDateIsReliable}
+								/>
 
-  				<BooleanMeasurement
-  					label={translations.pregnancy.property.hadPEInPreviousPregnancy}
-  					value={hadPEInPreviousPregnancy}
-  				/>
+								<DateDisplay
+									label={translations.pregnancy.property.deliveryDate}
+									value={deliveryDate}
+								/>
 
-  				<BooleanMeasurement
-  					characteristicName='MotherOfPatientHadPE'
-  					value={motherOfPatientHadPE}
-  				/>
+								<BooleanMeasurement
+									label={translations.pregnancy.property.hadPEInPreviousPregnancy}
+									value={hadPEInPreviousPregnancy}
+								/>
 
-  				{
-  					isEditModeOn &&
-            <div>
-            	<Button
-            		bsStyle='primary'
-            		onClick={this.saveChanges}
-            	>
-            		{translations.pregnancy.action.save}
-            	</Button>
-            	<Button
-            		bsStyle='default'
-            		onClick={this.closeEditMode}
-            	>
-            		{translations.action.cancel}
-            	</Button>
-            </div> 
-  				}
-  			</Grid>
-  		</div>
-  	);
-  }
+								<BooleanMeasurement
+									characteristicName='MotherOfPatientHadPE'
+									value={motherOfPatientHadPE}
+								/>
+
+								<BooleanMeasurement
+									label={translations.pregnancy.property.resultedWithPE}
+									value={resultedWithPE}
+								/>
+							</div>
+							
+							:
+							<EditPregnancyBasicInfoForm
+								onSubmit={this.saveChanges}
+								initialValues={this.getInitialValues()}
+								closeEditMode={this.closeEditMode}
+							/>
+					}
+				</Grid>
+			</div>
+		);
+	}
 }
 
 export default BasicInfo;

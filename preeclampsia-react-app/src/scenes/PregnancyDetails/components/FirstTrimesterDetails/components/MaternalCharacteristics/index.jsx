@@ -15,89 +15,89 @@ class MaternalCharacteristics extends Component {
 		};
 	}
 
-  openEditMode = () => {
-  	this.setState({ isEditModeOn: true });
-  }
+	openEditMode = () => {
+		this.setState({ isEditModeOn: true });
+	}
 
-  closeEditMode = () => {
-  	this.setState({ isEditModeOn: false });
-  }
+	closeEditMode = () => {
+		this.setState({ isEditModeOn: false });
+	}
 
-  saveChanges = (measurementsData) => {
-  	const { medicalExaminationData, updateMeasurements } = this.props;
-  	updateMeasurements(medicalExaminationData.id, measurementsData);
-  	this.closeEditMode();
-  };
+	saveChanges = async (measurementsData) => {
+		const { medicalExaminationData, updateMeasurements } = this.props;
+		await updateMeasurements(medicalExaminationData.id, measurementsData);
+		this.closeEditMode();
+	};
 
-  getEditMeasurementsInitialValues = () => {
-  	const { medicalExaminationData } = this.props;
-  	const numericalCharacteristics = ['Height', 'Weight'];
-  	const booleanCharacteristics = ['SmokingDuringPregnancy'];
+	getEditMeasurementsInitialValues = () => {
+		const { medicalExaminationData } = this.props;
+		const numericalCharacteristics = ['Height', 'Weight'];
+		const booleanCharacteristics = ['SmokingDuringPregnancy'];
 
-  	return extractMeasurementsInitialValues(
-  		medicalExaminationData,
-  		booleanCharacteristics,
-  		[],
-  		numericalCharacteristics,
-  	);
-  }
+		return extractMeasurementsInitialValues(
+			medicalExaminationData,
+			booleanCharacteristics,
+			[],
+			numericalCharacteristics,
+		);
+	}
 
-  render() {
-  	const { isEditModeOn } = this.state;
-  	const {
-  		medicalExaminationData: {
-  			numericalMeasurements,
-  			booleanMeasurements,
-  		}
-  	} = this.props;
+	render() {
+		const { isEditModeOn } = this.state;
+		const {
+			medicalExaminationData: {
+				numericalMeasurements,
+				booleanMeasurements,
+			}
+		} = this.props;
 
-  	const translations = getTranslations();
+		const translations = getTranslations();
 
-  	return (
-  		<div className='pregnancy__card'>
-  			<Grid>
-  				<Row>
-  					<h4 className='pregnancy__card--title'>
-  						<span>{translations.pregnancy.maternalCharacteristicsTitle}</span>
-  						{
-  							!isEditModeOn &&
-                <i onClick={this.openEditMode} className='material-icons'>edit</i>
-  						}
-  					</h4>
-  				</Row>
-          
-  				{
-  					!isEditModeOn
-  						?
-  						<div>
-  							<NumericalMeasurement
-  								characteristicName='Height'
-  								value={numericalMeasurements.Height}
-  							/>
+		return (
+			<div className='pregnancy__card'>
+				<Grid>
+					<Row>
+						<h4 className='pregnancy__card--title'>
+							<span>{translations.pregnancy.maternalCharacteristicsTitle}</span>
+							{
+								!isEditModeOn &&
+								<i onClick={this.openEditMode} className='material-icons'>edit</i>
+							}
+						</h4>
+					</Row>
+					
+					{
+						!isEditModeOn
+							?
+							<div>
+								<NumericalMeasurement
+									characteristicName='Height'
+									value={numericalMeasurements.Height}
+								/>
 
-  							<NumericalMeasurement
-  								characteristicName='Weight'
-  								value={numericalMeasurements.Weight}
-  							/>
+								<NumericalMeasurement
+									characteristicName='Weight'
+									value={numericalMeasurements.Weight}
+								/>
 
-  							<hr />
+								<hr />
 
-  							<BooleanMeasurement
-  								characteristicName='SmokingDuringPregnancy'
-  								value={booleanMeasurements.SmokingDuringPregnancy}
-  							/>
-  						</div>
-  						:
-  						<EditMaternalCharacteristicsForm
-  							onSubmit={this.saveChanges}
-  							initialValues={this.getEditMeasurementsInitialValues()}
-  							closeEditMode={this.closeEditMode}
-  						/>
-  				}
-  			</Grid>
-  		</div>
-  	);
-  }
+								<BooleanMeasurement
+									characteristicName='SmokingDuringPregnancy'
+									value={booleanMeasurements.SmokingDuringPregnancy}
+								/>
+							</div>
+							:
+							<EditMaternalCharacteristicsForm
+								onSubmit={this.saveChanges}
+								initialValues={this.getEditMeasurementsInitialValues()}
+								closeEditMode={this.closeEditMode}
+							/>
+					}
+				</Grid>
+			</div>
+		);
+	}
 }
 
 export default MaternalCharacteristics;

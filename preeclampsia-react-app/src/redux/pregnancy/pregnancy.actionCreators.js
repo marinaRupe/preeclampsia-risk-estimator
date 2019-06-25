@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './pregnancy.actionTypes';
 
 export const updatePregnancyDetails = ({ status, data }) => {
 	return {
@@ -21,6 +21,14 @@ export const editPregnancy = ({ status, data }) => {
 		data,
 		status,
 		type: types.EDIT_PREGNANCY,
+	};
+};
+
+export const removePregnancy = ({ status, data }) => {
+	return {
+		data,
+		status,
+		type: types.REMOVE_PREGNANCY,
 	};
 };
 

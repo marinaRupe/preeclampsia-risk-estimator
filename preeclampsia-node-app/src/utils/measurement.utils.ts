@@ -63,6 +63,14 @@ export const displayEnumMeasurementValue = (
 	return translations.word.unknown;
 };
 
+export const calculateMeanArterialPressure = (
+	systolicBloodPressure: number, diastolicBloodPressure: number
+): number => (1/3 * (systolicBloodPressure - diastolicBloodPressure) + diastolicBloodPressure);
+
+export const calculateBodyMassIndex = (weight: number, height: number): number => (
+	weight / Math.pow((height / 100), 2)
+);
+
 export default {
 	getMeasurementValue,
 	displayBooleanMeasurementValue,
@@ -70,4 +78,5 @@ export default {
 	displayEnumMeasurementValue,
 	getMeasurementTranslation,
 	getCharacteristicTranslation,
+	calculateMeanArterialPressure,
 };

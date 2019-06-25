@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './statistics.actionTypes';
 
 export const updateMediansForCharacteristic = ({ status, data }) => {
 	return {

@@ -10,7 +10,7 @@ export const getMediansForCharacteristic = async (req, res) => {
 	}
 
 	const medians = await MeasurementService.getMediansByWeeks(characteristicId);
-	res.json(medians);
+	res.json({ withoutPE: medians });
 };
 
 export default {

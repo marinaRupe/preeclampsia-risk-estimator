@@ -14,80 +14,80 @@ class BiophysicalMeasurements extends Component {
 		};
 	}
 
-  openEditMode = () => {
-  	this.setState({ isEditModeOn: true });
-  }
+	openEditMode = () => {
+		this.setState({ isEditModeOn: true });
+	}
 
-  closeEditMode = () => {
-  	this.setState({ isEditModeOn: false });
-  }
-  
-  saveChanges = (measurementsData) => {
-  	const { medicalExaminationData, updateMeasurements } = this.props;
-  	updateMeasurements(medicalExaminationData.id, measurementsData);
-  	this.closeEditMode();
-  };
+	closeEditMode = () => {
+		this.setState({ isEditModeOn: false });
+	}
+	
+	saveChanges = async (measurementsData) => {
+		const { medicalExaminationData, updateMeasurements } = this.props;
+		await updateMeasurements(medicalExaminationData.id, measurementsData);
+		this.closeEditMode();
+	};
 
-  getEditMeasurementsInitialValues = () => {
-  	const { medicalExaminationData } = this.props;
-  	const numericalCharacteristics = ['MeanArterialPressure', 'MeanUterineArteryPI'];
+	getEditMeasurementsInitialValues = () => {
+		const { medicalExaminationData } = this.props;
+		const numericalCharacteristics = ['MeanArterialPressure', 'MeanUterineArteryPI'];
 
-  	return extractMeasurementsInitialValues(
-  		medicalExaminationData,
-  		[],
-  		[],
-  		numericalCharacteristics,
-  	);
-  }
+		return extractMeasurementsInitialValues(
+			medicalExaminationData,
+			[],
+			[],
+			numericalCharacteristics,
+		);
+	}
 
-  render() {
-  	const { isEditModeOn } = this.state;
-  	const {
-  		medicalExaminationData: {
-  			numericalMeasurements,
-  		}
-  	} = this.props;
+	render() {
+		const { isEditModeOn } = this.state;
+		const {
+			medicalExaminationData: {
+				numericalMeasurements,
+			}
+		} = this.props;
 
-  	const translations = getTranslations();
+		const translations = getTranslations();
 
-  	return (
-  		<div className='pregnancy__card'>
-  			<Grid>
-  				<Row>
-  					<h4 className='pregnancy__card--title'>
-  						<span>{translations.pregnancy.biophysicalMeasurementsTitle}</span>
-  						{
-  							!isEditModeOn &&
-                <i onClick={this.openEditMode} className='material-icons'>edit</i>
-  						}
-  					</h4>
-  				</Row>
+		return (
+			<div className='pregnancy__card'>
+				<Grid>
+					<Row>
+						<h4 className='pregnancy__card--title'>
+							<span>{translations.pregnancy.biophysicalMeasurementsTitle}</span>
+							{
+								!isEditModeOn &&
+								<i onClick={this.openEditMode} className='material-icons'>edit</i>
+							}
+						</h4>
+					</Row>
 
-  				{
-  					!isEditModeOn
-  						?
-  						<div>
-  							<NumericalMeasurement
-  								characteristicName='MeanArterialPressure'
-  								value={numericalMeasurements.MeanArterialPressure}
-  							/>
+					{
+						!isEditModeOn
+							?
+							<div>
+								<NumericalMeasurement
+									characteristicName='MeanArterialPressure'
+									value={numericalMeasurements.MeanArterialPressure}
+								/>
 
-  							<NumericalMeasurement
-  								characteristicName='MeanUterineArteryPI'
-  								value={numericalMeasurements.MeanUterineArteryPI}
-  							/>
-  						</div>
-  						:
-  						<EditBiophysicalMeasurementsForm
-  							onSubmit={this.saveChanges}
-  							initialValues={this.getEditMeasurementsInitialValues()}
-  							closeEditMode={this.closeEditMode}
-  						/>
-  				}
-  			</Grid>
-  		</div>
-  	);
-  }
+								<NumericalMeasurement
+									characteristicName='MeanUterineArteryPI'
+									value={numericalMeasurements.MeanUterineArteryPI}
+								/>
+							</div>
+							:
+							<EditBiophysicalMeasurementsForm
+								onSubmit={this.saveChanges}
+								initialValues={this.getEditMeasurementsInitialValues()}
+								closeEditMode={this.closeEditMode}
+							/>
+					}
+				</Grid>
+			</div>
+		);
+	}
 }
 
 export default BiophysicalMeasurements;

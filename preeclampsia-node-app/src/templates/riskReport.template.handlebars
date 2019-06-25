@@ -119,17 +119,17 @@
       <h3>{{translations.report.subtitle.patient}}</h3>
       <div class="section-container">
         <div class="left-section personal-data">
-          <div>Ime i prezime: <b>{{patient.firstName}} {{patient.lastName}}</b></div>
-          <div>Datum rođenja: {{patient.birthDate}}</div>
-          <div>MBO: {{patient.MBO}}</div>
-          <div>Protokol: {{patient.protocol}}</div>
+          <div>{{translations.report.property.fullname}}: <b>{{patient.firstName}} {{patient.lastName}}</b></div>
+          <div>{{translations.report.property.birthDate}}: {{patient.birthDate}}</div>
+          <div>{{translations.report.property.patientId}}: {{patient.patientId}}</div>
+          <div>{{translations.report.property.protocol}}: {{patient.protocol}}</div>
         </div>
         <div class="right-section personal-data">
-          <div>Datum vađenja krvi: {{patient.bloodTestDate}}</div>
-          <div>Dob na dan vađenja krvi: {{patient.bloodTestAge}}</div>
+          <div>{{translations.report.property.bloodTestDate}}: {{patient.bloodTestDate}}</div>
+          <div>{{translations.report.property.bloodTestAge}}: {{patient.bloodTestAge}}</div>
           <div>{{characteristicTranslations.height}}: {{measurements.height}}</div>
           <div>{{characteristicTranslations.weight}}: {{measurements.weight}}</div>
-          <div>Etnička skupina: <span class="measure-value">{{patient.racialOrigin}}</span></div>
+          <div>{{translations.report.property.racialOrigin}}: <span class="measure-value">{{patient.racialOrigin}}</span></div>
           <div></div>
         </div>
       </div>
@@ -140,7 +140,7 @@
       <div class="section-container">
         <div class="left-section other-data">
           <div>
-            <span>PZZ ginekolog: </span>
+            <span>{{translations.report.property.gynecologist}}: </span>
             <span>{{patient.gynecologist}}</span>
           </div>
           <div>
@@ -154,7 +154,7 @@
         </div>
         <div class="right-section other-data">
           <div>
-            <span>PE u prethodnoj trudnoći: </span>
+            <span>{{translations.report.property.hadPEInPreviousPregnancy}}: </span>
             <span class="measure-value">{{measurements.hadPEInPreviousPregnancy}}</span>
           </div>
           <div>
@@ -177,8 +177,8 @@
         <div>{{characteristicTranslations.serumPAPPA}}: {{measurements.serumPAPPA}}</div>
       </div>
       <div class="right-section biochem-data">
-        <div>Korigirani MoM: {{measurements.serumPLGFMoM}}</div>
-        <div>Korigirani MoM: {{measurements.serumPAPPAMoM}}</div>
+        <div>{{translations.report.property.adjustedMoM}}: {{measurements.serumPLGFMoM}}</div>
+        <div>{{translations.report.property.adjustedMoM}}: {{measurements.serumPAPPAMoM}}</div>
       </div>
     </div>
     
@@ -186,12 +186,12 @@
       <h3>{{translations.report.subtitle.ultrasoundData}}</h3>
       <div class="left-section ultrasound-data">
         <div>
-          <span>Datum UZV pregleda:</span>
+          <span>{{translations.report.property.ultrasoundDate}}:</span>
           <span>{{patient.ultrasoundDate}}</span>
         </div>
         <div>
-          <span>Izmjerio/la:</span>
-          <span>-</span>
+          <span>{{translations.report.property.ultrasoundDataMeasuredBy}}:</span>
+          <span>{{patient.ultrasoundDataMeasuredBy}}</span>
         </div>
       </div>
       <div class="right-section ultrasound-data">
@@ -200,12 +200,12 @@
           <span>{{measurements.CRL}}</span>
         </div>
         <div>
-          <span>Gestacijska dob na datum UZV pregleda:</span>
-          <span>{{patient.gestationalAgeByUltrasoundWeeks}}<sup>+{{patient.gestationalAgeByUltrasoundDays}}</sup></span>
+          <span>{{translations.report.property.gestationalAgeByUltrasound}}:</span>
+          <span>{{patient.gestationalAgeByUltrasoundWeeks}}<sup>{{patient.gestationalAgeByUltrasoundDays}}</sup></span>
         </div>
         <div>
-          <span>Gestacijska dob na dan vađenja krvi:</span>
-          <span>{{patient.gestationalAgeOnBloodTestWeeks}}<sup>+{{patient.gestationalAgeOnBloodTestDays}}</sup></span>
+          <span>{{translations.report.property.gestationalAgeOnBloodTest}}:</span>
+          <span>{{patient.gestationalAgeOnBloodTestWeeks}}<sup>{{patient.gestationalAgeOnBloodTestDays}}</sup></span>
         </div>
       </div>
     </div>
@@ -228,8 +228,10 @@
   </div>
   
   <footer>
-    <div class="left-section">Datum nalaza: {{report.createdAt}}</div>
-    <div class="right-section">Odgovorna osoba: {{report.generatedBy.firstName}} {{report.generatedBy.lastName}}</div>
+    <div class="left-section">{{translations.report.property.reportDateCreated}}: {{report.createdAt}}</div>
+    <div class="right-section">
+      {{translations.report.property.reportGeneratedBy}}: {{report.generatedBy.firstName}} {{report.generatedBy.lastName}}
+    </div>
   </footer>
 </body>
 </html>

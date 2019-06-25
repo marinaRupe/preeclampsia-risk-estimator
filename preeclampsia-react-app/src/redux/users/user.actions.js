@@ -6,7 +6,7 @@ import {
 	removeLoginDataFromLocalStorage,
 } from 'utils/auth.utils';
 import * as httpCalls from 'utils/http.utils';
-import * as actionCreators from '../actionCreators/user.actionCreators';
+import * as actionCreators from './user.actionCreators';
 
 export function fetchUserList(page = 1, pageSize = 10, sortColumn, sortDirection) {
 	const action = async (dispatch) => {
@@ -23,6 +23,21 @@ export function updateUser(userData) {
 		const resp = await httpCalls.PUT(API.USERS.BY_ID(userData.id), userData);
 		if (resp.status === 200) {
 			await dispatch(actionCreators.editUser({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
+		}
+	};
+	return actionWrapper(action, true);
+}
+
+export function updateUserPassword(userId, userPasswordData) {
+	const body = {
+		password: userPasswordData.password,
+		repeatedPassword: userPasswordData.repeatedPassword,
+	};
+
+	const action = async (dispatch) => {
+		const resp = await httpCalls.PUT(API.USERS.PASSWORD(userId), body);
+		if (resp.status === 200) {
+			await dispatch(actionCreators.editUserPassword({ status: ACTION_STATUS.SUCCESS, data: resp.data }));
 		}
 	};
 	return actionWrapper(action, true);

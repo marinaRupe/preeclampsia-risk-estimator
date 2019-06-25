@@ -1,7 +1,10 @@
+import { Sequelize } from 'sequelize';
 import { db } from 'models/index';
 import { median } from 'utils/math.utils';
 import { isDefined } from 'utils/value.utils';
 import { Characteristics, CharacteristicTypes } from 'constants/characteristics.constants';
+
+const { Op } = Sequelize as any;
 
 /**
  * Updates measurements in the database.
@@ -103,7 +106,35 @@ const createMeasurement = async (
 	})
 );
 
-const getMediansByWeeks = async (characteristicId: number) => {
+const getCorrectedMoMValue = async (
+	characteristicId: number, value: number = 0, gestationalAgeOnBloodTestWeeks: number
+): Promise<number> => {
+	const medians = await getMediansByWeeks(characteristicId, true);
+	const gestationalAgeOnBloodTestWeeksCeiled = gestationalAgeOnBloodTestWeeks + 1;
+	const median = medians[gestationalAgeOnBloodTestWeeksCeiled];
+
+	if (isDefined(median)) {
+		return value / median;
+	}
+
+	return 1; // value / value = 1
+};
+
+const getMoMValue = async (
+	characteristicId: number, value: number = 0, gestationalAgeOnBloodTestWeeks: number
+): Promise<number> => {
+	const medians = await getMediansByWeeks(characteristicId);
+	const gestationalAgeOnBloodTestWeeksCeiled = gestationalAgeOnBloodTestWeeks + 1;
+	const median = medians[gestationalAgeOnBloodTestWeeksCeiled];
+
+	if (isDefined(median)) {
+		return value / median;
+	}
+
+	return 1; // value / value = 1
+};
+
+const getMediansByWeeks = async (characteristicId: number, corrected = true) => {
 	const measures = await db.NumericalMeasurement.findAll({
 		attributes: ['value'],
 		where: {
@@ -113,9 +144,9 @@ const getMediansByWeeks = async (characteristicId: number) => {
 			{
 				model: db.MedicalExamination,
 				as: 'medicalExamination',
-				attributes: ['gestationalAgeByUltrasoundWeeks'],
+				attributes: ['gestationalAgeOnBloodTestWeeks'],
 				where: {
-					gestationalAgeByUltrasoundWeeks: {
+					gestationalAgeOnBloodTestWeeks: {
 						[db.Sequelize.Op.ne]: null
 					}
 				},
@@ -125,7 +156,7 @@ const getMediansByWeeks = async (characteristicId: number) => {
 						as: 'pregnancy',
 						attributes: ['resultedWithPE'],
 						where: {
-							resultedWithPE: false
+							resultedWithPE: corrected ? false : { [Op.ne]: null }
 						},
 					},
 				],
@@ -134,27 +165,29 @@ const getMediansByWeeks = async (characteristicId: number) => {
 		raw: true,
 	});
 
-	const mediansWithoutPE = {};
+	const medians = {};
 
 	for (const measure of measures) {
-		const week = measure['medicalExamination.gestationalAgeByUltrasoundWeeks'];
+		const week: number = measure['medicalExamination.gestationalAgeOnBloodTestWeeks'] + 1; // ceil the week
 		const { value } = measure;
 
-		if (!mediansWithoutPE[week]) {
-			mediansWithoutPE[week] = [];
+		if (!medians[week]) {
+			medians[week] = [];
 		}
 
-		mediansWithoutPE[week].push(value);
+		medians[week].push(value);
 	}
 
-	for (const week of Object.keys(mediansWithoutPE)) {
-		mediansWithoutPE[week] = median(mediansWithoutPE[week]);
+	for (const week of Object.keys(medians)) {
+		medians[week] = median(medians[week]);
 	}
 
-	return { withoutPE: mediansWithoutPE };
+	return medians;
 };
 
 export default {
+	getMoMValue,
+	getCorrectedMoMValue,
 	getMediansByWeeks,
 	getEnumMeasurementById,
 	getNumericalMeasurementById,

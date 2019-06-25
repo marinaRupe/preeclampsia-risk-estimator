@@ -23,9 +23,9 @@ class MedicalHistory extends Component {
   	this.setState({ isEditModeOn: false });
   }
 
-  saveChanges = (measurementsData) => {
+  saveChanges = async (measurementsData) => {
   	const { medicalExaminationData, updateMeasurements } = this.props;
-  	updateMeasurements(medicalExaminationData.id, measurementsData);
+  	await updateMeasurements(medicalExaminationData.id, measurementsData);
   	this.closeEditMode();
   };
 

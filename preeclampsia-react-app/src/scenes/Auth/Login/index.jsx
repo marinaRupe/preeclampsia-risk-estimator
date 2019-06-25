@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { APP } from 'constants/routes';
-import * as userActions from 'redux/actions/user.actions';
+import * as userActions from 'redux/users/user.actions';
 import { LOGIN_FORM } from 'redux/forms';
 import { getLoginDataFromLocalStorage } from 'utils/auth.utils';
 import { getTranslations } from 'utils/translation.utils';
@@ -39,7 +39,7 @@ class Login extends Component {
 								/>
 							</div>
 							<div className='redux-form__row'>
-								<label className='redux-form__label'>
+								<label className='redux-form__label mr-10'>
 									{translations.user.property.password}
 								</label>
 								<Field

@@ -108,9 +108,27 @@ const updatePregnancy = async (req, res) => {
 	res.json(model);
 };
 
+const deletePregnancy = async (req, res) => {
+	const pregnancyId = +req.params.pregnancyId;
+	const { translations } = res.locals;
+
+	if (!(await PregnancyService.existWithId(pregnancyId))) {
+		throw new Errors.NotFoundError(translations.response.notFound.pregnancy);
+	}
+
+	const pregnancy = await PregnancyService.removePregnancy(pregnancyId);
+
+	if (!pregnancy) {
+		throw new Errors.InternalServerError(translations.response.error.pregnancy.delete);
+	}
+
+	res.status(200).send(translations.response.success.pregnancy.delete);
+};
+
 export default {
 	getPregnancyDetails,
 	getMedicalExaminationsForPregnancy,
 	createPregnancy,
 	updatePregnancy,
+	deletePregnancy,
 };

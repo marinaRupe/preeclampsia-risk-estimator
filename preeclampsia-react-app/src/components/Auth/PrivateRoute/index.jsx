@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as userActions from 'redux/actions/user.actions';
+import * as userActions from 'redux/users/user.actions';
 import { getLoginDataFromLocalStorage, getAllRoles, isRoleAllowed } from 'utils/auth.utils';
 
 class PrivateRoute extends Component {

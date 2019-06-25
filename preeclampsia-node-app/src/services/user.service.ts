@@ -2,6 +2,7 @@ import values from 'constants/values.constants';
 import { userListSortColumnNames } from 'constants/user.constants';
 import { sortDirections } from 'constants/query.constants';
 import { getSortColumnName, getSortDirection } from 'utils/query.utils';
+import { encrypt } from 'utils/encryption.utils';
 import { db } from 'models/index';
 
 const getAll = async (
@@ -23,6 +24,8 @@ const getAll = async (
 );
 
 const getById = async (id: number) => await db.User.findByPk(id);
+
+const getByEmail = async (email: string) => await db.User.findOne({ where: { email }});
 
 const existsEmail = async (email: string) => {
 	const user = await db.User.findOne({
@@ -76,7 +79,7 @@ const updateUserPassword = async (userId: number, password: string) => {
 	const user = await getById(userId);
 
 	return await user.update({
-		hashedPassword: password,
+		hashedPassword: await encrypt(password),
 	});
 };
 
@@ -88,6 +91,7 @@ const removeUser = async (id: number) => {
 
 export default {
 	getAll,
+	getByEmail,
 	getById,
 	createUser,
 	removeUser,

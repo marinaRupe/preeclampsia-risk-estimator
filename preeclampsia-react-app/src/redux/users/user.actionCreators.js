@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './user.actionTypes';
 
 export const fetchUsers = ({ status, data }) => {
 	return {
@@ -21,6 +21,14 @@ export const editUser = ({ status, data }) => {
 		data,
 		status,
 		type: types.EDIT_USER,
+	};
+};
+
+export const editUserPassword = ({ status, data }) => {
+	return {
+		data,
+		status,
+		type: types.EDIT_USER_PASSWORD,
 	};
 };
 

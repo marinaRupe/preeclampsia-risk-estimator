@@ -7,47 +7,47 @@ import { EDIT_BIOCHEMICAL_MEASUREMENTS_FORM } from 'redux/forms';
 import BiochemicalMeasurementsForm from './BiochemicalMeasurementsForm';
 
 class EditBiochemicalMeasurementsForm extends Component {
-  handleClose = async () => {
-  	const { closeEditMode, stopSubmitForm } = this.props;
-  	closeEditMode();
-  	await stopSubmitForm();
-  }
+	handleClose = async () => {
+		const { closeEditMode, stopSubmitForm } = this.props;
+		closeEditMode();
+		await stopSubmitForm();
+	}
 
-  render() {
-  	const {
-  		handleSubmit,
-  		error,
-  		initialValues,
-  		change,
-  	} = this.props;
+	render() {
+		const {
+			handleSubmit,
+			error,
+			initialValues,
+			change,
+		} = this.props;
 
-  	const translations = getTranslations();
+		const translations = getTranslations();
 
-  	return (
-  		<BiochemicalMeasurementsForm
-  			onSubmit={handleSubmit}
-  			initialValues={initialValues}
-  			error={error}
-  			change={change}
-  			buttons={
-  				<div>
-  					<Button
-  						bsStyle='primary'
-  						type='submit'
-  					>
-  						{translations.pregnancy.action.save}
-  					</Button>
-  					<Button
-  						bsStyle='default'
-  						onClick={this.handleClose}
-  					>
-  						{translations.action.cancel}
-  					</Button>
-  				</div>
-  			}
-  		/>
-  	);
-  }
+		return (
+			<BiochemicalMeasurementsForm
+				onSubmit={handleSubmit}
+				initialValues={initialValues}
+				error={error}
+				change={change}
+				buttons={
+					<div>
+						<Button
+							bsStyle='primary'
+							type='submit'
+						>
+							{translations.pregnancy.action.save}
+						</Button>
+						<Button
+							bsStyle='default'
+							onClick={this.handleClose}
+						>
+							{translations.action.cancel}
+						</Button>
+					</div>
+				}
+			/>
+		);
+	}
 }
 
 const mapDispatchToProps = {

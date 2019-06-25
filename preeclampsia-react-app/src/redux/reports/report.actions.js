@@ -2,8 +2,9 @@ import { ACTION_STATUS } from 'enums/responseStatus.enums';
 import { API } from 'constants/routes';
 import { actionWrapper } from 'utils/redux.utils';
 import { getLoginDataFromLocalStorage } from 'utils/auth.utils';
+import { formatDateTime } from 'utils/dateTime.utils';
 import * as httpCalls from 'utils/http.utils';
-import * as actionCreators from '../actionCreators/report.actionCreators';
+import * as actionCreators from './report.actionCreators';
 
 export function generatePDFReport(medicalExaminationId) {
 	const action = async (dispatch) => {
@@ -25,7 +26,7 @@ export function generatePDFReport(medicalExaminationId) {
 			const url = window.URL.createObjectURL(new Blob([res.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', `preeclampsia_risk_report_${medicalExaminationId}_${new Date()}.pdf`);
+			link.setAttribute('download', `preeclampsia_risk_report_${medicalExaminationId}_${formatDateTime(new Date())}.pdf`);
 			document.body.appendChild(link);
 			link.click();
 

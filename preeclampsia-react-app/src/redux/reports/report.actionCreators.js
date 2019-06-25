@@ -1,4 +1,4 @@
-import * as types from '../actionTypes';
+import * as types from './report.actionTypes';
 
 export const generatePDF = ({ status, data }) => {
 	return {
