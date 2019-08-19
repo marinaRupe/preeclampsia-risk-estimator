@@ -126,8 +126,8 @@ def calculateMoMs(df):
             row['lastPeriodDate']
         )
 
-        df['PAPP_A'] = df['PAPP_A'].apply(lambda x: x / PAPP_A_MoM[gestational_age_at_blood_test])
-        df['PLGF'] = df['PLGF'].apply(lambda x: x / PLGF_MoM[gestational_age_at_blood_test])
+        df.at[index, 'PAPP_A'] = row['PAPP_A'] / PAPP_A_MoM[gestational_age_at_blood_test]
+        df.at[index, 'PLGF'] = row['PLGF'] / PLGF_MoM[gestational_age_at_blood_test]
 
     return df
 
@@ -306,6 +306,10 @@ def test_model(trace, test_observation):
     # print_test_estimates(test_observation, estimates, actual, mean_loc)
     # plot_test_estimates(estimates, actual, mean_loc)
 
+    print(mean_loc - actual)
+
+    return mean_loc, actual
+
 
 # Make predictions for a new data point from the model trace
 def query_model(trace, new_observation):
@@ -348,6 +352,7 @@ def main():
 
         df, X_train, X_test, y_train, y_test = format_data(df)
 
+        # Define formula
         formula = 'gestationalAgeAtDelivery ~ ' + ' + '.join(['%s' % variable for variable in X_train.columns[1:]])
 
         # Context for the model
@@ -355,11 +360,12 @@ def main():
             # The prior for the model parameters will be a normal distribution
             family = pm.glm.families.Normal()
 
-            # Creating the model requires a formula and data (and optionally a family)
+            # Creating the model
             pm.GLM.from_formula(formula, data=X_train, family=family)
 
             # Perform Markov Chain Monte Carlo sampling
-            normal_trace = pm.sample(draws=2000, chains=2, tune=800)
+            # normal_trace = pm.sample(draws=2000, chains=2, tune=800)
+            normal_trace = pm.sample(tune=1000, njobs=4)
 
             pm.summary(normal_trace)
 

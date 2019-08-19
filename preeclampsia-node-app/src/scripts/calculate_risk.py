@@ -19,9 +19,9 @@ class StderrFilter:
             'Multiprocess sampling (2 chains in 4 jobs)',
             'NUTS: ['
         )
-    
-        if s.startswith(ignore_teano)\
-                or re.search("\sSampling", s) is not None\
+
+        if s.startswith(ignore_teano) \
+                or re.search("\sSampling", s) is not None \
                 or re.search("\sNUTS: ]", s) is not None:
             pass
         else:
@@ -135,6 +135,7 @@ def main():
     diabetes_param = sys.argv[6]
     IVF_param = sys.argv[7]
     MAP_param = sys.argv[8]
+    nulliparity_param = sys.argv[9]
 
     age = int(age_param) if age_param != "" else 30
     PLGF = float(PLGF_param) if PLGF_param != "" else 1
@@ -144,20 +145,22 @@ def main():
     smoking_during_pregnancy = int(smoking_during_pregnancy_param) if smoking_during_pregnancy_param != "" else 0
     diabetes = int(diabetes_param) if diabetes_param != "" else 0
     IVF = int(IVF_param) if IVF_param != "" else 0
+    nulliparity = int(nulliparity_param) if nulliparity_param != "" else 1
 
     observation = pd.Series({
-      'Intercept': 1,
-      'age': age,
-      'PLGF': PLGF,
-      'PAPP_A': PAPP_A,
-      'BMI': BMI,
-      'MAP': MAP,
-      'smokingDuringPregnancy': smoking_during_pregnancy,
-      'diabetes': diabetes,
-      'IVF': IVF
+        'Intercept': 1,
+        'ageOver30': age > 30,
+        'PLGF': PLGF,
+        'PAPP_A': PAPP_A,
+        'BMI': BMI,
+        'MAP': MAP,
+        'smokingDuringPregnancy': smoking_during_pregnancy,
+        'diabetes': diabetes,
+        'IVF': IVF,
+        'nulliparity': nulliparity
     })
 
-    deliveryWeek = 42
+    deliveryWeek = 34
 
     meanLoc, sdValue = query_model(normal_trace, observation)
     risk = 0.5 * (1 + math.erf((deliveryWeek - meanLoc) / (sdValue * math.sqrt(2))))
@@ -165,7 +168,7 @@ def main():
     print({
         "risk": risk,
         "usedValues": {
-            'age': age,
+            'ageOver30': 'true' if age > 30 else 'false',
             'PLGF': PLGF,
             'PAPP_A': PAPP_A,
             'BMI': BMI,

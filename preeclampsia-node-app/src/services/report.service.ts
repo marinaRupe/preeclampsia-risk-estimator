@@ -238,6 +238,10 @@ const parseRiskEstimationData = async (medicalExamination) => {
 		= isDefined(diabetesType) ? ((diabetesType === DiabetesTypes.None.key) ? 0 : 1) : null;
 	const IVF: number
 		= isDefined(conceptionMethod) ? (conceptionMethod === ConceptionMethods.InVitroFertilization ? 1 : 0) : null;
+	const nulliparity: number
+		= isDefined(pregnancy.numberOfPreviousPregnancies)
+			? (pregnancy.numberOfPreviousPregnancies === 0 ? 1 : 0)
+			: null;
 
 	const riskEstimationData: string[] = [
 		isDefined(age) ? age.toString() : '',
@@ -248,6 +252,7 @@ const parseRiskEstimationData = async (medicalExamination) => {
 		isDefined(diabetes) ? diabetes.toString() : '',
 		isDefined(IVF) ? IVF.toString() : '',
 		isDefined(MAP) ? MAP.toString() : '',
+		isDefined(nulliparity) ? nulliparity.toString() : '',
 	];
 
 	return riskEstimationData;
