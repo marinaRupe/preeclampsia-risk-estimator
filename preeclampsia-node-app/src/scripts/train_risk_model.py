@@ -226,6 +226,14 @@ def format_data(df):
     df['PAPP_A'] = df['PAPP_A'].apply(lambda x: parse_float_values(x))
     df['weight'] = df['weight'].apply(lambda x: parse_float_values(x))
     df['height'] = df['height'].apply(lambda x: parse_float_values(x))
+    df['SysBP'] = df['SysBP'].apply(lambda x: parse_float_values(x))
+    df['DysBP'] = df['DysBP'].apply(lambda x: parse_float_values(x))
+
+    df['nulliparity'] = df['numberOfPreviousPregnancies'].apply(lambda x: 1 if x == '0' else 0)
+    df['IVF'] = df['IVF'].apply(lambda x: int(x))
+    df['diabetes'] = df['diabetes'].apply(lambda x: int(x))
+    df['smokingDuringPregnancy'] = df['smokingDuringPregnancy'].apply(lambda x: int(x))
+    df['ageOver30'] = df['age'].apply(lambda x: 1 if int(x) > 30 else 0)
 
     df['BMI'] = df.apply(lambda row: calulate_BMI(row['weight'], row['height']), axis=1)
     df['MAP'] = df.apply(lambda row: calculate_MAP(row['SysBP'], row['DysBP']), axis=1)
@@ -241,7 +249,8 @@ def format_data(df):
         'smokingDuringPregnancy',
         'diabetes',
         'IVF',
-        'age'
+        'ageOver30',
+        'nulliparity'
     ]]
 
     labels = df['gestationalAgeAtDelivery']
@@ -306,7 +315,7 @@ def test_model(trace, test_observation):
     # print_test_estimates(test_observation, estimates, actual, mean_loc)
     # plot_test_estimates(estimates, actual, mean_loc)
 
-    print(mean_loc - actual)
+    print('mean_loc - actual = ', mean_loc - actual)
 
     return mean_loc, actual
 
@@ -345,6 +354,7 @@ def query_model(trace, new_observation):
 
 def main():
     csv_location = sys.argv[1]
+    print('Reading data from: ', csv_location)
     
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -365,7 +375,7 @@ def main():
 
             # Perform Markov Chain Monte Carlo sampling
             # normal_trace = pm.sample(draws=2000, chains=2, tune=800)
-            normal_trace = pm.sample(tune=1000, njobs=4)
+            normal_trace = pm.sample(tune=1000, cores=4)
 
             pm.summary(normal_trace)
 
@@ -378,7 +388,8 @@ def main():
             for i in range(len(X_test)):
                 test_model(normal_trace, X_test.iloc[i])
 
-            filename = 'files/risk_model'
+            dirname = os.path.dirname(__file__)
+            filename = os.path.join(dirname, 'files/risk_model')
             outfile = open(filename, 'wb')
             pickle.dump(normal_trace, outfile)
             outfile.close()
@@ -398,13 +409,14 @@ def main():
                 'smokingDuringPregnancy': 0,
                 'diabetes': 0,
                 'IVF': 0,
-                'age': 30
+                'ageOver30': 0,
+                'nulliparity': 0
             })
 
             query_model(normal_trace, observation)
-            
-            plt.show()
             """
+
+            plt.show()
 
             print('Done')
             sys.stdout.flush()
@@ -414,3 +426,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    os._exit(0)

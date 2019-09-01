@@ -104,7 +104,6 @@ async function addPregnancyMeasures(medicalExamination, row) {
 	}
 
   if (row.SysBP && row.DysBP) {
-		console.log(calculateMeanArterialPressure(parseFloat(row.SysBP), parseFloat(row.DysBP)));
     await models.db.NumericalMeasurement.create({
       value: calculateMeanArterialPressure(parseFloat(row.SysBP), parseFloat(row.DysBP)),
       medicalExaminationId: medicalExamination.id,
