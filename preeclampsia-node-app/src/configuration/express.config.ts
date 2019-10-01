@@ -11,13 +11,16 @@ export const allowCrossDomain = (req, res, next) => {
 	next();
 };
 
-export const isProduction = () => process.env.NODE_ENV && process.env.NODE_ENV === 'production';
-export const isDevelopment = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+export const isProductionEnvironment = () => process.env.NODE_ENV && process.env.NODE_ENV === 'production';
+export const isTestEnvironment = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'test';
+export const isDevelopmentEnvironment = () => !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export const initialize = app => {
-	if (isDevelopment()) {
+	if (isDevelopmentEnvironment()) {
 		dotenv.config({ path: '.env-develop' });
 		app.use(allowCrossDomain);
+	} else if (isTestEnvironment()) {
+		dotenv.config({ path: '.env-test' });
 	} else {
 		dotenv.config({ path: '.env-prod' });
 	}
@@ -60,6 +63,6 @@ export const listen = app => {
 export default {
 	initialize,
 	listen,
-	isProduction,
-	isDevelopment,
+	isProductionEnvironment,
+	isDevelopmentEnvironment,
 };

@@ -37,10 +37,10 @@ export const configure = app => {
 	app.use(`${apiConstants.API_PATH}/risks`, riskRouter);
 	app.use(`${apiConstants.API_PATH}/statistics`, statisticsRouter);
 
-	if (expressConfig.isProduction()) {
-		useProductionRoutes(app);
-	} else {
+	if (expressConfig.isDevelopmentEnvironment()) {
 		useDevelopmentRoutes(app);
+	} else {
+		useProductionRoutes(app);
 	}
 };
 

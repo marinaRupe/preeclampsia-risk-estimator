@@ -7,11 +7,9 @@
 		"start": "npm run build && node dist-node/server.js",
 		"rstart": "npm run rlint && npm start --prefix preeclampsia-react-app",
 		"nstart": "NODE_ENV=development npm run nlint && npm run node-start -s",
-
 		"build": "npm run react-build && npm run node-build",
 		"react-clean": "rimraf dist-react",
 		"react-build": "npm run react-clean && npm run rlint && npm run build --prefix preeclampsia-react-app",
-
     "node-start": "npm run node-build && npm run node-watch",
     "node-clean": "rimraf dist-node",
     "node-build": "npm run node-clean && npm run node-build-ts",
