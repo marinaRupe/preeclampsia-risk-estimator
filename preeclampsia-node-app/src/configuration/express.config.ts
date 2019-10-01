@@ -16,8 +16,10 @@ export const isDevelopment = () => !process.env.NODE_ENV || process.env.NODE_ENV
 
 export const initialize = app => {
 	if (isDevelopment()) {
-		dotenv.config({ path: '.env' });
+		dotenv.config({ path: '.env-develop' });
 		app.use(allowCrossDomain);
+	} else {
+		dotenv.config({ path: '.env-prod' });
 	}
 };
 
