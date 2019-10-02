@@ -12,17 +12,19 @@ class StderrFilter:
         self.original_stderr = original_stderr
 
     def write(self, s):
-        ignore_teano = (
+        ignore_errors = (
             'WARNING (theano.tensor.blas)',
             'Auto-assigning NUTS sampler...',
             'Initializing NUTS using jitter+adapt_diag...',
             'Multiprocess sampling (2 chains in 4 jobs)',
-            'NUTS: ['
+            'NUTS: [',
+						'Unable to init server: Could not connect: Connection refused'
         )
 
-        if s.startswith(ignore_teano) \
+        if s.startswith(ignore_errors) \
                 or re.search("\sSampling", s) is not None \
-                or re.search("\sNUTS: ]", s) is not None:
+                or re.search("\sNUTS: ]", s) is not None \
+								or re.search("gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed", s) is not None
             pass
         else:
             if len(s.strip()) > 0:
