@@ -24,7 +24,7 @@ class StderrFilter:
         if s.startswith(ignore_errors) \
                 or re.search("\sSampling", s) is not None \
                 or re.search("\sNUTS: ]", s) is not None \
-								or re.search("gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed", s) is not None
+								or re.search("gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed", s) is not None:
             pass
         else:
             if len(s.strip()) > 0:
