@@ -54,36 +54,6 @@ def parse_gestational_age(x):
         return int(x.split("+")[0])
     return int(x)
 
-
-# #######################################################################################################
-
-def plot_query_estimates(estimates, mean_loc):
-    # Plot the estimate distribution
-    plt.figure(figsize=(8, 8))
-    sns.distplot(estimates, hist=True, kde=True, bins=19,
-                 hist_kws={'edgecolor': 'k', 'color': 'darkblue'},
-                 kde_kws={'linewidth': 4},
-                 label='Estimated Dist.')
-    # Plot the mean estimate
-    plt.vlines(x=mean_loc, ymin=0, ymax=0.5,
-               linestyles='-', colors='orange', linewidth=2.5)
-    plt.title('Density Plot for New Observation')
-    plt.xlabel('Gestational Age At Delivery')
-    plt.ylabel('Density')
-
-
-def print_query_estimates(new_observation, estimates, mean_loc):
-    # Print information about the new observation
-    print('New Observation')
-    print(new_observation)
-
-    # Estimate information
-    print('Average Estimate = %0.4f' % mean_loc)
-    print('5%% Estimate = %0.4f    95%% Estimate = %0.4f' % (np.percentile(estimates, 5),
-                                                             np.percentile(estimates, 95)))
-    print()
-
-
 # #######################################################################################################
 
 # Make predictions for a new data point from the model trace
@@ -111,9 +81,6 @@ def query_model(trace, new_observation):
     # Distribution of estimates
     estimates = np.random.normal(loc=mean_loc, scale=sd_value,
                                  size=1000)
-
-    # print_query_estimates(new_observation, estimates, mean_loc)
-    # plot_query_estimates(estimates, mean_loc)
 
     return mean_loc, sd_value
 
