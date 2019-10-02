@@ -30,7 +30,7 @@ const generatePdf = async (req, res) => {
 	console.info('Starting the python script...');
 	console.info(`Params: ${params}`);
 
-	const pythonProcess = spawn('python', [
+	const pythonProcess = spawn('python3', [
 		path.join(__dirname, '..', 'scripts', 'calculate_risk.py'), 
 		...params
 	]);

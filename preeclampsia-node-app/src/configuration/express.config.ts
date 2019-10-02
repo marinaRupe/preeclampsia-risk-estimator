@@ -48,6 +48,7 @@ export const onListening = server => {
 		? `pipe ${addr}`
 		: `port ${addr.port}`;
 	debugInstance(`Listening on ${bind}`);
+	console.info(`Listening on ${bind}`);
 };
 
 export const listen = app => {
