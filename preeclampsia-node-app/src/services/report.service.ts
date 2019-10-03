@@ -16,7 +16,7 @@ import {
 } from 'utils/measurement.utils';
 import { DiabetesTypes } from 'constants/measurements.constants';
 import { isDefined } from 'utils/value.utils';
-import { PregnancyTypes, ConceptionMethods } from 'constants/pregnancy.constants';
+import { ConceptionMethods } from 'constants/pregnancy.constants';
 import { riskBarrier } from 'constants/report.constants';
 import MeasurementService from './measurement.service';
 
@@ -73,6 +73,8 @@ const generateReportData = (medicalExamination, risk: number, user) => {
 		dateGenerated: new Date(),
 		generatedById: user.id,
 		medicalExaminationId: medicalExamination.id,
+		ultrasoundDataMeasuredBy: medicalExamination.ultrasoundDataMeasuredBy,
+		gynecologist: medicalExamination.gynecologist,
 	};
 
 	return reportData;
@@ -112,7 +114,7 @@ const generateHTMLReport = async (reportData, user, translations, language: stri
 			ultrasoundDate: formatDate(reportData.ultrasoundDate),
 			bloodTestDate: formatDate(reportData.bloodTestDate),
 			bloodTestAge: getAgeInYears(reportData.birthDate, reportData.bloodTestDate),
-			ultrasoundDataMeasuredBy: '-',
+			ultrasoundDataMeasuredBy: reportData.ultrasoundDataMeasuredBy || '-',
 		},
 		measurements: await extractMeasurements(reportData, translations, language),
 		report: {

@@ -11,6 +11,7 @@ class PregnancyDetailsViewModel {
 	numberOfPreviousBirths: number;
 	hadPEInPreviousPregnancy: boolean;
 	resultedWithPE: boolean;
+	gynecologist: string;
 
 	constructor(pregnancy) {
 		this.id = pregnancy.id;
@@ -24,7 +25,8 @@ class PregnancyDetailsViewModel {
   	this.numberOfPreviousPregnancies = pregnancy.numberOfPreviousPregnancies;
   	this.numberOfPreviousBirths = pregnancy.numberOfPreviousBirths;
   	this.hadPEInPreviousPregnancy = pregnancy.hadPEInPreviousPregnancy;
-  	this.resultedWithPE = pregnancy.resultedWithPE;
+		this.resultedWithPE = pregnancy.resultedWithPE;
+		this.gynecologist = pregnancy.gynecologist;
 	}
 }
 

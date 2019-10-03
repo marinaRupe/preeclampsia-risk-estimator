@@ -76,6 +76,8 @@ class BasicInfo extends Component {
 				gestationalAgeByUltrasoundDays,
 				gestationalAgeOnBloodTestWeeks,
 				gestationalAgeOnBloodTestDays,
+				gynecologist,
+				ultrasoundDataMeasuredBy,
 				ultrasoundDate,
 				bloodTestDate,
 				numericalMeasurements,
@@ -115,6 +117,16 @@ class BasicInfo extends Component {
 								<DateDisplay
 									label={translations.medicalExamination.property.ultrasoundDate}
 									value={ultrasoundDate}
+								/>
+
+								<TextInfoDisplay
+									label={translations.medicalExamination.property.gynecologist}
+									value={gynecologist}
+								/>
+
+								<TextInfoDisplay
+									label={translations.medicalExamination.property.ultrasoundDataMeasuredBy}
+									value={ultrasoundDataMeasuredBy}
 								/>
 
 								<NumericalMeasurement

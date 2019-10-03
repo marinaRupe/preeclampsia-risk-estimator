@@ -79,6 +79,38 @@ class FirstTrimesterBasicInfoForm extends Component {
 					<div className='redux-form__row'>
 						<div className='w-100'>
 							<label className='redux-form__label'>
+								{translations.medicalExamination.property.gynecologist}
+								<span className='required'>*</span>
+							</label>
+							<Field
+								name='gynecologist'
+								placeholder={''}
+								component={Input}
+								type='text'
+								disabled={disabled.gynecologist}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.medicalExamination.property.ultrasoundDataMeasuredBy}
+								<span className='required'>*</span>
+							</label>
+							<Field
+								name='ultrasoundDataMeasuredBy'
+								placeholder={''}
+								component={Input}
+								type='number'
+								disabled={disabled.ultrasoundDataMeasuredBy}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
 								{translations.medicalExamination.property.gestationalAgeByUltrasound}
 							</label>
 							<div className='redux-form__row'>

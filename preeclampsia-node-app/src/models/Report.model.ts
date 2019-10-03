@@ -106,6 +106,12 @@ export default (sequelize) => {
 			type: Sequelize.DOUBLE,
 			allowNull: false,
 		},
+		ultrasoundDataMeasuredBy: {
+			type: Sequelize.STRING,
+		},
+		gynecologist: {
+			type: Sequelize.STRING,
+		},
 		note: {
 			type: Sequelize.STRING,
 		},
