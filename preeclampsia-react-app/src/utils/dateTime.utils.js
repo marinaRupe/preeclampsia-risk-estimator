@@ -9,6 +9,8 @@ export const formatDate = (date, format = DATE_FORMAT_LONG_DOTS) => date ? momen
 
 export const formatDateTime = (date, format = DATETIME_FORMAT_TIMESTAMP) => date ? moment(date).format(format) : '-';
 
+export const toDate = (dateString, format = DATETIME_FORMAT_TIMESTAMP) => moment(dateString, format).toDate();
+
 export const getAgeInYears = (birthDate) => moment().diff(birthDate, 'years');
 
 export const calculateGestationalAgeFromDate = (date1, date2, gestationalAgeWeeks1, gestationalAgeDays1) => {

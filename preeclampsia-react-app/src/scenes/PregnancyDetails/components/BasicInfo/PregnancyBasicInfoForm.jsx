@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Input from 'components/Inputs/Input';
 import Select from 'components/Inputs/Select';
+import DateInput from 'components/Inputs/DateInput';
 import { getTranslations, getCharacteristicTranslation } from 'utils/translation.utils';
 import {
 	getCharacteristicByName,
@@ -24,6 +25,8 @@ class PregnancyBasicInfoForm extends Component {
 		const pregnancyTypesOptions = getEnumMeasurementOptions(getCharacteristicByName('PregnancyType').key);
 		const conceptionMethodsOptions = getEnumMeasurementOptions(getCharacteristicByName('ConceptionMethod').key);
 		
+		const today = new Date();
+
 		return (
 			<form className='redux-form' onSubmit={onSubmit}>
 				<div>
@@ -112,8 +115,8 @@ class PregnancyBasicInfoForm extends Component {
 							<Field
 								name='lastPeriodDate'
 								placeholder={''}
-								component={Input}
-								type='date'
+								component={DateInput}
+								maxDate={today}
 								disabled={disabled.lastPeriodDate}
 							/>
 						</div>
@@ -141,8 +144,8 @@ class PregnancyBasicInfoForm extends Component {
 							<Field
 								name='deliveryDate'
 								placeholder={''}
-								component={Input}
-								type='date'
+								component={DateInput}
+								maxDate={today}
 								disabled={disabled.deliveryDate}
 							/>
 						</div>

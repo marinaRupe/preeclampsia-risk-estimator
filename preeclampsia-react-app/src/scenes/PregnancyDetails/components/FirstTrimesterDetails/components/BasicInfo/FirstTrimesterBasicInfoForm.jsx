@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Input from 'components/Inputs/Input';
+import DateInput from 'components/Inputs/DateInput';
 import { getTranslations } from 'utils/translation.utils';
 import NumericalMeasurementInput from 'components/Measurement/Inputs/NumericalMeasurementInput';
 
@@ -23,6 +24,8 @@ class FirstTrimesterBasicInfoForm extends Component {
 
 		const FetalCrownRumpLength = initialValues ? initialValues.FetalCrownRumpLength : null;
 		const translations = getTranslations();
+
+		const today = new Date();
 
 		return (
 			<form className='redux-form' onSubmit={onSubmit}>
@@ -66,8 +69,8 @@ class FirstTrimesterBasicInfoForm extends Component {
 							<Field
 								name='ultrasoundDate'
 								placeholder={''}
-								component={Input}
-								type='date'
+								component={DateInput}
+								maxDate={today}
 								disabled={disabled.ultrasoundDate}
 							/>
 						</div>
@@ -124,8 +127,8 @@ class FirstTrimesterBasicInfoForm extends Component {
 							<Field
 								name='bloodTestDate'
 								placeholder={''}
-								component={Input}
-								type='date'
+								component={DateInput}
+								maxDate={today}
 								disabled={disabled.bloodTestDate}
 							/>
 						</div>
