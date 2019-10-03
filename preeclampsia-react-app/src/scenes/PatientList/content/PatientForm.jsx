@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Input from 'components/Inputs/Input';
 import Select from 'components/Inputs/Select';
+import DateInput from 'components/Inputs/DateInput';
 import { RacialOriginTypes } from 'constants/patient.constants';
 import { generateOptions } from 'utils/form.utils';
 import { getTranslations, getLanguage } from 'utils/translation.utils';
@@ -78,8 +79,8 @@ class PatientForm extends Component {
 							<Field
 								name='birthDate'
 								placeholder={translations.patient.placeholder.enterBirthDate}
-								component={Input}
-								type='date'
+								component={DateInput}
+								maxDate={new Date()}
 								disabled={disabled.birthDate}
 							/>
 						</div>

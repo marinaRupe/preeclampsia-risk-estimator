@@ -97,7 +97,7 @@ export const translations = {
 				numberOfPreviousPregnancies: 'Broj ranijih trudnoća',
 				numberOfPreviousBirths: 'Broj poroda',
 				hadPEInPreviousPregnancy: 'Preeklampsija u prethodnoj trudnoći',
-				resultedWithPE: 'Oboljela od preeklampsije',
+				resultedWithPE: 'Oboljela od preeklampsije u ovoj trudnoći',
 			},
 			detailsTitle: 'Podaci o trudnoći',
 			basicDetailsTitle: 'Osnovni podaci',
@@ -176,7 +176,29 @@ export const translations = {
 			yes: 'Da',
 			no: 'Ne',
 			unknown: 'nepoznato',
-		}
+		},
+		dateTime: {
+			week: {
+				long: {
+					monday: 'ponedjeljak',
+					tuesday: 'utorak',
+					wednesday: 'srijeda',
+					thursday: 'četvrtak',
+					friday: 'petak',
+					saturday: 'subota',
+					sunday: 'nedjelja',
+				},
+				short: {
+					monday: 'pon',
+					tuesday: 'uto',
+					wednesday: 'sri',
+					thursday: 'čet',
+					friday: 'pet',
+					saturday: 'sub',
+					sunday: 'ned',
+				},
+			},
+		},
 	},
 
 	en: {
@@ -283,7 +305,7 @@ export const translations = {
 				numberOfPreviousPregnancies: 'Number of previous pregnancies',
 				numberOfPreviousBirths: 'Number of previous births',
 				hadPEInPreviousPregnancy: 'PE in previous pregnancy',
-				resultedWithPE: 'Resulted with PE',
+				resultedWithPE: 'Pregnancy resulted with PE',
 			},
 			detailsTitle: 'Pregnancy Details',
 			basicDetailsTitle: 'Basic Details',
@@ -357,7 +379,29 @@ export const translations = {
 			yes: 'Yes',
 			no: 'No',
 			unknown: 'unknown',
-		}
+		},
+		dateTime: {
+			week: {
+				long: {
+					monday: 'Monday',
+					tuesday: 'Tuesday',
+					wednesday: 'Wednesday',
+					thursday: 'Thursday',
+					friday: 'Friday',
+					saturday: 'Saturday',
+					sunday: 'Sunday',
+				},
+				short: {
+					monday: 'Mon',
+					tuesday: 'Tue',
+					wednesday: 'Wed',
+					thursday: 'Thu',
+					friday: 'Fri',
+					saturday: 'Sat',
+					sunday: 'Sun',
+				},
+			},
+		},
 	},
 };
 
