@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { reduxForm, stopSubmit } from 'redux-form';
+import { reduxForm, stopSubmit, formValueSelector } from 'redux-form';
 import { getTranslations } from 'utils/translation.utils';
 import { EDIT_FIRST_TRIMESTER_BASIC_INFO_FORM } from 'redux/forms';
 import FirstTrimesterBasicInfoForm from './FirstTrimesterBasicInfoForm';
@@ -19,6 +19,12 @@ class EditFirstTrimesterBasicInfoForm extends Component {
 			error,
 			initialValues,
 			change,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays,
+			ultrasoundDate,
+			bloodTestDate,
+			lastPeriodDate,
+			CRL,
 		} = this.props;
 
 		const translations = getTranslations();
@@ -28,6 +34,12 @@ class EditFirstTrimesterBasicInfoForm extends Component {
 				<FirstTrimesterBasicInfoForm
 					onSubmit={handleSubmit}
 					initialValues={initialValues}
+					gestationalAgeByUltrasoundWeeks={gestationalAgeByUltrasoundWeeks}
+					gestationalAgeByUltrasoundDays={gestationalAgeByUltrasoundDays}
+					ultrasoundDate={ultrasoundDate}
+					bloodTestDate={bloodTestDate}
+					lastPeriodDate={lastPeriodDate}
+					CRL={CRL}
 					error={error}
 					change={change}
 					disabled={{ trimesterNumber: true }}
@@ -53,11 +65,21 @@ class EditFirstTrimesterBasicInfoForm extends Component {
 	}
 }
 
+const selector = formValueSelector(EDIT_FIRST_TRIMESTER_BASIC_INFO_FORM);
+const mapStateToProps = state => ({
+	gestationalAgeByUltrasoundWeeks: selector(state, 'gestationalAgeByUltrasoundWeeks'),
+	gestationalAgeByUltrasoundDays: selector(state, 'gestationalAgeByUltrasoundDays'),
+	ultrasoundDate: selector(state, 'ultrasoundDate'),
+	bloodTestDate: selector(state, 'bloodTestDate'),
+	CRL: selector(state, 'FetalCrownRumpLength'),
+	lastPeriodDate: state.pregnancy.details.lastPeriodDate,
+});
+
 const mapDispatchToProps = {
 	stopSubmitForm: stopSubmit.bind(null, EDIT_FIRST_TRIMESTER_BASIC_INFO_FORM, {}),
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: EDIT_FIRST_TRIMESTER_BASIC_INFO_FORM,
 	enableReinitialize: true,
 })(EditFirstTrimesterBasicInfoForm));

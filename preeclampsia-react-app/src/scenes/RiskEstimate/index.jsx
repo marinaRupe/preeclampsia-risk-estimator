@@ -96,6 +96,8 @@ class RiskEstimate extends Component {
 			gestationalAgeOnBloodTestDays,
 			protocol,
 			note,
+			gynecologist,
+			ultrasoundDataMeasuredBy,
 		} = medicalExamination;
 
 		return (
@@ -199,12 +201,6 @@ class RiskEstimate extends Component {
 						value={ultrasoundDate}
 					/>
 
-					<NumericalMeasurement
-						characteristicName='FetalCrownRumpLength'
-						value={numericalMeasurements.FetalCrownRumpLength}
-						info='45 - 85 mm'
-					/>
-
 					<GestationalAgeDisplay
 						label={translations.medicalExamination.property.gestationalAgeByUltrasound}
 						weeks={gestationalAgeByUltrasoundWeeks}
@@ -246,6 +242,16 @@ class RiskEstimate extends Component {
 							/>
 						))
 					}
+
+					<TextInfoDisplay
+						label={translations.medicalExamination.property.gynecologist}
+						value={gynecologist}
+					/>
+
+					<TextInfoDisplay
+						label={translations.medicalExamination.property.ultrasoundDataMeasuredBy}
+						value={ultrasoundDataMeasuredBy}
+					/>
 
 					<TextInfoDisplay
 						label={translations.medicalExamination.property.note}

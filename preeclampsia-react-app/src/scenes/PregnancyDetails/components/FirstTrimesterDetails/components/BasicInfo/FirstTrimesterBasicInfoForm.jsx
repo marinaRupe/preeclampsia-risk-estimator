@@ -3,6 +3,11 @@ import { Field } from 'redux-form';
 import Input from 'components/Inputs/Input';
 import DateInput from 'components/Inputs/DateInput';
 import { getTranslations } from 'utils/translation.utils';
+import {
+	calculateGestationalAgeFromCRL,
+	calculateGestationalAgeFromDate,
+	calculateGestationalAgeFromLastPeriodDate,
+} from 'utils/pregnancy.utils';
 import NumericalMeasurementInput from 'components/Measurement/Inputs/NumericalMeasurementInput';
 
 class FirstTrimesterBasicInfoForm extends Component {
@@ -10,6 +15,98 @@ class FirstTrimesterBasicInfoForm extends Component {
 		super(props);
 
 		props.change('trimesterNumber', 1);
+	}
+
+	onChangeCRL = (newValue) => {
+		const { change, ultrasoundDate, bloodTestDate, lastPeriodDate } = this.props;
+		const CRL = newValue && newValue.value;
+		let gestationalAgeByUltrasoundWeeks, gestationalAgeByUltrasoundDays;
+
+		if (newValue && newValue.value) {
+			const { weeks, days } = calculateGestationalAgeFromCRL(CRL);
+			gestationalAgeByUltrasoundWeeks = weeks;
+			gestationalAgeByUltrasoundDays = days;
+
+			change('gestationalAgeByUltrasoundWeeks', +weeks);
+			change('gestationalAgeByUltrasoundDays', +days);
+		} else if (lastPeriodDate) {
+			const { weeks, days } = calculateGestationalAgeFromLastPeriodDate(ultrasoundDate, lastPeriodDate);
+			gestationalAgeByUltrasoundWeeks = weeks;
+			gestationalAgeByUltrasoundDays = days;
+
+			change('gestationalAgeByUltrasoundWeeks', +weeks);
+			change('gestationalAgeByUltrasoundDays', +days);
+		}
+
+		if (!ultrasoundDate || !bloodTestDate || !gestationalAgeByUltrasoundWeeks) {
+			return;
+		}
+
+		const gestationalAgeOnBloodTest = calculateGestationalAgeFromDate(
+			ultrasoundDate,
+			bloodTestDate,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays
+		);
+
+		change('gestationalAgeOnBloodTestWeeks', +gestationalAgeOnBloodTest.weeks);
+		change('gestationalAgeOnBloodTestDays', +gestationalAgeOnBloodTest.days);
+	}
+
+	onChangeUltrasoundDate = (e) => {
+		const {
+			change,
+			CRL,
+			lastPeriodDate,
+			bloodTestDate,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays,
+		} = this.props;
+		const ultrasoundDate = e.target.value;
+
+		if (!(CRL && CRL.value)) {
+			const { weeks, days } = calculateGestationalAgeFromLastPeriodDate(ultrasoundDate, lastPeriodDate);
+			change('gestationalAgeByUltrasoundWeeks', +weeks);
+			change('gestationalAgeByUltrasoundDays', +days);
+		}
+
+		if (!ultrasoundDate || !bloodTestDate || !gestationalAgeByUltrasoundWeeks) {
+			return;
+		}
+
+		const { weeks, days } = calculateGestationalAgeFromDate(
+			ultrasoundDate,
+			bloodTestDate,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays
+		);
+
+		change('gestationalAgeOnBloodTestWeeks', +weeks);
+		change('gestationalAgeOnBloodTestDays', +days);
+	}
+
+	onChangeBloodTestDate = (e) => {
+		const {
+			change,
+			ultrasoundDate,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays,
+		} = this.props;
+		const bloodTestDate = e.target.value;
+
+		if (!ultrasoundDate || !bloodTestDate || !gestationalAgeByUltrasoundWeeks) {
+			return;
+		}
+
+		const { weeks, days } = calculateGestationalAgeFromDate(
+			ultrasoundDate,
+			bloodTestDate,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays
+		);
+
+		change('gestationalAgeOnBloodTestWeeks', +weeks);
+		change('gestationalAgeOnBloodTestDays', +days);
 	}
 
 	render() {
@@ -72,6 +169,37 @@ class FirstTrimesterBasicInfoForm extends Component {
 								component={DateInput}
 								maxDate={today}
 								disabled={disabled.ultrasoundDate}
+								onChange={this.onChangeUltrasoundDate}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.medicalExamination.property.gynecologist}
+							</label>
+							<Field
+								name='gynecologist'
+								placeholder={''}
+								component={Input}
+								type='text'
+								disabled={disabled.gynecologist}
+							/>
+						</div>
+					</div>
+
+					<div className='redux-form__row'>
+						<div className='w-100'>
+							<label className='redux-form__label'>
+								{translations.medicalExamination.property.ultrasoundDataMeasuredBy}
+							</label>
+							<Field
+								name='ultrasoundDataMeasuredBy'
+								placeholder={''}
+								component={Input}
+								type='number'
+								disabled={disabled.ultrasoundDataMeasuredBy}
 							/>
 						</div>
 					</div>
@@ -89,7 +217,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 											placeholder={''}
 											component={Input}
 											type='number'
-											disabled={disabled.gestationalAgeByUltrasoundWeeks}
+											disabled={true}
 										/>
 									</div>
 									<span className='ml-5'>{translations.medicalExamination.property.weeks}</span>
@@ -102,7 +230,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 											placeholder={''}
 											component={Input}
 											type='number'
-											disabled={disabled.gestationalAgeByUltrasoundDays}
+											disabled={true}
 										/>
 									</div>
 									<span className='ml-5'>{translations.medicalExamination.property.days}</span>
@@ -116,6 +244,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 						disabled={disabled.FetalCrownRumpLength}
 						measurement={FetalCrownRumpLength}
 						change={change}
+						onChange={this.onChangeCRL}
 					/>
 
 					<div className='redux-form__row'>
@@ -130,6 +259,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 								component={DateInput}
 								maxDate={today}
 								disabled={disabled.bloodTestDate}
+								onChange={this.onChangeBloodTestDate}
 							/>
 						</div>
 					</div>
@@ -148,7 +278,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 											placeholder={''}
 											component={Input}
 											type='number'
-											disabled={disabled.gestationalAgeOnBloodTestWeeks}
+											disabled={true}
 										/>
 									</div>
 									<span className='ml-5'>{translations.medicalExamination.property.weeks}</span>
@@ -161,7 +291,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 											placeholder={''}
 											component={Input}
 											type='number'
-											disabled={disabled.gestationalAgeOnBloodTestDays}
+											disabled={true}
 										/>
 									</div>
 									<span className='ml-5'>{translations.medicalExamination.property.days}</span>

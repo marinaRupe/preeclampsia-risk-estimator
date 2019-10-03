@@ -13,6 +13,7 @@ class NumericalMeasurementInput extends Component {
 			disabled = false,
 			measurement,
 			change,
+			onChange
 		} = this.props;
 
 		const characteristic = Characteristics[characteristicName];
@@ -34,6 +35,7 @@ class NumericalMeasurementInput extends Component {
 						characteristicName={characteristicName}
 						measurement={measurement}
 						type='number'
+						onChange={onChange}
 					/>
 				</div>
 			</div>

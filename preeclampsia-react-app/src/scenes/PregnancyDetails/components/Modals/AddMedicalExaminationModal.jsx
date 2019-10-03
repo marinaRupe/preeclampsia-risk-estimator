@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { reduxForm, stopSubmit, reset } from 'redux-form';
+import { reduxForm, stopSubmit, reset, formValueSelector } from 'redux-form';
 import { ADD_FIRST_TRIMESTER_BASIC_INFO_FORM } from 'redux/forms';
 import { getTranslations } from 'utils/translation.utils';
 import FirstTrimesterBasicInfoForm from '../FirstTrimesterDetails/components/BasicInfo/FirstTrimesterBasicInfoForm';
@@ -19,7 +19,18 @@ class AddMedicalExaminationModal extends Component {
 	}
 
 	render() {
-		const { show, handleSubmit, error, change } = this.props;
+		const {
+			show,
+			handleSubmit,
+			error,
+			change,
+			gestationalAgeByUltrasoundWeeks,
+			gestationalAgeByUltrasoundDays,
+			ultrasoundDate,
+			bloodTestDate,
+			lastPeriodDate,
+			CRL,
+		} = this.props;
 
 		const translations = getTranslations();
 
@@ -40,6 +51,12 @@ class AddMedicalExaminationModal extends Component {
 						onSubmit={handleSubmit}
 						error={error}
 						change={change}
+						gestationalAgeByUltrasoundWeeks={gestationalAgeByUltrasoundWeeks}
+						gestationalAgeByUltrasoundDays={gestationalAgeByUltrasoundDays}
+						ultrasoundDate={ultrasoundDate}
+						bloodTestDate={bloodTestDate}
+						lastPeriodDate={lastPeriodDate}
+						CRL={CRL}
 						buttons={
 							<div>
 								<Button
@@ -63,12 +80,22 @@ class AddMedicalExaminationModal extends Component {
 	}
 }
 
+const selector = formValueSelector(ADD_FIRST_TRIMESTER_BASIC_INFO_FORM);
+const mapStateToProps = state => ({
+	gestationalAgeByUltrasoundWeeks: selector(state, 'gestationalAgeByUltrasoundWeeks'),
+	gestationalAgeByUltrasoundDays: selector(state, 'gestationalAgeByUltrasoundDays'),
+	ultrasoundDate: selector(state, 'ultrasoundDate'),
+	bloodTestDate: selector(state, 'bloodTestDate'),
+	CRL: selector(state, 'FetalCrownRumpLength'),
+	lastPeriodDate: state.pregnancy.details.lastPeriodDate,
+});
+
 const mapDispatchToProps = {
 	stopSubmitForm: stopSubmit.bind(null, ADD_FIRST_TRIMESTER_BASIC_INFO_FORM, {}),
 	resetForm: reset.bind(null, ADD_FIRST_TRIMESTER_BASIC_INFO_FORM),
 };
 
-export default connect(null, mapDispatchToProps)(reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: ADD_FIRST_TRIMESTER_BASIC_INFO_FORM,
 	enableReinitialize: false,
 })(AddMedicalExaminationModal));

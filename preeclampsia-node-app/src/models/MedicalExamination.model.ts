@@ -27,6 +27,12 @@ export default (sequelize) => {
 		gestationalAgeByUltrasoundDays: {
 			type: Sequelize.INTEGER,
 		},
+		ultrasoundDataMeasuredBy: {
+			type: Sequelize.STRING,
+		},
+		gynecologist: {
+			type: Sequelize.STRING,
+		},
 		bloodTestDate: {
 			type: Sequelize.DATEONLY,
 		},

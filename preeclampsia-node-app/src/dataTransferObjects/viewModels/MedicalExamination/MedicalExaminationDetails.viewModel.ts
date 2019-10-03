@@ -14,6 +14,8 @@ class MedicalExaminationDetailsViewModel {
 	ultrasoundDate: string;
 	bloodTestDate: string;
 	note: string;
+	ultrasoundDataMeasuredBy: string;
+	gynecologist: string;
 	booleanMeasurements: BooleanMeasurementsDictionaryViewModel;
 	enumMeasurements: EnumMeasurementsDictionaryViewModel;
 	numericalMeasurements: NumericalMeasurementsDictionaryViewModel;
@@ -27,7 +29,9 @@ class MedicalExaminationDetailsViewModel {
   	this.gestationalAgeByUltrasoundDays = medicalExamination.gestationalAgeByUltrasoundDays;
   	this.gestationalAgeOnBloodTestWeeks = medicalExamination.gestationalAgeOnBloodTestWeeks;
 		this.gestationalAgeOnBloodTestDays = medicalExamination.gestationalAgeOnBloodTestDays;
-  	this.ultrasoundDate = medicalExamination.ultrasoundDate;
+		this.gynecologist = medicalExamination.gynecologist;
+		this.ultrasoundDataMeasuredBy = medicalExamination.ultrasoundDataMeasuredBy;
+		this.ultrasoundDate = medicalExamination.ultrasoundDate;
 		this.bloodTestDate = medicalExamination.bloodTestDate;
 		this.note = medicalExamination.note;
     

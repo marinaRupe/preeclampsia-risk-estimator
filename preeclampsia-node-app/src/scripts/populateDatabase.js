@@ -9,9 +9,8 @@ const moment = require('moment');
 const models = require('models/index').default;
 const UserRoles = require('constants/roles.constants').default;
 const { Characteristics } = require('constants/characteristics.constants');
-const { PregnancyTypes, ConceptionMethods } = require('constants/pregnancy.constants');
+const { PregnancyTypes } = require('constants/pregnancy.constants');
 const { ConceptionMethodEnum } = require('enums/pregnancy.enums');
-const { DiabetesTypes, HypertensionTypes } = require('constants/measurements.constants');
 const { RacialOriginTypes } = require('constants/patient.constants');
 const {
   calculateGestationalAgeFromDate,

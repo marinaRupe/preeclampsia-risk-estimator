@@ -9,13 +9,11 @@ const isValidMedicalExamination = async (medicalExamination, translations) => {
 	const {
 		trimesterNumber,
 		protocol,
-		ultrasoundDate,
 		gestationalAgeByUltrasoundWeeks,
 		gestationalAgeByUltrasoundDays,
 		bloodTestDate,
 		gestationalAgeOnBloodTestWeeks,
 		gestationalAgeOnBloodTestDays,
-		note,
 	} = medicalExamination;
 
 	if (!isDefined(trimesterNumber)) {
@@ -66,7 +64,7 @@ const isValidMedicalExamination = async (medicalExamination, translations) => {
 
 	if (isDefined(gestationalAgeByUltrasoundDays)
 		&& (!isNumber(gestationalAgeByUltrasoundDays)
-		|| gestationalAgeDaysRangeIsValid(gestationalAgeByUltrasoundDays))) {
+		|| !gestationalAgeDaysRangeIsValid(gestationalAgeByUltrasoundDays))) {
 		errors.gestationalAgeByUltrasoundDays = addToArray(
 			errors.gestationalAgeByUltrasoundDays, translations.gestationalAgeByUltrasoundDaysMustBeNumber
 		);
