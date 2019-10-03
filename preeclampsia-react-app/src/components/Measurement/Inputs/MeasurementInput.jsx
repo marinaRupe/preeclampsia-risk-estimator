@@ -13,53 +13,57 @@ class MeasurementInput extends Component {
 		};
 	}
 
-  updateMeasurement = (e) => {
-  	const { measurement } = this.state;
-  	const { change, characteristicName } = this.props;
-  	const newValue = e.target.value ? parseFloat(e.target.value) : null;
+	updateMeasurement = (e) => {
+		const { measurement } = this.state;
+		const { change, characteristicName, input: { onChange } } = this.props;
+		const newValue = e.target.value ? parseFloat(e.target.value) : null;
 
-  	const newMeasurement = {
-  		...measurement,
-  		value: newValue,
-  	};
+		const newMeasurement = {
+			...measurement,
+			value: newValue,
+		};
 
-  	change(characteristicName, newMeasurement);;
-  }
+		change(characteristicName, newMeasurement);
 
-  render() {
-  	const {
-  		type,
-  		placeholder = '',
-  		required = false,
-  		disabled = false,
-  		className = '',
-  		meta: { touched = false, error = '' }
-  	} = this.props;
-  
-  	const inputProps = this.props.input || {};
-  	const hasError = touched && error && (error.length > 0);
-  
-  	return (
-  		<div className={className}>
-  			<input
-  				type={type}
-  				placeholder={placeholder}
-  				required={required}
-  				disabled={disabled}
-  				className={`redux-form__input ${hasError ? 'error' : ''}`}
-  				{...inputProps}
-  				value={inputProps.value && inputProps.value.value}
-  				onChange={this.updateMeasurement}
-  				onBlur={undefined}
-  			/>
-  			{hasError &&
-          <div className='redux-form__error--field'>
-          	{error.map((e, index) => <div key={index}>{e}</div>)}
-          </div>
-  			}
-  		</div>
-  	);
-  }
+		if (onChange) {
+			onChange(newMeasurement);
+		}
+	}
+
+	render() {
+		const {
+			type,
+			placeholder = '',
+			required = false,
+			disabled = false,
+			className = '',
+			meta: { touched = false, error = '' }
+		} = this.props;
+	
+		const inputProps = this.props.input || {};
+		const hasError = touched && error && (error.length > 0);
+	
+		return (
+			<div className={className}>
+				<input
+					type={type}
+					placeholder={placeholder}
+					required={required}
+					disabled={disabled}
+					className={`redux-form__input ${hasError ? 'error' : ''}`}
+					{...inputProps}
+					value={inputProps.value && inputProps.value.value}
+					onChange={this.updateMeasurement}
+					onBlur={undefined}
+				/>
+				{hasError &&
+					<div className='redux-form__error--field'>
+						{error.map((e, index) => <div key={index}>{e}</div>)}
+					</div>
+				}
+			</div>
+		);
+	}
 };
 
 MeasurementInput.propTypes = {

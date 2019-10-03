@@ -9,13 +9,11 @@ const isValidMedicalExamination = async (medicalExamination, translations) => {
 	const {
 		trimesterNumber,
 		protocol,
-		ultrasoundDate,
 		gestationalAgeByUltrasoundWeeks,
 		gestationalAgeByUltrasoundDays,
 		bloodTestDate,
 		gestationalAgeOnBloodTestWeeks,
 		gestationalAgeOnBloodTestDays,
-		note,
 	} = medicalExamination;
 
 	if (!isDefined(trimesterNumber)) {
