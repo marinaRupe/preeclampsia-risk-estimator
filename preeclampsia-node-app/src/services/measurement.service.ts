@@ -185,10 +185,63 @@ const getMediansByWeeks = async (characteristicId: number, corrected = true) => 
 	return medians;
 };
 
+const getMediansByDaysForTrimester = async (characteristicId: number, trimesterNumber: number, corrected = true) => {
+	const measures = await db.NumericalMeasurement.findAll({
+		attributes: ['value'],
+		where: {
+			characteristicId,
+		},
+		include: [
+			{
+				model: db.MedicalExamination,
+				as: 'medicalExamination',
+				attributes: ['gestationalAgeOnBloodTestWeeks', 'gestationalAgeOnBloodTestDays'],
+				where: {
+					gestationalAgeOnBloodTestWeeks: {
+						[db.Sequelize.Op.ne]: null
+					},
+					trimesterNumber
+				},
+				include: [
+					{
+						model: db.Pregnancy,
+						as: 'pregnancy',
+						attributes: ['resultedWithPE'],
+						where: {
+							resultedWithPE: corrected ? false : { [Op.ne]: null }
+						},
+					},
+				],
+			},
+		],
+		raw: true,
+	});
+
+	const medians = {};
+
+	for (const measure of measures) {
+		const day: number = measure['medicalExamination.gestationalAgeOnBloodTestWeeks'] * 7 + measure['medicalExamination.gestationalAgeOnBloodTestDays'];
+		const { value } = measure;
+
+		if (!medians[day]) {
+			medians[day] = [];
+		}
+
+		medians[day].push(value);
+	}
+
+	for (const day of Object.keys(medians)) {
+		medians[day] = median(medians[day]);
+	}
+
+	return medians;
+};
+
 export default {
 	getMoMValue,
 	getCorrectedMoMValue,
 	getMediansByWeeks,
+	getMediansByDaysForTrimester,
 	getEnumMeasurementById,
 	getNumericalMeasurementById,
 	getBooleanMeasurementById,

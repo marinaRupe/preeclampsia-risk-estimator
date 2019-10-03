@@ -5,6 +5,14 @@ import { Characteristics } from 'constants/characteristics.constants';
 import { getTranslations } from 'utils/translation.utils';
 import * as statisticsActions from 'redux/statistics/statistics.actions';
 import PregnancyLineChart from './content/PregnancyLineChart';
+import { MAX_PREGNANCY_WEEKS, MAX_DAYS_IN_TRIMESTER, MIN_VISIBLE_DAYS_IN_FIRST_TRIMESTER } from 'constants/values';
+
+function gestationalAgeFromDaysFormatter(value, index, values) {
+	const week = Math.floor(value / 7);
+	const day = value % 7;
+
+	return `${week} +${day}`;
+}
 
 class Statistics extends Component {
 	constructor(props) {
@@ -39,11 +47,17 @@ class Statistics extends Component {
 		const PAPPAMedians = mediansForCharacteristics[Characteristics.SerumPAPPA.key];
 		const PAPPAMediansNoPE = PAPPAMedians ? PAPPAMedians.withoutPE : {};
 
-		const PAPPADataNoPE = Object.entries(PAPPAMediansNoPE)
+		const PAPPADataNoPEWeeks = Object.entries(PAPPAMediansNoPE.mediansByWeek || {})
 			.map(([week, value]) => ({ x: parseInt(week), y: value }));
 
-		const PLGFDataNoPE = Object.entries(PLGFMediansNoPE)
+		const PLGFDataNoPEWeeks = Object.entries(PLGFMediansNoPE.mediansByWeek || {})
 			.map(([week, value]) => ({ x: parseInt(week), y: value }));
+
+		const PAPPADataNoPEDaysForFirstTrimester = Object.entries(PAPPAMediansNoPE.mediansByDayForFirstTrimester || {})
+			.map(([day, value]) => ({ x: parseInt(day), y: value }));
+
+		const PLGFDataNoPEDaysForFirstTrimester = Object.entries(PLGFMediansNoPE.mediansByDayForFirstTrimester || {})
+			.map(([day, value]) => ({ x: parseInt(day), y: value }));
 
 		return (
 			<div className='page'>
@@ -53,7 +67,19 @@ class Statistics extends Component {
 				<div>
 					<h3>{translations.statistics.PAPPAMedians}</h3>
 					<PregnancyLineChart
-						data={PAPPADataNoPE}
+						data={PAPPADataNoPEWeeks}
+						xAxisMax={MAX_PREGNANCY_WEEKS}
+						lineColor='blue'
+						label='PAPP-A'
+					/>
+				</div>
+				<div>
+					<h3>{translations.statistics.PAPPAMedians} ({translations.statistics.firstTrimester})</h3>
+					<PregnancyLineChart
+						data={PAPPADataNoPEDaysForFirstTrimester}
+						xAxisMax={MAX_DAYS_IN_TRIMESTER}
+						xAxisMin={MIN_VISIBLE_DAYS_IN_FIRST_TRIMESTER}
+						xAxisFormatter={gestationalAgeFromDaysFormatter}
 						lineColor='blue'
 						label='PAPP-A'
 					/>
@@ -61,7 +87,19 @@ class Statistics extends Component {
 				<div>
 					<h3>{translations.statistics.PLGFMedians}</h3>
 					<PregnancyLineChart
-						data={PLGFDataNoPE}
+						data={PLGFDataNoPEWeeks}
+						xAxisMax={MAX_PREGNANCY_WEEKS}
+						lineColor='blue'
+						label='PLGF'
+					/>
+				</div>
+				<div>
+					<h3>{translations.statistics.PLGFMedians} ({translations.statistics.firstTrimester})</h3>
+					<PregnancyLineChart
+						data={PLGFDataNoPEDaysForFirstTrimester}
+						xAxisMax={MAX_DAYS_IN_TRIMESTER}
+						xAxisMin={MIN_VISIBLE_DAYS_IN_FIRST_TRIMESTER}
+						xAxisFormatter={gestationalAgeFromDaysFormatter}
 						lineColor='blue'
 						label='PLGF'
 					/>

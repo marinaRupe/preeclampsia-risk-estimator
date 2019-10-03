@@ -64,7 +64,7 @@ class PatientData extends Component {
 		await updatePatient(patientData);
 		this.closeEditPatientModal();
 	}
-	
+
 	addPregnancy = async (pregnancyData) => {
 		const { patient, createPregnancy, fetchPatientDetails } = this.props;
 		await createPregnancy(patient.id, pregnancyData);

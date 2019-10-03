@@ -136,6 +136,7 @@ class PatientList extends Component {
 		const { updatePatient } = this.props;
 		await updatePatient(patientData);
 		this.closeEditPatientModal();
+		this.refreshSelectedPatient();
 	};
 
 	deletePatient = async (patientId) => {
@@ -149,6 +150,12 @@ class PatientList extends Component {
 			this.dialog.showAlert(err.data && err.data.message);
 		}
 	};
+
+	refreshSelectedPatient = () => {
+		const { patients } = this.props;
+		const { selectedPatient } = this.state;
+		this.setState({ selectedPatient: patients.find((p) => p.id === selectedPatient.id) });
+	}
 
 	getColumns = () => {
 		const translations = getTranslations();

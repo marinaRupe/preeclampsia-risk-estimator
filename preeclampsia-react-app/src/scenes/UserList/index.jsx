@@ -131,6 +131,7 @@ class UserList extends Component {
 		const { updateUser } = this.props;
 		await updateUser(userData);
 		this.closeEditUserModal();
+		this.refreshSelectedUser();
 	};
 
 	deleteUser = async (userId) => {
@@ -144,6 +145,12 @@ class UserList extends Component {
 			this.dialog.showAlert(err.data && err.data.message);
 		}
 	};
+
+	refreshSelectedUser = () => {
+		const { users } = this.props;
+		const { selectedUser } = this.state;
+		this.setState({ selectedUser: users.find((u) => u.id === selectedUser.id) });
+	}
 
 	editUserPassword = async (userPasswordData) => {
 		const { selectedUser } = this.state;

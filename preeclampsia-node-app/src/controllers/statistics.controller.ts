@@ -9,8 +9,9 @@ export const getMediansForCharacteristic = async (req, res) => {
 		throw new Errors.BadRequestError();
 	}
 
-	const medians = await MeasurementService.getMediansByWeeks(characteristicId);
-	res.json({ withoutPE: medians });
+	const mediansByWeek = await MeasurementService.getMediansByWeeks(characteristicId);
+	const mediansByDayForFirstTrimester = await MeasurementService.getMediansByDaysForTrimester(characteristicId, 1);
+	res.json({ withoutPE: { mediansByWeek, mediansByDayForFirstTrimester } });
 };
 
 export default {

@@ -154,6 +154,7 @@ export const translations = {
 			title: 'Statistika',
 			PAPPAMedians: 'PAPP-A medijani',
 			PLGFMedians: 'PLGF medijani',
+			firstTrimester: 'prvo tromjesečje',
 		},
 		login: {
 			title: 'Prijava',
@@ -285,6 +286,7 @@ export const translations = {
 			title: 'Statistics',
 			PAPPAMedians: 'PAPP-A medians',
 			PLGFMedians: 'PLGF medians',
+			firstTrimester: 'first trimester',
 		},
 		pregnancy: {
 			action: {
