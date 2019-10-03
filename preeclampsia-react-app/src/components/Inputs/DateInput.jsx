@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
@@ -12,9 +12,8 @@ const getWeekShortTranslation = (weekName) => {
 	return getTranslations().dateTime.week.short[weekName.toLowerCase()];
 };
 
-class DateInput extends React.Component {
-
-	handleChange = (/** @type {Date} */changedDate, event) => {
+class DateInput extends Component {
+	handleChange = (changedDate, event) => {
 		const inputProps = this.props.input || {};
 
 		if (!inputProps.onChange) {
@@ -38,7 +37,7 @@ class DateInput extends React.Component {
 		const inputProps = this.props.input || {};
 		const hasError = touched && error && (error.length > 0);
 
-		const value = toDate(inputProps.value, DATE_FORMAT_LONG_DASHES);
+		const value = inputProps.value && toDate(inputProps.value, DATE_FORMAT_LONG_DASHES);
 
 		return (
 			<div className={`redux-form__input ${disabled ? 'disabled' : ''} ${className}`}>
@@ -51,6 +50,7 @@ class DateInput extends React.Component {
 					onChange={this.handleChange}
 					dateFormat={DATE_FORMAT_DATE_PICKER}
 					formatWeekDay={getWeekShortTranslation}
+					placeholderText='dd.mm.yyyy.'
 				>
 					{children}
 				</DatePicker>
@@ -74,7 +74,7 @@ DateInput.propTypes = {
 		error: PropTypes.array
 	}),
 	input: PropTypes.object,
-	children: PropTypes.array.isRequired
+	children: PropTypes.array
 };
 
 export default DateInput;
