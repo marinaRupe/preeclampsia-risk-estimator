@@ -47,6 +47,7 @@ class App extends Component {
 						<PrivateRoute
 							path={APP.STATISTICS}
 							component={Statistics}
+							allowedRoles={[userRoles.Admin.value]}
 						/>
 						<PrivateRoute
 							path={APP.USERS}

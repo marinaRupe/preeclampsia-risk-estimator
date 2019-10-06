@@ -198,7 +198,7 @@ class FirstTrimesterBasicInfoForm extends Component {
 								name='ultrasoundDataMeasuredBy'
 								placeholder={''}
 								component={Input}
-								type='number'
+								type='text'
 								disabled={disabled.ultrasoundDataMeasuredBy}
 							/>
 						</div>

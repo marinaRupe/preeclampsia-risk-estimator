@@ -51,6 +51,8 @@ const createMedicalExamination = async (medicalExaminationData) => {
 		gestationalAgeOnBloodTestWeeks: medicalExaminationData.gestationalAgeOnBloodTestWeeks,
 		gestationalAgeOnBloodTestDays: medicalExaminationData.gestationalAgeOnBloodTestDays,
 		note: medicalExaminationData.note,
+		gynecologist: medicalExaminationData.gynecologist,
+		ultrasoundDataMeasuredBy: medicalExaminationData.ultrasoundDataMeasuredBy,
 	});
 
 	return medicalExamination;
@@ -69,6 +71,8 @@ const updateMedicalExamination = async (id: number, medicalExaminationData) => {
 		gestationalAgeOnBloodTestWeeks: medicalExaminationData.gestationalAgeOnBloodTestWeeks,
 		gestationalAgeOnBloodTestDays: medicalExaminationData.gestationalAgeOnBloodTestDays,
 		note: medicalExaminationData.note,
+		gynecologist: medicalExaminationData.gynecologist,
+		ultrasoundDataMeasuredBy: medicalExaminationData.ultrasoundDataMeasuredBy,
 	});
 };
 
