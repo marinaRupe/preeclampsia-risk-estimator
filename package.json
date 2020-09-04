@@ -62,7 +62,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.4",
     "express-async-wrap": "~1.0.0",
-    "handlebars": "~4.1.1",
+    "handlebars": "~4.7.6",
     "history": "~4.7.2",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "~8.5.1",
